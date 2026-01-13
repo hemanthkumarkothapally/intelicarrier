@@ -24,7 +24,92 @@ sap.ui.define([
                 // NEW: Fleet Management Data
                 availableFleet: this._getMockFleetData(),
                 bookedShipments: this._getMockBookedShipments(),
-                selectedVehicle: null
+                selectedVehicle: null,
+         orders: [
+            {
+                orderId: "FO-2026-0001",
+                coId: "CO-2026-0005",
+                customer: "Express Solutions Co.",
+                from: "Bangkok (Wireless Rd)",
+                to: "Chiang Mai (Nimman)",
+                distance: "685 km",
+                cargoType: "Office Supplies",
+                cargoInfo: "500 kg | 3 m³",
+                deliveryDate: "2026-01-16",
+                priority: "HIGH",
+                priorityState: "Warning",
+                status: "Pending Assignment",
+                statusState: "Warning",
+                value: "฿8,500"
+            },
+            {
+                orderId: "FO-2026-0002",
+                coId: "CO-2026-0004",
+                customer: "Innovation Corp",
+                from: "Bangkok (Ratchada)",
+                to: "Hat Yai, Songkhla",
+                distance: "945 km",
+                cargoType: "Medical Equipment",
+                cargoInfo: "1000 kg | 5 m³",
+                deliveryDate: "2026-01-20",
+                priority: "URGENT",
+                priorityState: "Error",
+                status: "Pending Assignment",
+                statusState: "Warning",
+                value: "฿125,000"
+            },
+
+            /* -------- NEW DATA FROM SCREENSHOT -------- */
+
+            {
+                orderId: "FO-2026-0003",
+                coId: "CO-2026-0007",
+                customer: "Smart Logistics Ltd",
+                from: "Bangkok (Sukhumvit)",
+                to: "Phuket",
+                distance: "867 km",
+                cargoType: "Consumer Electronics",
+                cargoInfo: "1125 kg | 6.5 m³",
+                deliveryDate: "2026-01-18",
+                priority: "NORMAL",
+                priorityState: "Information",
+                status: "Internal Fleet",
+                statusState: "Success",
+                value: "฿285,000"
+            },
+            {
+                orderId: "FO-2026-0004",
+                coId: "CO-2026-0010",
+                customer: "Global Trade Corp",
+                from: "Bangkok (Lat Phrao)",
+                to: "Khon Kaen",
+                distance: "448 km",
+                cargoType: "Industrial Parts",
+                cargoInfo: "2500 kg | 12 m³",
+                deliveryDate: "2026-01-17",
+                priority: "HIGH",
+                priorityState: "Warning",
+                status: "External Carrier",
+                statusState: "Information",
+                value: "฿75,000"
+            },
+            {
+                orderId: "FO-2026-0005",
+                coId: "CO-2026-0012",
+                customer: "Metro Retail Corp",
+                from: "Bangkok (Silom)",
+                to: "Pattaya, Chonburi",
+                distance: "147 km",
+                cargoType: "Retail Goods",
+                cargoInfo: "600 kg | 4 m³",
+                deliveryDate: "2026-01-14",
+                priority: "URGENT",
+                priorityState: "Error",
+                status: "In Transit",
+                statusState: "Warning",
+                value: "฿18,750"
+            }
+        ]
             });
             this.getView().setModel(oViewModel);
             
@@ -1000,6 +1085,20 @@ sap.ui.define([
                     weight: "14 tons"
                 }
             ];
-        }
+        },
+    onshipmentExecutionViewselectionChange:function(oEvent){
+    debugger
+    if(oEvent.getParameters("item").item.getProperty("key") === "FleetOverview"){
+        this.byId("shipmentExecutionViewsub").setVisible(false)
+                this.byId("shipmentExecutionViewsub2").setVisible(true)
+
+    }
+    else{
+this.byId("shipmentExecutionViewsub").setVisible(true)
+                this.byId("shipmentExecutionViewsub2").setVisible(false)
+    }
+
+    }
+
     });
 });
