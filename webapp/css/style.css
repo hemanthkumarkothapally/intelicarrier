@@ -1,0 +1,2469 @@
+/* IntelliCarrier Custom Styles */
+
+/* ========================================
+   ENHANCED FULL WIDTH FIXES FOR RATE SHOPPING & SHIPMENT EXECUTION
+   ======================================== */
+
+/* Custom IntelliCarrier Classes */
+.intellicarrier-content-padding {
+    padding: 1.5rem !important;
+    width: 100% !important;
+    max-width: none !important;
+}
+
+.intellicarrier-full-width-panel,
+.intellicarrier-full-width-panel .sapMPanelContent,
+.intellicarrier-full-width-tabs,
+.intellicarrier-form-container,
+.intellicarrier-form-row,
+.intellicarrier-form-field {
+    width: 100% !important;
+    max-width: none !important;
+    box-sizing: border-box !important;
+}
+
+
+
+/* ========================================
+   PREMIUM SMART RATE SHOPPING DESIGN
+   ======================================== */
+
+/* Main Container */
+.modern-rate-shopping {
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%) !important;
+    min-height: 100vh !important;
+    padding: 0 !important;
+}
+
+/* Hero Header Section */
+.hero-header-section {
+    background: linear-gradient(135deg, #1e293b 0%, #334155 50%, #475569 100%) !important;
+    padding: 3rem 2rem !important;
+    text-align: center !important;
+    margin-bottom: 2rem !important;
+    position: relative !important;
+    overflow: hidden !important;
+}
+
+.hero-header-section::before {
+    content: "" !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M30 30c0-11.046 8.954-20 20-20s20 8.954 20 20-8.954 20-20 20-20-8.954-20-20z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E") !important;
+    opacity: 0.3 !important;
+    z-index: 0 !important;
+}
+
+.hero-title {
+    color: white !important;
+    font-size: 3rem !important;
+    font-weight: 800 !important;
+    margin-bottom: 1rem !important;
+    position: relative !important;
+    z-index: 1 !important;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3) !important;
+}
+
+.hero-subtitle {
+    color: #cbd5e1 !important;
+    font-size: 1.2rem !important;
+    font-weight: 400 !important;
+    position: relative !important;
+    z-index: 1 !important;
+    opacity: 0.9 !important;
+}
+
+/* Main Shipping Card */
+.main-shipping-card {
+    background: white !important;
+    border-radius: 20px !important;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.1) !important;
+    margin: 2rem !important;
+    padding: 3rem !important;
+    position: relative !important;
+    overflow: hidden !important;
+}
+
+.main-shipping-card::before {
+    content: "" !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    height: 4px !important;
+    background: linear-gradient(90deg, #0ea5e9 0%, #3b82f6 50%, #8b5cf6 100%) !important;
+}
+
+/* Section Titles */
+.section-title {
+    color: #1e293b !important;
+    font-size: 1.5rem !important;
+    font-weight: 700 !important;
+    margin-bottom: 1.5rem !important;
+    position: relative !important;
+}
+
+.section-title::after {
+    content: "" !important;
+    position: absolute !important;
+    bottom: -0.5rem !important;
+    left: 0 !important;
+    width: 50px !important;
+    height: 3px !important;
+    background: linear-gradient(90deg, #0ea5e9 0%, #3b82f6 100%) !important;
+    border-radius: 2px !important;
+}
+
+/* Address Section */
+.address-section-container {
+    margin-bottom: 3rem !important;
+}
+
+.address-input-row {
+    gap: 1rem !important;
+}
+
+.address-input-group {
+    position: relative !important;
+}
+
+.address-label {
+    font-size: 1rem !important;
+    font-weight: 700 !important;
+    color: #374151 !important;
+    margin-bottom: 0.75rem !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+}
+
+.from-label {
+    color: #059669 !important;
+}
+
+.to-label {
+    color: #dc2626 !important;
+}
+
+.input-wrapper {
+    position: relative !important;
+    display: flex !important;
+    align-items: center !important;
+    background: white !important;
+    border: 2px solid #e5e7eb !important;
+    border-radius: 12px !important;
+    padding: 0 1rem !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05) !important;
+}
+
+.from-wrapper:hover,
+.from-wrapper:focus-within {
+    border-color: #059669 !important;
+    box-shadow: 0 0 0 4px rgba(5, 150, 105, 0.1), 0 4px 12px rgba(0,0,0,0.1) !important;
+}
+
+.to-wrapper:hover,
+.to-wrapper:focus-within {
+    border-color: #dc2626 !important;
+    box-shadow: 0 0 0 4px rgba(220, 38, 38, 0.1), 0 4px 12px rgba(0,0,0,0.1) !important;
+}
+
+.address-icon {
+    margin-right: 1rem !important;
+    opacity: 0.7 !important;
+}
+
+.from-icon {
+    color: #059669 !important;
+}
+
+.to-icon {
+    color: #dc2626 !important;
+}
+
+.modern-address-input {
+    border: none !important;
+    background: transparent !important;
+    font-size: 1rem !important;
+    padding: 1.25rem 0 !important;
+    color: #1f2937 !important;
+    font-weight: 500 !important;
+}
+
+.modern-address-input:focus {
+    outline: none !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+/* Enhanced Swap Button */
+.swap-container {
+    padding-bottom: 1rem !important;
+}
+
+.modern-swap-btn {
+    width: 50px !important;
+    height: 50px !important;
+    border-radius: 50% !important;
+    background: linear-gradient(135deg, #0ea5e9 0%, #3b82f6 100%) !important;
+    border: none !important;
+    color: white !important;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    box-shadow: 0 8px 20px rgba(14, 165, 233, 0.3) !important;
+}
+
+.modern-swap-btn:hover {
+    transform: rotate(180deg) scale(1.1) !important;
+    box-shadow: 0 12px 30px rgba(14, 165, 233, 0.4) !important;
+    background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%) !important;
+}
+
+/* Package Details Section */
+.package-details-section {
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%) !important;
+    border-radius: 16px !important;
+    padding: 2.5rem !important;
+    margin-bottom: 3rem !important;
+    border: 1px solid #e2e8f0 !important;
+}
+
+.package-section-header {
+    margin-bottom: 2rem !important;
+}
+
+.international-toggle {
+    background: white !important;
+    padding: 0.75rem 1.5rem !important;
+    border-radius: 50px !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05) !important;
+    border: 1px solid #e5e7eb !important;
+}
+
+.international-icon {
+    color: #3b82f6 !important;
+    margin-right: 0.5rem !important;
+}
+
+.international-checkbox {
+    font-weight: 500 !important;
+    color: #374151 !important;
+}
+
+/* Form Groups */
+.package-form-grid {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 2rem !important;
+}
+
+.form-row {
+    display: flex !important;
+    gap: 2rem !important;
+    align-items: flex-end !important;
+}
+
+.form-group {
+    flex: 1 !important;
+}
+
+.modern-form-label {
+    font-size: 0.9rem !important;
+    font-weight: 600 !important;
+    color: #374151 !important;
+    margin-bottom: 0.75rem !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+}
+
+.modern-select,
+.modern-input {
+    height: 3.5rem !important;
+    border: 2px solid #d1d5db !important;
+    border-radius: 10px !important;
+    font-size: 1rem !important;
+    padding: 0 1rem !important;
+    transition: all 0.3s ease !important;
+    background: white !important;
+    font-weight: 500 !important;
+}
+
+.modern-select:focus,
+.modern-input:focus {
+    border-color: #3b82f6 !important;
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1) !important;
+    outline: none !important;
+}
+
+/* Weight Input Container */
+.weight-input-container {
+    display: flex !important;
+    gap: 0 !important;
+}
+
+.weight-input {
+    border-top-right-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+    border-right: none !important;
+}
+
+.unit-select {
+    border-top-left-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
+    border-left: 1px solid #d1d5db !important;
+    background: #f9fafb !important;
+}
+
+/* Dimensions Row */
+.dimensions-input-row {
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.5rem !important;
+}
+
+.dimension-separator {
+    font-weight: 700 !important;
+    color: #6b7280 !important;
+    font-size: 1.2rem !important;
+}
+
+/* Delivery Options */
+.delivery-options {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0.5rem !important;
+    margin-top: 0.75rem !important;
+}
+
+.delivery-option-checkbox {
+    font-size: 0.9rem !important;
+    color: #374151 !important;
+}
+
+/* Premium Get Rates Button */
+.get-rates-section {
+    margin-top: 3rem !important;
+}
+
+.premium-get-rates-btn {
+    padding: 1.25rem 3rem !important;
+    font-size: 1.2rem !important;
+    font-weight: 700 !important;
+    border-radius: 50px !important;
+    background: linear-gradient(135deg, #0ea5e9 0%, #3b82f6 50%, #8b5cf6 100%) !important;
+    border: none !important;
+    color: white !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1px !important;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    box-shadow: 0 10px 30px rgba(14, 165, 233, 0.3) !important;
+    position: relative !important;
+    overflow: hidden !important;
+}
+
+.premium-get-rates-btn::before {
+    content: "" !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: -100% !important;
+    width: 100% !important;
+    height: 100% !important;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent) !important;
+    transition: left 0.6s !important;
+}
+
+.premium-get-rates-btn:hover {
+    transform: translateY(-3px) scale(1.02) !important;
+    box-shadow: 0 20px 40px rgba(14, 165, 233, 0.4) !important;
+}
+
+.premium-get-rates-btn:hover::before {
+    left: 100% !important;
+}
+
+/* Premium Results Section */
+.premium-results-section {
+    margin: 3rem 2rem !important;
+    padding: 0 !important;
+}
+
+.results-header {
+    text-align: center !important;
+    margin-bottom: 3rem !important;
+}
+
+.results-title {
+    color: #1e293b !important;
+    font-size: 2.5rem !important;
+    font-weight: 800 !important;
+    margin-bottom: 1rem !important;
+}
+
+.results-subtitle {
+    color: #64748b !important;
+    font-size: 1.1rem !important;
+    font-weight: 400 !important;
+}
+
+/* Rate Cards Container */
+.rate-cards-container {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 1.5rem !important;
+    margin-bottom: 3rem !important;
+}
+
+/* Premium Rate Cards */
+.premium-rate-card {
+    background: white !important;
+    border-radius: 16px !important;
+    padding: 2rem !important;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.08) !important;
+    border: 2px solid transparent !important;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    position: relative !important;
+    overflow: hidden !important;
+}
+
+.premium-rate-card::before {
+    content: "" !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    height: 4px !important;
+    transition: all 0.3s ease !important;
+}
+
+.express-card::before {
+    background: linear-gradient(90deg, #ff6600 0%, #ff8533 100%) !important;
+}
+
+.standard-card::before {
+    background: linear-gradient(90deg, #0066cc 0%, #3388ff 100%) !important;
+}
+
+.economy-card::before {
+    background: linear-gradient(90deg, #006633 0%, #009944 100%) !important;
+}
+
+.premium-rate-card:hover {
+    transform: translateY(-8px) !important;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.15) !important;
+    border-color: #e5e7eb !important;
+}
+
+/* Service Badges */
+.service-badge {
+    width: 80px !important;
+    height: 80px !important;
+    border-radius: 20px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin-right: 2rem !important;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15) !important;
+}
+
+.express-badge {
+    background: linear-gradient(135deg, #ff6600 0%, #ff8533 100%) !important;
+}
+
+.standard-badge {
+    background: linear-gradient(135deg, #0066cc 0%, #3388ff 100%) !important;
+}
+
+.economy-badge {
+    background: linear-gradient(135deg, #006633 0%, #009944 100%) !important;
+}
+
+/* Service Details */
+.service-details {
+    flex: 1 !important;
+}
+
+.service-name {
+    font-size: 1.5rem !important;
+    font-weight: 700 !important;
+    color: #1f2937 !important;
+    margin-bottom: 0.5rem !important;
+}
+
+.service-description {
+    font-size: 1rem !important;
+    color: #6b7280 !important;
+    margin-bottom: 1rem !important;
+}
+
+.service-features {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 1rem !important;
+}
+
+.feature-text {
+    font-size: 0.85rem !important;
+    color: #059669 !important;
+    font-weight: 500 !important;
+}
+
+/* Rate Pricing Section */
+.rate-pricing-section {
+    text-align: right !important;
+    min-width: 200px !important;
+}
+
+.rate-price {
+    font-size: 2rem !important;
+    font-weight: 800 !important;
+    margin-bottom: 0.5rem !important;
+}
+
+.express-price {
+    color: #ff6600 !important;
+}
+
+.standard-price {
+    color: #0066cc !important;
+}
+
+.economy-price {
+    color: #006633 !important;
+}
+
+.delivery-date {
+    font-size: 0.9rem !important;
+    color: #6b7280 !important;
+    margin-bottom: 1rem !important;
+    font-weight: 500 !important;
+}
+
+/* Premium Select Buttons */
+.premium-select-btn {
+    padding: 0.75rem 1.5rem !important;
+    border-radius: 8px !important;
+    font-weight: 600 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+    transition: all 0.3s ease !important;
+}
+
+.express-select {
+    background: linear-gradient(135deg, #ff6600 0%, #ff8533 100%) !important;
+    border: none !important;
+    color: white !important;
+}
+
+.standard-select {
+    background: linear-gradient(135deg, #0066cc 0%, #3388ff 100%) !important;
+    border: none !important;
+    color: white !important;
+}
+
+.economy-select {
+    background: linear-gradient(135deg, #006633 0%, #009944 100%) !important;
+    border: none !important;
+    color: white !important;
+}
+
+/* Additional Options */
+.additional-options {
+    text-align: center !important;
+    padding: 2rem !important;
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%) !important;
+    border-radius: 16px !important;
+    border: 1px solid #e2e8f0 !important;
+}
+
+.help-text {
+    font-size: 1rem !important;
+    color: #6b7280 !important;
+    margin-bottom: 1.5rem !important;
+}
+
+.additional-actions {
+    display: flex !important;
+    justify-content: center !important;
+    gap: 1rem !important;
+    flex-wrap: wrap !important;
+}
+
+.compare-btn,
+.save-quote-btn,
+.print-rates-btn {
+    padding: 0.75rem 1.5rem !important;
+    border-radius: 8px !important;
+    font-weight: 500 !important;
+    border: 1px solid #d1d5db !important;
+    background: white !important;
+    color: #374151 !important;
+    transition: all 0.3s ease !important;
+}
+
+.compare-btn:hover,
+.save-quote-btn:hover,
+.print-rates-btn:hover {
+    background: #f9fafb !important;
+    border-color: #9ca3af !important;
+    transform: translateY(-1px) !important;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: 2rem !important;
+    }
+    
+    .address-input-row {
+        flex-direction: column !important;
+        gap: 1rem !important;
+    }
+    
+    .address-input-group {
+        width: 100% !important;
+    }
+    
+    .swap-container {
+        width: 100% !important;
+        justify-content: center !important;
+        order: -1 !important;
+    }
+    
+    .form-row {
+        flex-direction: column !important;
+        gap: 1rem !important;
+    }
+    
+    .premium-rate-card {
+        flex-direction: column !important;
+        text-align: center !important;
+    }
+    
+    .service-badge {
+        margin: 0 auto 1rem auto !important;
+    }
+    
+    .rate-pricing-section {
+        text-align: center !important;
+        margin-top: 1rem !important;
+    }
+    
+    .additional-actions {
+        flex-direction: column !important;
+        align-items: center !important;
+    }
+}
+
+
+#trackingView .sapUiResponsiveContentPadding {
+    max-width: none !important;
+    width: 100% !important;
+    padding: 0 !important;
+}
+/* ========================================
+   SHELLBAR STYLING
+   ======================================== */
+
+/* Shell Bar Background and Height */
+.sapFShellBar {
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%) !important;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    height: 48px !important;
+}
+
+/* Align Shell Bar Content */
+.sapFShellBar .sapFShellBarOTB {
+    display: flex;
+    align-items: center;
+    height: 48px;
+}
+
+/* Shell Bar Title - White Color */
+.sapFShellBar .sapFShellBarTitle {
+    color: #ffffff !important;
+    font-weight: 600;
+    line-height: normal;
+}
+
+.sapFShellBar .sapFShellBarSecondTitle {
+    color: #ffffff !important;
+    opacity: 0.9;
+    line-height: normal;
+}
+
+/* Shell Bar Icons and Buttons - White */
+.sapFShellBar button,
+.sapFShellBar .sapMBtnInner,
+.sapFShellBar .sapMBtnContent,
+.sapFShellBar .sapMBtnIcon,
+.sapFShellBar .sapUiIcon {
+    color: #ffffff !important;
+}
+
+/* Avatar */
+.sapFShellBar .sapFAvatar {
+    height: 32px;
+    width: 32px;
+}
+
+/* Main ToolHeader Container */
+.sapTntToolHeader {
+    background: linear-gradient(135deg, #3a64b1 0%, #5c7db6 100%) !important;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    border-bottom: none;
+    padding: 0.5rem 1rem;
+    min-height: 3rem;
+}
+/* Title Styling */
+.sapTntToolHeader .sapMTitle {
+    color: #ffffff !important;
+    font-size: 1.25rem;
+    font-weight: 600;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+/* Subtitle Text */
+.sapTntToolHeader .sapMText {
+    color: rgba(245, 248, 43, 0.8) !important;
+    font-size: 0.875rem;
+    font-weight: 400;
+    margin-left: 0.5rem;
+}
+
+.ButtonColor .sapMBtnIcon {
+    color: rgb(5, 5, 5) !important;
+}
+
+/* ========================================
+   SIDE NAVIGATION
+   ======================================== */
+
+.sapTntSideNavigation {
+    background-color: #f7f7f7;
+    border-right: 1px solid #e5e5e5;
+}
+
+.sapTntSideNavigationItem:hover {
+    background-color: #f0f0f0;
+}
+
+.sapTntSideNavigationItemSelected {
+    background-color: #e8f4fd !important;
+    border-left: 3px solid #0a6ed1;
+}
+
+/* ========================================
+   CONTENT AREA - FORCE FULL WIDTH WITH SCROLLING
+   ======================================== */
+
+/* Main content container with scrolling */
+#pageContainer {
+    background-color: #ffffff;
+    width: 100% !important;
+}
+
+#pageContainer .sapMScrollContCnt {
+    width: 100% !important;
+    max-width: none !important;
+}
+
+/* Content views - Force full width */
+#dashboardView,
+#rateShoppingView,
+#trackingView {
+    padding: 1.5rem;
+    width: 100% !important;
+    max-width: none !important;
+}
+
+/* Remove responsive constraints for rate shopping */
+#rateShoppingView .sapUiResponsiveContentPadding {
+    max-width: none !important;
+    width: 100% !important;
+    padding: 0 !important;
+}
+/* Rate Shopping View - Remove old constraints */
+#rateShoppingView {
+    max-width: none !important;
+    width: 100% !important;
+    padding: 1rem !important;
+}
+#rateShoppingView .sapMHBox .sapMInput {
+    width: 80px !important;
+    margin-right: 0.3rem !important;
+}
+/* Force VBox containers to full width */
+.sapMVBox {
+    width: 100% !important;
+    max-width: none !important;
+}
+
+/* Force Panel content to full width */
+.sapMPanel,
+.sapMPanelContent {
+    width: 100% !important;
+    max-width: none !important;
+}
+
+/* Force Form containers to full width */
+.sapUiForm,
+.sapUiFormResGrid,
+.sapUiRespGrid,
+.sapUiFormResGridCont {
+    width: 100% !important;
+    max-width: none !important;
+}
+
+/* Remove any responsive content padding restrictions */
+.sapUiResponsiveContentPadding {
+    max-width: none !important;
+    width: 100% !important;
+}
+
+/* Force IconTabBar to full width */
+.sapMITB,
+.sapMITBContainerContent,
+.sapMITBContent {
+    width: 100% !important;
+    max-width: none !important;
+}
+
+/* Force tables to full width */
+.sapMListTbl {
+    width: 100% !important;
+    max-width: none !important;
+}
+
+/* ========================================
+   PANELS AND CARDS
+   ======================================== */
+
+.sapMPanel {
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.08);
+    margin-bottom: 1rem;
+}
+
+.sapMPanelHdr {
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #e5e5e5;
+    border-radius: 8px 8px 0 0;
+}
+
+/* ========================================
+   GENERIC TILES
+   ======================================== */
+
+.sapMGT {
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    margin: 0.5rem;
+}
+
+.sapMGT:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+/* ========================================
+   TABLES
+   ======================================== */
+
+.sapMListTbl {
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+}
+
+.sapMListTblHeader {
+    background-color: #f8f9fa;
+    font-weight: 600;
+}
+
+.sapMListTblRow:hover {
+    background-color: #f8f9fa;
+}
+
+/* ========================================
+   FORMS AND INPUTS
+   ======================================== */
+
+.sapMInputBase {
+    border-radius: 4px;
+}
+
+.sapMInputBaseInner {
+    padding: 0.625rem 0.75rem;
+}
+
+.sapMInputBaseInner:focus {
+    border-color: #0a6ed1;
+    outline: none;
+    box-shadow: 0 0 0 1px #0a6ed1;
+}
+
+.sapMLabel.sapMLabelRequired:before {
+    /* content: "*";
+    color: #c0392b; */
+    margin-right: 0.25rem;
+}
+
+/* ========================================
+   BUTTONS
+   ======================================== */
+
+.sapMBtn {
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.sapMBtnEmphasized {
+    background-color: #0a6ed1;
+    border-color: #0a6ed1;
+}
+
+.sapMBtnEmphasized:hover {
+    background-color: #085cbb;
+}
+
+/* ========================================
+   MESSAGE STRIPS
+   ======================================== */
+
+.sapMMsgStrip {
+    border-radius: 4px;
+    margin-bottom: 1rem;
+}
+
+/* ========================================
+   ICON TAB BAR
+   ======================================== */
+
+.sapMITB {
+    background-color: transparent;
+    border-bottom: 2px solid #e5e5e5;
+}
+
+.sapMITBSelected .sapMITBText {
+    color: #0a6ed1;
+    font-weight: 600;
+}
+
+/* ========================================
+   TRACKING TIMELINE (Horizontal Timeline)
+   ======================================== */
+
+/* Timeline Panel Wrapper */
+.trackingTimelinePanel {
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%) !important;
+    border-radius: 12px !important;
+    margin: 1rem 0 !important;
+    border: 1px solid #e2e8f0 !important;
+}
+
+.trackingTimelinePanel .sapMPanelContent {
+    padding: 0 !important;
+}
+
+/* Horizontal Scrolling Container */
+.horizontalTrackingContainer {
+    width: 100% !important;
+    background: transparent !important;
+}
+
+/* Main Timeline Container */
+.trackingTimelineHorizontal {
+    display: flex !important;
+    align-items: flex-start !important;
+    padding: 2.5rem 1rem !important;
+    min-width: fit-content !important;
+    gap: 1rem !important;
+}
+
+/* Individual Timeline Items */
+.timelineItem {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    min-width: 100px !important;
+    max-width: 100px !important;
+    position: relative !important;
+    padding: 0 0.5rem !important;
+}
+
+.timelineItem:first-child {
+    margin-left: 2rem !important; /* Adjust as needed */
+}
+
+/* Timeline Icon Containers - Different Colors for Each Status */
+.timelineIconContainer {
+    width: 55px !important;
+    height: 55px !important;
+    border-radius: 50% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin-bottom: 1.5rem !important;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2) !important;
+    border: 4px solid white !important;
+    z-index: 2 !important;
+    position: relative !important;
+}
+
+/* Package Pickup - Blue */
+.timelineIconContainer.pickup {
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%) !important;
+}
+
+/* In Transit - Orange */
+.timelineIconContainer.intransit {
+    background: linear-gradient(135deg, #f97316 0%, #ea580c 100%) !important;
+}
+
+/* Processing - Purple */
+.timelineIconContainer.processing {
+    background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%) !important;
+}
+
+/* Active/Out for Delivery - Yellow/Amber with animation */
+.timelineIconContainer.active {
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%) !important;
+    animation: trackingPulse 2s infinite !important;
+}
+
+/* Delivered - Green */
+.timelineIconContainer.delivered {
+    background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%) !important;
+}
+
+/* Pending/Future */
+.timelineIconContainer.pending {
+    background: linear-gradient(135deg, #94a3b8 0%, #64748b 100%) !important;
+    opacity: 0.7 !important;
+}
+
+/* Timeline Content Cards */
+.timelineContentCard {
+    background: white !important;
+    padding: 1.25rem !important;
+    border-radius: 12px !important;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1) !important;
+    border: 1px solid #e2e8f0 !important;
+    width: 185px !important;
+    text-align: center !important;
+    margin-bottom: 0.5rem !important;
+    transition: all 0.3s ease !important;
+    min-height: 140px !important;
+}
+
+.timelineContentCard:hover {
+    transform: translateY(-3px) !important;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15) !important;
+}
+
+/* Different border colors for each status */
+.timelineContentCard.pickup {
+    border-left: 5px solid #3b82f6 !important;
+}
+
+.timelineContentCard.intransit {
+    border-left: 5px solid #f97316 !important;
+}
+
+.timelineContentCard.processing {
+    border-left: 5px solid #8b5cf6 !important;
+}
+
+.timelineContentCard.active {
+    border-left: 5px solid #f59e0b !important;
+    background: linear-gradient(135deg, #fffbeb 0%, #fefce8 100%) !important;
+}
+
+.timelineContentCard.delivered {
+    border-left: 5px solid #22c55e !important;
+    background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 100%) !important;
+}
+
+.timelineContentCard.pending {
+    border-left: 5px solid #94a3b8 !important;
+    opacity: 0.8 !important;
+}
+
+/* Timeline Text Styles */
+.timelineStatusText {
+    font-weight: 700 !important;
+    font-size: 0.95rem !important;
+    color: #1e293b !important;
+    margin-bottom: 0.75rem !important;
+    line-height: 1.2 !important;
+}
+
+.timelineDateText {
+    font-size: 0.85rem !important;
+    color: #475569 !important;
+    font-weight: 600 !important;
+    margin-bottom: 0.35rem !important;
+}
+
+.timelineTimeText {
+    font-size: 0.85rem !important;
+    color: #64748b !important;
+    margin-bottom: 0.6rem !important;
+    font-weight: 500 !important;
+}
+
+.timelineLocationText {
+    font-size: 0.8rem !important;
+    color: #0ea5e9 !important;
+    font-weight: 600 !important;
+    margin-bottom: 0.6rem !important;
+}
+
+.timelineNotesText {
+    font-size: 0.75rem !important;
+    color: #64748b !important;
+    font-style: italic !important;
+    line-height: 1.4 !important;
+}
+
+/* Timeline Connector Lines - Different Colors */
+.timelineConnectorLine {
+    width: 70px !important;
+    height: 6px !important;
+    margin-top: 25px !important;
+    border-radius: 3px !important;
+    flex-shrink: 0 !important;
+    position: relative !important;
+    z-index: 1 !important;
+}
+
+.timelineConnectorLine.pickup {
+    background: linear-gradient(90deg, #3b82f6 0%, #f97316 100%) !important;
+    box-shadow: 0 2px 4px rgba(59, 130, 246, 0.3) !important;
+}
+
+.timelineConnectorLine.intransit {
+    background: linear-gradient(90deg, #f97316 0%, #8b5cf6 100%) !important;
+    box-shadow: 0 2px 4px rgba(249, 115, 22, 0.3) !important;
+}
+
+.timelineConnectorLine.processing {
+    background: linear-gradient(90deg, #8b5cf6 0%, #f59e0b 100%) !important;
+    box-shadow: 0 2px 4px rgba(139, 92, 246, 0.3) !important;
+}
+
+.timelineConnectorLine.active {
+    background: linear-gradient(90deg, #f59e0b 0%, #22c55e 100%) !important;
+    box-shadow: 0 2px 4px rgba(245, 158, 11, 0.3) !important;
+}
+
+.timelineConnectorLine.pending {
+    background: linear-gradient(90deg, #e2e8f0 0%, #cbd5e1 100%) !important;
+}
+
+/* Animation for Active Step */
+@keyframes trackingPulse {
+    0% {
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2), 0 0 0 0 rgba(245, 158, 11, 0.7);
+    }
+    70% {
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2), 0 0 0 18px rgba(245, 158, 11, 0);
+    }
+    100% {
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2), 0 0 0 0 rgba(245, 158, 11, 0);
+    }
+}
+
+/* ========================================
+   TRACKING & VISIBILITY - TWO-STATE VIEW
+   ======================================== */
+
+/* Back Button Header */
+.trackingHeader {
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%) !important;
+    padding: 1rem 1.5rem !important;
+    border-radius: 8px !important;
+    border: 1px solid #e2e8f0 !important;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05) !important;
+    width: 100% !important;
+}
+
+.trackingHeader .sapMToolbarSpacer {
+    flex: 1 !important;
+}
+
+.trackingHeader .sapMTitle {
+    flex: none !important;
+}
+
+.backButton {
+    color: #0a6ed1 !important;
+    font-weight: 600 !important;
+    transition: all 0.3s ease !important;
+    flex: none !important;
+}
+
+.backButton:hover {
+    background: #e3f2fd !important;
+    color: #0a6ed1 !important;
+}
+
+/* Tracking Summary Tiles */
+.trackingTile {
+    min-width: 200px !important;
+    transition: all 0.3s ease !important;
+}
+
+.trackingTile:hover {
+    transform: translateY(-3px) !important;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15) !important;
+}
+
+/* Shipments Table */
+.shipmentsTable {
+    border-radius: 8px !important;
+    overflow: hidden !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
+}
+
+.shipmentsTable .sapMListTblHeaderCell {
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%) !important;
+    font-weight: 600 !important;
+    color: #334155 !important;
+    border-bottom: 2px solid #e2e8f0 !important;
+}
+
+.shipmentsTable .sapMListTblRow {
+    transition: all 0.2s ease !important;
+}
+
+.shipmentsTable .sapMListTblRow:hover {
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%) !important;
+    cursor: pointer !important;
+}
+
+.shipmentsTable .sapMListTblRow:hover .sapMLink {
+    color: #0a6ed1 !important;
+    text-decoration: underline !important;
+}
+
+/* Search Field in Toolbar */
+#shipmentSearchField {
+    border-radius: 20px !important;
+}
+
+#shipmentSearchField .sapMInputBaseInner {
+    border-radius: 20px !important;
+    background: #f8fafc !important;
+    border: 1px solid #e2e8f0 !important;
+}
+
+#shipmentSearchField .sapMInputBaseInner:focus {
+    background: white !important;
+    border-color: #0a6ed1 !important;
+    box-shadow: 0 0 0 2px rgba(10, 110, 209, 0.1) !important;
+}
+
+/* Status-specific styling for table rows */
+.shipmentsTable .sapMObjStatus[data-status="delivered"] {
+    background: #ecfdf5 !important;
+    color: #059669 !important;
+    border: 1px solid #a7f3d0 !important;
+}
+
+.shipmentsTable .sapMObjStatus[data-status="exception"] {
+    background: #fef2f2 !important;
+    color: #dc2626 !important;
+    border: 1px solid #fecaca !important;
+}
+
+.shipmentsTable .sapMObjStatus[data-status="intransit"] {
+    background: #fff7ed !important;
+    color: #ea580c !important;
+    border: 1px solid #fed7aa !important;
+}
+
+.shipmentsTable .sapMObjStatus[data-status="outfordelivery"] {
+    background: #fefce8 !important;
+    color: #ca8a04 !important;
+    border: 1px solid #fde047 !important;
+}
+
+/* ========================================
+   SHIPMENT SUMMARY LAYOUT - COMPACT
+   ======================================== */
+
+/* Shipment Summary Container */
+.shipmentSummaryContainer {
+    margin-bottom: 1.5rem !important;
+    padding: 1rem 0 !important;
+}
+
+.shipmentInfoSection {
+    padding-right: 1rem !important;
+}
+
+.shipmentInfoSection .sapMObjectHeader,
+.compactObjectHeader {
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%) !important;
+    border-radius: 8px !important;
+    padding: 1rem !important;
+    border: 1px solid #e2e8f0 !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05) !important;
+    max-width: 100% !important;
+}
+
+.compactObjectHeader .sapMObjectHeaderTitle {
+    font-size: 1.1rem !important;
+    font-weight: 700 !important;
+    color: #1e293b !important;
+}
+
+.compactObjectHeader .sapMObjectHeaderNumber {
+    font-size: 1rem !important;
+    font-weight: 600 !important;
+    color: #0ea5e9 !important;
+}
+
+.compactObjectHeader .sapMObjectHeaderIntro {
+    color: #64748b !important;
+    font-weight: 500 !important;
+    font-size: 0.9rem !important;
+}
+
+/* Compact attribute styling */
+.compactObjectHeader .sapMObjectAttribute {
+    margin-bottom: 0.25rem !important;
+}
+
+.compactObjectHeader .sapMObjectAttributeTitle {
+    font-size: 0.8rem !important;
+    font-weight: 600 !important;
+    color: #475569 !important;
+    min-width: 80px !important;
+}
+
+.compactObjectHeader .sapMObjectAttributeText {
+    font-size: 0.8rem !important;
+    color: #1e293b !important;
+}
+
+/* Shipment Summary Container - Reduced padding */
+.shipmentSummaryContainer {
+    margin-bottom: 1rem !important;
+    padding: 0.5rem !important;
+    background: transparent !important;
+    border-radius: 12px !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+/* Top Action Bar for Customer Care Button - Reduced spacing */
+.topActionBar {
+    margin-bottom: 0.5rem !important;
+    padding-bottom: 0 !important;
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+}
+
+
+/* Shipment Info Container - Reduced spacing */
+.shipmentInfoContainer {
+    margin-top: 0 !important;
+}
+
+.shipmentInfoSection {
+    padding-right: 0 !important;
+}
+
+.compactObjectHeader {
+    background: white !important;
+    border-radius: 8px !important;
+    padding: 0.75rem !important;
+    border: 1px solid #e2e8f0 !important;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1) !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+}
+
+.compactObjectHeader .sapMObjectHeaderContainer {
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.compactObjectHeader .sapMObjectHeaderMainContainer {
+    margin-bottom: 0.5rem !important;
+}
+
+.compactObjectHeader .sapMObjectHeaderAdditionalContainer {
+    margin-top: 0.5rem !important;
+}
+
+/* Shipment Info Container */
+.shipmentInfoContainer {
+    margin-top: 0 !important;
+}
+
+.shipmentInfoSection {
+    padding-right: 0 !important;
+}
+
+.compactObjectHeader {
+    background: white !important;
+    border-radius: 8px !important;
+    padding: 1rem !important;
+    border: 1px solid #e2e8f0 !important;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1) !important;
+    max-width: 100% !important;
+}
+
+/* Remove old button styles */
+.customerActionSection,
+.customerCareButtonMain {
+    display: none !important;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .topActionBar {
+        justify-content: center !important;
+        margin-bottom: 1rem !important;
+    }
+    
+    .customerCareButtonTopRight {
+        width: 100% !important;
+        max-width: 200px !important;
+    }
+}
+
+/* Make ObjectHeader more compact overall */
+.compactObjectHeader .sapMObjectHeaderContainer {
+    padding: 0.5rem !important;
+}
+
+.compactObjectHeader .sapMObjectHeaderMainContainer {
+    margin-bottom: 0.5rem !important;
+}
+
+.compactObjectHeader .sapMObjectHeaderAdditionalContainer {
+    margin-top: 0.5rem !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .shipmentInfoSection {
+        width: 100% !important;
+        padding-right: 0 !important;
+    }
+    
+    .shipmentQuickActions {
+        width: 100% !important;
+        margin-top: 1rem !important;
+        justify-content: center !important;
+    }
+    
+    .shipmentSummaryContainer {
+        flex-direction: column !important;
+    }
+}
+
+/* Responsive Design for Timeline */
+@media (max-width: 768px) {
+    .timelineItem {
+        min-width: 160px !important;
+        max-width: 180px !important;
+    }
+    
+    .timelineContentCard {
+        width: 150px !important;
+        padding: 1rem !important;
+        min-height: 120px !important;
+    }
+    
+    .timelineIconContainer {
+        width: 45px !important;
+        height: 45px !important;
+    }
+    
+    .timelineConnectorLine {
+        width: 50px !important;
+        margin-top: 20px !important;
+    }
+    
+    .trackingTimelineHorizontal {
+        padding: 2rem 0.5rem !important;
+    }
+}
+
+/* Ensure proper scrolling */
+.horizontalTrackingContainer .sapMScrollContCnt {
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+}
+
+/* ========================================
+   LIVE TRACKING MAP STYLES
+   ======================================== */
+
+/* Map Panel Wrapper */
+.trackingMapPanel {
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%) !important;
+    border-radius: 12px !important;
+    margin: 1rem 0 !important;
+    border: 1px solid #0ea5e9 !important;
+    box-shadow: 0 4px 12px rgba(14, 165, 233, 0.1) !important;
+}
+
+.trackingMapPanel .sapMPanelContent {
+    padding: 1.5rem !important;
+}
+
+/* Map Container */
+.mapContainer {
+    width: 100% !important;
+}
+
+/* Map Header */
+.mapHeader {
+    padding: 1rem 0 1.5rem 0 !important;
+    border-bottom: 2px solid #e0f2fe !important;
+    margin-bottom: 2rem !important;
+}
+
+.routeTitle {
+    font-size: 1.1rem !important;
+    font-weight: 700 !important;
+    color: #0c4a6e !important;
+    margin-bottom: 0.5rem !important;
+}
+
+.routeInfo {
+    font-size: 0.85rem !important;
+    color: #0369a1 !important;
+    font-weight: 500 !important;
+}
+
+.mapButton {
+    color: #0ea5e9 !important;
+    border: 1px solid #0ea5e9 !important;
+    transition: all 0.3s ease !important;
+}
+
+.mapButton:hover {
+    background: #0ea5e9 !important;
+    color: white !important;
+}
+
+/* Map Display Area */
+.mapDisplayArea {
+    width: 100% !important;
+    min-height: 300px !important;
+}
+
+/* Map Placeholder */
+.mapPlaceholder {
+    width: 100% !important;
+    background: white !important;
+    border-radius: 12px !important;
+    padding: 2rem !important;
+    box-shadow: inset 0 2px 8px rgba(0,0,0,0.05) !important;
+    border: 2px dashed #bae6fd !important;
+}
+
+/* Route Visualization */
+.routeVisualization {
+    width: 100% !important;
+    max-width: 800px !important;
+    position: relative !important;
+    margin: 2rem 0 !important;
+}
+
+/* Map Locations */
+.mapLocation {
+    position: relative !important;
+    z-index: 2 !important;
+}
+
+.locationDot {
+    width: 50px !important;
+    height: 50px !important;
+    border-radius: 50% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin-bottom: 0.5rem !important;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
+    border: 3px solid white !important;
+}
+
+.locationDot.origin {
+    background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%) !important;
+}
+
+.locationDot.destination {
+    background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%) !important;
+}
+
+.locationName {
+    font-weight: 600 !important;
+    font-size: 0.9rem !important;
+    color: #1e293b !important;
+    margin-bottom: 0.25rem !important;
+}
+
+.locationLabel {
+    font-size: 0.75rem !important;
+    color: #64748b !important;
+    font-style: italic !important;
+}
+
+/* Route Line */
+.routeLine {
+    flex: 1 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    position: relative !important;
+    margin: 0 2rem !important;
+}
+
+.progressLine {
+    width: 100% !important;
+    height: 8px !important;
+    display: flex !important;
+    border-radius: 4px !important;
+    overflow: hidden !important;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
+}
+
+.lineCompleted {
+    background: linear-gradient(90deg, #22c55e 0%, #f59e0b 100%) !important;
+    width: 60% !important;
+    height: 100% !important;
+}
+
+.lineRemaining {
+    background: linear-gradient(90deg, #e2e8f0 0%, #cbd5e1 100%) !important;
+    width: 40% !important;
+    height: 100% !important;
+}
+
+/* Current Position */
+.currentPosition {
+    position: absolute !important;
+    top: -15px !important;
+    left: 58% !important;
+    transform: translateX(-50%) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+}
+
+.movingTruck {
+    background: white !important;
+    border-radius: 50% !important;
+    padding: 8px !important;
+    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3) !important;
+    animation: truckBounce 2s infinite !important;
+}
+
+.currentLocationText {
+    font-size: 0.7rem !important;
+    color: #f59e0b !important;
+    font-weight: 600 !important;
+    margin-top: 0.5rem !important;
+    background: white !important;
+    padding: 0.25rem 0.5rem !important;
+    border-radius: 12px !important;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
+}
+
+/* Map Features */
+.mapFeatures {
+    margin-top: 2rem !important;
+    padding-top: 1.5rem !important;
+    border-top: 1px solid #e0f2fe !important;
+    width: 100% !important;
+}
+
+.mapFeature {
+    padding: 1rem !important;
+    background: white !important;
+    border-radius: 8px !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05) !important;
+    transition: all 0.3s ease !important;
+    min-width: 120px !important;
+}
+
+.mapFeature:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1) !important;
+}
+
+.featureText {
+    font-size: 0.75rem !important;
+    color: #475569 !important;
+    font-weight: 500 !important;
+    margin-top: 0.5rem !important;
+}
+
+/* Integration Note */
+.mapIntegrationNote {
+    margin-top: 1.5rem !important;
+    border-left: 4px solid #0ea5e9 !important;
+}
+
+/* Truck Animation */
+@keyframes truckBounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-5px);
+    }
+    60% {
+        transform: translateY(-3px);
+    }
+}
+
+/* Responsive Map Design */
+@media (max-width: 768px) {
+    .routeVisualization {
+        flex-direction: column !important;
+        align-items: center !important;
+        gap: 1rem !important;
+    }
+    
+    .routeLine {
+        width: 80% !important;
+        height: 120px !important;
+        margin: 1rem 0 !important;
+    }
+    
+    .progressLine {
+        width: 8px !important;
+        height: 100% !important;
+        flex-direction: column !important;
+    }
+    
+    .lineCompleted {
+        width: 100% !important;
+        height: 60% !important;
+    }
+    
+    .lineRemaining {
+        width: 100% !important;
+        height: 40% !important;
+    }
+    
+    .currentPosition {
+        left: -25px !important;
+        top: 58% !important;
+    }
+    
+    .mapFeatures {
+        flex-direction: column !important;
+        gap: 0.5rem !important;
+    }
+    
+    .mapFeature {
+        min-width: auto !important;
+        width: 100% !important;
+    }
+}
+
+/* ========================================
+   RESPONSIVE DESIGN
+   ======================================== */
+
+@media (max-width: 768px) {
+    .sapTntSideNavigation.sapTntSideNavigationExpanded {
+        width: 100% !important;
+        position: absolute;
+        z-index: 1000;
+        height: 100%;
+    }
+    
+    .sapMGT {
+        width: 100%;
+        margin: 0.5rem 0;
+    }
+}
+
+/* ========================================
+   CUSTOM SCROLLBAR
+   ======================================== */
+
+.sapMScrollContainer::-webkit-scrollbar {
+    width: 8px;
+}
+
+.sapMScrollContainer::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.sapMScrollContainer::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+}
+
+.sapMScrollContainer::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+/* ========================================
+   MODERN RATE SHOPPING STYLES
+   ======================================== */
+
+/* Main Container */
+.modern-rate-shopping {
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%) !important;
+    min-height: 100vh !important;
+    padding: 0 !important;
+}
+
+/* Hero Header Section */
+.hero-header-section {
+    background: linear-gradient(135deg, #1e293b 0%, #334155 50%, #475569 100%) !important;
+    padding: 3rem 2rem !important;
+    text-align: center !important;
+    margin-bottom: 2rem !important;
+    position: relative !important;
+    overflow: hidden !important;
+}
+
+.hero-header-section::before {
+    content: "" !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M30 30c0-11.046 8.954-20 20-20s20 8.954 20 20-8.954 20-20 20-20-8.954-20-20z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E") !important;
+    opacity: 0.3 !important;
+    z-index: 0 !important;
+}
+
+.hero-title {
+    color: white !important;
+    font-size: 3rem !important;
+    font-weight: 800 !important;
+    margin-bottom: 1rem !important;
+    position: relative !important;
+    z-index: 1 !important;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3) !important;
+}
+
+.hero-subtitle {
+    color: #cbd5e1 !important;
+    font-size: 1.2rem !important;
+    font-weight: 400 !important;
+    position: relative !important;
+    z-index: 1 !important;
+    opacity: 0.9 !important;
+}
+
+/* Main Shipping Card */
+.main-shipping-card {
+    background: white !important;
+    border-radius: 20px !important;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.1) !important;
+    margin: 2rem !important;
+    padding: 3rem !important;
+    position: relative !important;
+    overflow: hidden !important;
+}
+
+.main-shipping-card::before {
+    content: "" !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    height: 4px !important;
+    background: linear-gradient(90deg, #0ea5e9 0%, #3b82f6 50%, #8b5cf6 100%) !important;
+}
+
+/* Section Titles */
+.section-title {
+    color: #1e293b !important;
+    font-size: 1.5rem !important;
+    font-weight: 700 !important;
+    margin-bottom: 1.5rem !important;
+    position: relative !important;
+}
+
+.section-title::after {
+    content: "" !important;
+    position: absolute !important;
+    bottom: -0.5rem !important;
+    left: 0 !important;
+    width: 50px !important;
+    height: 3px !important;
+    background: linear-gradient(90deg, #0ea5e9 0%, #3b82f6 100%) !important;
+    border-radius: 2px !important;
+}
+
+/* Address Section */
+.address-section-container {
+    margin-bottom: 3rem !important;
+}
+
+.address-input-row {
+    gap: 1rem !important;
+}
+
+.address-input-group {
+    position: relative !important;
+}
+
+.address-label {
+    font-size: 1rem !important;
+    font-weight: 700 !important;
+    color: #374151 !important;
+    margin-bottom: 0.75rem !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+}
+
+.from-label {
+    color: #059669 !important;
+}
+
+.to-label {
+    color: #dc2626 !important;
+}
+
+.input-wrapper {
+    position: relative !important;
+    display: flex !important;
+    align-items: center !important;
+    background: white !important;
+    border: 2px solid #e5e7eb !important;
+    border-radius: 12px !important;
+    padding: 0 1rem !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05) !important;
+}
+
+.from-wrapper:hover,
+.from-wrapper:focus-within {
+    border-color: #059669 !important;
+    box-shadow: 0 0 0 4px rgba(5, 150, 105, 0.1), 0 4px 12px rgba(0,0,0,0.1) !important;
+}
+
+.to-wrapper:hover,
+.to-wrapper:focus-within {
+    border-color: #dc2626 !important;
+    box-shadow: 0 0 0 4px rgba(220, 38, 38, 0.1), 0 4px 12px rgba(0,0,0,0.1) !important;
+}
+
+.address-icon {
+    margin-right: 1rem !important;
+    opacity: 0.7 !important;
+}
+
+.from-icon {
+    color: #059669 !important;
+}
+
+.to-icon {
+    color: #dc2626 !important;
+}
+
+.modern-address-input {
+    border: none !important;
+    background: transparent !important;
+    font-size: 1rem !important;
+    padding: 1.25rem 0 !important;
+    color: #1f2937 !important;
+    font-weight: 500 !important;
+}
+
+.modern-address-input:focus {
+    outline: none !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+/* Enhanced Swap Button */
+.swap-container {
+    padding-bottom: 1rem !important;
+}
+
+.modern-swap-btn {
+    width: 50px !important;
+    height: 50px !important;
+    border-radius: 50% !important;
+    background: linear-gradient(135deg, #0ea5e9 0%, #3b82f6 100%) !important;
+    border: none !important;
+    color: white !important;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    box-shadow: 0 8px 20px rgba(14, 165, 233, 0.3) !important;
+}
+
+.modern-swap-btn:hover {
+    transform: rotate(180deg) scale(1.1) !important;
+    box-shadow: 0 12px 30px rgba(14, 165, 233, 0.4) !important;
+    background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%) !important;
+}
+
+/* Package Details Section */
+.package-details-section {
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%) !important;
+    border-radius: 16px !important;
+    padding: 2.5rem !important;
+    margin-bottom: 3rem !important;
+    border: 1px solid #e2e8f0 !important;
+}
+
+.package-section-header {
+    margin-bottom: 2rem !important;
+}
+
+.international-toggle {
+    background: white !important;
+    padding: 0.75rem 1.5rem !important;
+    border-radius: 50px !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05) !important;
+    border: 1px solid #e5e7eb !important;
+}
+
+.international-icon {
+    color: #3b82f6 !important;
+    margin-right: 0.5rem !important;
+}
+
+.international-checkbox {
+    font-weight: 500 !important;
+    color: #374151 !important;
+}
+
+/* Form Groups */
+.package-form-grid {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 2rem !important;
+}
+
+.form-row {
+    display: flex !important;
+    gap: 2rem !important;
+    align-items: flex-end !important;
+}
+
+.form-group {
+    flex: 1 !important;
+}
+
+.modern-form-label {
+    font-size: 0.9rem !important;
+    font-weight: 600 !important;
+    color: #374151 !important;
+    margin-bottom: 0.75rem !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+}
+
+.modern-select,
+.modern-input {
+    height: 3.5rem !important;
+    border: 2px solid #d1d5db !important;
+    border-radius: 10px !important;
+    font-size: 1rem !important;
+    padding: 0 1rem !important;
+    transition: all 0.3s ease !important;
+    background: white !important;
+    font-weight: 500 !important;
+}
+
+.modern-select:focus,
+.modern-input:focus {
+    border-color: #3b82f6 !important;
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1) !important;
+    outline: none !important;
+}
+
+/* Weight Input Container */
+.weight-input-container {
+    display: flex !important;
+    gap: 0 !important;
+}
+
+.weight-input {
+    border-top-right-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+    border-right: none !important;
+}
+
+.unit-select {
+    border-top-left-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
+    border-left: 1px solid #d1d5db !important;
+    background: #f9fafb !important;
+}
+
+/* Dimensions Row */
+.dimensions-input-row {
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.5rem !important;
+}
+
+.dimension-separator {
+    font-weight: 700 !important;
+    color: #6b7280 !important;
+    font-size: 1.2rem !important;
+}
+
+/* Delivery Options */
+.delivery-options {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0.5rem !important;
+    margin-top: 0.75rem !important;
+}
+
+.delivery-option-checkbox {
+    font-size: 0.9rem !important;
+    color: #374151 !important;
+}
+
+/* Premium Get Rates Button */
+.get-rates-section {
+    margin-top: 3rem !important;
+}
+
+.premium-get-rates-btn {
+    padding: 1.25rem 3rem !important;
+    font-size: 1.2rem !important;
+    font-weight: 700 !important;
+    border-radius: 50px !important;
+    background: linear-gradient(135deg, #0ea5e9 0%, #3b82f6 50%, #8b5cf6 100%) !important;
+    border: none !important;
+    color: white !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1px !important;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    box-shadow: 0 10px 30px rgba(14, 165, 233, 0.3) !important;
+    position: relative !important;
+    overflow: hidden !important;
+}
+
+.premium-get-rates-btn::before {
+    content: "" !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: -100% !important;
+    width: 100% !important;
+    height: 100% !important;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent) !important;
+    transition: left 0.6s !important;
+}
+
+.premium-get-rates-btn:hover {
+    transform: translateY(-3px) scale(1.02) !important;
+    box-shadow: 0 20px 40px rgba(14, 165, 233, 0.4) !important;
+}
+
+.premium-get-rates-btn:hover::before {
+    left: 100% !important;
+}
+
+/* Premium Results Section */
+.premium-results-section {
+    margin: 3rem 2rem !important;
+    padding: 0 !important;
+}
+
+.results-header {
+    text-align: center !important;
+    margin-bottom: 3rem !important;
+}
+
+.results-title {
+    color: #1e293b !important;
+    font-size: 2.5rem !important;
+    font-weight: 800 !important;
+    margin-bottom: 1rem !important;
+}
+
+.results-subtitle {
+    color: #64748b !important;
+    font-size: 1.1rem !important;
+    font-weight: 400 !important;
+}
+
+/* Rate Cards Container */
+.rate-cards-container {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 1.5rem !important;
+    margin-bottom: 3rem !important;
+}
+
+/* Premium Rate Cards */
+.premium-rate-card {
+    background: white !important;
+    border-radius: 16px !important;
+    padding: 2rem !important;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.08) !important;
+    border: 2px solid transparent !important;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    position: relative !important;
+    overflow: hidden !important;
+}
+
+.premium-rate-card::before {
+    content: "" !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    height: 4px !important;
+    transition: all 0.3s ease !important;
+}
+
+.express-card::before {
+    background: linear-gradient(90deg, #ff6600 0%, #ff8533 100%) !important;
+}
+
+.standard-card::before {
+    background: linear-gradient(90deg, #0066cc 0%, #3388ff 100%) !important;
+}
+
+.economy-card::before {
+    background: linear-gradient(90deg, #006633 0%, #009944 100%) !important;
+}
+
+.premium-rate-card:hover {
+    transform: translateY(-8px) !important;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.15) !important;
+    border-color: #e5e7eb !important;
+}
+
+/* Service Badges */
+.service-badge {
+    width: 80px !important;
+    height: 80px !important;
+    border-radius: 20px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin-right: 2rem !important;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15) !important;
+}
+
+.express-badge {
+    background: linear-gradient(135deg, #ff6600 0%, #ff8533 100%) !important;
+}
+
+.standard-badge {
+    background: linear-gradient(135deg, #0066cc 0%, #3388ff 100%) !important;
+}
+
+.economy-badge {
+    background: linear-gradient(135deg, #006633 0%, #009944 100%) !important;
+}
+
+/* Service Details */
+.service-details {
+    flex: 1 !important;
+}
+
+.service-name {
+    font-size: 1.5rem !important;
+    font-weight: 700 !important;
+    color: #1f2937 !important;
+    margin-bottom: 0.5rem !important;
+}
+
+.service-description {
+    font-size: 1rem !important;
+    color: #6b7280 !important;
+    margin-bottom: 1rem !important;
+}
+
+.service-features {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 1rem !important;
+}
+
+.feature-text {
+    font-size: 0.85rem !important;
+    color: #059669 !important;
+    font-weight: 500 !important;
+}
+
+/* Rate Pricing Section */
+.rate-pricing-section {
+    text-align: right !important;
+    min-width: 200px !important;
+}
+
+.rate-price {
+    font-size: 2rem !important;
+    font-weight: 800 !important;
+    margin-bottom: 0.5rem !important;
+}
+
+.express-price {
+    color: #ff6600 !important;
+}
+
+.standard-price {
+    color: #0066cc !important;
+}
+
+.economy-price {
+    color: #006633 !important;
+}
+
+.delivery-date {
+    font-size: 0.9rem !important;
+    color: #6b7280 !important;
+    margin-bottom: 1rem !important;
+    font-weight: 500 !important;
+}
+
+/* Premium Select Buttons */
+.premium-select-btn {
+    padding: 0.75rem 1.5rem !important;
+    border-radius: 8px !important;
+    font-weight: 600 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+    transition: all 0.3s ease !important;
+}
+
+.express-select {
+    background: linear-gradient(135deg, #ff6600 0%, #ff8533 100%) !important;
+    border: none !important;
+    color: white !important;
+}
+
+.standard-select {
+    background: linear-gradient(135deg, #0066cc 0%, #3388ff 100%) !important;
+    border: none !important;
+    color: white !important;
+}
+
+.economy-select {
+    background: linear-gradient(135deg, #006633 0%, #009944 100%) !important;
+    border: none !important;
+    color: white !important;
+}
+
+/* Additional Options */
+.additional-options {
+    text-align: center !important;
+    padding: 2rem !important;
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%) !important;
+    border-radius: 16px !important;
+    border: 1px solid #e2e8f0 !important;
+}
+
+.help-text {
+    font-size: 1rem !important;
+    color: #6b7280 !important;
+    margin-bottom: 1.5rem !important;
+}
+
+.additional-actions {
+    display: flex !important;
+    justify-content: center !important;
+    gap: 1rem !important;
+    flex-wrap: wrap !important;
+}
+
+.compare-btn,
+.save-quote-btn,
+.print-rates-btn {
+    padding: 0.75rem 1.5rem !important;
+    border-radius: 8px !important;
+    font-weight: 500 !important;
+    border: 1px solid #d1d5db !important;
+    background: white !important;
+    color: #374151 !important;
+    transition: all 0.3s ease !important;
+}
+
+.compare-btn:hover,
+.save-quote-btn:hover,
+.print-rates-btn:hover {
+    background: #f9fafb !important;
+    border-color: #9ca3af !important;
+    transform: translateY(-1px) !important;
+}
+
+/* Clear Form Button */
+.clear-form-btn {
+    position: fixed !important;
+    bottom: 2rem !important;
+    right: 2rem !important;
+    z-index: 1000 !important;
+    background: white !important;
+    border: 1px solid #d1d5db !important;
+    border-radius: 50px !important;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1) !important;
+    transition: all 0.3s ease !important;
+}
+
+.clear-form-btn:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.15) !important;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: 2rem !important;
+    }
+    
+    .address-input-row {
+        flex-direction: column !important;
+        gap: 1rem !important;
+    }
+    
+    .address-input-group {
+        width: 100% !important;
+    }
+    
+    .swap-container {
+        width: 100% !important;
+        justify-content: center !important;
+        order: -1 !important;
+    }
+    
+    .form-row {
+        flex-direction: column !important;
+        gap: 1rem !important;
+    }
+    
+    .premium-rate-card {
+        flex-direction: column !important;
+        text-align: center !important;
+    }
+    
+    .service-badge {
+        margin: 0 auto 1rem auto !important;
+    }
+    
+    .rate-pricing-section {
+        text-align: center !important;
+        margin-top: 1rem !important;
+    }
+    
+    .additional-actions {
+        flex-direction: column !important;
+        align-items: center !important;
+    }
+}
+.customButtonContainer {
+    margin-top: -20px; /* Negative margin pulls it up */
+    /* Or set a specific top margin */
+    /* margin-top: 5px; */
+  }

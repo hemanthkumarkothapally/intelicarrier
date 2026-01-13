@@ -1,0 +1,1351 @@
+<mvc:View xmlns:form="sap.ui.layout.form" xmlns:vk="sap.ui.vk"
+    controllerName="intellicarrier.controller.Home"
+    xmlns="sap.m"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:tnt="sap.tnt"
+    xmlns:f="sap.f"
+    xmlns:core="sap.ui.core"
+    height="100%">
+
+    <App id="intelliapp" >
+        <Page showHeader="false" enableScrolling="false" title="IntelliCarrier" >
+            <content>
+             <!-- <f:ShellBar
+                    id="shellBar"
+                    title="IntelliCarrier"
+                    secondTitle="Shipping Execution Platform"
+                    homeIcon="sap-icon://shipping-status"
+                    showNavButton="true"
+                    navButtonPressed=".onMenuButtonPress"
+                    showNotifications="true"
+                    notificationsNumber="3">
+                    <f:profile>
+                        <Avatar initials="HC"/>
+                    </f:profile>
+                </f:ShellBar> -->
+                <!-- Shell Bar Header -->
+                <tnt:ToolHeader  >
+                	<Button class="ButtonColor" icon="sap-icon://nav-back" type="Transparent"  press=".onMenuButtonPress" >
+				<layoutData>
+					<OverflowToolbarLayoutData priority="NeverOverflow"/>
+				</layoutData>
+			</Button>
+            <Title text="IntelliCarrier" wrapping="false">
+				<layoutData>
+					<OverflowToolbarLayoutData priority="NeverOverflow"/>
+				</layoutData>
+			</Title>
+            <Text text="Shipping Execution Platform" >
+				<layoutData>
+					<OverflowToolbarLayoutData priority="Disappear"/>
+				</layoutData>
+			</Text>
+            <ToolbarSpacer ></ToolbarSpacer>
+            <Button class="ButtonColor" icon="sap-icon://bell" type="Transparent" tooltip="Notification" badgeStyle="Default">
+            	<customData>
+						<BadgeCustomData
+							key="badge"
+							value="3"
+							/>
+					</customData>
+		
+				<layoutData>
+					<OverflowToolbarLayoutData priority="NeverOverflow"/>
+				</layoutData>
+			</Button>
+            	<Avatar initials="HC" displaySize="XS" tooltip="Profile">
+				<layoutData>
+					<OverflowToolbarLayoutData priority="NeverOverflow"/>
+				</layoutData>
+			</Avatar>
+                </tnt:ToolHeader>
+                
+                <!-- Main Container with Side Navigation -->
+                <FlexBox height="91%" width="100%">
+                    <!-- Side Navigation -->
+                    <tnt:SideNavigation 
+                        id="sideNavigation" 
+                        selectedKey="dashboard" 
+                        expanded="true"
+                        itemSelect=".onItemSelect">
+                        <tnt:NavigationList>
+                            <tnt:NavigationListItem 
+                                text="Dashboard" 
+                                icon="sap-icon://home" 
+                                key="dashboard"/>
+                            
+                            <tnt:NavigationListItem 
+                                text="Smart Rate Shopping" 
+                                icon="sap-icon://sales-quote" 
+                                key="rateshopping"/>
+                            
+                            <tnt:NavigationListItem 
+                                text="Shipment Execution" 
+                                icon="sap-icon://create" 
+                                key="shipmentexecution"/>
+                            
+                            <tnt:NavigationListItem 
+                                text="Tracking &amp; Visibility" 
+                                icon="sap-icon://locate-me" 
+                                key="tracking"/>
+                        </tnt:NavigationList>
+                        
+                        <tnt:fixedItem>
+                            <tnt:NavigationList>
+                                <tnt:NavigationListItem 
+                                    text="Quick Shipment" 
+                                    icon="sap-icon://create" 
+                                    design="Action"
+                                    selectable="false"
+                                    press=".onQuickShipment"/>
+                                <tnt:NavigationListItem 
+                                    text="Settings" 
+                                    icon="sap-icon://action-settings" 
+                                    selectable="false"
+                                    press=".onSettings"/>
+                            </tnt:NavigationList>
+                        </tnt:fixedItem>
+                    </tnt:SideNavigation>
+                    
+                    <!-- Content Area -->
+                    <ScrollContainer
+                        id="pageContainer"
+                        horizontal="false"
+                        vertical="true"
+                        height="100%"
+                        width="100%"
+         ><layoutData>
+          <FlexItemData growFactor='1' shrinkFactor='1'/>
+         </layoutData>
+                        
+                        <!-- Dashboard View (Default) -->
+                        <VBox id="dashboardView" visible="true" width="100%" class="intellicarrier-content-padding">
+                            <Title text="Dashboard Overview" level="H2" class="sapUiMediumMarginBottom"/>
+                            
+                            <MessageStrip 
+                                text="Welcome to IntelliCarrier - Your integrated shipping execution platform"
+                                type="Information"
+                                showIcon="true"
+                                class="sapUiMediumMarginBottom"/>
+                            
+                            <!-- KPI Tiles -->
+                            <FlexBox wrap="Wrap" alignItems="Start">
+                                <GenericTile
+                                    header="Today's Shipments"
+                                    subheader="Active"
+                                    class="sapUiSmallMarginEnd sapUiSmallMarginBottom">
+                                    <tileContent>
+                                        <TileContent>
+                                            <content>
+                                                <NumericContent
+                                                    value="247"
+                                                    valueColor="Good"
+                                                    indicator="Up"
+                                                    icon="sap-icon://shipping-status"/>
+                                            </content>
+                                        </TileContent>
+                                    </tileContent>
+                                </GenericTile>
+                                
+                                <GenericTile
+                                    header="Average Rate"
+                                    subheader="Per Shipment"
+                                    class="sapUiSmallMarginEnd sapUiSmallMarginBottom">
+                                    <tileContent>
+                                        <TileContent>
+                                            <content>
+                                                <NumericContent
+                                                    value="45.30"
+                                                    scale="USD"
+                                                    valueColor="Neutral"
+                                                    icon="sap-icon://money-bills"/>
+                                            </content>
+                                        </TileContent>
+                                    </tileContent>
+                                </GenericTile>
+                                
+                                <GenericTile
+                                    header="On-Time Delivery"
+                                    subheader="This Month"
+                                    class="sapUiSmallMarginEnd sapUiSmallMarginBottom">
+                                    <tileContent>
+                                        <TileContent>
+                                            <content>
+                                                <NumericContent
+                                                    value="96.5"
+                                                    scale="%"
+                                                    valueColor="Good"
+                                                    indicator="Up"
+                                                    icon="sap-icon://performance"/>
+                                            </content>
+                                        </TileContent>
+                                    </tileContent>
+                                </GenericTile>
+                                
+                                <GenericTile
+                                    header="Active Tracking"
+                                    subheader="In Transit"
+                                    class="sapUiSmallMarginEnd sapUiSmallMarginBottom">
+                                    <tileContent>
+                                        <TileContent>
+                                            <content>
+                                                <NumericContent
+                                                    value="1,842"
+                                                    valueColor="Neutral"
+                                                    icon="sap-icon://locate-me"/>
+                                            </content>
+                                        </TileContent>
+                                    </tileContent>
+                                </GenericTile>
+                            </FlexBox>
+                            
+                            <!-- Recent Shipments -->
+                            <Title text="Recent Shipments" level="H3" class="sapUiMediumMarginTop sapUiSmallMarginBottom"/>
+                            <Table 
+                                id="recentShipmentsTable"
+                                items="{LocalModel>/RecentShipments}"
+                                width="100%" 
+                                autoPopinMode="true"
+                                >
+                                <headerToolbar>
+                                <OverflowToolbar design="Solid" >
+                                <ToolbarSpacer ></ToolbarSpacer>
+                                <SearchField liveChange=".onLiveSearch" width="35%" />
+                                </OverflowToolbar>
+                                </headerToolbar>
+                                <columns >
+                                    <Column width="12em" importance="High">
+                                        <Text text="Shipment ID"/>
+                                    </Column>
+                                    <Column importance="Medium">
+                                        <Text text="Customer"/>
+                                    </Column>
+                                    <Column>
+                                        <Text text="Destination"/>
+                                    </Column>
+                                    <Column>
+                                        <Text text="Service"/>
+                                    </Column>
+                                    <Column importance="High">
+                                        <Text text="Status"/>
+                                    </Column>
+                                    <Column>
+                                        <Text text="ETA"/>
+                                    </Column>
+                                </columns>
+                                <items>
+                                    <ColumnListItem >
+                                        <cells>
+                                            <ObjectIdentifier title="{LocalModel>ShipmentID}"/>
+                                            <Text text="{LocalModel>Customer}"/>
+                                            <Text text="{LocalModel>Destination}"/>
+                                            <Text text="{LocalModel>Service}"/>
+                                            <ObjectStatus text="{LocalModel>Status}" state="{path:'LocalModel>Status',formatter:'.formatStateStatus'}" icon="sap-icon://shipping-status"/>
+                                            <Text text="{LocalModel>ETA}"/>
+                                        </cells>
+                                    </ColumnListItem>
+                                </items>
+                            </Table>
+                        </VBox>
+                        
+                        <!-- Smart Rate Shopping View -->
+                        <VBox id="rateShoppingView" visible="false" width="100%" class="intellicarrier-content-padding">
+                            <Title text="Smart Rate Shopping" level="H2" class="sapUiMediumMarginBottom"/>
+                            
+                        
+                            <Panel 
+                                headerText="Calculate Shipping Rates"
+                                expandable="false"
+                                class="sapUiMediumMarginBottom "
+                                width="100%"
+                                
+                                >
+                                <content>
+                                    <VBox class="sapUiSmallMargin " width="100%">
+                                        <Label text="Origin" required="true" showColon="true" class="sapUiTinyMarginTop"/>
+                                        <Input 
+                                            id="originInput"
+                                            placeholder="Enter origin ZIP code or address"
+                                            showValueHelp="true"
+                                            valueHelpRequest=".onOriginValueHelp"
+                                            width="95%"/>
+                                        
+                                        <Label text="Destination" required="true" showColon="true" class="sapUiTinyMarginTop"/>
+                                        <Input 
+                                            id="destinationInput"
+                                            placeholder="Enter destination ZIP code or address"
+                                            showValueHelp="true"
+                                            valueHelpRequest=".onOriginValueHelp"
+                                            width="95%"/>
+                                        
+                                        <HBox class="sapUiTinyMarginTop intellicarrier-form-row" width="100%">
+                                            <VBox class="sapUiSmallMarginEnd intellicarrier-form-field" width="50%">
+                                                <Label text="Weight (kg)" required="true" showColon="true"/>
+                                                <Input 
+                                                    id="weightInput"
+                                                    type="Number"
+                                                    placeholder="0.00"
+                                                    width="100%"/>
+                                            </VBox>
+                                            
+                                            <VBox class="intellicarrier-form-field" width="50%">
+                                                <Label text="Dimensions (L x W x H cm)" showColon="true"/>
+                                                <HBox width="100%" justifyContent="SpaceAround">
+                                                    <Input 
+                                                        id="lengthInput"
+                                                        type="Number"
+                                                        placeholder="L"
+                                                        width="70%"
+                                                        />
+                                                    <Input 
+                                                        id="widthInput"
+                                                        type="Number"
+                                                        placeholder="W"
+                                                        width="70%"
+                                                        />
+                                                    <Input 
+                                                        id="heightInput"
+                                                        type="Number"
+                                                        placeholder="H"
+                                                        width="70%"
+                                                        />
+                                                </HBox>
+                                            </VBox>
+                                        </HBox>
+                                        
+                                        <Label text="Service Level" required="true" showColon="true" class="sapUiTinyMarginTop"/>
+                                        <Select id="serviceLevelSelect" width="95%">
+                                            <items>
+                                                <core:Item key="all" text="Show All Services"/>
+                                                <core:Item key="standard" text="Standard (3-5 days)"/>
+                                                <core:Item key="express" text="Express (1-2 days)"/>
+                                                <core:Item key="overnight" text="Overnight"/>
+                                                <core:Item key="sameday" text="Same Day"/>
+                                            </items>
+                                        </Select>
+                                        
+                                        <HBox class="sapUiMediumMarginTop">
+                                            <Button 
+                                                text="Calculate Rates"
+                                                type="Emphasized"
+                                                icon="sap-icon://sales-quote"
+                                                press=".onCalculateRates"/>
+                                            <Button 
+                                                text="Clear"
+                                                class="sapUiTinyMarginBegin"
+                                                press=".onClearRateForm"/>
+                                        </HBox>
+                                    </VBox>
+                                </content>
+                            </Panel>
+                            
+                            <!-- Rate Results -->
+                            <Panel 
+                                id="rateResultsPanel"
+                                headerText="Available Rates"
+                                visible="false"
+                                width="100%"
+                                class="intellicarrier-full-width-panel">
+                                <content>
+                                    <Table
+                                        id="ratesTable"
+                                        mode="SingleSelectMaster"
+                                        width="100%">
+                                        <columns>
+                                            <Column>
+                                                <Text text="Service Type"/>
+                                            </Column>
+                                            <Column>
+                                                <Text text="Transit Time"/>
+                                            </Column>
+                                            <Column>
+                                                <Text text="Base Rate"/>
+                                            </Column>
+                                            <Column>
+                                                <Text text="Fuel Surcharge"/>
+                                            </Column>
+                                            <Column>
+                                                <Text text="Total Cost"/>
+                                            </Column>
+                                            <Column>
+                                                <Text text="Action"/>
+                                            </Column>
+                                        </columns>
+                                        <items>
+                                            <ColumnListItem>
+                                                <cells>
+                                                    <ObjectIdentifier
+                                                        title="Express Service"
+                                                        text="Guaranteed delivery"/>
+                                                    <Text text="1-2 Business Days"/>
+                                                    <ObjectNumber number="42.50" unit="USD"/>
+                                                    <ObjectNumber number="3.80" unit="USD"/>
+                                                    <ObjectNumber number="46.30" unit="USD" state="Warning"/>
+                                                    <Button
+                                                        text="Select"
+                                                        type="Accept"
+                                                        press=".onSelectRate"/>
+                                                </cells>
+                                            </ColumnListItem>
+                                        </items>
+                                    </Table>
+                                </content>
+                            </Panel>
+                        </VBox>
+
+                        <!-- NEW: Shipment Execution View -->
+                        <VBox id="shipmentExecutionView" visible="false" width="100%" class="intellicarrier-content-padding sapUiMediumMarginBottom">
+                            <Title text="Shipment Execution &amp; Fleet Management" level="H2" class="sapUiMediumMarginBottom"/>
+                            
+                            <MessageStrip 
+                                text="Manage your fleet, book shipments, and execute freight deliveries with real-time vehicle tracking"
+                                type="Information"
+                                showIcon="true"
+                                class="sapUiMediumMarginBottom"/>
+                            
+                            <!-- Tab Bar for different sections -->
+                            <IconTabBar 
+                                id="shipmentTabBar"
+                                expandable="false"
+                                headerMode="Inline"
+                                selectedKey="fleetoverview"
+                                select=".onShipmentTabSelect"
+                                >
+                                <items>
+                                    <IconTabFilter
+                                        key="fleetoverview"
+                                        text="Fleet Overview"
+                                        icon="sap-icon://bus-public-transport"
+                                        class="shipment-tab-item" />
+                                    <IconTabFilter
+                                        key="newshipment"
+                                        text="Book New Shipment"
+                                        icon="sap-icon://add"
+                                        class="shipment-tab-item"/>
+                                    <IconTabFilter
+                                        key="bookedshipments"
+                                        text="Scheduled Shipments"
+                                        icon="sap-icon://calendar"
+                                        class="shipment-tab-item"/>
+                                </items>
+                            </IconTabBar>
+                            
+                            <!-- Fleet Overview Tab Content -->
+                            <VBox id="fleetOverviewTab" visible="true" width="100%">
+                                <!-- Fleet Status Summary -->
+                                <Title text="Fleet Status" level="H3" class="sapUiMediumMarginTop sapUiSmallMarginBottom"/>
+                                <FlexBox wrap="Wrap" alignItems="Start" class="sapUiMediumMarginBottom">
+                                    <GenericTile
+                                        header="Available Vehicles"
+                                        subheader="Ready for Dispatch"
+                                        class="sapUiSmallMarginEnd sapUiSmallMarginBottom">
+                                        <tileContent>
+                                            <TileContent>
+                                                <content>
+                                                    <NumericContent
+                                                        value="12"
+                                                        valueColor="Good"
+                                                        icon="sap-icon://shipping-status"/>
+                                                </content>
+                                            </TileContent>
+                                        </tileContent>
+                                    </GenericTile>
+                                    
+                                    <GenericTile
+                                        header="In Transit"
+                                        subheader="Active Routes"
+                                        class="sapUiSmallMarginEnd sapUiSmallMarginBottom">
+                                        <tileContent>
+                                            <TileContent>
+                                                <content>
+                                                    <NumericContent
+                                                        value="8"
+                                                        valueColor="Neutral"
+                                                        icon="sap-icon://bus-public-transport"/>
+                                                </content>
+                                            </TileContent>
+                                        </tileContent>
+                                    </GenericTile>
+                                    
+                                    <GenericTile
+                                        header="Maintenance"
+                                        subheader="Under Service"
+                                        class="sapUiSmallMarginEnd sapUiSmallMarginBottom">
+                                        <tileContent>
+                                            <TileContent>
+                                                <content>
+                                                    <NumericContent
+                                                        value="3"
+                                                        valueColor="Error"
+                                                        icon="sap-icon://wrench"/>
+                                                </content>
+                                            </TileContent>
+                                        </tileContent>
+                                    </GenericTile>
+                                    
+                                    <GenericTile
+                                        header="Fuel Efficiency"
+                                        subheader="Average MPG"
+                                        class="sapUiSmallMarginEnd sapUiSmallMarginBottom">
+                                        <tileContent>
+                                            <TileContent>
+                                                <content>
+                                                    <NumericContent
+                                                        value="7.2"
+                                                        valueColor="Good"
+                                                        icon="sap-icon://energy-saving-lightbulb"/>
+                                                </content>
+                                            </TileContent>
+                                        </tileContent>
+                                    </GenericTile>
+                                </FlexBox>
+                                
+                                <!-- Available Fleet Table -->
+                                <Panel headerText="Available Fleet" class="intellicarrier-full-width-panel" width="100%">
+                                    <content>
+                                        <Table 
+                                            id="fleetTable"
+                                            mode="SingleSelect"
+                                            items="{/availableFleet}"
+                                            width="100%">
+                                            <headerToolbar>
+                                                <Toolbar>
+                                                    <content>
+                                                        <Title text="Fleet Vehicles" level="H4"/>
+                                                        <ToolbarSpacer/>
+                                                        <SearchField 
+                                                            placeholder="Search vehicles..."
+                                                            width="300px"
+                                                            liveChange=".onSearchFleet"/>
+                                                        <Button 
+                                                            icon="sap-icon://refresh"
+                                                            tooltip="Refresh Fleet"
+                                                            press=".onRefreshFleet"/>
+                                                    </content>
+                                                </Toolbar>
+                                            </headerToolbar>
+                                            <columns>
+                                                <Column width="10em">
+                                                    <Text text="Vehicle ID"/>
+                                                </Column>
+                                                <Column>
+                                                    <Text text="Type"/>
+                                                </Column>
+                                                <Column>
+                                                    <Text text="Capacity"/>
+                                                </Column>
+                                                <Column>
+                                                    <Text text="Dimensions"/>
+                                                </Column>
+                                                <Column>
+                                                    <Text text="Location"/>
+                                                </Column>
+                                                <Column>
+                                                    <Text text="Driver"/>
+                                                </Column>
+                                                <Column>
+                                                    <Text text="Status"/>
+                                                </Column>
+                                                <Column width="12em">
+                                                    <Text text="Actions"/>
+                                                </Column>
+                                            </columns>
+                                            <items>
+                                                <ColumnListItem>
+                                                    <cells>
+                                                        <ObjectIdentifier title="{id}"/>
+                                                        <Text text="{type}"/>
+                                                        <Text text="{capacity}"/>
+                                                        <Text text="{dimensions}"/>
+                                                        <Text text="{location}"/>
+                                                        <Text text="{driver}"/>
+                                                        <ObjectStatus text="{status}" state="{statusState}" icon="sap-icon://shipping-status"/>
+                                                        <Button 
+                                                            text="Select" 
+                                                            type="Accept"
+                                                            enabled="{= ${status} === 'Available'}"
+                                                            press=".onSelectVehicleForBooking"/>
+                                                    </cells>
+                                                </ColumnListItem>
+                                            </items>
+                                        </Table>
+                                    </content>
+                                </Panel>
+                            </VBox>
+                            
+                            <!-- New Shipment Tab Content -->
+                            <VBox id="newShipmentTab" visible="false" width="100%">
+                                <Title text="Book New Freight Shipment" level="H3" class="sapUiMediumMarginTop sapUiSmallMarginBottom"/>
+                                
+                                <Panel 
+                                    headerText="Shipment Details"
+                                    width="100%"
+                                    class="intellicarrier-full-width-panel">
+                                    <content>
+                                        <VBox class="sapUiSmallMargin" width="100%">
+                                            <!-- Customer and Route Information -->
+                                            <HBox class="sapUiSmallMarginBottom">
+                                                <VBox width="50%" class="sapUiSmallMarginEnd">
+                                                    <Label text="Customer" required="true"/>
+                                                    <Input 
+                                                        id="customerInput"
+                                                        placeholder="Enter customer name"
+                                                        width="90%"/>
+                                                </VBox>
+                                                <VBox width="50%">
+                                                    <Label text="Reference Number"/>
+                                                    <Input 
+                                                        id="referenceInput"
+                                                        placeholder="Enter reference"
+                                                        width="90%"/>
+                                                </VBox>
+                                            </HBox>
+                                            
+                                            <!-- Origin and Destination -->
+                                            <HBox class="sapUiSmallMarginBottom">
+                                                <VBox width="50%" class="sapUiSmallMarginEnd">
+                                                    <Label text="Origin" required="true"/>
+                                                    <Input 
+                                                        id="originShipmentInput"
+                                                        placeholder="Pickup location"
+                                                        showValueHelp="true"
+                                                        valueHelpRequest=".onOriginValueHelp"
+                                                        width="90%"/>
+                                                </VBox>
+                                                <VBox width="50%">
+                                                    <Label text="Destination" required="true"/>
+                                                    <Input 
+                                                        id="destinationShipmentInput"
+                                                        placeholder="Delivery location"
+                                                        showValueHelp="true"
+                                                        valueHelpRequest=".onOriginValueHelp"
+                                                        width="90%"/>
+                                                </VBox>
+                                            </HBox>
+                                            
+                                            <!-- Cargo Details -->
+                                            <HBox class="sapUiSmallMarginBottom">
+                                                <VBox width="33%" class="sapUiSmallMarginEnd">
+                                                    <Label text="Cargo Type" required="true"/>
+                                                    <Select id="cargoTypeSelect" width="90%">
+                                                        <items>
+                                                            <core:Item key="general" text="General Freight"/>
+                                                            <core:Item key="hazmat" text="Hazardous Materials"/>
+                                                            <core:Item key="liquid" text="Liquid/Bulk"/>
+                                                            <core:Item key="refrigerated" text="Refrigerated"/>
+                                                            <core:Item key="oversized" text="Oversized/Heavy"/>
+                                                        </items>
+                                                    </Select>
+                                                </VBox>
+                                                <VBox width="33%" class="sapUiSmallMarginEnd">
+                                                    <Label text="Weight" required="true"/>
+                                                    <Input 
+                                                        id="cargoWeightInput"
+                                                        placeholder="Enter weight"
+                                                        width="90%"/>
+                                                </VBox>
+                                                <VBox width="33%">
+                                                    <Label text="Priority Level"/>
+                                                    <Select id="prioritySelect" width="90%" selectedKey="standard">
+                                                        <items>
+                                                            <core:Item key="standard" text="Standard"/>
+                                                            <core:Item key="urgent" text="Urgent"/>
+                                                            <core:Item key="emergency" text="Emergency"/>
+                                                        </items>
+                                                    </Select>
+                                                </VBox>
+                                            </HBox>
+                                            
+                                            <!-- Schedule Details -->
+                                            <HBox class="sapUiSmallMarginBottom">
+                                                <VBox width="33%" class="sapUiSmallMarginEnd">
+                                                    <Label text="Pickup Date" required="true"/>
+                                                    <DatePicker id="pickupDatePicker" width="90%"/>
+                                                </VBox>
+                                                <VBox width="33%" class="sapUiSmallMarginEnd">
+                                                    <Label text="Pickup Time"/>
+                                                    <TimePicker id="pickupTimePicker" width="90%"/>
+                                                </VBox>
+                                                <VBox width="33%">
+                                                    <Label text="Delivery Date" required="true"/>
+                                                    <DatePicker id="deliveryDatePicker" width="90%"/>
+                                                </VBox>
+                                            </HBox>
+                                            
+                                            <!-- Special Instructions -->
+                                            <VBox width="100%" class="sapUiSmallMarginBottom">
+                                                <Label text="Special Instructions"/>
+                                                <TextArea 
+                                                    id="instructionsTextArea"
+                                                    placeholder="Enter any special handling instructions..."
+                                                    width="100%"
+                                                    rows="3"/>
+                                            </VBox>
+                                        </VBox>
+                                    </content>
+                                </Panel>
+                                
+                                <!-- Vehicle Selection Panel -->
+                                <Panel 
+                                    headerText="Select Vehicle"
+                                    width="100%"
+                                    class="sapUiMediumMarginTop intellicarrier-full-width-panel">
+                                    <content>
+                                        <VBox class="sapUiSmallMargin" width="100%">
+                                            <HBox class="sapUiSmallMarginBottom">
+                                                <VBox width="50%" class="sapUiSmallMarginEnd">
+                                                    <Label text="Vehicle Type" required="true"/>
+                                                    <Select 
+                                                        id="vehicleTypeFilter" 
+                                                        width="90%"
+                                                        selectedKey="all"
+                                                        change=".onFilterVehicles">
+                                                        <items>
+                                                            <core:Item key="all" text="All Vehicle Types"/>
+                                                            <core:Item key="truck" text="Standard Truck"/>
+                                                            <core:Item key="container" text="Container"/>
+                                                            <core:Item key="tanker" text="Oil Tanker"/>
+                                                            <core:Item key="heavyduty" text="Heavy Duty Truck"/>
+                                                        </items>
+                                                    </Select>
+                                                </VBox>
+                                                <VBox width="50%">
+                                                    <Label text="Selected Vehicle"/>
+                                                    <Text 
+                                                        id="selectedVehicleText"
+                                                        text="No vehicle selected"
+                                                        class="sapUiMediumMarginTop"/>
+                                                </VBox>
+                                            </HBox>
+                                            
+                                            <!-- Available Vehicles for Selection -->
+                                            <Table 
+                                                id="vehicleSelectionTable"
+                                                mode="SingleSelect"
+                                                items="{/availableFleet}"
+                                                selectionChange=".onVehicleSelectionChange"
+                                                width="100%">
+                                                <columns>
+                                                    <Column width="10em">
+                                                        <Text text="Vehicle ID"/>
+                                                    </Column>
+                                                    <Column>
+                                                        <Text text="Type"/>
+                                                    </Column>
+                                                    <Column>
+                                                        <Text text="Capacity"/>
+                                                    </Column>
+                                                    <Column>
+                                                        <Text text="Location"/>
+                                                    </Column>
+                                                    <Column>
+                                                        <Text text="Driver"/>
+                                                    </Column>
+                                                    <Column>
+                                                        <Text text="Status"/>
+                                                    </Column>
+                                                </columns>
+                                                <items>
+                                                    <ColumnListItem>
+                                                        <cells>
+                                                            <ObjectIdentifier title="{id}"/>
+                                                            <Text text="{type}"/>
+                                                            <Text text="{capacity}"/>
+                                                            <Text text="{location}"/>
+                                                            <Text text="{driver}"/>
+                                                            <ObjectStatus text="{status}" state="{statusState}" icon="sap-icon://shipping-status"/>
+                                                        </cells>
+                                                    </ColumnListItem>
+                                                </items>
+                                            </Table>
+                                        </VBox>
+                                    </content>
+                                </Panel>
+                                
+                                <!-- Action Buttons -->
+                      <HBox class="sapUiMediumMarginTop customButtonContainer" justifyContent="Center">
+                                     <Button 
+                                        text="Book Now"
+                                        type="Emphasized"
+                                        icon="sap-icon://create"
+                                        class="sapUiLargeMarginEnd"
+                                        press=".onBookShipment"/>
+                                    <Button 
+                                        text="Save as Draft"
+                                        icon="sap-icon://save"
+                                        class="sapUiTinyMarginEnd"
+                                        press=".onSaveShipmentDraft"/>
+                                    <Button 
+                                        text="Clear Form"
+                                        press=".onClearShipmentForm"/>
+                                </HBox>
+                            </VBox>
+                            
+                            <!-- Booked Shipments Tab Content -->
+                            <VBox id="bookedShipmentsTab" visible="false" width="100%">
+                                <Title text="Scheduled Shipments" level="H3" class="sapUiMediumMarginTop sapUiSmallMarginBottom"/>
+                                
+                                <Panel headerText="Active Bookings" class="intellicarrier-full-width-panel" width="100%">
+                                    <content>
+                                        <Table 
+                                            id="bookedShipmentsTable"
+                                            mode="SingleSelect"
+                                            items="{/bookedShipments}"
+                                            width="100%">
+                                            <headerToolbar>
+                                                <Toolbar>
+                                                    <content>
+                                                        <Title text="Booked Shipments" level="H4"/>
+                                                        <ToolbarSpacer/>
+                                                        <SearchField 
+                                                            placeholder="Search bookings..."
+                                                            width="300px"
+                                                            liveChange=".onSearchBookedShipments"/>
+                                                        <Button 
+                                                            icon="sap-icon://add"
+                                                            text="New Booking"
+                                                            type="Emphasized"
+                                                            press=".onNewBookingPress"/>
+                                                    </content>
+                                                </Toolbar>
+                                            </headerToolbar>
+                                            <columns>
+                                                <Column width="12em">
+                                                    <Text text="Shipment ID"/>
+                                                </Column>
+                                                <Column>
+                                                    <Text text="Vehicle"/>
+                                                </Column>
+                                                <Column>
+                                                    <Text text="Customer"/>
+                                                </Column>
+                                                <Column>
+                                                    <Text text="Route"/>
+                                                </Column>
+                                                <Column>
+                                                    <Text text="Cargo"/>
+                                                </Column>
+                                                <Column>
+                                                    <Text text="Load Date"/>
+                                                </Column>
+                                                <Column>
+                                                    <Text text="Delivery Date"/>
+                                                </Column>
+                                                <Column>
+                                                    <Text text="Driver"/>
+                                                </Column>
+                                                <Column>
+                                                    <Text text="Status"/>
+                                                </Column>
+                                                <Column width="12em">
+                                                    <Text text="Actions"/>
+                                                </Column>
+                                            </columns>
+                                            <items>
+                                                <ColumnListItem>
+                                                    <cells>
+                                                        <ObjectIdentifier title="{id}"/>
+                                                        <Text text="{vehicleId} ({vehicleType})"/>
+                                                        <Text text="{customer}"/>
+                                                        <Text text="{origin} → {destination}"/>
+                                                        <Text text="{cargo}"/>
+                                                        <Text text="{loadDate}"/>
+                                                        <Text text="{deliveryDate}"/>
+                                                        <Text text="{driver}"/>
+                                                        <ObjectStatus text="{status}" state="{statusState}" icon="sap-icon://shipping-status"/>
+                                                        <HBox>
+                                                            <Button 
+                                                                icon="sap-icon://edit" 
+                                                                tooltip="Edit"
+                                                                press=".onEditBookedShipment"/>
+                                                            <Button 
+                                                                icon="sap-icon://delete" 
+                                                                tooltip="Cancel"
+                                                                class="sapUiTinyMarginBegin"
+                                                                press=".onCancelBookedShipment"/>
+                                                        </HBox>
+                                                    </cells>
+                                                </ColumnListItem>
+                                            </items>
+                                        </Table>
+                                    </content>
+                                </Panel>
+                            </VBox>
+                        </VBox>
+                        
+                        <!-- Tracking & Visibility View -->
+                        <VBox id="trackingView" visible="false" width="100%" class="intellicarrier-content-padding">
+                            
+                            <!-- Shipments List View (Default) -->
+                            <VBox id="shipmentsListView" visible="true" width="100%">
+                                <Title text="Tracking &amp; Visibility" level="H2" class="sapUiMediumMarginBottom"/>
+                                
+                                <!-- Quick Track Panel -->
+                                <Panel headerText="Quick Track" class="sapUiMediumMarginBottom intellicarrier-full-width-panel" width="100%">
+                                    <content>
+                                        <VBox class="sapUiSmallMargin" width="100%">
+                                            <HBox alignItems="Center">
+                                                <Input 
+                                                    id="quickTrackInput"
+                                                    placeholder="Enter tracking number or reference"
+                                                    width="400px"/>
+                                                <Button 
+                                                    text="Track"
+                                                    type="Emphasized"
+                                                    icon="sap-icon://search"
+                                                    class="sapUiTinyMarginBegin"
+                                                    press=".onQuickTrack"/>
+                                            </HBox>
+                                        </VBox>
+                                    </content>
+                                </Panel>
+                                
+                                <!-- Shipments Status Summary -->
+                                <Title text="Shipments Summary" level="H3" class="sapUiSmallMarginBottom"/>
+                                <FlexBox wrap="Wrap" alignItems="Start" class="sapUiMediumMarginBottom">
+                                    <GenericTile
+                                        header="In Transit"
+                                        subheader="Active Shipments"
+                                        class="sapUiSmallMarginEnd sapUiSmallMarginBottom trackingTile">
+                                        <tileContent>
+                                            <TileContent>
+                                                <content>
+                                                    <NumericContent
+                                                        value="24"
+                                                        valueColor="Neutral"
+                                                        icon="sap-icon://shipping-status"/>
+                                                </content>
+                                            </TileContent>
+                                        </tileContent>
+                                    </GenericTile>
+                                    
+                                    <GenericTile
+                                        header="Delivered Today"
+                                        subheader="Completed"
+                                        class="sapUiSmallMarginEnd sapUiSmallMarginBottom trackingTile">
+                                        <tileContent>
+                                            <TileContent>
+                                                <content>
+                                                    <NumericContent
+                                                        value="18"
+                                                        valueColor="Good"
+                                                        icon="sap-icon://complete"/>
+                                                </content>
+                                            </TileContent>
+                                        </tileContent>
+                                    </GenericTile>
+                                    
+                                    <GenericTile
+                                        header="Exceptions"
+                                        subheader="Need Attention"
+                                        class="sapUiSmallMarginEnd sapUiSmallMarginBottom trackingTile">
+                                        <tileContent>
+                                            <TileContent>
+                                                <content>
+                                                    <NumericContent
+                                                        value="3"
+                                                        valueColor="Error"
+                                                        icon="sap-icon://warning"/>
+                                                </content>
+                                            </TileContent>
+                                        </tileContent>
+                                    </GenericTile>
+                                    
+                                    <GenericTile
+                                        header="Out for Delivery"
+                                        subheader="Today"
+                                        class="sapUiSmallMarginEnd sapUiSmallMarginBottom trackingTile">
+                                        <tileContent>
+                                            <TileContent>
+                                                <content>
+                                                    <NumericContent
+                                                        value="12"
+                                                        valueColor="Neutral"
+                                                        icon="sap-icon://employee"/>
+                                                </content>
+                                            </TileContent>
+                                        </tileContent>
+                                    </GenericTile>
+                                </FlexBox>
+                                
+                                <!-- Active Shipments Table -->
+                                <Panel headerText="All Shipments" class="intellicarrier-full-width-panel" width="100%">
+                                    <content>
+                                        <Table 
+                                            id="allShipmentsTable"
+                                            mode="SingleSelect"
+                                            selectionChange=".onShipmentSelect"
+                                            width="100%"
+                                            class="shipmentsTable">
+                                            <headerToolbar>
+                                                <Toolbar>
+                                                    <content>
+                                                        <Title text="Shipments" level="H4"/>
+                                                        <ToolbarSpacer/>
+                                                        <SearchField 
+                                                            id="shipmentSearchField"
+                                                            placeholder="Search shipments..."
+                                                            width="300px"
+                                                            liveChange=".onSearchShipments"/>
+                                                        <Button 
+                                                            icon="sap-icon://refresh"
+                                                            tooltip="Refresh"
+                                                            press=".onRefreshShipments"/>
+                                                    </content>
+                                                </Toolbar>
+                                            </headerToolbar>
+                                            <columns>
+                                                <Column width="12em">
+                                                    <Text text="Tracking #"/>
+                                                </Column>
+                                                <Column>
+                                                    <Text text="Customer"/>
+                                                </Column>
+                                                <Column>
+                                                    <Text text="Origin"/>
+                                                </Column>
+                                                <Column>
+                                                    <Text text="Destination"/>
+                                                </Column>
+                                                <Column>
+                                                    <Text text="Service"/>
+                                                </Column>
+                                                <Column>
+                                                    <Text text="Status"/>
+                                                </Column>
+                                                <Column>
+                                                    <Text text="Last Update"/>
+                                                </Column>
+                                                <Column>
+                                                    <Text text="ETA"/>
+                                                </Column>
+                                                <Column width="8em">
+                                                    <Text text="Actions"/>
+                                                </Column>
+                                            </columns>
+                                            <items>
+                                                <ColumnListItem press=".onViewShipmentDetails">
+                                                    <cells>
+                                                        <Link text="SHP-2024-001234" press=".onViewShipmentDetails"/>
+                                                        <Text text="Global Tech Inc"/>
+                                                        <Text text="San Francisco, CA"/>
+                                                        <Text text="New York, NY"/>
+                                                        <Text text="Express"/>
+                                                        <ObjectStatus text="Out for Delivery" state="Warning" icon="sap-icon://employee"/>
+                                                        <Text text="Jan 15, 07:00 AM"/>
+                                                        <Text text="Jan 15, 5:00 PM"/>
+                                                        <Button icon="sap-icon://detail-view" tooltip="View Details" press=".onViewShipmentDetails"/>
+                                                    </cells>
+                                                </ColumnListItem>
+                                                <ColumnListItem press=".onViewShipmentDetails">
+                                                    <cells>
+                                                        <Link text="SHP-2024-001235" press=".onViewShipmentDetails"/>
+                                                        <Text text="Acme Corporation"/>
+                                                        <Text text="Los Angeles, CA"/>
+                                                        <Text text="Chicago, IL"/>
+                                                        <Text text="Standard"/>
+                                                        <ObjectStatus text="In Transit" state="Warning" icon="sap-icon://shipping-status"/>
+                                                        <Text text="Jan 14, 11:30 PM"/>
+                                                        <Text text="Jan 16, 6:00 PM"/>
+                                                        <Button icon="sap-icon://detail-view" tooltip="View Details" press=".onViewShipmentDetails"/>
+                                                    </cells>
+                                                </ColumnListItem>
+                                                <ColumnListItem press=".onViewShipmentDetails">
+                                                    <cells>
+                                                        <Link text="SHP-2024-001236" press=".onViewShipmentDetails"/>
+                                                        <Text text="Tech Solutions Ltd"/>
+                                                        <Text text="Seattle, WA"/>
+                                                        <Text text="Miami, FL"/>
+                                                        <Text text="Overnight"/>
+                                                        <ObjectStatus text="Delivered" state="Success" icon="sap-icon://complete"/>
+                                                        <Text text="Jan 15, 10:30 AM"/>
+                                                        <Text text="Delivered"/>
+                                                        <Button icon="sap-icon://detail-view" tooltip="View Details" press=".onViewShipmentDetails"/>
+                                                    </cells>
+                                                </ColumnListItem>
+                                                <ColumnListItem press=".onViewShipmentDetails">
+                                                    <cells>
+                                                        <Link text="SHP-2024-001237" press=".onViewShipmentDetails"/>
+                                                        <Text text="Innovation Corp"/>
+                                                        <Text text="Boston, MA"/>
+                                                        <Text text="Denver, CO"/>
+                                                        <Text text="Express"/>
+                                                        <ObjectStatus text="Exception" state="Error" icon="sap-icon://warning"/>
+                                                        <Text text="Jan 14, 02:15 PM"/>
+                                                        <Text text="Delayed"/>
+                                                        <Button icon="sap-icon://detail-view" tooltip="View Details" press=".onViewShipmentDetails"/>
+                                                    </cells>
+                                                </ColumnListItem>
+                                            </items>
+                                        </Table>
+                                    </content>
+                                </Panel>
+                            </VBox>
+                            
+                            <!-- Detailed Tracking View -->
+                            <VBox id="detailedTrackingView" visible="false" width="100%">
+                                
+                                <!-- Back Button Header -->
+                                <Toolbar class="sapUiMediumMarginBottom trackingHeader">
+                                    <content>
+                                        <Button 
+                                            icon="sap-icon://nav-back" 
+                                            text="Back to Shipments"
+                                            press=".onBackToShipmentsList"
+                                            type="Transparent"
+                                            class="backButton"/>
+                                        <Title text="Shipment Tracking Details" level="H2" class="sapUiMediumMarginBegin"/>
+                                        <ToolbarSpacer/>
+                                        <Button 
+                                            icon="sap-icon://print" 
+                                            text="Print Report"
+                                            press=".onPrintTrackingReport"
+                                            class="sapUiTinyMarginEnd"/>
+                                        <Button 
+                                            icon="sap-icon://share-2" 
+                                            text="Share"
+                                            press=".onShareTracking"/>
+                                    </content>
+                                </Toolbar>
+                                
+                                <!-- Tracking Results -->
+                                <Panel 
+                                    id="trackingResultPanel"
+                                    headerText="Shipment Status"
+                                    visible="true"
+                                    width="100%"
+                                    class="intellicarrier-full-width-panel">
+                                    <content>
+                                        <VBox class="" width="100%">
+                                            <!-- Shipment Summary - Compact Layout -->
+                                            <VBox class="shipmentSummaryContainer" width="100%">
+                                                <!-- Customer Care Button at Top Right -->
+                                                <HBox width="100%" justifyContent="End" class="topActionBar">
+                                                    <Button 
+                                                        text="Customer Care" 
+                                                        icon="sap-icon://phone"
+                                                        type="Transparent"
+                                                        class="customerCareButtonFullScreen"
+                                                        press=".onContactCustomer"/>
+                                                </HBox>
+                                                
+                                                <!-- Shipment Info Section -->
+                                                <HBox width="100%" class="shipmentInfoContainer">
+                                                    <VBox class="shipmentInfoSection" width="100%">
+                                                        <ObjectHeader
+                                                            title="SHP-2024-001234"
+                                                            number="46.30"
+                                                            numberUnit="USD"
+                                                            intro="Express Service"
+                                                            titleActive="true"
+                                                            icon="sap-icon://shipping-status"
+                                                            iconDensityAware="false"
+                                                            class="compactObjectHeader">
+                                                            <attributes>
+                                                                <ObjectAttribute title="Origin" text="San Francisco, CA"/>
+                                                                <ObjectAttribute title="Destination" text="New York, NY"/>
+                                                                <ObjectAttribute title="Est. Delivery" text="Jan 15, 2024 by 5:00 PM"/>
+                                                                <ObjectAttribute title="Weight" text="2.5 kg"/>
+                                                            </attributes>
+                                                            <statuses>
+                                                                <ObjectStatus text="Out for Delivery" state="Warning" icon="sap-icon://employee"/>
+                                                            </statuses>
+                                                        </ObjectHeader>
+                                                    </VBox>
+                                                </HBox>
+                                            </VBox>
+                                            
+                                            <!-- Horizontal Tracking Timeline -->
+                                            <Title text="Tracking History" level="H3" class="sapUiMediumMarginTop sapUiSmallMarginBottom"/>
+                                            <Panel class="trackingTimelinePanel" width="100%">
+                                                <content>
+                                                    <ScrollContainer horizontal="true" vertical="false" height="320px" class="horizontalTrackingContainer">
+                                                        <HBox class="trackingTimelineHorizontal" alignItems="Start">
+                                                            
+                                                            <!-- Timeline Item 1 - Package Picked Up -->
+                                                            <VBox id="myTimelineVBox" class="timelineItem pickup" alignItems="Center">
+                                                                <VBox class="timelineIconContainer pickup">
+                                                                    <core:Icon src="sap-icon://inventory" size="1.4rem" color="white" class="timelineIconInner"/>
+                                                                </VBox>
+                                                                <VBox class="timelineContentCard pickup" alignItems="Center">
+                                                                    <Text text="Package Picked Up" class="timelineStatusText"/>
+                                                                    <Text text="Jan 14, 2024" class="timelineDateText"/>
+                                                                    <Text text="09:00 AM" class="timelineTimeText"/>
+                                                                    <Text text="San Francisco, CA" class="timelineLocationText"/>
+                                                                    <Text text="Package collected from sender" class="timelineNotesText"/>
+                                                                </VBox>
+                                                            </VBox>
+
+                                                            <!-- Connector Line -->
+                                                            <VBox class="timelineConnectorLine pickup"></VBox>
+
+                                                            <!-- Timeline Item 2 - In Transit -->
+                                                            <VBox class="timelineItem intransit" alignItems="Center">
+                                                                <VBox class="timelineIconContainer intransit">
+                                                                    <core:Icon src="sap-icon://shipping-status" size="1.4rem" color="white" class="timelineIconInner"/>
+                                                                </VBox>
+                                                                <VBox class="timelineContentCard intransit" alignItems="Center">
+                                                                    <Text text="Departed Facility" class="timelineStatusText"/>
+                                                                    <Text text="Jan 14, 2024" class="timelineDateText"/>
+                                                                    <Text text="11:30 AM" class="timelineTimeText"/>
+                                                                    <Text text="San Francisco Hub" class="timelineLocationText"/>
+                                                                    <Text text="Package in transit to next facility" class="timelineNotesText"/>
+                                                                </VBox>
+                                                            </VBox>
+
+                                                            <!-- Connector Line -->
+                                                            <VBox class="timelineConnectorLine intransit"></VBox>
+
+                                                            <!-- Timeline Item 3 - Hub Processing -->
+                                                            <VBox class="timelineItem processing" alignItems="Center">
+                                                                <VBox class="timelineIconContainer processing">
+                                                                    <core:Icon src="sap-icon://process" size="1.4rem" color="white" class="timelineIconInner"/>
+                                                                </VBox>
+                                                                <VBox class="timelineContentCard processing" alignItems="Center">
+                                                                    <Text text="Hub Processing" class="timelineStatusText"/>
+                                                                    <Text text="Jan 14, 2024" class="timelineDateText"/>
+                                                                    <Text text="03:45 PM" class="timelineTimeText"/>
+                                                                    <Text text="Chicago Sorting Facility" class="timelineLocationText"/>
+                                                                    <Text text="Package processed at sorting facility" class="timelineNotesText"/>
+                                                                </VBox>
+                                                            </VBox>
+
+                                                            <!-- Connector Line -->
+                                                            <VBox class="timelineConnectorLine processing"></VBox>
+
+                                                            <!-- Timeline Item 4 - Current Status -->
+                                                            <VBox class="timelineItem active" alignItems="Center">
+                                                                <VBox class="timelineIconContainer active">
+                                                                    <core:Icon src="sap-icon://employee" size="1.4rem" color="white" class="timelineIconInner"/>
+                                                                </VBox>
+                                                                <VBox class="timelineContentCard active" alignItems="Center">
+                                                                    <Text text="Out for Delivery" class="timelineStatusText"/>
+                                                                    <Text text="Jan 15, 2024" class="timelineDateText"/>
+                                                                    <Text text="07:00 AM" class="timelineTimeText"/>
+                                                                    <Text text="New York Hub" class="timelineLocationText"/>
+                                                                    <Text text="Package loaded for final delivery" class="timelineNotesText"/>
+                                                                </VBox>
+                                                            </VBox>
+
+                                                            <!-- Connector Line -->
+                                                            <VBox class="timelineConnectorLine pending"></VBox>
+
+                                                            <!-- Timeline Item 5 - Delivered -->
+                                                            <VBox class="timelineItem delivered" alignItems="Center">
+                                                                <VBox class="timelineIconContainer delivered">
+                                                                    <core:Icon src="sap-icon://complete" size="1.4rem" color="white" class="timelineIconInner"/>
+                                                                </VBox>
+                                                                <VBox class="timelineContentCard delivered" alignItems="Center">
+                                                                    <Text text="Delivered" class="timelineStatusText"/>
+                                                                    <Text text="Jan 15, 2024" class="timelineDateText"/>
+                                                                    <Text text="Expected by 5:00 PM" class="timelineTimeText"/>
+                                                                    <Text text="New York, NY" class="timelineLocationText"/>
+                                                                    <Text text="Package will be delivered to recipient" class="timelineNotesText"/>
+                                                                </VBox>
+                                                            </VBox>
+
+                                                        </HBox>
+                                                    </ScrollContainer>
+                                                </content>
+                                            </Panel>
+                                           
+                                            <!-- Live Tracking Map -->
+                                            <Title text="Live Tracking Map" level="H3" class="sapUiMediumMarginTop sapUiSmallMarginBottom"/>
+                                            <Panel class="trackingMapPanel" width="100%">
+                                                <content>
+                                                    <VBox class="mapContainer" width="100%">
+                                                        <!-- Map Header with Route Info -->
+                                                        <HBox justifyContent="SpaceBetween" alignItems="Center" class="mapHeader">
+                                                            <VBox>
+                                                                <Text text="San Francisco, CA → New York, NY" class="routeTitle"/>
+                                                                <Text text="Total Distance: 2,906 miles | Estimated Time: 4-5 days" class="routeInfo"/>
+                                                            </VBox>
+                                                            <HBox alignItems="Center">
+                                                                <core:Icon src="sap-icon://map-2" size="1.5rem" color="#0ea5e9" class="sapUiTinyMarginEnd"/>
+                                                                <Button text="Full Screen" icon="sap-icon://full-screen" type="Transparent" class="mapButton"/>
+                                                            </HBox>
+                                                        </HBox>
+                                                        
+                                                        <!-- Map Display Area -->
+                                                        <VBox class="mapDisplayArea" alignItems="Center" justifyContent="Center">
+                                                            <!-- Map Placeholder with Route Visualization -->
+                                                            <VBox class="mapPlaceholder" alignItems="Center" justifyContent="Center">
+                                                                <HBox class="routeVisualization" alignItems="Center" justifyContent="SpaceBetween">
+                                                                    
+                                                                    <!-- Origin Point -->
+                                                                    <VBox class="mapLocation origin" alignItems="Center">
+                                                                        <VBox class="locationDot origin">
+                                                                            <core:Icon src="sap-icon://home" size="1rem" color="white"/>
+                                                                        </VBox>
+                                                                        <Text text="San Francisco" class="locationName"/>
+                                                                        <Text text="Origin" class="locationLabel"/>
+                                                                    </VBox>
+                                                                    
+                                                                    <!-- Route Line with Progress -->
+                                                                    <VBox class="routeLine">
+                                                                        <HBox class="progressLine">
+                                                                            <VBox class="lineCompleted"></VBox>
+                                                                            <VBox class="lineRemaining"></VBox>
+                                                                        </HBox>
+                                                                        
+                                                                        <!-- Current Position -->
+                                                                        <VBox class="currentPosition">
+                                                                            <core:Icon src="sap-icon://shipping-status" size="1.2rem" color="#f59e0b" class="movingTruck"/>
+                                                                            <Text text="Chicago, IL" class="currentLocationText"/>
+                                                                        </VBox>
+                                                                    </VBox>
+                                                                    
+                                                                    <!-- Destination Point -->
+                                                                    <VBox class="mapLocation destination" alignItems="Center">
+                                                                        <VBox class="locationDot destination">
+                                                                            <core:Icon src="sap-icon://target-group" size="1rem" color="white"/>
+                                                                        </VBox>
+                                                                        <Text text="New York" class="locationName"/>
+                                                                        <Text text="Destination" class="locationLabel"/>
+                                                                    </VBox>
+                                                                    
+                                                                </HBox>
+                                                                
+                                                                <!-- Map Features Info -->
+                                                                <HBox justifyContent="SpaceAround" class="mapFeatures">
+                                                                    <VBox alignItems="Center" class="mapFeature">
+                                                                        <core:Icon src="sap-icon://radar-chart" size="1rem" color="#22c55e"/>
+                                                                        <Text text="GPS Tracking" class="featureText"/>
+                                                                    </VBox>
+                                                                    <VBox alignItems="Center" class="mapFeature">
+                                                                        <core:Icon src="sap-icon://weather-proofing" size="1rem" color="#3b82f6"/>
+                                                                        <Text text="Weather Updates" class="featureText"/>
+                                                                    </VBox>
+                                                                    <VBox alignItems="Center" class="mapFeature">
+                                                                        <core:Icon src="sap-icon://quality-issue" size="1rem" color="#f59e0b"/>
+                                                                        <Text text="Traffic Alerts" class="featureText"/>
+                                                                    </VBox>
+                                                                    <VBox alignItems="Center" class="mapFeature">
+                                                                        <core:Icon src="sap-icon://time-overtime" size="1rem" color="#8b5cf6"/>
+                                                                        <Text text="ETA Updates" class="featureText"/>
+                                                                    </VBox>
+                                                                </HBox>
+                                                                
+                                                                <!-- Integration Note -->
+                                                                <MessageStrip 
+                                                                    text="Interactive map with real-time GPS tracking will be integrated here using Google Maps API or similar mapping service"
+                                                                    type="Information"
+                                                                    showIcon="true"
+                                                                    class="mapIntegrationNote"/>
+                                                            </VBox>
+                                                        </VBox>
+                                                    </VBox>
+                                                </content>
+                                            </Panel>
+                                        </VBox>
+                                    </content>
+                                </Panel>
+                            </VBox>
+                        </VBox>
+                        
+                    </ScrollContainer>
+                </FlexBox>
+            </content>
+        </Page>
+    </App>
+</mvc:View>

@@ -1,0 +1,6 @@
+<core:FragmentDefinition xmlns="sap.m"
+	xmlns:core="sap.ui.core">
+	<SelectDialog id="selectOriginDialog" title="Select Origin" items="{SubDistrictModel>/}" liveChange=".onValueHelpSearch" selectionChange=".onOriginSelection" cancel=".onValueHelpClose">
+		<StandardListItem title="{SubDistrictModel>subdistrictNameEn}" info="{SubDistrictModel>subdistrictNameTh}" description="{SubDistrictModel>subdistrictCode}"/>
+	</SelectDialog>
+</core:FragmentDefinition>
