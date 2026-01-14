@@ -1,4 +1,4 @@
-<mvc:View xmlns:form="sap.ui.layout.form"
+<mvc:View xmlns:unified="sap.ui.unified" xmlns:form="sap.ui.layout.form"
     xmlns:vk="sap.ui.vk" controllerName="intellicarrier.controller.Home"
     xmlns="sap.m"
     xmlns:mvc="sap.ui.core.mvc"
@@ -1589,8 +1589,9 @@
                             <HBox justifyContent="SpaceBetween" alignItems="Center" class="sapUiMediumMarginBottom">
                                 <Title text="Freight Order Management" level="H2"/>
                                 <HBox>
-                                    <Button icon="sap-icon://upload" text="Upload PDF" press=".onUploadFreight" class="sapUiTinyMarginEnd"/>
-                                    <Button icon="sap-icon://edit" text="Create Manual Freight Order " press=".onManualEntryFreight"/>
+                                <unified:FileUploader buttonOnly="true" buttonText="Upload PDF" fileType="pdf" ></unified:FileUploader>
+                                    <!-- <Button icon="sap-icon://upload" text="Upload PDF" press=".onUploadFreight" class="sapUiTinyMarginEnd"/> -->
+                                    <Button icon="sap-icon://edit" text="Create Freight Order " press=".onManualEntryFreight"/>
                                 </HBox>
                             </HBox>
 
