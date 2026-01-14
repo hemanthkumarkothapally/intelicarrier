@@ -1,23 +1,15 @@
-<core:FragmentDefinition
-    xmlns="sap.m"
+<core:FragmentDefinition xmlns="sap.m"
     xmlns:core="sap.ui.core"
     xmlns:f="sap.ui.layout.form">
 
-    <Dialog
-        id="fleetCockpitDialog"
-        contentWidth="90%"
-        contentHeight="90%"
-        stretchOnPhone="true"
-        draggable="true"
-        resizable="true"
-        class="sapUiResponsivePadding--content">
+    <Dialog id="fleetCockpitDialog" contentWidth="80%" contentHeight="70%" draggable="true" resizable="true" title="Fleet Cockpit Analysis" class="sapUiResponsivePadding--content">
 
         <!-- ===== HEADER ===== -->
-        <customHeader>
-            <Bar>
+        <!-- <customHeader >
+            <Bar >
                 <contentLeft>
                     <HBox>
-                        <Icon src="sap-icon://shipping-status" class="sapUiTinyMarginEnd"/>
+                        <core:Icon src="sap-icon://shipping-status" class="sapUiTinyMarginEnd"/>
                         <VBox>
                             <Title text="Fleet Cockpit Analysis" level="H4"/>
                             <Text text="{selectedOrder>/orderId} - {selectedOrder>/customer}" />
@@ -28,117 +20,203 @@
                     <Button icon="sap-icon://decline" press=".onCloseFleetCockpit"/>
                 </contentRight>
             </Bar>
-        </customHeader>
+        </customHeader> -->
 
         <!-- ===== CONTENT ===== -->
         <content>
             <VBox width="100%" class="sapUiSmallMargin">
 
                 <!-- ORDER SUMMARY -->
-                <Panel headerText="Order Summary">
-                    <HBox justifyContent="SpaceBetween" wrap="Wrap">
+                <Panel headerText="Order Summary" width="100%">
+                    <HBox justifyContent="SpaceBetween" wrap="NoWrap">
 
                         <VBox>
-                            <Text text="Route" class="sapUiTinyMarginBottom"/>
+                            <Title text="Route" class="sapUiTinyMarginBottom"/>
                             <Text text="{selectedOrder>/from} → {selectedOrder>/to}" class="sapUiBoldText"/>
                             <Text text="{selectedOrder>/distance}"/>
                         </VBox>
 
                         <VBox>
-                            <Text text="Cargo" class="sapUiTinyMarginBottom"/>
+                            <Title text="Cargo" class="sapUiTinyMarginBottom"/>
                             <Text text="{selectedOrder>/cargoType}" class="sapUiBoldText"/>
                             <Text text="{selectedOrder>/cargoInfo}"/>
                         </VBox>
 
                         <VBox>
-                            <Text text="Delivery Date"/>
+                            <Title text="Delivery Date"/>
                             <Text text="{selectedOrder>/deliveryDate}" class="sapUiBoldText"/>
                         </VBox>
 
                         <VBox>
-                            <Text text="Priority"/>
+                            <Title text="Priority"/>
                             <ObjectStatus text="{selectedOrder>/priority}" state="{selectedOrder>/priorityState}"/>
                         </VBox>
 
                         <VBox>
-                            <Text text="Value"/>
+                            <Title text="Value"/>
                             <Text text="{selectedOrder>/value}" class="sapUiBoldText sapUiPositiveText"/>
                         </VBox>
 
                     </HBox>
                 </Panel>
+                <!-- <HBox width="100%" class="sapUiMediumMarginTop" alignItems="Stretch" justifyContent="SpaceAround"> -->
+                                <FlexBox wrap="NoWrap" alignItems="Start" class="sapUiMediumMarginBottom">
 
-                <!-- OPTIONS -->
-                <HBox width="100%" class="sapUiMediumMarginTop" alignItems="Stretch">
+                    <List headerText="🚛 Internal Fleet Options" width="108%" class=" ab12345 sapUiTinyMarginEnd" mode="SingleSelectMaster">
 
-                    <!-- INTERNAL FLEET -->
-                    <Panel
-                        headerText="Internal Fleet Options"
-                        width="50%"
-                        class="sapUiTinyMarginEnd">
+                        <CustomListItem class="sapUiTinyMargin">
+                            <VBox class="sapUiSmallMargin">
+                                <HBox justifyContent="SpaceBetween">
+                                    <HBox>
+                                        <core:Icon src="sap-icon://shipping-status" class="sapUiTinyMarginEnd"/>
+                                        <Text text="TH-1234 - 6-Wheeler Truck" class="sapUiBoldText"/>
+                                    </HBox>
+                                </HBox>
 
-                        <List items="{internalFleet>/vehicles}" mode="SingleSelect">
-                            <StandardListItem
-                                title="{internalFleet>vehicle}"
-                                description="Driver: {internalFleet>driver}"
-                                icon="sap-icon://shipping-status"
-                                info="{internalFleet>cost}"
-                                infoState="Success"/>
-                        </List>
-                    </Panel>
+                                <Text text="Driver: Somchai Prasert"/>
+                                <HBox justifyContent="SpaceBetween" alignItems="Center" class="sapUiTinyMargin">
+                                    <Text text="ETA: 2 day(s)"/>
+                                    <Text text="Capacity: 8,000 kg"/>
+                                    <Text text="฿11,398" class="sapUiBoldText sapUiPositiveText"/>
+                                </HBox>
+                                <Text text="Base: ฿9,000 | Fuel: ฿2,398" class="sapUiTinyMarginTop"/>
+                            </VBox>
+                        </CustomListItem>
 
-                    <!-- EXTERNAL CARRIER -->
-                    <Panel
-                        headerText="External Carrier Options"
-                        width="50%"
-                        class="sapUiTinyMarginBegin">
+                        <CustomListItem>
+                            <VBox class="sapUiSmallMargin">
+                                <Text text="TH-2345 - 10-Wheeler Truck" class="sapUiBoldText"/>
+                                <Text text="Driver: Wichai Thongsuk"/>
+                                <HBox justifyContent="SpaceBetween" class="sapUiTinyMargin">
+                                    <Text text="ETA: 2 day(s)"/>
+                                    <Text text="Capacity: 15,000 kg"/>
+                                    <Text text="฿15,398" class="sapUiBoldText sapUiPositiveText"/>
+                                </HBox>
+                                <Text text="Base: ฿13,000 | Fuel: ฿2,398" class="sapUiTinyMarginTop"/>
+                            </VBox>
+                        </CustomListItem>
 
-                        <List items="{externalCarriers>/carriers}" mode="SingleSelect">
-                            <StandardListItem
-                                title="{externalCarriers>name}"
-                                description="Lead Time: {externalCarriers>leadTime}"
-                                icon="sap-icon://supplier"
-                                info="{externalCarriers>cost}"
-                                infoState="Information"/>
-                        </List>
-                    </Panel>
+                        <CustomListItem>
+                            <VBox class="sapUiSmallMargin">
+                                <Text text="TH-6789 - Refrigerated Truck" class="sapUiBoldText"/>
+                                <Text text="Driver: Surachai Pranee"/>
+                                <HBox justifyContent="SpaceBetween" class="sapUiTinyMargin">
+                                    <Text text="ETA: 2 day(s)"/>
+                                    <Text text="Capacity: 5,000 kg"/>
+                                    <Text text="฿17,398" class="sapUiBoldText sapUiPositiveText"/>
+                                </HBox>
+                                <Text text="Base: ฿15,000 | Fuel: ฿2,398" class="sapUiTinyMarginTop"/>
+                            </VBox>
+                        </CustomListItem>
 
-                </HBox>
+                    </List>
 
-                <!-- RECOMMENDATION -->
-                <Panel
-                    class="sapUiMediumMarginTop"
-                    headerText="System Recommendation">
 
-                    <HBox justifyContent="SpaceBetween" alignItems="Center">
-                        <VBox>
-                            <Text text="Best Internal"/>
-                            <Text text="{recommendation>/bestInternal}" class="sapUiBoldText"/>
+                    <List headerText="🏢 External Carrier Options" width="108%" mode="SingleSelectMaster" class="sapUiTinyMarginBegin">
+
+                        <CustomListItem selected="true" >
+                            <VBox class="sapUiSmallMargin">
+                                <Text text="J&amp;T Express" class="sapUiBoldText"/>
+                                <ObjectStatus text="★★★★☆ 4.5"/>
+                                <HBox justifyContent="SpaceBetween" class="sapUiTinyMargin">
+                                    <Text text="Lead Time: 2–3 days"/>
+                                    <Text text="Coverage: Nationwide"/>
+                                    <Text text="฿4,110" class="sapUiBoldText sapUiPositiveText"/>
+                                </HBox>
+                                <Text text="Base: ฿140 | Distance: ฿4,110" class="sapUiTinyMarginTop"/>
+                            </VBox>
+                        </CustomListItem>
+
+                        <CustomListItem>
+                            <VBox class="sapUiSmallMargin">
+                                <Text text="Flash Express" class="sapUiBoldText"/>
+                                <ObjectStatus text="★★★★☆ 4.6"/>
+                                <HBox justifyContent="SpaceBetween" class="sapUiTinyMargin">
+                                    <Text text="Lead Time: 1–3 days"/>
+                                    <Text text="Coverage: Nationwide"/>
+                                    <Text text="฿4,945" class="sapUiBoldText sapUiPositiveText"/>
+                                </HBox>
+                                <Text text="Base: ฿150 | Distance: ฿4,795" class="sapUiTinyMarginTop"/>
+                            </VBox>
+                        </CustomListItem>
+
+                        <CustomListItem>
+                            <VBox class="sapUiSmallMargin">
+                                <Text text="Kerry Express Thailand" class="sapUiBoldText"/>
+                                <ObjectStatus text="★★★★☆ 4.8"/>
+                                <HBox justifyContent="SpaceBetween" class="sapUiTinyMargin">
+                                    <Text text="Lead Time: 1–2 days"/>
+                                    <Text text="Coverage: Nationwide"/>
+                                    <Text text="฿5,655" class="sapUiBoldText sapUiPositiveText"/>
+                                </HBox>
+                                <Text text="Base: ฿175 | Distance: ฿5,480" class="sapUiTinyMarginTop"/>
+                            </VBox>
+                        </CustomListItem>
+
+                        <CustomListItem>
+                            <VBox class="sapUiSmallMargin">
+                                <Text text="SCG Logistics" class="sapUiBoldText"/>
+                                <ObjectStatus text="★★★★☆ 4.7"/>
+                                <HBox justifyContent="SpaceBetween" class="sapUiTinyMargin">
+                                    <Text text="Lead Time: 1–2 days"/>
+                                    <Text text="Coverage: Regional"/>
+                                    <Text text="฿7,075" class="sapUiBoldText sapUiPositiveText"/>
+                                </HBox>
+                                <Text text="Base: ฿225 | Distance: ฿6,850" class="sapUiTinyMarginTop"/>
+                            </VBox>
+                        </CustomListItem>
+
+                        <CustomListItem>
+                            <VBox class="sapUiSmallMargin">
+                                <Text text="DHL Thailand" class="sapUiBoldText"/>
+                                <ObjectStatus text="★★★★☆ 4.9"/>
+                                <HBox justifyContent="SpaceBetween" class="sapUiTinyMargin">
+                                    <Text text="Lead Time: 1–2 days"/>
+                                    <Text text="Coverage: International"/>
+                                    <Text text="฿8,470" class="sapUiBoldText sapUiPositiveText"/>
+                                </HBox>
+                                <Text text="Base: ฿250 | Distance: ฿8,220" class="sapUiTinyMarginTop"/>
+                            </VBox>
+                        </CustomListItem>
+
+                    </List>
+
+</FlexBox>
+                <!-- </HBox> -->
+                <Panel class="sapUiMediumMarginTop recomendation" backgroundDesign="Solid">
+
+                    <HBox justifyContent="SpaceBetween" alignItems="Center" class="sapUiSmallMargin">
+
+                        <VBox alignItems="Center">
+                            <core:Icon src="sap-icon://shipping-status" color="blue"/>
+                            <Title text="Best Internal"/>
+                            <Text text="฿11,398" class="sapUiBoldText sapUiPositiveText"/>
+                            <Text text="TH-1234"/>
                         </VBox>
 
-                        <Icon src="sap-icon://arrow-right"/>
+                        <core:Icon src="sap-icon://compare"/>
 
-                        <VBox>
-                            <Text text="Best External"/>
-                            <Text text="{recommendation>/bestExternal}" class="sapUiBoldText sapUiPositiveText"/>
+                        <VBox alignItems="Center">
+                            <core:Icon src="sap-icon://supplier" color="green"/>
+                            <Title text="Best External"/>
+                            <Text text="฿4,110" class="sapUiBoldText sapUiPositiveText"/>
+                            <Text text="J&amp;T Express"/>
                         </VBox>
 
-                        <Button
-                            text="Confirm Assignment"
-                            type="Accept"
-                            press=".onConfirmAssignment"/>
+                        <Button text="External Carrier" type="Emphasized" icon="sap-icon://accept"/>
                     </HBox>
                 </Panel>
+
 
             </VBox>
         </content>
 
         <!-- ===== FOOTER ===== -->
         <beginButton>
-                    <Button text="Cancel" press=".onCloseFleetCockpit"/>
+            <Button text="Cancel" press=".onCloseFleetCockpit"/>
         </beginButton>
         <endButton>
-            <Button text="Confirm Assignment" type="Accept" press=".onConfirmAssignment"/>
+            <Button text="Confirm Assignment" type="Accept" press=".onCloseFleetCockpit"/>
         </endButton>
 
 
