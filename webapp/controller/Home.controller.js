@@ -6,13 +6,13 @@ sap.ui.define([
     "sap/ui/model/Filter",
     "sap/ui/model/FilterOperator",
     "sap/ui/core/Fragment"
-], function (Controller, MessageToast, MessageBox, JSONModel, Filter, FilterOperator,Fragment) {
+], function (Controller, MessageToast, MessageBox, JSONModel, Filter, FilterOperator, Fragment) {
     "use strict";
 
     return Controller.extend("intellicarrier.controller.Home", {
-        
+
         onInit: function () {
-            
+
             // Initialize view model with fleet and shipment data
             var oViewModel = new JSONModel({
                 selectedKey: "dashboard",
@@ -20,96 +20,96 @@ sap.ui.define([
                 recentShipments: this._getMockRecentShipments(),
                 rates: [],
                 activeShipments: this._getMockActiveShipments(),
-                
+
                 // NEW: Fleet Management Data
                 availableFleet: this._getMockFleetData(),
                 bookedShipments: this._getMockBookedShipments(),
                 selectedVehicle: null,
-         orders: [
-            {
-                orderId: "FO-2026-0001",
-                coId: "CO-2026-0005",
-                customer: "Express Solutions Co.",
-                from: "Bangkok (Wireless Rd)",
-                to: "Chiang Mai (Nimman)",
-                distance: "685 km",
-                cargoType: "Office Supplies",
-                cargoInfo: "500 kg | 3 m³",
-                deliveryDate: "2026-01-16",
-                priority: "HIGH",
-                priorityState: "Warning",
-                status: "Pending Assignment",
-                statusState: "Warning",
-                value: "฿8,500"
-            },
-            {
-                orderId: "FO-2026-0002",
-                coId: "CO-2026-0004",
-                customer: "Innovation Corp",
-                from: "Bangkok (Ratchada)",
-                to: "Hat Yai, Songkhla",
-                distance: "945 km",
-                cargoType: "Medical Equipment",
-                cargoInfo: "1000 kg | 5 m³",
-                deliveryDate: "2026-01-20",
-                priority: "URGENT",
-                priorityState: "Error",
-                status: "Pending Assignment",
-                statusState: "Warning",
-                value: "฿125,000"
-            },
+                orders: [
+                    {
+                        orderId: "FO-2026-0001",
+                        coId: "CO-2026-0005",
+                        customer: "Express Solutions Co.",
+                        from: "Bangkok (Wireless Rd)",
+                        to: "Chiang Mai (Nimman)",
+                        distance: "685 km",
+                        cargoType: "Office Supplies",
+                        cargoInfo: "500 kg | 3 m³",
+                        deliveryDate: "2026-01-16",
+                        priority: "HIGH",
+                        priorityState: "Warning",
+                        status: "Pending Assignment",
+                        statusState: "Warning",
+                        value: "฿8,500"
+                    },
+                    {
+                        orderId: "FO-2026-0002",
+                        coId: "CO-2026-0004",
+                        customer: "Innovation Corp",
+                        from: "Bangkok (Ratchada)",
+                        to: "Hat Yai, Songkhla",
+                        distance: "945 km",
+                        cargoType: "Medical Equipment",
+                        cargoInfo: "1000 kg | 5 m³",
+                        deliveryDate: "2026-01-20",
+                        priority: "URGENT",
+                        priorityState: "Error",
+                        status: "Pending Assignment",
+                        statusState: "Warning",
+                        value: "฿125,000"
+                    },
 
-            /* -------- NEW DATA FROM SCREENSHOT -------- */
+                    /* -------- NEW DATA FROM SCREENSHOT -------- */
 
-            {
-                orderId: "FO-2026-0003",
-                coId: "CO-2026-0007",
-                customer: "Smart Logistics Ltd",
-                from: "Bangkok (Sukhumvit)",
-                to: "Phuket",
-                distance: "867 km",
-                cargoType: "Consumer Electronics",
-                cargoInfo: "1125 kg | 6.5 m³",
-                deliveryDate: "2026-01-18",
-                priority: "NORMAL",
-                priorityState: "Information",
-                status: "Internal Fleet",
-                statusState: "Success",
-                value: "฿285,000"
-            },
-            {
-                orderId: "FO-2026-0004",
-                coId: "CO-2026-0010",
-                customer: "Global Trade Corp",
-                from: "Bangkok (Lat Phrao)",
-                to: "Khon Kaen",
-                distance: "448 km",
-                cargoType: "Industrial Parts",
-                cargoInfo: "2500 kg | 12 m³",
-                deliveryDate: "2026-01-17",
-                priority: "HIGH",
-                priorityState: "Warning",
-                status: "External Carrier",
-                statusState: "Information",
-                value: "฿75,000"
-            },
-            {
-                orderId: "FO-2026-0005",
-                coId: "CO-2026-0012",
-                customer: "Metro Retail Corp",
-                from: "Bangkok (Silom)",
-                to: "Pattaya, Chonburi",
-                distance: "147 km",
-                cargoType: "Retail Goods",
-                cargoInfo: "600 kg | 4 m³",
-                deliveryDate: "2026-01-14",
-                priority: "URGENT",
-                priorityState: "Error",
-                status: "In Transit",
-                statusState: "Warning",
-                value: "฿18,750"
-            }
-        ],
+                    {
+                        orderId: "FO-2026-0003",
+                        coId: "CO-2026-0007",
+                        customer: "Smart Logistics Ltd",
+                        from: "Bangkok (Sukhumvit)",
+                        to: "Phuket",
+                        distance: "867 km",
+                        cargoType: "Consumer Electronics",
+                        cargoInfo: "1125 kg | 6.5 m³",
+                        deliveryDate: "2026-01-18",
+                        priority: "NORMAL",
+                        priorityState: "Information",
+                        status: "Internal Fleet",
+                        statusState: "Success",
+                        value: "฿285,000"
+                    },
+                    {
+                        orderId: "FO-2026-0004",
+                        coId: "CO-2026-0010",
+                        customer: "Global Trade Corp",
+                        from: "Bangkok (Lat Phrao)",
+                        to: "Khon Kaen",
+                        distance: "448 km",
+                        cargoType: "Industrial Parts",
+                        cargoInfo: "2500 kg | 12 m³",
+                        deliveryDate: "2026-01-17",
+                        priority: "HIGH",
+                        priorityState: "Warning",
+                        status: "External Carrier",
+                        statusState: "Information",
+                        value: "฿75,000"
+                    },
+                    {
+                        orderId: "FO-2026-0005",
+                        coId: "CO-2026-0012",
+                        customer: "Metro Retail Corp",
+                        from: "Bangkok (Silom)",
+                        to: "Pattaya, Chonburi",
+                        distance: "147 km",
+                        cargoType: "Retail Goods",
+                        cargoInfo: "600 kg | 4 m³",
+                        deliveryDate: "2026-01-14",
+                        priority: "URGENT",
+                        priorityState: "Error",
+                        status: "In Transit",
+                        statusState: "Warning",
+                        value: "฿18,750"
+                    }
+                ],
                 InternalFleet: [
                     {
                         vehicleID: "TH-1234",
@@ -365,20 +365,20 @@ sap.ui.define([
 
             });
             this.getView().setModel(oViewModel);
-            
+
             // Set initial view visibility
             this._showView("dashboard");
         },
         onAfterRendering: function () {
-    this.onFleetCockpitTabSelect({
-        getParameter: function () {
-            return "PendingAssignment";
-        }
-    });
-},
+            this.onFleetCockpitTabSelect({
+                getParameter: function () {
+                    return "PendingAssignment";
+                }
+            });
+        },
 
         // Global fragment load function
-        loadFragment:function(sPath){
+        loadFragment: function (sPath) {
             let oView = this.getView();
             return Fragment.load({
                 id: oView.getId(),
@@ -389,15 +389,15 @@ sap.ui.define([
                 return oDialog;
             });
         },
-        
+
         // Navigation handlers
         onMenuButtonPress: function () {
             var oSideNavigation = this.byId("sideNavigation");
             var bExpanded = oSideNavigation.getExpanded();
             oSideNavigation.setExpanded(!bExpanded);
-            
+
         },
-        
+
         onItemSelect: function (oEvent) {
             this.onClearRateForm();
             this.onClearShipmentForm();
@@ -411,14 +411,16 @@ sap.ui.define([
             var oModel = this.getView().getModel();
             oModel.setProperty("/selectedKey", sKey);
         },
-        
+
         _showView: function (sKey) {
             // Hide all views
             this.byId("dashboardView").setVisible(false);
             this.byId("rateShoppingView").setVisible(false);
             this.byId("shipmentExecutionView").setVisible(false);
             this.byId("trackingView").setVisible(false);
-            
+            this.byId("shipmentExecutionViewsub2").setVisible(false);
+
+
             // Show selected view
             switch (sKey) {
                 case "dashboard":
@@ -433,59 +435,63 @@ sap.ui.define([
                 case "tracking":
                     this.byId("trackingView").setVisible(true);
                     break;
+                case "shipmentExecutionViewsub2":
+                    this.byId("shipmentExecutionViewsub2").setVisible(true);
+                    break
+
             }
         },
-        
+
         // Dashboard handlers
         onNotificationPress: function () {
             MessageToast.show("You have 3 new notifications");
         },
 
         //--Dashboard formater status
-        formatStateStatus:function(sStatus){
-            if(sStatus==="Delivered"){
+        formatStateStatus: function (sStatus) {
+            if (sStatus === "Delivered") {
                 return "Success";
             }
-            else if(sStatus==="In Transit"){
+            else if (sStatus === "In Transit") {
                 return "Warning";
             }
-            else{
+            else {
                 return "Error";
             }
         },
-        
-        //-- dashboard search.
-        onLiveSearch:function(oEvent){
-            let sQuery=oEvent.getParameter("newValue");
-            let oTableSearchState;
-            	if (sQuery && sQuery.length > 0) {
-        oTableSearchState = new Filter([
-            new Filter("ShipmentID", FilterOperator.Contains, sQuery),
-            new Filter("Customer", FilterOperator.Contains, sQuery),
-            new Filter("Destination", FilterOperator.Contains, sQuery),
-            new Filter("Status", FilterOperator.Contains, sQuery)
-        ], false);
-    }
 
-			this.getView().byId("recentShipmentsTable").getBinding("items").filter(oTableSearchState);
+        //-- dashboard search.
+        onLiveSearch: function (oEvent) {
+            let sQuery = oEvent.getParameter("newValue");
+            let oTableSearchState;
+            if (sQuery && sQuery.length > 0) {
+                oTableSearchState = new Filter([
+                    new Filter("ShipmentID", FilterOperator.Contains, sQuery),
+                    new Filter("Customer", FilterOperator.Contains, sQuery),
+                    new Filter("Destination", FilterOperator.Contains, sQuery),
+                    new Filter("Status", FilterOperator.Contains, sQuery)
+                ], false);
+            }
+
+            this.getView().byId("recentShipmentsTable").getBinding("items").filter(oTableSearchState);
         },
 
-        
+
         // Smart Rate Shopping handlers
         onCalculateRates: function () {
             var oOrigin = this.byId("originInput").getValue();
             var oDestination = this.byId("destinationInput").getValue();
             var oWeight = this.byId("weightInput").getValue();
-            
+
             if (!oOrigin || !oDestination || !oWeight) {
                 MessageBox.error("Please fill in all required fields");
                 return;
             }
-            
+
             // Show loading
             this.byId("rateResultsPanel").setBusy(true);
             this.byId("rateResultsPanel").setVisible(true);
-            
+
             // Simulate API call
             setTimeout(function () {
                 // Mock rate data
@@ -523,7 +529,7 @@ sap.ui.define([
                         totalCost: "20.30"
                     }
                 ];
-                
+
                 // Update table
                 var oTable = this.byId("ratesTable");
                 var oModel = new JSONModel({ rates: aMockRates });
@@ -537,16 +543,16 @@ sap.ui.define([
                                 text: "{description}"
                             }),
                             new sap.m.Text({ text: "{transitTime}" }),
-                            new sap.m.ObjectNumber({ 
-                                number: "{baseRate}", 
-                                unit: "USD" 
+                            new sap.m.ObjectNumber({
+                                number: "{baseRate}",
+                                unit: "USD"
                             }),
-                            new sap.m.ObjectNumber({ 
-                                number: "{fuelSurcharge}", 
-                                unit: "USD" 
+                            new sap.m.ObjectNumber({
+                                number: "{fuelSurcharge}",
+                                unit: "USD"
                             }),
-                            new sap.m.ObjectNumber({ 
-                                number: "{totalCost}", 
+                            new sap.m.ObjectNumber({
+                                number: "{totalCost}",
                                 unit: "USD",
                                 state: "Warning"
                             }),
@@ -558,16 +564,16 @@ sap.ui.define([
                         ]
                     })
                 });
-                
+
                 this.byId("rateResultsPanel").setBusy(false);
                 MessageToast.show("Rates calculated successfully");
             }.bind(this), 1500);
         },
-        
+
         onSelectRate: function (oEvent) {
             var oContext = oEvent.getSource().getBindingContext();
             var oRate = oContext.getObject();
-            
+
             MessageBox.confirm(
                 "Do you want to proceed with " + oRate.service + " for $" + oRate.totalCost + "?",
                 {
@@ -583,7 +589,7 @@ sap.ui.define([
                 }
             );
         },
-        
+
         onClearRateForm: function () {
             this.byId("originInput").setValue("");
             this.byId("destinationInput").setValue("");
@@ -594,9 +600,9 @@ sap.ui.define([
             this.byId("serviceLevelSelect").setSelectedKey("all");
             this.byId("rateResultsPanel").setVisible(false);
         },
-        
+
         onOriginValueHelp: function (oEvent) {
-            this.selectedInputId=oEvent.getParameter("id");
+            this.selectedInputId = oEvent.getParameter("id");
 
             if (!this._ItemsDialog) {
                 this._ItemsDialog = this.loadFragment("intellicarrier.view.LocationValueHelpDialog");
@@ -607,34 +613,34 @@ sap.ui.define([
             this.byId("selectOriginDialog").getBinding("items").filter([]);
 
         },
-        onValueHelpSearch:function(oEvent){
+        onValueHelpSearch: function (oEvent) {
             var sQuery = oEvent.getParameter("value");
             var oTable = this.byId("selectOriginDialog");
             var oBinding = oTable.getBinding("items");
-            
+
             if (sQuery && sQuery.length > 0) {
                 var aFilters = new Filter("subdistrictNameEn", FilterOperator.Contains, sQuery)
                 oBinding.filter(aFilters);
             } else {
                 oBinding.filter([]);
             }
-            
+
         },
-        onOriginSelection:function(oEvent){
-            let oSelectedobject=oEvent.getParameter("listItem").mProperties.title;
-            if(this.selectedInputId.includes("originInput")){
+        onOriginSelection: function (oEvent) {
+            let oSelectedobject = oEvent.getParameter("listItem").mProperties.title;
+            if (this.selectedInputId.includes("originInput")) {
                 this.byId("originInput").setValue(oSelectedobject);
                 MessageToast.show("Origin Selected Successfully");
 
-            }else if(this.selectedInputId.includes("destinationInput")){
+            } else if (this.selectedInputId.includes("destinationInput")) {
                 this.byId("destinationInput").setValue(oSelectedobject);
                 MessageToast.show("Destination Selected Successfully");
 
-            }else if(this.selectedInputId.includes("originShipmentInput")){
+            } else if (this.selectedInputId.includes("originShipmentInput")) {
                 this.byId("originShipmentInput").setValue(oSelectedobject);
                 MessageToast.show("Origin Selected Successfully");
 
-            }else if(this.selectedInputId.includes("destinationShipmentInput")){
+            } else if (this.selectedInputId.includes("destinationShipmentInput")) {
                 this.byId("destinationShipmentInput").setValue(oSelectedobject);
                 MessageToast.show("Destination Selected Successfully");
 
@@ -650,13 +656,13 @@ sap.ui.define([
             var sKey = oEvent.getParameter("selectedKey");
             this._showShipmentTab(sKey);
         },
-        
+
         _showShipmentTab: function (sKey) {
             // Hide all tabs
             this.byId("fleetOverviewTab").setVisible(false);
             this.byId("newShipmentTab").setVisible(false);
             this.byId("bookedShipmentsTab").setVisible(false);
-            
+
             // Show selected tab
             switch (sKey) {
                 case "fleetoverview":
@@ -670,13 +676,13 @@ sap.ui.define([
                     break;
             }
         },
-        
+
         // Fleet Management Handlers
         onSearchFleet: function (oEvent) {
             var sQuery = oEvent.getParameter("newValue");
             var oTable = this.byId("fleetTable");
             var oBinding = oTable.getBinding("items");
-            
+
             if (sQuery && sQuery.length > 0) {
                 var aFilters = [
                     new Filter("id", FilterOperator.Contains, sQuery),
@@ -690,43 +696,43 @@ sap.ui.define([
                 oBinding.filter([]);
             }
         },
-        
+
         onRefreshFleet: function () {
             MessageToast.show("Fleet data refreshed");
             // In real implementation, would refresh from backend
         },
-        
+
         onSelectVehicleForBooking: function (oEvent) {
             var oContext = oEvent.getSource().getBindingContext();
             var oVehicle = oContext.getObject();
-            
+
             // Store selected vehicle
             var oModel = this.getView().getModel();
             oModel.setProperty("/selectedVehicle", oVehicle);
-            
+
             // Switch to new shipment tab
             this.byId("shipmentTabBar").setSelectedKey("newshipment");
             this._showShipmentTab("newshipment");
-            
+
             // Update selected vehicle text
             this.byId("selectedVehicleText").setText(
                 oVehicle.id + " - " + oVehicle.type + " (" + oVehicle.capacity + ")"
             );
-            
+
             MessageToast.show("Vehicle " + oVehicle.id + " selected for booking");
         },
-        
+
         // Vehicle Selection Handlers
         onFilterVehicles: function () {
             var oSelect = this.byId("vehicleTypeFilter");
             var sSelectedKey = oSelect.getSelectedKey();
             var oTable = this.byId("vehicleSelectionTable");
             var oBinding = oTable.getBinding("items");
-            
+
             if (sSelectedKey && sSelectedKey !== "all") {
                 var sFilterValue = sSelectedKey === "truck" ? "Truck" :
-                                 sSelectedKey === "container" ? "Container" :
-                                 sSelectedKey === "tanker" ? "Tanker" : "";
+                    sSelectedKey === "container" ? "Container" :
+                        sSelectedKey === "tanker" ? "Tanker" : "";
                 var oFilter = new Filter("type", FilterOperator.Contains, sFilterValue);
                 var oAvailableFilter = new Filter("status", FilterOperator.EQ, "Available");
                 oBinding.filter([oFilter, oAvailableFilter]);
@@ -736,24 +742,24 @@ sap.ui.define([
                 oBinding.filter([oAvailableFilter]);
             }
         },
-        
+
         onVehicleSelectionChange: function (oEvent) {
             var oSelectedItem = oEvent.getParameter("listItem");
             if (oSelectedItem) {
                 var oContext = oSelectedItem.getBindingContext();
                 var oVehicle = oContext.getObject();
-                
+
                 // Update selected vehicle text
                 this.byId("selectedVehicleText").setText(
                     oVehicle.id + " - " + oVehicle.type + " (" + oVehicle.capacity + ")"
                 );
-                
+
                 // Store selected vehicle in model
                 var oModel = this.getView().getModel();
                 oModel.setProperty("/selectedVehicle", oVehicle);
             }
         },
-        
+
         // Shipment Booking Handlers
         onBookShipment: function () {
             var oCustomer = this.byId("customerInput").getValue();
@@ -763,12 +769,12 @@ sap.ui.define([
             var oCargoWeight = this.byId("cargoWeightInput").getValue();
             var oPickupDate = this.byId("pickupDatePicker").getValue();
             var oDeliveryDate = this.byId("deliveryDatePicker").getValue();
-            
+
             if (!oCustomer || !oOrigin || !oDestination || !oSelectedVehicle || !oCargoWeight || !oPickupDate || !oDeliveryDate) {
                 MessageBox.error("Please fill in all required fields and select a vehicle");
                 return;
             }
-            
+
             MessageBox.confirm(
                 "Book shipment for " + oCustomer + " from " + oOrigin + " to " + oDestination + "?\n\nVehicle: " + oSelectedVehicle.id + " (" + oSelectedVehicle.type + ")\nWeight: " + oCargoWeight + "\nPickup: " + oPickupDate + "\nDelivery: " + oDeliveryDate,
                 {
@@ -782,10 +788,10 @@ sap.ui.define([
                 }
             );
         },
-        
+
         _createNewBooking: function (sCustomer, sOrigin, sDestination, oVehicle) {
             var sNewId = "SHP-2024-00" + (1243 + Math.floor(Math.random() * 100));
-            
+
             // Get form data
             var sCargoType = this.byId("cargoTypeSelect").getSelectedItem()?.getText() || "General Freight";
             var sCargoWeight = this.byId("cargoWeightInput").getValue();
@@ -793,11 +799,11 @@ sap.ui.define([
             var sDeliveryDate = this.byId("deliveryDatePicker").getValue();
             var sPriority = this.byId("prioritySelect").getSelectedItem()?.getText() || "Standard";
             var sInstructions = this.byId("instructionsTextArea").getValue();
-            
+
             // Add new booking to model
             var oModel = this.getView().getModel();
             var aBookedShipments = oModel.getProperty("/bookedShipments");
-            
+
             var oNewBooking = {
                 id: sNewId,
                 vehicleId: oVehicle.id,
@@ -815,19 +821,19 @@ sap.ui.define([
                 priority: sPriority,
                 instructions: sInstructions
             };
-            
+
             aBookedShipments.unshift(oNewBooking);
             oModel.setProperty("/bookedShipments", aBookedShipments);
-            
+
             // Update vehicle status to In Use
             var aFleet = oModel.getProperty("/availableFleet");
-            var oVehicleToUpdate = aFleet.find(function(v) { return v.id === oVehicle.id; });
+            var oVehicleToUpdate = aFleet.find(function (v) { return v.id === oVehicle.id; });
             if (oVehicleToUpdate) {
                 oVehicleToUpdate.status = "In Use";
                 oVehicleToUpdate.statusState = "Warning";
                 oModel.setProperty("/availableFleet", aFleet);
             }
-            
+
             MessageBox.success(
                 "🚛 SHIPMENT BOOKED SUCCESSFULLY!\n\n" +
                 "Shipment ID: " + sNewId + "\n" +
@@ -857,23 +863,23 @@ sap.ui.define([
                     }.bind(this)
                 }
             );
-            
+
             // Clear form after successful booking
             this.onClearShipmentForm();
         },
-        
+
         onSaveShipmentDraft: function () {
             var oCustomer = this.byId("customerInput").getValue();
-            
+
             if (!oCustomer) {
                 MessageToast.show("Please enter at least customer name to save draft");
                 return;
             }
-            
+
             MessageToast.show("Draft saved for customer: " + oCustomer);
             // In real implementation, would save to backend
         },
-        
+
         onClearShipmentForm: function () {
             this.byId("customerInput").setValue("");
             this.byId("referenceInput").setValue("");
@@ -888,29 +894,29 @@ sap.ui.define([
             this.byId("pickupDatePicker").setValue("");
             this.byId("deliveryDatePicker").setValue("");
             this.byId("pickupTimePicker").setValue("");
-            
+
             // Reset vehicle selection in model
             var oModel = this.getView().getModel();
             oModel.setProperty("/selectedVehicle", null);
-            
+
             // Clear vehicle selection table
             var oTable = this.byId("vehicleSelectionTable");
             if (oTable) {
                 oTable.removeSelections(true);
             }
-            
+
             // Reset vehicle filter
             this.onFilterVehicles();
-            
-            
+
+
         },
-        
+
         // Booked Shipments Handlers
         onSearchBookedShipments: function (oEvent) {
             var sQuery = oEvent.getParameter("newValue");
             var oTable = this.byId("bookedShipmentsTable");
             var oBinding = oTable.getBinding("items");
-            
+
             if (sQuery && sQuery.length > 0) {
                 var aFilters = [
                     new Filter("id", FilterOperator.Contains, sQuery),
@@ -926,16 +932,16 @@ sap.ui.define([
                 oBinding.filter([]);
             }
         },
-        
+
         onNewBookingPress: function () {
             this.byId("shipmentTabBar").setSelectedKey("newshipment");
             this._showShipmentTab("newshipment");
         },
-        
+
         onEditBookedShipment: function (oEvent) {
             var oContext = oEvent.getSource().getBindingContext();
             var oShipment = oContext.getObject();
-            
+
             MessageBox.information(
                 "Edit Shipment: " + oShipment.id + "\n\nCustomer: " + oShipment.customer + "\nRoute: " + oShipment.origin + " → " + oShipment.destination + "\nVehicle: " + oShipment.vehicleId + "\nDriver: " + oShipment.driver + "\n\nEdit functionality will be implemented in the next phase.",
                 {
@@ -943,11 +949,11 @@ sap.ui.define([
                 }
             );
         },
-        
+
         onCancelBookedShipment: function (oEvent) {
             var oContext = oEvent.getSource().getBindingContext();
             var oShipment = oContext.getObject();
-            
+
             MessageBox.confirm(
                 "Cancel shipment " + oShipment.id + " for " + oShipment.customer + "?\n\nThis will:\n• Release vehicle " + oShipment.vehicleId + "\n• Notify driver " + oShipment.driver + "\n• Update customer with cancellation",
                 {
@@ -957,21 +963,21 @@ sap.ui.define([
                             // Remove from booked shipments
                             var oModel = this.getView().getModel();
                             var aBookedShipments = oModel.getProperty("/bookedShipments");
-                            var iIndex = aBookedShipments.findIndex(function(s) { return s.id === oShipment.id; });
-                            
+                            var iIndex = aBookedShipments.findIndex(function (s) { return s.id === oShipment.id; });
+
                             if (iIndex > -1) {
                                 aBookedShipments.splice(iIndex, 1);
                                 oModel.setProperty("/bookedShipments", aBookedShipments);
-                                
+
                                 // Update vehicle status back to Available
                                 var aFleet = oModel.getProperty("/availableFleet");
-                                var oVehicleToUpdate = aFleet.find(function(v) { return v.id === oShipment.vehicleId; });
+                                var oVehicleToUpdate = aFleet.find(function (v) { return v.id === oShipment.vehicleId; });
                                 if (oVehicleToUpdate) {
                                     oVehicleToUpdate.status = "Available";
                                     oVehicleToUpdate.statusState = "Success";
                                     oModel.setProperty("/availableFleet", aFleet);
                                 }
-                                
+
                                 MessageToast.show("Shipment " + oShipment.id + " cancelled. Vehicle " + oShipment.vehicleId + " is now available.");
                             }
                         }
@@ -979,27 +985,27 @@ sap.ui.define([
                 }
             );
         },
-        
+
         // Tracking & Visibility handlers
         onTrackShipment: function () {
             var sTrackingNumber = this.byId("trackingNumberInput")?.getValue();
-            
+
             if (!sTrackingNumber) {
                 MessageBox.error("Please enter a tracking number");
                 return;
             }
-            
+
             // Show loading
             this.byId("trackingResultPanel").setBusy(true);
             this.byId("trackingResultPanel").setVisible(true);
-            
+
             // Simulate API call
             setTimeout(function () {
                 this.byId("trackingResultPanel").setBusy(false);
                 MessageToast.show("Tracking information loaded for: " + sTrackingNumber);
             }.bind(this), 1500);
         },
-        
+
         onTrackingLinkPress: function (oEvent) {
             var sTrackingNumber = oEvent.getSource().getText();
             if (this.byId("trackingNumberInput")) {
@@ -1007,62 +1013,62 @@ sap.ui.define([
                 this.onTrackShipment();
             }
         },
-        
-        onViewShipmentDetails: function(oEvent) {
+
+        onViewShipmentDetails: function (oEvent) {
             // Get the selected shipment data (if needed)
             var oBindingContext = oEvent.getSource().getBindingContext();
             var oShipmentData = oBindingContext ? oBindingContext.getObject() : null;
-            
+
             // Hide the shipments list view
             this.byId("shipmentsListView").setVisible(false);
-            
+
             // Show the detailed tracking view
             this.byId("detailedTrackingView").setVisible(true);
-            
+
             // Make the tracking result panel visible
             this.byId("trackingResultPanel").setVisible(true);
-            
+
             // Optional: Update the tracking input with the selected tracking number
             if (oShipmentData && oShipmentData.trackingNumber && this.byId("trackingNumberInput")) {
                 this.byId("trackingNumberInput").setValue(oShipmentData.trackingNumber);
             }
         },
-        
-        onBackToShipmentsList: function() {
+
+        onBackToShipmentsList: function () {
             // Hide the detailed tracking view
             this.byId("detailedTrackingView").setVisible(false);
-            
+
             // Show the shipments list view
             this.byId("shipmentsListView").setVisible(true);
-            
+
             // Clear tracking input if exists
             if (this.byId("trackingNumberInput")) {
                 this.byId("trackingNumberInput").setValue("");
             }
         },
-        
-        onQuickTrack: function() {
+
+        onQuickTrack: function () {
             var sTrackingNumber = this.byId("quickTrackInput").getValue();
-            
+
             if (!sTrackingNumber) {
                 MessageToast.show("Please enter a tracking number");
                 return;
             }
-            
+
             // Set the tracking number in the detailed view
             if (this.byId("trackingNumberInput")) {
                 this.byId("trackingNumberInput").setValue(sTrackingNumber);
             }
-            
+
             // Navigate to detailed view
-            this.onViewShipmentDetails({ getSource: function() { return { getBindingContext: function() { return null; } }; } });
+            this.onViewShipmentDetails({ getSource: function () { return { getBindingContext: function () { return null; } }; } });
         },
-        
-        onSearchShipments: function(oEvent) {
+
+        onSearchShipments: function (oEvent) {
             var sQuery = oEvent.getParameter("query") || oEvent.getParameter("newValue");
             var oTable = this.byId("allShipmentsTable");
             var oBinding = oTable.getBinding("items");
-            
+
             if (sQuery && sQuery.length > 0) {
                 var aFilters = [
                     new Filter("trackingNumber", FilterOperator.Contains, sQuery),
@@ -1076,20 +1082,20 @@ sap.ui.define([
                 oBinding.filter([]);
             }
         },
-        
-        onRefreshShipments: function() {
+
+        onRefreshShipments: function () {
             MessageToast.show("Shipments refreshed");
         },
-        
-        onPrintTrackingReport: function() {
+
+        onPrintTrackingReport: function () {
             MessageToast.show("Printing tracking report...");
             window.print();
         },
-        
-        onShareTracking: function() {
+
+        onShareTracking: function () {
             var sTrackingNumber = "SHP-2024-001234"; // Default or get from input
             var sShareUrl = window.location.origin + window.location.pathname + "?tracking=" + sTrackingNumber;
-            
+
             if (navigator.share) {
                 navigator.share({
                     title: 'IntelliCarrier - Shipment Tracking',
@@ -1097,23 +1103,23 @@ sap.ui.define([
                     url: sShareUrl,
                 });
             } else {
-                navigator.clipboard.writeText(sShareUrl).then(function() {
+                navigator.clipboard.writeText(sShareUrl).then(function () {
                     MessageToast.show("Tracking URL copied to clipboard");
                 });
             }
         },
-        
-        onShipmentSelect: function(oEvent) {
+
+        onShipmentSelect: function (oEvent) {
             var oSelectedItem = oEvent.getParameter("listItem");
             if (oSelectedItem) {
-                this.onViewShipmentDetails({ getSource: function() { return oSelectedItem; } });
+                this.onViewShipmentDetails({ getSource: function () { return oSelectedItem; } });
             }
         },
-        
-        onContactCustomer: function() {
+
+        onContactCustomer: function () {
             MessageToast.show("Connecting to customer care...");
         },
-        
+
         // Quick Actions
         onQuickShipment: function () {
             this._showView("shipmentexecution");
@@ -1122,11 +1128,11 @@ sap.ui.define([
             this._showShipmentTab("newshipment");
             MessageToast.show("Quick shipment mode activated");
         },
-        
+
         onSettings: function () {
             MessageBox.information("Settings panel would open here");
         },
-        
+
         // Mock data generators
         _getMockRecentShipments: function () {
             return [
@@ -1159,7 +1165,7 @@ sap.ui.define([
                 }
             ];
         },
-        
+
         _getMockActiveShipments: function () {
             return [
                 {
@@ -1178,7 +1184,7 @@ sap.ui.define([
                 }
             ];
         },
-        
+
         // NEW: Fleet Mock Data
         _getMockFleetData: function () {
             return [
@@ -1280,7 +1286,7 @@ sap.ui.define([
                 }
             ];
         },
-        
+
         // NEW: Booked Shipments Mock Data
         _getMockBookedShipments: function () {
             return [
@@ -1346,83 +1352,85 @@ sap.ui.define([
                 }
             ];
         },
-    onshipmentExecutionViewselectionChange:function(oEvent){
-    debugger
-    if(oEvent.getParameters("item").item.getProperty("key") === "FleetOverview"){
-        this.byId("shipmentExecutionViewsub").setVisible(false)
+        onshipmentExecutionViewselectionChange: function (oEvent) {
+            debugger
+            if (oEvent.getParameters("item").item.getProperty("key") === "FleetOverview") {
+                this.byId("shipmentExecutionViewsub").setVisible(false)
                 this.byId("shipmentExecutionViewsub2").setVisible(true)
 
-    }
-    else{
-this.byId("shipmentExecutionViewsub").setVisible(true)
+            }
+            else {
+                this.byId("shipmentExecutionViewsub").setVisible(true)
                 this.byId("shipmentExecutionViewsub2").setVisible(false)
-    }
+            }
 
-    },
-    onFleetCockpitTabSelect: function (oEvent) {
-    var sSelectedKey = oEvent.getParameter("key");
-    var oTable = this.byId("ordersTable");
-    var oBinding = oTable.getBinding("items");
+        },
+        onFleetCockpitTabSelect: function (oEvent) {
+            var sSelectedKey = oEvent.getParameter("key");
+            var oTable = this.byId("ordersTable");
+            var oBinding = oTable.getBinding("items");
 
-    var aFilters = [];
+            var aFilters = [];
 
-    switch (sSelectedKey) {
+            switch (sSelectedKey) {
 
-        case "PendingAssignment":
-            aFilters.push(
-                new sap.ui.model.Filter("status", sap.ui.model.FilterOperator.EQ, "Pending Assignment")
-            );
-            break;
+                case "PendingAssignment":
+                    aFilters.push(
+                        new sap.ui.model.Filter("status", sap.ui.model.FilterOperator.EQ, "Pending Assignment")
+                    );
+                    break;
 
-        case "Assigned":
-            aFilters.push(
-                new sap.ui.model.Filter({
-                    filters: [
-                        new sap.ui.model.Filter("status", sap.ui.model.FilterOperator.EQ, "Internal Fleet"),
-                        new sap.ui.model.Filter("status", sap.ui.model.FilterOperator.EQ, "External Carrier")
-                    ],
-                    and: false
-                })
-            );
-            break;
+                case "Assigned":
+                    aFilters.push(
+                        new sap.ui.model.Filter({
+                            filters: [
+                                new sap.ui.model.Filter("status", sap.ui.model.FilterOperator.EQ, "Internal Fleet"),
+                                new sap.ui.model.Filter("status", sap.ui.model.FilterOperator.EQ, "External Carrier")
+                            ],
+                            and: false
+                        })
+                    );
+                    break;
 
-        case "InTransist":
-            aFilters.push(
-                new sap.ui.model.Filter("status", sap.ui.model.FilterOperator.EQ, "In Transit")
-            );
-            break;
+                case "InTransist":
+                    aFilters.push(
+                        new sap.ui.model.Filter("status", sap.ui.model.FilterOperator.EQ, "In Transit")
+                    );
+                    break;
 
-        case "Completed":
-            aFilters.push(
-                new sap.ui.model.Filter("status", sap.ui.model.FilterOperator.EQ, "Completed")
-            );
-            break;
+                case "Completed":
+                    aFilters.push(
+                        new sap.ui.model.Filter("status", sap.ui.model.FilterOperator.EQ, "Completed")
+                    );
+                    break;
 
-        default:
-            // no filter
-            break;
-    }
+                default:
+                    // no filter
+                    break;
+            }
 
-    oBinding.filter(aFilters);
-},
-onAnalyzeOrder: function (oEvent) {
-    var oOrder = oEvent.getSource().getBindingContext().getObject();
-    if (!this._oFleetDialog) {
+            oBinding.filter(aFilters);
+        },
+        onAnalyzeOrder: function (oEvent) {
+            var oOrder = oEvent.getSource().getBindingContext().getObject();
+            if (!this._oFleetDialog) {
                 this._oFleetDialog = this.loadFragment("intellicarrier.view.FleetCockpitAnalysis");
             }
-            
-    var oOrderModel = new sap.ui.model.json.JSONModel(oOrder);
-    this.getView().setModel(oOrderModel, "selectedOrder");
 
-this._oFleetDialog.then(function (oDialog) {
+            var oOrderModel = new sap.ui.model.json.JSONModel(oOrder);
+            this.getView().setModel(oOrderModel, "selectedOrder");
+
+            this._oFleetDialog.then(function (oDialog) {
                 oDialog.open();
-            });},
+            });
+        },
 
-onCloseFleetCockpit: function () {
+        onCloseFleetCockpit: function () {
 
-this._oFleetDialog.then(function (oDialog) {
+            this._oFleetDialog.then(function (oDialog) {
                 oDialog.close();
-            });}
+            });
+        }
 
 
 
