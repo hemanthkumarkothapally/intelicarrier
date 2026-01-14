@@ -1,0 +1,122 @@
+<core:FragmentDefinition xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:f="sap.ui.layout.form">
+
+    <Dialog title="Create Manual Freight Order" contentWidth="900px" contentHeight="auto" resizable="true" draggable="true">
+
+        <content>
+            <VBox class="sapUiSmallMargin">
+                <!-- Customer Information Section -->
+                <VBox class="sapUiMediumMarginTop">
+                    <HBox alignItems="Center" class="sapUiSmallMarginBottom">
+                        <core:Icon src="sap-icon://customer" size="1.2rem" color="#0854A0" class="sapUiTinyMarginEnd"/>
+                        <Title text="Customer Information" level="H4"/>
+                    </HBox>
+
+                    <f:SimpleForm editable="true" layout="ResponsiveGridLayout" labelSpanXL="4" labelSpanL="4" labelSpanM="12" labelSpanS="12" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="2" columnsL="2" columnsM="1">
+                        <f:content>
+                            <Label text="Customer Name" required="true"/>
+                            <Input value="{manualOrder>/customerName}" placeholder="Company or person name"/>
+
+                            <Label text="Email"/>
+                            <Input value="{manualOrder>/email}" type="Email" placeholder="email@company.com"/>
+
+                            <Label text="Phone" required="true"/>
+                            <Input value="{manualOrder>/phone}" type="Tel" placeholder="+66 XXX XXX XXXX"/>
+                        </f:content>
+                    </f:SimpleForm>
+                </VBox>
+
+                <!-- Shipping Addresses Section -->
+                <VBox class="sapUiMediumMarginTop">
+                    <HBox alignItems="Center" class="sapUiSmallMarginBottom">
+                        <core:Icon src="sap-icon://map" size="1.2rem" color="#BB0000" class="sapUiTinyMarginEnd"/>
+                        <Title text="Shipping Addresses" level="H4"/>
+                    </HBox>
+
+                    <f:SimpleForm editable="true" layout="ResponsiveGridLayout" labelSpanXL="4" labelSpanL="4" labelSpanM="12" labelSpanS="12" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="2" columnsL="2" columnsM="1">
+                        <f:content>
+                            <Label text="Pickup Address" required="true"/>
+                            <TextArea value="{manualOrder>/pickupAddress}" rows="3" placeholder="Full pickup address..."/>
+
+                            <Label text="Delivery Address" required="true"/>
+                            <TextArea value="{manualOrder>/deliveryAddress}" rows="3" placeholder="Full delivery address..."/>
+                        </f:content>
+                    </f:SimpleForm>
+                </VBox>
+
+                <!-- Product Details Section -->
+                <VBox class="sapUiMediumMarginTop">
+                    <HBox alignItems="Center" class="sapUiSmallMarginBottom">
+                        <core:Icon src="sap-icon://product" size="1.2rem" color="#AB6D00" class="sapUiTinyMarginEnd"/>
+                        <Title text="Product Details" level="H4"/>
+                    </HBox>
+
+                    <VBox items="{manualOrder>/products}">
+                        <f:SimpleForm editable="true" layout="ResponsiveGridLayout" labelSpanXL="3" labelSpanL="3" labelSpanM="12" labelSpanS="12" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="3" columnsL="3" columnsM="1">
+                            <f:content>
+                                <Label text="Product Name" required="true"/>
+                                <Input value="{manualOrder>productName}" placeholder="Product description"/>
+
+                                <Label text="Quantity" required="true"/>
+                                <Input value="{manualOrder>quantity}" type="Number" placeholder="0"/>
+
+                                <Label text="Unit"/>
+                                <Select selectedKey="{manualOrder>unit}" width="100%">
+                                    <items>
+                                        <core:Item key="pcs" text="pcs"/>
+                                        <core:Item key="kg" text="kg"/>
+                                        <core:Item key="ton" text="ton"/>
+                                        <core:Item key="box" text="box"/>
+                                        <core:Item key="pallet" text="pallet"/>
+                                    </items>
+                                </Select>
+                            </f:content>
+                        </f:SimpleForm>
+                    </VBox>
+
+                    <Link text="+ Add Another Product" press=".onAddProduct" class="sapUiSmallMarginTop"/>
+                </VBox>
+
+                <!-- Schedule & Cargo Details Section -->
+                <VBox class="sapUiMediumMarginTop">
+                    <HBox alignItems="Center" class="sapUiSmallMarginBottom">
+                        <core:Icon src="sap-icon://calendar" size="1.2rem" color="#BB0000" class="sapUiTinyMarginEnd"/>
+                        <Title text="Schedule &amp; Cargo Details" level="H4"/>
+                    </HBox>
+
+                    <f:SimpleForm editable="true" layout="ResponsiveGridLayout" labelSpanXL="4" labelSpanL="4" labelSpanM="12" labelSpanS="12" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="2" columnsL="2" columnsM="1">
+                        <f:content>
+                            <Label text="Pickup Date" required="true"/>
+                            <DatePicker value="{manualOrder>/pickupDate}" valueFormat="yyyy-MM-dd" displayFormat="dd/MM/yyyy" placeholder="dd/mm/yyyy"/>
+
+                            <Label text="Delivery Date" required="true"/>
+                            <DatePicker value="{manualOrder>/deliveryDate}" valueFormat="yyyy-MM-dd" displayFormat="dd/MM/yyyy" placeholder="dd/mm/yyyy"/>
+
+                            <Label text="Total Weight (kg)"/>
+                            <Input value="{manualOrder>/totalWeight}" type="Number" placeholder="0"/>
+
+                            <Label text="Volume (m³)"/>
+                            <Input value="{manualOrder>/volume}" type="Number" placeholder="0"/>
+                        </f:content>
+                    </f:SimpleForm>
+
+                    <VBox class="sapUiSmallMarginTop">
+                        <Label text="Special Instructions"/>
+                        <TextArea value="{manualOrder>/specialInstructions}" rows="3" placeholder="Any special handling requirements..." width="100%"/>
+                    </VBox>
+                </VBox>
+
+            </VBox>
+        </content>
+
+        <beginButton>
+            <Button text="Create Freight Order" type="Emphasized" press=".onSaveManualOrder"/>
+        </beginButton>
+
+        <endButton>
+            <Button text="Cancel" press=".onCancelManualOrder"/>
+        </endButton>
+    </Dialog>
+
+</core:FragmentDefinition>
