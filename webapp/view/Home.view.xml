@@ -1596,59 +1596,59 @@
 
                             <MessageStrip text="Manage customer orders from PDF upload, Email BOT, and manual entry" type="Information" showIcon="true" class="sapUiMediumMarginBottom"/>
 
-                            <FlexBox wrap="Wrap" class="sapUiMediumMarginBottom">
+                            <FlexBox wrap="Wrap" columnGap="0px">
 
                                 <!-- Total Orders -->
-                                <GenericTile class="sapUiTinyMarginEnd sapUiSmallMarginBottom" header="Total Orders" subheader="All sources" press=".onCardPressFreight">
+                                <GenericTile class=" sapUiSmallMarginBottom" frameType="TwoByHalf" width="8rem" header="Total Orders" subheader="All sources" press=".onCardPressFreight">
                                     <TileContent>
                                         <NumericContent value="{orders>/summary/total}" valueColor="Neutral" withMargin="false"/>
                                     </TileContent>
                                 </GenericTile>
 
                                 <!-- Pending Review -->
-                                <GenericTile class="sapUiTinyMarginEnd sapUiSmallMarginBottom" header="Pending Review" subheader="Needs attention" press=".onCardPressFreight">
+                                <GenericTile class=" sapUiSmallMarginBottom" frameType="TwoByHalf" width="8rem" header="Pending Review" subheader="Needs attention" press=".onCardPressFreight">
                                     <TileContent>
                                         <NumericContent value="{orders>/summary/pendingReview}" icon="sap-icon://pending" valueColor="Critical" withMargin="false"/>
                                     </TileContent>
                                 </GenericTile>
 
                                 <!-- Reviewed -->
-                                <GenericTile class="sapUiTinyMarginEnd sapUiSmallMarginBottom" header="Reviewed" subheader="Ready to submit" press=".onCardPressFreight">
+                                <GenericTile class=" sapUiSmallMarginBottom" frameType="TwoByHalf" width="8rem" header="Reviewed" subheader="Ready to submit" press=".onCardPressFreight">
                                     <TileContent>
                                         <NumericContent value="{orders>/summary/reviewed}" icon="sap-icon://accept" valueColor="Good" withMargin="false"/>
                                     </TileContent>
                                 </GenericTile>
 
                                 <!-- Submitted -->
-                                <GenericTile class="sapUiTinyMarginEnd sapUiSmallMarginBottom" header="Submitted" subheader="Awaiting approval" press=".onCardPressFreight">
+                                <GenericTile class=" sapUiSmallMarginBottom" frameType="TwoByHalf" width="8rem" header="Submitted" subheader="Awaiting approval" press=".onCardPressFreight">
                                     <TileContent>
                                         <NumericContent value="{orders>/summary/submitted}" icon="sap-icon://upload-to-cloud" valueColor="Neutral" withMargin="false"/>
                                     </TileContent>
                                 </GenericTile>
 
                                 <!-- Approved -->
-                                <GenericTile class="sapUiTinyMarginEnd sapUiSmallMarginBottom" header="Approved" subheader="Ready to confirm" press=".onCardPressFreight">
+                                <GenericTile class=" sapUiSmallMarginBottom" frameType="TwoByHalf" width="8rem" header="Approved" subheader="Ready to confirm" press=".onCardPressFreight">
                                     <TileContent>
                                         <NumericContent value="{orders>/summary/approved}" icon="sap-icon://sys-enter-2" valueColor="Good" withMargin="false"/>
                                     </TileContent>
                                 </GenericTile>
 
                                 <!-- Revision -->
-                                <GenericTile class="sapUiTinyMarginEnd sapUiSmallMarginBottom" header="Revision" subheader="Needs update" press=".onCardPressFreight">
+                                <GenericTile class=" sapUiSmallMarginBottom" frameType="TwoByHalf" width="8rem" header="Revision" subheader="Needs update" press=".onCardPressFreight">
                                     <TileContent>
                                         <NumericContent value="{orders>/summary/revision}" icon="sap-icon://refresh" valueColor="Critical" withMargin="false"/>
                                     </TileContent>
                                 </GenericTile>
 
                                 <!-- Rejected -->
-                                <GenericTile class="sapUiTinyMarginEnd sapUiSmallMarginBottom" header="Rejected" subheader="Cannot process" press=".onCardPressFreight">
+                                <GenericTile class="sapUiTinyMarginEnd sapUiSmallMarginBottom" frameType="TwoByHalf" width="8rem" header="Rejected" subheader="Cannot process" press=".onCardPressFreight">
                                     <TileContent>
                                         <NumericContent value="{orders>/summary/rejected}" icon="sap-icon://decline" valueColor="Error" withMargin="false"/>
                                     </TileContent>
                                 </GenericTile>
 
                                 <!-- Confirmed -->
-                                <GenericTile class="sapUiTinyMarginEnd sapUiSmallMarginBottom" header="Confirmed" subheader="Fleet assigned" press=".onCardPressFreight">
+                                <GenericTile class="sapUiSmallMarginBottom" frameType="TwoByHalf" width="8rem" header="Confirmed" subheader="Fleet assigned" press=".onCardPressFreight">
                                     <TileContent>
                                         <NumericContent value="{orders>/summary/confirmed}" icon="sap-icon://shipping-status" valueColor="Good" withMargin="false"/>
                                     </TileContent>
@@ -1747,7 +1747,7 @@
                                                     <!-- Actions -->
                                                     <HBox>
                                                         <Button text="{orders>actionButtonText}" type="{orders>actionButtonType}" press=".onActionPressFreight" class="sapUiTinyMarginEnd"/>
-                                                        <Button text="View" type="Transparent" press=".onViewDetailsFreight"/>
+                                                        <!-- <Button text="View" type="Transparent" press=".onViewDetailsFreight"/> -->
                                                     </HBox>
                                                 </cells>
                                             </ColumnListItem>
