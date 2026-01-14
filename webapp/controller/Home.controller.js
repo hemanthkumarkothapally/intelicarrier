@@ -116,6 +116,13 @@ sap.ui.define([
             // Set initial view visibility
             this._showView("dashboard");
         },
+        onAfterRendering: function () {
+    this.onFleetCockpitTabSelect({
+        getParameter: function () {
+            return "PendingAssignment";
+        }
+    });
+},
 
         // Global fragment load function
         loadFragment:function(sPath){
@@ -1098,7 +1105,75 @@ this.byId("shipmentExecutionViewsub").setVisible(true)
                 this.byId("shipmentExecutionViewsub2").setVisible(false)
     }
 
+    },
+    onFleetCockpitTabSelect: function (oEvent) {
+    var sSelectedKey = oEvent.getParameter("key");
+    var oTable = this.byId("ordersTable");
+    var oBinding = oTable.getBinding("items");
+
+    var aFilters = [];
+
+    switch (sSelectedKey) {
+
+        case "PendingAssignment":
+            aFilters.push(
+                new sap.ui.model.Filter("status", sap.ui.model.FilterOperator.EQ, "Pending Assignment")
+            );
+            break;
+
+        case "Assigned":
+            aFilters.push(
+                new sap.ui.model.Filter({
+                    filters: [
+                        new sap.ui.model.Filter("status", sap.ui.model.FilterOperator.EQ, "Internal Fleet"),
+                        new sap.ui.model.Filter("status", sap.ui.model.FilterOperator.EQ, "External Carrier")
+                    ],
+                    and: false
+                })
+            );
+            break;
+
+        case "InTransist":
+            aFilters.push(
+                new sap.ui.model.Filter("status", sap.ui.model.FilterOperator.EQ, "In Transit")
+            );
+            break;
+
+        case "Completed":
+            aFilters.push(
+                new sap.ui.model.Filter("status", sap.ui.model.FilterOperator.EQ, "Completed")
+            );
+            break;
+
+        default:
+            // no filter
+            break;
     }
+
+    oBinding.filter(aFilters);
+},
+onAnalyzeOrder: function (oEvent) {
+    var oOrder = oEvent.getSource().getBindingContext().getObject();
+
+    if (!this._oFleetDialog) {
+        this._oFleetDialog = sap.ui.xmlfragment(
+            "intellicarrier.view.FleetCockpitAnalysis",
+            this
+        );
+        this.getView().addDependent(this._oFleetDialog);
+    }
+
+    var oOrderModel = new sap.ui.model.json.JSONModel(oOrder);
+    this._oFleetDialog.setModel(oOrderModel, "selectedOrder");
+
+    this._oFleetDialog.open();
+},
+
+onCloseFleetCockpit: function () {
+    this._oFleetDialog.close();
+}
+
+
 
     });
 });

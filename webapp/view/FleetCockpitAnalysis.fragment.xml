@@ -1,0 +1,146 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:f="sap.ui.layout.form">
+
+    <Dialog
+        id="fleetCockpitDialog"
+        contentWidth="90%"
+        contentHeight="90%"
+        stretchOnPhone="true"
+        draggable="true"
+        resizable="true"
+        class="sapUiResponsivePadding--content">
+
+        <!-- ===== HEADER ===== -->
+        <customHeader>
+            <Bar>
+                <contentLeft>
+                    <HBox>
+                        <Icon src="sap-icon://shipping-status" class="sapUiTinyMarginEnd"/>
+                        <VBox>
+                            <Title text="Fleet Cockpit Analysis" level="H4"/>
+                            <Text text="{selectedOrder>/orderId} - {selectedOrder>/customer}" />
+                        </VBox>
+                    </HBox>
+                </contentLeft>
+                <contentRight>
+                    <Button icon="sap-icon://decline" press=".onCloseFleetCockpit"/>
+                </contentRight>
+            </Bar>
+        </customHeader>
+
+        <!-- ===== CONTENT ===== -->
+        <content>
+            <VBox width="100%" class="sapUiSmallMargin">
+
+                <!-- ORDER SUMMARY -->
+                <Panel headerText="Order Summary">
+                    <HBox justifyContent="SpaceBetween" wrap="Wrap">
+
+                        <VBox>
+                            <Text text="Route" class="sapUiTinyMarginBottom"/>
+                            <Text text="{selectedOrder>/from} → {selectedOrder>/to}" class="sapUiBoldText"/>
+                            <Text text="{selectedOrder>/distance}"/>
+                        </VBox>
+
+                        <VBox>
+                            <Text text="Cargo" class="sapUiTinyMarginBottom"/>
+                            <Text text="{selectedOrder>/cargoType}" class="sapUiBoldText"/>
+                            <Text text="{selectedOrder>/cargoInfo}"/>
+                        </VBox>
+
+                        <VBox>
+                            <Text text="Delivery Date"/>
+                            <Text text="{selectedOrder>/deliveryDate}" class="sapUiBoldText"/>
+                        </VBox>
+
+                        <VBox>
+                            <Text text="Priority"/>
+                            <ObjectStatus text="{selectedOrder>/priority}" state="{selectedOrder>/priorityState}"/>
+                        </VBox>
+
+                        <VBox>
+                            <Text text="Value"/>
+                            <Text text="{selectedOrder>/value}" class="sapUiBoldText sapUiPositiveText"/>
+                        </VBox>
+
+                    </HBox>
+                </Panel>
+
+                <!-- OPTIONS -->
+                <HBox width="100%" class="sapUiMediumMarginTop" alignItems="Stretch">
+
+                    <!-- INTERNAL FLEET -->
+                    <Panel
+                        headerText="Internal Fleet Options"
+                        width="50%"
+                        class="sapUiTinyMarginEnd">
+
+                        <List items="{internalFleet>/vehicles}" mode="SingleSelect">
+                            <StandardListItem
+                                title="{internalFleet>vehicle}"
+                                description="Driver: {internalFleet>driver}"
+                                icon="sap-icon://shipping-status"
+                                info="{internalFleet>cost}"
+                                infoState="Success"/>
+                        </List>
+                    </Panel>
+
+                    <!-- EXTERNAL CARRIER -->
+                    <Panel
+                        headerText="External Carrier Options"
+                        width="50%"
+                        class="sapUiTinyMarginBegin">
+
+                        <List items="{externalCarriers>/carriers}" mode="SingleSelect">
+                            <StandardListItem
+                                title="{externalCarriers>name}"
+                                description="Lead Time: {externalCarriers>leadTime}"
+                                icon="sap-icon://supplier"
+                                info="{externalCarriers>cost}"
+                                infoState="Information"/>
+                        </List>
+                    </Panel>
+
+                </HBox>
+
+                <!-- RECOMMENDATION -->
+                <Panel
+                    class="sapUiMediumMarginTop"
+                    headerText="System Recommendation">
+
+                    <HBox justifyContent="SpaceBetween" alignItems="Center">
+                        <VBox>
+                            <Text text="Best Internal"/>
+                            <Text text="{recommendation>/bestInternal}" class="sapUiBoldText"/>
+                        </VBox>
+
+                        <Icon src="sap-icon://arrow-right"/>
+
+                        <VBox>
+                            <Text text="Best External"/>
+                            <Text text="{recommendation>/bestExternal}" class="sapUiBoldText sapUiPositiveText"/>
+                        </VBox>
+
+                        <Button
+                            text="Confirm Assignment"
+                            type="Accept"
+                            press=".onConfirmAssignment"/>
+                    </HBox>
+                </Panel>
+
+            </VBox>
+        </content>
+
+        <!-- ===== FOOTER ===== -->
+        <beginButton>
+                    <Button text="Cancel" press=".onCloseFleetCockpit"/>
+        </beginButton>
+        <endButton>
+            <Button text="Confirm Assignment" type="Accept" press=".onConfirmAssignment"/>
+        </endButton>
+
+
+    </Dialog>
+</core:FragmentDefinition>
