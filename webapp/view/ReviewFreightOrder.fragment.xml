@@ -1,4 +1,4 @@
-<core:FragmentDefinition xmlns="sap.m"
+<core:FragmentDefinition xmlns:unified="sap.ui.unified" xmlns="sap.m"
     xmlns:core="sap.ui.core"
     xmlns:f="sap.ui.layout.form"
     xmlns:l="sap.ui.layout">
@@ -184,7 +184,8 @@
                                     <core:Icon src="sap-icon://pdf-attachment" size="5rem" color="#666"/>
                                     <Title text="{reviewOrder>/documentName}" level="H5" class="sapUiSmallMarginTop"/>
                                     <Text text="{reviewOrder>/sourceText} • {reviewOrder>/language}" class="sapUiTinyMarginTop sapUiTinyText"/>
-                                    <Button text="Download Original" icon="sap-icon://download" type="Emphasized" press=".onDownloadOriginal" class="sapUiMediumMarginTop"/>
+                                    <unified:FileUploader buttonOnly="true" buttonText="Upload PDF" fileType="pdf" change=".onuploadComplete" class="sapUiMediumMarginTop"></unified:FileUploader>
+                                    <Button text="Download Original" icon="sap-icon://download" type="Emphasized" press=".onDownloadOriginal" />
                                 </VBox>
                             </content>
                         </Panel>
