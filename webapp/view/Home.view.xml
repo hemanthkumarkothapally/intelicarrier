@@ -4,6 +4,7 @@
     xmlns:mvc="sap.ui.core.mvc"
     xmlns:tnt="sap.tnt"
     xmlns:f="sap.f"
+    xmlns:l="sap.ui.layout"
     xmlns:core="sap.ui.core" height="100%">
 
     <App id="intelliapp">
@@ -57,6 +58,11 @@
 
                             <tnt:NavigationListItem text="Smart Rate Shopping" icon="sap-icon://sales-quote" key="rateshopping"/>
 
+                            <tnt:NavigationListItem text="Shipment Execution" icon="sap-icon://create" key="shipmentexecution"/>
+
+                            <tnt:NavigationListItem text="Tracking &amp; Visibility" icon="sap-icon://locate-me" key="tracking"/>
+
+                            <tnt:NavigationListItem text="Freight Orders" icon="sap-icon://shipping-status" key="freightOrders" />
                             <tnt:NavigationListItem text="Freight Execution" icon="sap-icon://create" key="shipmentexecution"/>
                             <tnt:NavigationListItem text="Fleet Overview" icon="sap-icon://create" key="shipmentExecutionViewsub2"/>
 
@@ -1583,6 +1589,179 @@
                                     </content>
                                 </Panel>
                             </VBox>
+                        </VBox>
+
+                        <VBox id="freightOrdersView" visible="false" width="100%" class="intellicarrier-content-padding">
+                            <!-- Header Section -->
+                            <HBox justifyContent="SpaceBetween" alignItems="Center" class="sapUiMediumMarginBottom">
+                                <Title text="Freight Order Management" level="H2"/>
+                                <HBox>
+                                    <Button icon="sap-icon://upload" text="Upload PDF" press=".onUploadFreight" class="sapUiTinyMarginEnd"/>
+                                    <Button icon="sap-icon://edit" text="Create Manual Freight Order " press=".onManualEntryFreight"/>
+                                </HBox>
+                            </HBox>
+
+                            <MessageStrip text="Manage customer orders from PDF upload, Email BOT, and manual entry" type="Information" showIcon="true" class="sapUiMediumMarginBottom"/>
+
+                            <FlexBox wrap="Wrap" class="sapUiMediumMarginBottom">
+
+                                <!-- Total Orders -->
+                                <GenericTile class="sapUiTinyMarginEnd sapUiSmallMarginBottom" header="Total Orders" subheader="All sources" press=".onCardPressFreight">
+                                    <TileContent>
+                                        <NumericContent value="{orders>/summary/total}" valueColor="Neutral" withMargin="false"/>
+                                    </TileContent>
+                                </GenericTile>
+
+                                <!-- Pending Review -->
+                                <GenericTile class="sapUiTinyMarginEnd sapUiSmallMarginBottom" header="Pending Review" subheader="Needs attention" press=".onCardPressFreight">
+                                    <TileContent>
+                                        <NumericContent value="{orders>/summary/pendingReview}" icon="sap-icon://pending" valueColor="Critical" withMargin="false"/>
+                                    </TileContent>
+                                </GenericTile>
+
+                                <!-- Reviewed -->
+                                <GenericTile class="sapUiTinyMarginEnd sapUiSmallMarginBottom" header="Reviewed" subheader="Ready to submit" press=".onCardPressFreight">
+                                    <TileContent>
+                                        <NumericContent value="{orders>/summary/reviewed}" icon="sap-icon://accept" valueColor="Good" withMargin="false"/>
+                                    </TileContent>
+                                </GenericTile>
+
+                                <!-- Submitted -->
+                                <GenericTile class="sapUiTinyMarginEnd sapUiSmallMarginBottom" header="Submitted" subheader="Awaiting approval" press=".onCardPressFreight">
+                                    <TileContent>
+                                        <NumericContent value="{orders>/summary/submitted}" icon="sap-icon://upload-to-cloud" valueColor="Neutral" withMargin="false"/>
+                                    </TileContent>
+                                </GenericTile>
+
+                                <!-- Approved -->
+                                <GenericTile class="sapUiTinyMarginEnd sapUiSmallMarginBottom" header="Approved" subheader="Ready to confirm" press=".onCardPressFreight">
+                                    <TileContent>
+                                        <NumericContent value="{orders>/summary/approved}" icon="sap-icon://sys-enter-2" valueColor="Good" withMargin="false"/>
+                                    </TileContent>
+                                </GenericTile>
+
+                                <!-- Revision -->
+                                <GenericTile class="sapUiTinyMarginEnd sapUiSmallMarginBottom" header="Revision" subheader="Needs update" press=".onCardPressFreight">
+                                    <TileContent>
+                                        <NumericContent value="{orders>/summary/revision}" icon="sap-icon://refresh" valueColor="Critical" withMargin="false"/>
+                                    </TileContent>
+                                </GenericTile>
+
+                                <!-- Rejected -->
+                                <GenericTile class="sapUiTinyMarginEnd sapUiSmallMarginBottom" header="Rejected" subheader="Cannot process" press=".onCardPressFreight">
+                                    <TileContent>
+                                        <NumericContent value="{orders>/summary/rejected}" icon="sap-icon://decline" valueColor="Error" withMargin="false"/>
+                                    </TileContent>
+                                </GenericTile>
+
+                                <!-- Confirmed -->
+                                <GenericTile class="sapUiTinyMarginEnd sapUiSmallMarginBottom" header="Confirmed" subheader="Fleet assigned" press=".onCardPressFreight">
+                                    <TileContent>
+                                        <NumericContent value="{orders>/summary/confirmed}" icon="sap-icon://shipping-status" valueColor="Good" withMargin="false"/>
+                                    </TileContent>
+                                </GenericTile>
+
+                            </FlexBox>
+
+                            <Panel>
+                                <headerToolbar>
+                                    <OverflowToolbar>
+                                        <Title text="All Customer Orders" level="H3"/>
+                                        <Text text="({orders>/ordersList/length} items)" class="sapUiTinyMarginBegin"/>
+                                        <ToolbarSpacer/>
+                                        <SearchField width="300px" placeholder="Search orders..." liveChange=".onSearchFreight"/>
+                                        <Button icon="sap-icon://filter" text="Filter" press=".onFilterFreight"/>
+                                    </OverflowToolbar>
+                                </headerToolbar>
+
+                                <content>
+                                    <Table id="freightOrdersTable" items="{orders>/ordersList}" mode="None" width="100%" fixedLayout="false">
+                                        <columns>
+                                            <Column width="10%" hAlign="Begin">
+                                                <Text text="Order ID"/>
+                                            </Column>
+                                            <Column width="10%" hAlign="Begin">
+                                                <Text text="Source"/>
+                                            </Column>
+                                            <Column width="15%" hAlign="Begin">
+                                                <Text text="Customer"/>
+                                            </Column>
+                                            <Column width="20%" hAlign="Begin">
+                                                <Text text="Delivery Address"/>
+                                            </Column>
+                                            <Column width="10%" hAlign="Begin">
+                                                <Text text="Products"/>
+                                            </Column>
+                                            <Column width="10%" hAlign="Begin">
+                                                <Text text="Delivery Date"/>
+                                            </Column>
+                                            <Column width="10%" hAlign="End">
+                                                <Text text="Value"/>
+                                            </Column>
+                                            <Column width="12%" hAlign="Begin">
+                                                <Text text="Status"/>
+                                            </Column>
+                                            <Column width="15%" hAlign="Begin">
+                                                <Text text="Actions"/>
+                                            </Column>
+                                        </columns>
+                                        <items>
+                                            <ColumnListItem>
+                                                <cells>
+                                                    <!-- Order ID with OCR -->
+                                                    <VBox>
+                                                        <Link text="{orders>orderId}" press=".onViewDetailsFreight"/>
+                                                        <Text text="OCR: {orders>ocrConfidence}" class="sapUiTinyText"/>
+                                                    </VBox>
+
+                                                    <!-- Source -->
+                                                    <HBox alignItems="Center">
+                                                        <core:Icon src="{orders>sourceIcon}" size="1.2rem" class="sapUiTinyMarginEnd"/>
+                                                        <VBox>
+                                                            <Text text="{orders>sourceText}"/>
+                                                        </VBox>
+                                                    </HBox>
+
+                                                    <!-- Customer -->
+                                                    <VBox>
+                                                        <Text text="{orders>customerName}"/>
+                                                        <Text text="{orders>customerEmail}" class="sapUiTinyText"/>
+                                                    </VBox>
+
+                                                    <!-- Delivery Address -->
+                                                    <Text text="{orders>deliveryAddress}" wrapping="true"/>
+
+                                                    <!-- Products -->
+                                                    <VBox>
+                                                        <Text text="{orders>productsCount}"/>
+                                                        <Text text="{orders>weight}" class="sapUiTinyText"/>
+                                                    </VBox>
+
+                                                    <!-- Delivery Date -->
+                                                    <Text text="{orders>deliveryDate}"/>
+
+                                                    <!-- Value -->
+                                                    <Text text="{orders>value}"/>
+
+                                                    <!-- Status -->
+                                                    <HBox>
+                                                        <core:Icon src="{orders>statusIcon}" size="1rem" class="sapUiTinyMarginEnd"/>
+                                                        <VBox>
+                                                            <ObjectStatus text="{orders>statusText}" state="{orders>statusState}"/>
+                                                        </VBox>
+                                                    </HBox>
+
+                                                    <!-- Actions -->
+                                                    <HBox>
+                                                        <Button text="{orders>actionButtonText}" type="{orders>actionButtonType}" press=".onActionPressFreight" class="sapUiTinyMarginEnd"/>
+                                                        <Button text="View" type="Transparent" press=".onViewDetailsFreight"/>
+                                                    </HBox>
+                                                </cells>
+                                            </ColumnListItem>
+                                        </items>
+                                    </Table>
+                                </content>
+                            </Panel>
                         </VBox>
 
                     </ScrollContainer>

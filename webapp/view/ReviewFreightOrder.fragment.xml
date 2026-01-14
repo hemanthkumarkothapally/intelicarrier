@@ -1,0 +1,227 @@
+<core:FragmentDefinition xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:f="sap.ui.layout.form"
+    xmlns:l="sap.ui.layout">
+
+    <Dialog contentWidth="95%" contentHeight="95%" resizable="true" draggable="true" stretch="true">
+
+        <customHeader>
+            <Bar>
+                <contentLeft>
+                    <Button icon="sap-icon://decline" press=".onBackFromReview"/>
+                </contentLeft>
+                <contentMiddle>
+                    <VBox alignItems="Center">
+                        <HBox alignItems="Center">
+                            <core:Icon src="sap-icon://task" size="1.2rem" color="#AB6D00" class="sapUiTinyMarginEnd"/>
+                            <Title text="Manual Review Queue - {reviewOrder>/orderId}" level="H3"/>
+                        </HBox>
+                    </VBox>
+                </contentMiddle>
+                <contentRight>
+                    <HBox alignItems="Center" class="sapUiSmallMarginEnd">
+                        <core:Icon src="sap-icon://quality-issue" size="1rem" color="#E9730C" class="sapUiTinyMarginEnd"/>
+                        <Text text="OCR Confidence: {reviewOrder>/ocrConfidence}"/>
+                    </HBox>
+                </contentRight>
+            </Bar>
+        </customHeader>
+
+        <content>
+            <l:Grid defaultSpan="L6 M12 S12" class="sapUiSmallMargin">
+
+                <!-- Left Column - Extracted Data -->
+                <l:content>
+                    <VBox class="sapUiSmallMargin">
+                        <Panel headerText="Extracted Order Data" class="sapUiNoContentPadding">
+                            <headerToolbar>
+                                <OverflowToolbar>
+                                    <core:Icon src="sap-icon://document-text" size="1.2rem" class="sapUiTinyMarginEnd"/>
+                                    <Title text="Extracted Order Data" level="H4"/>
+                                    <ToolbarSpacer/>
+                                    <Text text="Review and correct if needed" class="sapUiTinyText"/>
+                                </OverflowToolbar>
+                            </headerToolbar>
+
+                            <content>
+                                <VBox class="sapUiSmallMargin">
+
+                                    <!-- Customer Information -->
+                                    <VBox class="sapUiMediumMarginBottom">
+                                        <HBox alignItems="Center" class="sapUiSmallMarginBottom">
+                                            <core:Icon src="sap-icon://customer" size="1.2rem" color="#0854A0" class="sapUiTinyMarginEnd"/>
+                                            <Title text="Customer Information" level="H5"/>
+                                        </HBox>
+
+                                        <f:SimpleForm editable="true" layout="ResponsiveGridLayout" labelSpanXL="4" labelSpanL="4" labelSpanM="4" labelSpanS="12" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="1" columnsL="1" columnsM="1">
+                                            <f:content>
+                                                <Label text="Customer Name" required="true"/>
+                                                <Input value="{reviewOrder>/customerName}"/>
+
+                                                <Label text="Email"/>
+                                                <Input value="{reviewOrder>/email}" type="Email"/>
+
+                                                <Label text="Phone"/>
+                                                <Input value="{reviewOrder>/phone}" type="Tel"/>
+
+                                                <Label text="Language"/>
+                                                <Input value="{reviewOrder>/language}"/>
+                                            </f:content>
+                                        </f:SimpleForm>
+                                    </VBox>
+
+                                    <!-- Shipping Addresses -->
+                                    <VBox class="sapUiMediumMarginBottom">
+                                        <HBox alignItems="Center" class="sapUiSmallMarginBottom">
+                                            <core:Icon src="sap-icon://map" size="1.2rem" color="#BB0000" class="sapUiTinyMarginEnd"/>
+                                            <Title text="Shipping Addresses" level="H5"/>
+                                        </HBox>
+
+                                        <f:SimpleForm editable="true" layout="ResponsiveGridLayout" labelSpanXL="4" labelSpanL="4" labelSpanM="4" labelSpanS="12" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="1" columnsL="1" columnsM="1">
+                                            <f:content>
+                                                <Label text="Pickup Address" required="true"/>
+                                                <TextArea value="{reviewOrder>/pickupAddress}" rows="3"/>
+
+                                                <Label text="Delivery Address" required="true"/>
+                                                <TextArea value="{reviewOrder>/deliveryAddress}" rows="3"/>
+                                            </f:content>
+                                        </f:SimpleForm>
+                                    </VBox>
+
+                                    <!-- Product Details -->
+                                    <VBox class="sapUiMediumMarginBottom">
+                                        <HBox alignItems="Center" class="sapUiSmallMarginBottom">
+                                            <core:Icon src="sap-icon://product" size="1.2rem" color="#AB6D00" class="sapUiTinyMarginEnd"/>
+                                            <Title text="Product Details" level="H5"/>
+                                        </HBox>
+
+                                        <Table items="{reviewOrder>/products}" mode="None">
+                                            <columns>
+                                                <Column width="50%">
+                                                    <Text text="Product Name"/>
+                                                </Column>
+                                                <Column width="25%">
+                                                    <Text text="Quantity"/>
+                                                </Column>
+                                                <Column width="25%">
+                                                    <Text text="Unit"/>
+                                                </Column>
+                                            </columns>
+                                            <items>
+                                                <ColumnListItem>
+                                                    <cells>
+                                                        <Input value="{reviewOrder>productName}"/>
+                                                        <Input value="{reviewOrder>quantity}" type="Number"/>
+                                                        <Select selectedKey="{reviewOrder>unit}">
+                                                            <items>
+                                                                <core:Item key="pcs" text="pcs"/>
+                                                                <core:Item key="kg" text="kg"/>
+                                                                <core:Item key="ton" text="ton"/>
+                                                                <core:Item key="box" text="box"/>
+                                                                <core:Item key="pallet" text="pallet"/>
+                                                            </items>
+                                                        </Select>
+                                                    </cells>
+                                                </ColumnListItem>
+                                            </items>
+                                        </Table>
+
+                                        <Link text="+ Add Product" press=".onAddProductReview" class="sapUiSmallMarginTop"/>
+                                    </VBox>
+
+                                    <!-- Delivery Schedule & Cargo -->
+                                    <VBox class="sapUiMediumMarginBottom">
+                                        <HBox alignItems="Center" class="sapUiSmallMarginBottom">
+                                            <core:Icon src="sap-icon://calendar" size="1.2rem" color="#BB0000" class="sapUiTinyMarginEnd"/>
+                                            <Title text="Delivery Schedule &amp; Cargo" level="H5"/>
+                                        </HBox>
+
+                                        <f:SimpleForm editable="true" layout="ResponsiveGridLayout" labelSpanXL="5" labelSpanL="5" labelSpanM="5" labelSpanS="12" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="2" columnsL="2" columnsM="1">
+                                            <f:content>
+                                                <Label text="Pickup Date" required="true"/>
+                                                <DatePicker value="{reviewOrder>/pickupDate}" valueFormat="yyyy-MM-dd" displayFormat="dd/MM/yyyy"/>
+
+                                                <Label text="Delivery Date" required="true"/>
+                                                <DatePicker value="{reviewOrder>/deliveryDate}" valueFormat="yyyy-MM-dd" displayFormat="dd/MM/yyyy"/>
+
+                                                <Label text="Total Weight (kg)"/>
+                                                <Input value="{reviewOrder>/totalWeight}" type="Number"/>
+
+                                                <Label text="Volume (m³)"/>
+                                                <Input value="{reviewOrder>/volume}" type="Number"/>
+                                            </f:content>
+                                        </f:SimpleForm>
+
+                                        <VBox class="sapUiSmallMarginTop">
+                                            <Label text="Special Instructions"/>
+                                            <TextArea value="{reviewOrder>/specialInstructions}" rows="3" width="100%"/>
+                                        </VBox>
+                                    </VBox>
+
+                                </VBox>
+                            </content>
+                        </Panel>
+                    </VBox>
+                </l:content>
+
+                <!-- Right Column - Original Document & Review Checklist -->
+                <l:content>
+                    <VBox class="sapUiSmallMargin">
+
+                        <!-- Original Document -->
+                        <Panel headerText="Original Document" class="sapUiNoContentPadding sapUiMediumMarginBottom">
+                            <headerToolbar>
+                                <OverflowToolbar>
+                                    <core:Icon src="sap-icon://pdf-attachment" size="1.2rem" class="sapUiTinyMarginEnd"/>
+                                    <Title text="Original Document" level="H4"/>
+                                    <ToolbarSpacer/>
+                                    <Text text="Compare with extracted data" class="sapUiTinyText"/>
+                                </OverflowToolbar>
+                            </headerToolbar>
+
+                            <content>
+                                <VBox alignItems="Center" class="sapUiLargeMarginTopBottom sapUiLargeMarginBeginEnd">
+                                    <core:Icon src="sap-icon://pdf-attachment" size="5rem" color="#666"/>
+                                    <Title text="{reviewOrder>/documentName}" level="H5" class="sapUiSmallMarginTop"/>
+                                    <Text text="{reviewOrder>/sourceText} • {reviewOrder>/language}" class="sapUiTinyMarginTop sapUiTinyText"/>
+                                    <Button text="Download Original" icon="sap-icon://download" type="Emphasized" press=".onDownloadOriginal" class="sapUiMediumMarginTop"/>
+                                </VBox>
+                            </content>
+                        </Panel>
+
+                        <!-- Review Checklist -->
+                        <Panel>
+                            <headerToolbar>
+                                <OverflowToolbar>
+                                    <Title text="Review Checklist" level="H4" titleStyle="H5"/>
+                                </OverflowToolbar>
+                            </headerToolbar>
+
+                            <content>
+                                <VBox class="sapUiSmallMargin">
+                                    <CheckBox text="Customer information verified" selected="{reviewOrder>/checklist/customerVerified}" class="sapUiSmallMarginBottom"/>
+                                    <CheckBox text="Addresses are accurate" selected="{reviewOrder>/checklist/addressesAccurate}" class="sapUiSmallMarginBottom"/>
+                                    <CheckBox text="Product details confirmed" selected="{reviewOrder>/checklist/productsConfirmed}" class="sapUiSmallMarginBottom"/>
+                                    <CheckBox text="Delivery dates are feasible" selected="{reviewOrder>/checklist/datesFeasible}" class="sapUiSmallMarginBottom"/>
+                                </VBox>
+                            </content>
+                        </Panel>
+
+                    </VBox>
+                </l:content>
+
+            </l:Grid>
+        </content>
+
+        <footer>
+            <OverflowToolbar>
+                <ToolbarSpacer/>
+                <Button text="Cancel" press=".onCancelReview"/>
+                <Button text="Save Draft" type="Default" press=".onSaveDraftReview"/>
+                <Button text="Submit for Approval" type="Emphasized" press=".onSubmitReview"/>
+            </OverflowToolbar>
+        </footer>
+
+    </Dialog>
+
+</core:FragmentDefinition>

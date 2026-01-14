@@ -2468,6 +2468,9 @@
     /* margin-top: 5px; */
   }
 
+
+
+  /* Add this to your CSS file to highlight selected tiles */
   .recomendation{
     background-color: #c7f8f3;
   }

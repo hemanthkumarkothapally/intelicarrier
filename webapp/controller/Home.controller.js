@@ -418,6 +418,7 @@ sap.ui.define([
             this.byId("rateShoppingView").setVisible(false);
             this.byId("shipmentExecutionView").setVisible(false);
             this.byId("trackingView").setVisible(false);
+            this.byId("freightOrdersView").setVisible(false);
             this.byId("shipmentExecutionViewsub2").setVisible(false);
 
 
@@ -432,6 +433,9 @@ sap.ui.define([
                 case "shipmentexecution":
                     this.byId("shipmentExecutionView").setVisible(true);
                     break;
+                case "freightOrders":
+                    this.byId("freightOrdersView").setVisible(true);
+                    break;
                 case "tracking":
                     this.byId("trackingView").setVisible(true);
                     break;
@@ -440,6 +444,639 @@ sap.ui.define([
                     break
 
             }
+        },
+
+
+        // Add this to your controller
+
+        onCardPressFreight: function (oEvent) {
+            // Get the pressed tile
+            var oTile = oEvent.getSource();
+            var sHeader = oTile.getHeader();
+
+            // Map tile headers to status values
+            var mStatusMapping = {
+                "Total Orders": null, // null means show all
+                "Pending Review": "Pending Review",
+                "Reviewed": "Reviewed",
+                "Submitted": "Submitted",
+                "Approved": "Approved",
+                "Revision": "Revision",
+                "Rejected": "Rejected",
+                "Confirmed": "Confirmed"
+            };
+
+            var sStatusFilter = mStatusMapping[sHeader];
+
+            // Get the table
+            var oTable = this.byId("freightOrdersTable");
+            var oBinding = oTable.getBinding("items");
+
+            // Clear existing filters
+            var aFilters = [];
+
+            // Add status filter if not "Total Orders"
+            if (sStatusFilter) {
+                aFilters.push(new sap.ui.model.Filter("statusText", sap.ui.model.FilterOperator.EQ, sStatusFilter));
+            }
+
+            // Apply the filter
+            oBinding.filter(aFilters);
+
+            // Optional: Visual feedback - highlight selected tile
+            this._highlightSelectedTile(oTile);
+        },
+
+        _highlightSelectedTile: function (oSelectedTile) {
+            // Remove highlight from all tiles
+            var oView = this.getView();
+            var aTiles = oView.findAggregatedObjects(true, function (oControl) {
+                return oControl instanceof sap.m.GenericTile;
+            });
+
+            aTiles.forEach(function (oTile) {
+                oTile.removeStyleClass("selectedTile");
+            });
+
+            // Add highlight to selected tile
+            oSelectedTile.addStyleClass("selectedTile");
+        },
+
+        // Keep your existing search function and combine with tile filter
+        onSearchFreight: function (oEvent) {
+            var sQuery = oEvent.getParameter("newValue");
+            var oTable = this.byId("freightOrdersTable");
+            var oBinding = oTable.getBinding("items");
+
+            var aFilters = [];
+
+            if (sQuery) {
+                // Add search filters
+                aFilters.push(new sap.ui.model.Filter({
+                    filters: [
+                        new sap.ui.model.Filter("orderId", sap.ui.model.FilterOperator.Contains, sQuery),
+                        new sap.ui.model.Filter("customerName", sap.ui.model.FilterOperator.Contains, sQuery),
+                        new sap.ui.model.Filter("deliveryAddress", sap.ui.model.FilterOperator.Contains, sQuery)
+                    ],
+                    and: false
+                }));
+            }
+
+            oBinding.filter(aFilters);
+        },
+
+        // Add these methods to your controller
+
+        onManualEntryFreight: function () {
+            // Initialize the model with default values
+            var oManualOrderModel = new sap.ui.model.json.JSONModel({
+                customerName: "",
+                email: "",
+                phone: "",
+                pickupAddress: "",
+                deliveryAddress: "",
+                products: [
+                    {
+                        productName: "",
+                        quantity: 0,
+                        unit: "pcs"
+                    }
+                ],
+                pickupDate: null,
+                deliveryDate: null,
+                totalWeight: 0,
+                volume: 0,
+                specialInstructions: ""
+            });
+
+            this.getView().setModel(oManualOrderModel, "manualOrder");
+
+            // Load and open the fragment
+            if (!this._oManualOrderDialog) {
+                this._oManualOrderDialog = sap.ui.xmlfragment(
+                    "intellicarrier.view.ManualFreightOrder",
+                    this
+                );
+                this.getView().addDependent(this._oManualOrderDialog);
+            }
+
+            this._oManualOrderDialog.open();
+        },
+
+
+
+
+        onAddProduct: function () {
+            var oModel = this.getView().getModel("manualOrder");
+            var aProducts = oModel.getProperty("/products");
+
+            aProducts.push({
+                productName: "",
+                quantity: 0,
+                unit: "pcs"
+            });
+
+            oModel.setProperty("/products", aProducts);
+        },
+
+        onSaveManualOrder: function () {
+            var oModel = this.getView().getModel("manualOrder");
+            var oData = oModel.getData();
+
+            // Validate required fields
+            if (!oData.customerName || !oData.phone || !oData.pickupAddress ||
+                !oData.deliveryAddress || !oData.pickupDate || !oData.deliveryDate) {
+                sap.m.MessageBox.error("Please fill all required fields marked with *");
+                return;
+            }
+
+            // Validate products
+            var bValidProducts = oData.products.every(function (product) {
+                return product.productName && product.quantity > 0;
+            });
+
+            if (!bValidProducts) {
+                sap.m.MessageBox.error("Please fill all product details with valid quantities");
+                return;
+            }
+
+            // Generate order ID
+            var sOrderId = "CO-" + new Date().getFullYear() + "-" +
+                String(Math.floor(Math.random() * 10000)).padStart(4, "0");
+
+            // Create new order object
+            var oNewOrder = {
+                orderId: sOrderId,
+                sourceIcon: "sap-icon://edit",
+                sourceText: "Manual Entry",
+                customerName: oData.customerName,
+                customerEmail: oData.email,
+                deliveryAddress: oData.deliveryAddress,
+                productsCount: oData.products.length + " items",
+                weight: oData.totalWeight + " kg",
+                deliveryDate: this._formatDate(oData.deliveryDate),
+                value: "$0", // Can be calculated based on products
+                statusText: "Pending Review",
+                statusState: "Warning",
+                statusIcon: "sap-icon://pending",
+                actionButtonText: "Review",
+                actionButtonType: "Default",
+                ocrConfidence: "Manual",
+                // Store full data
+                fullData: oData
+            };
+
+            // Add to orders list
+            var oOrdersModel = this.getView().getModel("orders");
+            var aOrders = oOrdersModel.getProperty("/ordersList");
+            aOrders.unshift(oNewOrder); // Add to beginning
+
+            // Update summary
+            var oSummary = oOrdersModel.getProperty("/summary");
+            oSummary.total++;
+            oSummary.pendingReview++;
+
+            oOrdersModel.refresh();
+
+            // Show success message
+            sap.m.MessageToast.show("Manual order created successfully: " + sOrderId);
+
+            // Close dialog
+            this._oManualOrderDialog.close();
+        },
+
+        onCancelManualOrder: function () {
+            this._oManualOrderDialog.close();
+        },
+
+        _formatDate: function (sDate) {
+            if (!sDate) return "";
+            var oDate = new Date(sDate);
+            var sDay = String(oDate.getDate()).padStart(2, "0");
+            var sMonth = String(oDate.getMonth() + 1).padStart(2, "0");
+            var sYear = oDate.getFullYear();
+            return sDay + "/" + sMonth + "/" + sYear;
+        },
+
+        // If you want to edit an existing order, add this method
+        onEditOrder: function (oEvent) {
+            var oItem = oEvent.getSource().getBindingContext("orders").getObject();
+
+            // Load existing order data into the model
+            var oManualOrderModel = new sap.ui.model.json.JSONModel(oItem.fullData || {
+                customerName: oItem.customerName,
+                email: oItem.customerEmail,
+                phone: "",
+                pickupAddress: "",
+                deliveryAddress: oItem.deliveryAddress,
+                products: [{
+                    productName: "",
+                    quantity: 0,
+                    unit: "pcs"
+                }],
+                pickupDate: null,
+                deliveryDate: oItem.deliveryDate,
+                totalWeight: 0,
+                volume: 0,
+                specialInstructions: ""
+            });
+
+            this.getView().setModel(oManualOrderModel, "manualOrder");
+
+            // Store the order being edited
+            this._editingOrderId = oItem.orderId;
+
+            // Open dialog
+            if (!this._oManualOrderDialog) {
+                this._oManualOrderDialog = sap.ui.xmlfragment(
+                    "intellicarrier.view.ManualFreightOrder",
+                    this
+                );
+                this.getView().addDependent(this._oManualOrderDialog);
+            }
+
+            this._oManualOrderDialog.setTitle("Edit Freight Order");
+            this._oManualOrderDialog.open();
+        },
+
+
+        // Add these methods to your controller
+
+        // Open Review Dialog when Review button is clicked
+        onActionPressFreight: function (oEvent) {
+            var oBindingContext = oEvent.getSource().getBindingContext("orders");
+            var oOrderData = oBindingContext.getObject();
+
+            // Check which action to perform based on button text
+            var sButtonText = oEvent.getSource().getText();
+
+            if (sButtonText === "Review") {
+                this._openReviewDialog(oOrderData);
+            } else if (sButtonText === "View") {
+                this.onViewDetailsFreight(oEvent);
+            }
+        },
+
+        _openReviewDialog: function (oOrderData) {
+            // Prepare review model with order data
+            var oReviewModel = new sap.ui.model.json.JSONModel({
+                orderId: oOrderData.orderId,
+                ocrConfidence: oOrderData.ocrConfidence || "N/A",
+                customerName: oOrderData.customerName || "",
+                email: oOrderData.customerEmail || "",
+                phone: oOrderData.fullData?.phone || "",
+                language: oOrderData.fullData?.language || "Thai",
+                pickupAddress: oOrderData.fullData?.pickupAddress || "",
+                deliveryAddress: oOrderData.deliveryAddress || "",
+                products: oOrderData.fullData?.products || [
+                    {
+                        productName: "Electronic Components",
+                        quantity: 150,
+                        unit: "pcs"
+                    },
+                    {
+                        productName: "Circuit Boards",
+                        quantity: 200,
+                        unit: "pcs"
+                    }
+                ],
+                pickupDate: oOrderData.fullData?.pickupDate || "2026-01-15",
+                deliveryDate: oOrderData.fullData?.deliveryDate || "2026-01-17",
+                totalWeight: oOrderData.fullData?.totalWeight || 750,
+                volume: oOrderData.fullData?.volume || 2.5,
+                specialInstructions: oOrderData.fullData?.specialInstructions || "Handle with care. Temperature controlled.",
+                documentName: oOrderData.fullData?.documentName || "customer_order_001.pdf",
+                sourceText: oOrderData.sourceText || "PDF Upload",
+                checklist: {
+                    customerVerified: false,
+                    addressesAccurate: false,
+                    productsConfirmed: false,
+                    datesFeasible: false
+                }
+            });
+
+            this.getView().setModel(oReviewModel, "reviewOrder");
+
+            // Store original order ID for updating later
+            this._reviewingOrderId = oOrderData.orderId;
+
+            // Load and open the review fragment as a dialog
+            if (!this._oReviewDialog) {
+                sap.ui.core.Fragment.load({
+                    name: "intellicarrier.view.ReviewFreightOrder",
+                    controller: this
+                }).then(function (oDialog) {
+                    this._oReviewDialog = oDialog;
+                    this.getView().addDependent(this._oReviewDialog);
+                    this._oReviewDialog.open();
+                }.bind(this));
+            } else {
+                this._oReviewDialog.open();
+            }
+        },
+
+        onBackFromReview: function () {
+            if (this._oReviewDialog) {
+                this._oReviewDialog.close();
+            }
+        },
+
+        onAddProductReview: function () {
+            var oModel = this.getView().getModel("reviewOrder");
+            var aProducts = oModel.getProperty("/products");
+
+            aProducts.push({
+                productName: "",
+                quantity: 0,
+                unit: "pcs"
+            });
+
+            oModel.setProperty("/products", aProducts);
+        },
+
+        onDownloadOriginal: function () {
+            sap.m.MessageToast.show("Downloading original document...");
+            // Implement actual download logic here
+        },
+
+        onCancelReview: function () {
+            sap.m.MessageBox.confirm(
+                "Are you sure you want to cancel? Any unsaved changes will be lost.",
+                {
+                    onClose: function (oAction) {
+                        if (oAction === sap.m.MessageBox.Action.OK) {
+                            this.onBackFromReview();
+                        }
+                    }.bind(this)
+                }
+            );
+        },
+
+        onSaveDraftReview: function () {
+            var oModel = this.getView().getModel("reviewOrder");
+            var oData = oModel.getData();
+
+            // Update the order in the orders model
+            this._updateOrderData(oData, "Pending Review");
+
+            sap.m.MessageToast.show("Draft saved successfully");
+            this.onBackFromReview();
+        },
+
+        onSubmitReview: function () {
+            var oModel = this.getView().getModel("reviewOrder");
+            var oData = oModel.getData();
+            var oChecklist = oData.checklist;
+
+            // Validate checklist
+            if (!oChecklist.customerVerified || !oChecklist.addressesAccurate ||
+                !oChecklist.productsConfirmed || !oChecklist.datesFeasible) {
+                sap.m.MessageBox.warning(
+                    "Please complete all checklist items before submitting for approval."
+                );
+                return;
+            }
+
+            // Validate required fields
+            if (!oData.customerName || !oData.pickupAddress || !oData.deliveryAddress ||
+                !oData.pickupDate || !oData.deliveryDate) {
+                sap.m.MessageBox.error("Please fill all required fields before submitting.");
+                return;
+            }
+
+            // Update the order status to "Submitted"
+            this._updateOrderData(oData, "Submitted");
+
+            sap.m.MessageBox.success(
+                "Order " + oData.orderId + " has been submitted for approval.",
+                {
+                    onClose: function () {
+                        this.onBackFromReview();
+                    }.bind(this)
+                }
+            );
+        },
+
+        _updateOrderData: function (oReviewData, sNewStatus) {
+            var oOrdersModel = this.getView().getModel("orders");
+            var aOrders = oOrdersModel.getProperty("/ordersList");
+            var oSummary = oOrdersModel.getProperty("/summary");
+
+            // Find and update the order
+            var iIndex = aOrders.findIndex(function (order) {
+                return order.orderId === this._reviewingOrderId;
+            }.bind(this));
+
+            if (iIndex !== -1) {
+                var oOrder = aOrders[iIndex];
+                var sOldStatus = oOrder.statusText;
+
+                // Update order data
+                oOrder.customerName = oReviewData.customerName;
+                oOrder.customerEmail = oReviewData.email;
+                oOrder.deliveryAddress = oReviewData.deliveryAddress;
+                oOrder.deliveryDate = this._formatDate(oReviewData.deliveryDate);
+                oOrder.weight = oReviewData.totalWeight + " kg";
+                oOrder.productsCount = oReviewData.products.length + " items";
+                oOrder.statusText = sNewStatus;
+
+                // Update status styling
+                if (sNewStatus === "Submitted") {
+                    oOrder.statusState = "None";
+                    oOrder.statusIcon = "sap-icon://upload-to-cloud";
+                    oOrder.actionButtonText = "View";
+                    oOrder.actionButtonType = "Transparent";
+                } else if (sNewStatus === "Pending Review") {
+                    oOrder.statusState = "Warning";
+                    oOrder.statusIcon = "sap-icon://pending";
+                    oOrder.actionButtonText = "Review";
+                    oOrder.actionButtonType = "Default";
+                }
+
+                // Store full data
+                oOrder.fullData = oReviewData;
+
+                // Update summary counts
+                if (sOldStatus === "Pending Review") {
+                    oSummary.pendingReview--;
+                }
+                if (sNewStatus === "Submitted") {
+                    oSummary.submitted++;
+                } else if (sNewStatus === "Pending Review") {
+                    oSummary.pendingReview++;
+                }
+            }
+
+            oOrdersModel.refresh();
+        },
+
+        onManualEntryFreight: function () {
+            // Initialize the model with default values
+            var oManualOrderModel = new sap.ui.model.json.JSONModel({
+                customerName: "",
+                email: "",
+                phone: "",
+                pickupAddress: "",
+                deliveryAddress: "",
+                products: [
+                    {
+                        productName: "",
+                        quantity: 0,
+                        unit: "pcs"
+                    }
+                ],
+                pickupDate: null,
+                deliveryDate: null,
+                totalWeight: 0,
+                volume: 0,
+                specialInstructions: ""
+            });
+
+            this.getView().setModel(oManualOrderModel, "manualOrder");
+
+            // Load and open the fragment
+            if (!this._oManualOrderDialog) {
+                this._oManualOrderDialog = sap.ui.xmlfragment(
+                    "intellicarrier.view.ManualFreightOrder",
+                    this
+                );
+                this.getView().addDependent(this._oManualOrderDialog);
+            }
+
+            this._oManualOrderDialog.open();
+        },
+
+        onAddProduct: function () {
+            var oModel = this.getView().getModel("manualOrder");
+            var aProducts = oModel.getProperty("/products");
+
+            aProducts.push({
+                productName: "",
+                quantity: 0,
+                unit: "pcs"
+            });
+
+            oModel.setProperty("/products", aProducts);
+        },
+
+        onSaveManualOrder: function () {
+            var oModel = this.getView().getModel("manualOrder");
+            var oData = oModel.getData();
+
+            // Validate required fields
+            if (!oData.customerName || !oData.phone || !oData.pickupAddress ||
+                !oData.deliveryAddress || !oData.pickupDate || !oData.deliveryDate) {
+                sap.m.MessageBox.error("Please fill all required fields marked with *");
+                return;
+            }
+
+            // Validate products
+            var bValidProducts = oData.products.every(function (product) {
+                return product.productName && product.quantity > 0;
+            });
+
+            if (!bValidProducts) {
+                sap.m.MessageBox.error("Please fill all product details with valid quantities");
+                return;
+            }
+
+            // Generate order ID
+            var sOrderId = "CO-" + new Date().getFullYear() + "-" +
+                String(Math.floor(Math.random() * 10000)).padStart(4, "0");
+
+            // Create new order object
+            var oNewOrder = {
+                orderId: sOrderId,
+                sourceIcon: "sap-icon://edit",
+                sourceText: "Manual Entry",
+                customerName: oData.customerName,
+                customerEmail: oData.email,
+                deliveryAddress: oData.deliveryAddress,
+                productsCount: oData.products.length + " items",
+                weight: oData.totalWeight + " kg",
+                deliveryDate: this._formatDate(oData.deliveryDate),
+                value: "$0", // Can be calculated based on products
+                statusText: "Pending Review",
+                statusState: "Warning",
+                statusIcon: "sap-icon://pending",
+                actionButtonText: "Review",
+                actionButtonType: "Default",
+                ocrConfidence: "Manual",
+                // Store full data
+                fullData: oData
+            };
+
+            // Add to orders list
+            var oOrdersModel = this.getView().getModel("orders");
+            var aOrders = oOrdersModel.getProperty("/ordersList");
+            aOrders.unshift(oNewOrder); // Add to beginning
+
+            // Update summary
+            var oSummary = oOrdersModel.getProperty("/summary");
+            oSummary.total++;
+            oSummary.pendingReview++;
+
+            oOrdersModel.refresh();
+
+            // Show success message
+            sap.m.MessageToast.show("Manual order created successfully: " + sOrderId);
+
+            // Close dialog
+            this._oManualOrderDialog.close();
+        },
+
+        onCancelManualOrder: function () {
+            this._oManualOrderDialog.close();
+        },
+
+        _formatDate: function (sDate) {
+            if (!sDate) return "";
+            var oDate = new Date(sDate);
+            var sDay = String(oDate.getDate()).padStart(2, "0");
+            var sMonth = String(oDate.getMonth() + 1).padStart(2, "0");
+            var sYear = oDate.getFullYear();
+            return sDay + "/" + sMonth + "/" + sYear;
+        },
+
+        // If you want to edit an existing order, add this method
+        onEditOrder: function (oEvent) {
+            var oItem = oEvent.getSource().getBindingContext("orders").getObject();
+
+            // Load existing order data into the model
+            var oManualOrderModel = new sap.ui.model.json.JSONModel(oItem.fullData || {
+                customerName: oItem.customerName,
+                email: oItem.customerEmail,
+                phone: "",
+                pickupAddress: "",
+                deliveryAddress: oItem.deliveryAddress,
+                products: [{
+                    productName: "",
+                    quantity: 0,
+                    unit: "pcs"
+                }],
+                pickupDate: null,
+                deliveryDate: oItem.deliveryDate,
+                totalWeight: 0,
+                volume: 0,
+                specialInstructions: ""
+            });
+
+            this.getView().setModel(oManualOrderModel, "manualOrder");
+
+            // Store the order being edited
+            this._editingOrderId = oItem.orderId;
+
+            // Open dialog
+            if (!this._oManualOrderDialog) {
+                this._oManualOrderDialog = sap.ui.xmlfragment(
+                    "intellicarrier.view.ManualFreightOrder",
+                    this
+                );
+                this.getView().addDependent(this._oManualOrderDialog);
+            }
+
+            this._oManualOrderDialog.setTitle("Edit Freight Order");
+            this._oManualOrderDialog.open();
         },
 
         // Dashboard handlers
