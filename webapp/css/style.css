@@ -2471,3 +2471,9 @@
 
 
   /* Add this to your CSS file to highlight selected tiles */
+  .recomendation{
+    background-color: #c7f8f3;
+  }
+  .ab12345{
+padding: 10px;
+  }

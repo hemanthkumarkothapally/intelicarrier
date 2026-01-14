@@ -24,12 +24,357 @@ sap.ui.define([
                 // NEW: Fleet Management Data
                 availableFleet: this._getMockFleetData(),
                 bookedShipments: this._getMockBookedShipments(),
-                selectedVehicle: null
+                selectedVehicle: null,
+                orders: [
+                    {
+                        orderId: "FO-2026-0001",
+                        coId: "CO-2026-0005",
+                        customer: "Express Solutions Co.",
+                        from: "Bangkok (Wireless Rd)",
+                        to: "Chiang Mai (Nimman)",
+                        distance: "685 km",
+                        cargoType: "Office Supplies",
+                        cargoInfo: "500 kg | 3 m³",
+                        deliveryDate: "2026-01-16",
+                        priority: "HIGH",
+                        priorityState: "Warning",
+                        status: "Pending Assignment",
+                        statusState: "Warning",
+                        value: "฿8,500"
+                    },
+                    {
+                        orderId: "FO-2026-0002",
+                        coId: "CO-2026-0004",
+                        customer: "Innovation Corp",
+                        from: "Bangkok (Ratchada)",
+                        to: "Hat Yai, Songkhla",
+                        distance: "945 km",
+                        cargoType: "Medical Equipment",
+                        cargoInfo: "1000 kg | 5 m³",
+                        deliveryDate: "2026-01-20",
+                        priority: "URGENT",
+                        priorityState: "Error",
+                        status: "Pending Assignment",
+                        statusState: "Warning",
+                        value: "฿125,000"
+                    },
+
+                    /* -------- NEW DATA FROM SCREENSHOT -------- */
+
+                    {
+                        orderId: "FO-2026-0003",
+                        coId: "CO-2026-0007",
+                        customer: "Smart Logistics Ltd",
+                        from: "Bangkok (Sukhumvit)",
+                        to: "Phuket",
+                        distance: "867 km",
+                        cargoType: "Consumer Electronics",
+                        cargoInfo: "1125 kg | 6.5 m³",
+                        deliveryDate: "2026-01-18",
+                        priority: "NORMAL",
+                        priorityState: "Information",
+                        status: "Internal Fleet",
+                        statusState: "Success",
+                        value: "฿285,000"
+                    },
+                    {
+                        orderId: "FO-2026-0004",
+                        coId: "CO-2026-0010",
+                        customer: "Global Trade Corp",
+                        from: "Bangkok (Lat Phrao)",
+                        to: "Khon Kaen",
+                        distance: "448 km",
+                        cargoType: "Industrial Parts",
+                        cargoInfo: "2500 kg | 12 m³",
+                        deliveryDate: "2026-01-17",
+                        priority: "HIGH",
+                        priorityState: "Warning",
+                        status: "External Carrier",
+                        statusState: "Information",
+                        value: "฿75,000"
+                    },
+                    {
+                        orderId: "FO-2026-0005",
+                        coId: "CO-2026-0012",
+                        customer: "Metro Retail Corp",
+                        from: "Bangkok (Silom)",
+                        to: "Pattaya, Chonburi",
+                        distance: "147 km",
+                        cargoType: "Retail Goods",
+                        cargoInfo: "600 kg | 4 m³",
+                        deliveryDate: "2026-01-14",
+                        priority: "URGENT",
+                        priorityState: "Error",
+                        status: "In Transit",
+                        statusState: "Warning",
+                        value: "฿18,750"
+                    }
+                ],
+                InternalFleet: [
+                    {
+                        vehicleID: "TH-1234",
+                        vehicleType: "6-Wheeler Truck",
+                        subType: "Medium Truck",
+                        status: "Available",
+                        statusState: "Success",  // 🟢 Green
+                        driver: "Somchai Prasert",
+                        driverPhone: "+66 81 234 5678",
+                        location: "📍 Bangkok Depot",
+                        capacity: "8,000 kg | 25 m³",
+                        dailyRate: "฿4,500/day"
+                    },
+                    {
+                        vehicleID: "TH-2345",
+                        vehicleType: "10-Wheeler Truck",
+                        subType: "Heavy Truck",
+                        status: "Available",
+                        statusState: "Success",  // 🟢 Green
+                        driver: "Wichai Thongsuk",
+                        driverPhone: "+66 81 345 6789",
+                        location: "📍 Bangkok Depot",
+                        capacity: "15,000 kg | 45 m³",
+                        dailyRate: "฿6,500/day"
+                    },
+                    {
+                        vehicleID: "TH-3456",
+                        vehicleType: "4-Wheeler Van",
+                        subType: "Light Van",
+                        status: "In Use",
+                        statusState: "Warning",  // 🟠 Orange
+                        driver: "Narong Somjai",
+                        driverPhone: "+66 81 456 7890",
+                        location: "📍 Chiang Mai",
+                        capacity: "2,000 kg | 8 m³",
+                        dailyRate: "฿2,500/day"
+                    },
+                    {
+                        vehicleID: "TH-4567",
+                        vehicleType: "6-Wheeler Truck",
+                        subType: "Medium Truck",
+                        status: "Maintenance",
+                        statusState: "Error",    // 🔴 Red
+                        driver: "Prasert Chai",
+                        driverPhone: "+66 81 567 8901",
+                        location: "📍 Service Center",
+                        capacity: "8,000 kg | 25 m³",
+                        dailyRate: "฿4,500/day"
+                    },
+                    {
+                        vehicleID: "TH-5678",
+                        vehicleType: "4-Wheeler Van",
+                        subType: "Light Van",
+                        status: "In Use",
+                        statusState: "Warning",  // 🟠 Orange
+                        driver: "Prasit Wongchai",
+                        driverPhone: "+66 82 345 6789",
+                        location: "📍 En Route to Pattaya",
+                        capacity: "2,000 kg | 8 m³",
+                        dailyRate: "฿2,500/day"
+                    },
+                    {
+                        vehicleID: "TH-6789",
+                        vehicleType: "Refrigerated Truck",
+                        subType: "Refrigerated",
+                        status: "Available",
+                        statusState: "Success",  // 🟢 Green
+                        driver: "Surachai Pranee",
+                        driverPhone: "+66 82 456 7890",
+                        location: "📍 Bangkok Depot",
+                        capacity: "5,000 kg | 15 m³",
+                        dailyRate: "฿7,500/day"
+                    }
+                ],
+                ExternalCarriers: [
+                    {
+                        carrierName: "Kerry Express Thailand",
+                        ratingValue: 4.8,
+                        coverage: "Nationwide",
+                        leadTime: "1-2 days",
+                        baseRate: "฿35",
+                        perKmRate: "฿8/km",
+                        capacity: "20,000 kg | 60 m³",
+                        tracking: "Available",
+                        trackingState: "Success" // Green text
+                    },
+                    {
+                        carrierName: "Flash Express",
+                        ratingValue: 4.6,
+                        coverage: "Nationwide",
+                        leadTime: "1-3 days",
+                        baseRate: "฿30",
+                        perKmRate: "฿7/km",
+                        capacity: "15,000 kg | 45 m³",
+                        tracking: "Available",
+                        trackingState: "Success"
+                    },
+                    {
+                        carrierName: "DHL Thailand",
+                        ratingValue: 4.9,
+                        coverage: "International",
+                        leadTime: "1-2 days",
+                        baseRate: "฿50",
+                        perKmRate: "฿12/km",
+                        capacity: "30,000 kg | 80 m³",
+                        tracking: "Available",
+                        trackingState: "Success"
+                    },
+                    {
+                        carrierName: "J&T Express",
+                        ratingValue: 4.5,
+                        coverage: "Nationwide",
+                        leadTime: "2-3 days",
+                        baseRate: "฿28",
+                        perKmRate: "฿6/km",
+                        capacity: "10,000 kg | 30 m³",
+                        tracking: "Available",
+                        trackingState: "Success"
+                    },
+                    {
+                        carrierName: "SCG Logistics",
+                        ratingValue: 4.7,
+                        coverage: "Regional",
+                        leadTime: "1-2 days",
+                        baseRate: "฿45",
+                        perKmRate: "฿10/km",
+                        capacity: "25,000 kg | 70 m³",
+                        tracking: "Available",
+                        trackingState: "Success"
+                    }
+                ],
+                Drivers: [
+                    {
+                        driverId: "DRV-001",
+                        name: "Somchai Prasert",
+                        contact: "+66 81 234 5678",
+                        status: "Available",
+                        statusState: "Success", // Green
+                        assignedVehicle: "TH-1234",
+                        license: "Class 2",
+                        rating: 4.8,
+                        totalTrips: 342
+                    },
+                    {
+                        driverId: "DRV-002",
+                        name: "Wichai Thongsuk",
+                        contact: "+66 81 345 6789",
+                        status: "Available",
+                        statusState: "Success",
+                        assignedVehicle: "TH-2345",
+                        license: "Class 2",
+                        rating: 4.6,
+                        totalTrips: 287
+                    },
+                    {
+                        driverId: "DRV-003",
+                        name: "Narong Somjai",
+                        contact: "+66 81 456 7890",
+                        status: "On Duty",
+                        statusState: "Warning", // Orange (Busy)
+                        assignedVehicle: "TH-3456",
+                        license: "Class 3",
+                        rating: 4.5,
+                        totalTrips: 198
+                    },
+                    {
+                        driverId: "DRV-004",
+                        name: "Prasert Chai",
+                        contact: "+66 81 567 8901",
+                        status: "Off Duty",
+                        statusState: "Information", // Blue/Grey
+                        assignedVehicle: "TH-4567",
+                        license: "Class 2",
+                        rating: 4.4,
+                        totalTrips: 156
+                    },
+                    {
+                        driverId: "DRV-005",
+                        name: "Prasit Wongchai",
+                        contact: "+66 82 345 6789",
+                        status: "On Duty",
+                        statusState: "Warning",
+                        assignedVehicle: "TH-5678",
+                        license: "Class 3",
+                        rating: 4.7,
+                        totalTrips: 223
+                    },
+                    {
+                        driverId: "DRV-006",
+                        name: "Surachai Pranee",
+                        contact: "+66 82 456 7890",
+                        status: "Available",
+                        statusState: "Success",
+                        assignedVehicle: "TH-6789",
+                        license: "Class 2 + Refrigerated",
+                        rating: 4.9,
+                        totalTrips: 312
+                    },
+                    {
+                        driverId: "DRV-007",
+                        name: "Anuchit Ploykaew",
+                        contact: "+66 83 123 4567",
+                        status: "On Duty",
+                        statusState: "Warning",
+                        assignedVehicle: "-",
+                        license: "Class 3",
+                        rating: 4.3,
+                        totalTrips: 89
+                    },
+                    {
+                        driverId: "DRV-008",
+                        name: "Kittisak Boonmee",
+                        contact: "+66 83 234 5678",
+                        status: "On Duty",
+                        statusState: "Warning",
+                        assignedVehicle: "-",
+                        license: "Class 2",
+                        rating: 4.6,
+                        totalTrips: 134
+                    }
+                ], Maintenance: [
+                    {
+                        vehicleId: "TH-4567",
+                        vehicleType: "6-Wheeler Truck",
+                        serviceType: "Major Service",
+                        scheduledDate: "2026-01-10",
+                        duration: "3 days",
+                        status: "In Progress",
+                        statusState: "Warning", // Orange/Yellow indicating active work
+                        serviceCenter: "Toyota Service Center - Bangna"
+                    },
+                    {
+                        vehicleId: "TH-2345",
+                        vehicleType: "10-Wheeler Truck",
+                        serviceType: "Routine",
+                        scheduledDate: "2026-02-20",
+                        duration: "1 day",
+                        status: "Scheduled",
+                        statusState: "Information", // Blue indicating future event
+                        serviceCenter: "Isuzu Service Center - Rangsit"
+                    },
+                    {
+                        vehicleId: "TH-3456",
+                        vehicleType: "4-Wheeler Van",
+                        serviceType: "Routine",
+                        scheduledDate: "2026-03-01",
+                        duration: "1 day",
+                        status: "Scheduled",
+                        statusState: "Information",
+                        serviceCenter: "Toyota Service Center - Bangna"
+                    }
+                ]
+
             });
             this.getView().setModel(oViewModel);
 
             // Set initial view visibility
             this._showView("dashboard");
+        },
+        onAfterRendering: function () {
+            this.onFleetCockpitTabSelect({
+                getParameter: function () {
+                    return "PendingAssignment";
+                }
+            });
         },
 
         // Global fragment load function
@@ -74,6 +419,9 @@ sap.ui.define([
             this.byId("shipmentExecutionView").setVisible(false);
             this.byId("trackingView").setVisible(false);
             this.byId("freightOrdersView").setVisible(false);
+            this.byId("shipmentExecutionViewsub2").setVisible(false);
+
+
             // Show selected view
             switch (sKey) {
                 case "dashboard":
@@ -91,6 +439,10 @@ sap.ui.define([
                 case "tracking":
                     this.byId("trackingView").setVisible(true);
                     break;
+                case "shipmentExecutionViewsub2":
+                    this.byId("shipmentExecutionViewsub2").setVisible(true);
+                    break
+
             }
         },
 
@@ -1636,6 +1988,88 @@ sap.ui.define([
                     weight: "14 tons"
                 }
             ];
+        },
+        onshipmentExecutionViewselectionChange: function (oEvent) {
+            debugger
+            if (oEvent.getParameters("item").item.getProperty("key") === "FleetOverview") {
+                this.byId("shipmentExecutionViewsub").setVisible(false)
+                this.byId("shipmentExecutionViewsub2").setVisible(true)
+
+            }
+            else {
+                this.byId("shipmentExecutionViewsub").setVisible(true)
+                this.byId("shipmentExecutionViewsub2").setVisible(false)
+            }
+
+        },
+        onFleetCockpitTabSelect: function (oEvent) {
+            var sSelectedKey = oEvent.getParameter("key");
+            var oTable = this.byId("ordersTable");
+            var oBinding = oTable.getBinding("items");
+
+            var aFilters = [];
+
+            switch (sSelectedKey) {
+
+                case "PendingAssignment":
+                    aFilters.push(
+                        new sap.ui.model.Filter("status", sap.ui.model.FilterOperator.EQ, "Pending Assignment")
+                    );
+                    break;
+
+                case "Assigned":
+                    aFilters.push(
+                        new sap.ui.model.Filter({
+                            filters: [
+                                new sap.ui.model.Filter("status", sap.ui.model.FilterOperator.EQ, "Internal Fleet"),
+                                new sap.ui.model.Filter("status", sap.ui.model.FilterOperator.EQ, "External Carrier")
+                            ],
+                            and: false
+                        })
+                    );
+                    break;
+
+                case "InTransist":
+                    aFilters.push(
+                        new sap.ui.model.Filter("status", sap.ui.model.FilterOperator.EQ, "In Transit")
+                    );
+                    break;
+
+                case "Completed":
+                    aFilters.push(
+                        new sap.ui.model.Filter("status", sap.ui.model.FilterOperator.EQ, "Completed")
+                    );
+                    break;
+
+                default:
+                    // no filter
+                    break;
+            }
+
+            oBinding.filter(aFilters);
+        },
+        onAnalyzeOrder: function (oEvent) {
+            var oOrder = oEvent.getSource().getBindingContext().getObject();
+            if (!this._oFleetDialog) {
+                this._oFleetDialog = this.loadFragment("intellicarrier.view.FleetCockpitAnalysis");
+            }
+
+            var oOrderModel = new sap.ui.model.json.JSONModel(oOrder);
+            this.getView().setModel(oOrderModel, "selectedOrder");
+
+            this._oFleetDialog.then(function (oDialog) {
+                oDialog.open();
+            });
+        },
+
+        onCloseFleetCockpit: function () {
+
+            this._oFleetDialog.then(function (oDialog) {
+                oDialog.close();
+            });
         }
+
+
+
     });
 });
