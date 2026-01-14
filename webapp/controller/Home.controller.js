@@ -745,7 +745,7 @@ sap.ui.define([
                 totalWeight: oOrderData.fullData?.totalWeight || 750,
                 volume: oOrderData.fullData?.volume || 2.5,
                 specialInstructions: oOrderData.fullData?.specialInstructions || "Handle with care. Temperature controlled.",
-                documentName: oOrderData.fullData?.documentName || "customer_order_001.pdf",
+                documentName: oOrderData.fullData?.documentName || "PDF not uploaded",
                 sourceText: oOrderData.sourceText || "PDF Upload",
                 checklist: {
                     customerVerified: false,
@@ -797,6 +797,10 @@ sap.ui.define([
         onDownloadOriginal: function () {
             sap.m.MessageToast.show("Downloading original document...");
             // Implement actual download logic here
+        },
+        onuploadComplete:function(oEvent){
+debugger
+this.getView().getModel("reviewOrder").setProperty("/documentName","12345678")
         },
 
         onCancelReview: function () {
