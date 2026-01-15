@@ -272,7 +272,7 @@
                                 <FlexBox wrap="NoWrap" alignItems="Start" class="sapUiMediumMarginBottom">
 
                                     <!-- Pending Assignment -->
-                                    <GenericTile header="Pending Assignment" subheader="Awaiting fleet allocation" frameType="TwoByHalf" class="sapUiTinyMarginEnd sapUiSmallMarginBottom" width="10vw">
+                                    <GenericTile header="Pending Assignment" wrappingType="Normal" subheader="Awaiting fleet allocation" frameType="TwoByHalf" class="sapUiTinyMarginEnd sapUiSmallMarginBottom" width="10vw">
                                         <tileContent>
                                             <TileContent>
                                                 <content>
@@ -337,25 +337,14 @@
                                         </tileContent>
                                     </GenericTile>
 
-                                    <!-- Total Value -->
-                                    <GenericTile header="Total Value" subheader="Shipment value" frameType="TwoByHalf" class="sapUiTinyMarginEnd sapUiSmallMarginBottom" width="10vw">
-                                        <tileContent>
-                                            <TileContent>
-                                                <content>
-                                                    <NumericContent value="512K" scale="THB" valueColor="Good" icon="sap-icon://money-bills"/>
-                                                </content>
-                                            </TileContent>
-                                        </tileContent>
-                                    </GenericTile>
-
                                 </FlexBox>
                                 <IconTabBar id="shipmentTabBar1" expandable="false" headerMode="Inline" selectedKey="PendingAssignment" select=".onFleetCockpitTabSelect">
                                     <items>
                                         <IconTabFilter key="PendingAssignment" text="⏳ Pending Assignment" class="shipment-tab-item">
                                         </IconTabFilter>
-                                        <IconTabFilter key="Assigned" text="Assigned" class="shipment-tab-item"/>
-                                        <IconTabFilter key="InTransist" text="In Transist" class="shipment-tab-item"/>
-                                        <IconTabFilter key="Completed" text="Completed" class="shipment-tab-item"/>
+                                        <IconTabFilter key="Assigned" text="✅ Assigned" class="shipment-tab-item"/>
+                                        <IconTabFilter key="InTransist" text="🚚 In Transit" class="shipment-tab-item"/>
+                                        <IconTabFilter key="Completed" text="✓ Completed" class="shipment-tab-item"/>
 
                                     </items>
                                 </IconTabBar>
@@ -376,13 +365,13 @@
                                     </headerToolbar>
 
                                     <columns>
-                                        <Column>
+                                        <Column width="10rem">
                                             <Text text="Order ID"/>
                                         </Column>
                                         <Column>
                                             <Text text="Customer"/>
                                         </Column>
-                                        <Column>
+                                        <Column width="9rem">
                                             <Text text="Route"/>
                                         </Column>
                                         <Column>
@@ -397,10 +386,10 @@
                                         <Column>
                                             <Text text="Status"/>
                                         </Column>
-                                        <Column hAlign="End">
+                                        <Column hAlign="Center">
                                             <Text text="Value"/>
                                         </Column>
-                                        <Column hAlign="Center">
+                                        <Column width="6rem" hAlign="Center">
                                             <Text text="Actions"/>
                                         </Column>
                                     </columns>
@@ -411,8 +400,9 @@
 
                                                 <!-- Order ID -->
                                                 <VBox>
-                                                    <Text text="{orderId}" class="sapUiBoldText"/>
-                                                    <Text text="{coId}" class="sapUiTinyMarginTop sapUiContentLabel"/>
+                                                    <Title text="{orderId}" class="sapUiBoldText" wrapping="true" />
+                                                    <Label text="{coId}" class="sapUiTinyMarginTop sapUiContentLabel" visible="{= ${status} !== 'Completed' }"/>
+                                                    <Text text="{sphId}" class="sphId" visible="{= ${status} === 'Completed' }"></Text>
                                                 </VBox>
 
                                                 <!-- Customer -->
@@ -441,18 +431,18 @@
                                                 <Text text="{deliveryDate}"/>
 
                                                 <!-- Priority -->
-                                                <ObjectStatus text="{priority}" state="{priorityState}"/>
+                                                <GenericTag text="{priority}" status="{priorityState}" design="StatusIconHidden"/>
 
-                                                <!-- Status -->
-                                                <ObjectStatus text="{status}" state="Warning"/>
+                                                
+                                                <GenericTag text="{status}" status="{statusState}" design="StatusIconHidden"></GenericTag>
 
                                                 <!-- Value -->
-                                                <Text text="{value}" class="sapUiBoldText sapUiPositiveText"/>
+                                                <Text text="{value}" class="sapUiBoldText PositiveText"/>
 
                                                 <!-- Action -->
-                                                <HBox >
-                                                    <Button icon="sap-icon://show" type="Transparent" tooltip="View Order" visible="{= ${status} === 'Completed' }" press=".onViewOrder"/>
-                                                    <Button text="Analyze" icon="sap-icon://inspection" type="Emphasized" visible="{= ${status} !== 'Completed' }" press=".onAnalyzeOrder"/>
+                                                <HBox justifyContent="Center">
+                                                    <Button text="Track" type="Neutral" tooltip="Track Order" visible="{= ${status} === 'Completed' }" press=".onTrackOrder"/>
+                                                    <Button text="Analyze"  type="Emphasized" visible="{= ${status} !== 'Completed' }" press=".onAnalyzeOrder"/>
                                                 </HBox>
 
 
@@ -1214,7 +1204,7 @@
                                 <!-- Shipments Status Summary -->
                                 <Title text="Shipments Summary" level="H3" class="sapUiSmallMarginBottom"/>
                                 <FlexBox wrap="Wrap" alignItems="Start" class="sapUiMediumMarginBottom">
-                                    <GenericTile header="In Transit" subheader="Active Shipments" class="sapUiSmallMarginEnd sapUiSmallMarginBottom trackingTile">
+                                    <GenericTile header="In Transit" subheader="Active Shipments" frameType="TwoByHalf" width="13rem" class="sapUiSmallMarginEnd sapUiSmallMarginBottom trackingTile">
                                         <tileContent>
                                             <TileContent>
                                                 <content>
@@ -1224,7 +1214,7 @@
                                         </tileContent>
                                     </GenericTile>
 
-                                    <GenericTile header="Delivered Today" subheader="Completed" class="sapUiSmallMarginEnd sapUiSmallMarginBottom trackingTile">
+                                    <GenericTile header="Delivered Today" subheader="Completed" frameType="TwoByHalf" width="13rem" class="sapUiSmallMarginEnd sapUiSmallMarginBottom trackingTile">
                                         <tileContent>
                                             <TileContent>
                                                 <content>
@@ -1234,7 +1224,7 @@
                                         </tileContent>
                                     </GenericTile>
 
-                                    <GenericTile header="Exceptions" subheader="Need Attention" class="sapUiSmallMarginEnd sapUiSmallMarginBottom trackingTile">
+                                    <GenericTile header="Exceptions" subheader="Need Attention" frameType="TwoByHalf" width="13rem" class="sapUiSmallMarginEnd sapUiSmallMarginBottom trackingTile">
                                         <tileContent>
                                             <TileContent>
                                                 <content>
@@ -1244,7 +1234,7 @@
                                         </tileContent>
                                     </GenericTile>
 
-                                    <GenericTile header="Out for Delivery" subheader="Today" class="sapUiSmallMarginEnd sapUiSmallMarginBottom trackingTile">
+                                    <GenericTile header="Out for Delivery" subheader="Today" frameType="TwoByHalf" width="13rem" class=" sapUiSmallMarginBottom trackingTile">
                                         <tileContent>
                                             <TileContent>
                                                 <content>
@@ -1301,7 +1291,7 @@
                                             <items>
                                                 <ColumnListItem press=".onViewShipmentDetails">
                                                     <cells>
-                                                        <Link text="SHP-2024-001234" press=".onViewShipmentDetails"/>
+                                                        <Link text="SHP-2026-001234" press=".onViewShipmentDetails"/>
                                                         <Text text="Global Tech Inc"/>
                                                         <Text text="San Francisco, CA"/>
                                                         <Text text="New York, NY"/>
@@ -1314,7 +1304,7 @@
                                                 </ColumnListItem>
                                                 <ColumnListItem press=".onViewShipmentDetails">
                                                     <cells>
-                                                        <Link text="SHP-2024-001235" press=".onViewShipmentDetails"/>
+                                                        <Link text="SHP-2026-001235" press=".onViewShipmentDetails"/>
                                                         <Text text="Acme Corporation"/>
                                                         <Text text="Los Angeles, CA"/>
                                                         <Text text="Chicago, IL"/>
@@ -1327,7 +1317,7 @@
                                                 </ColumnListItem>
                                                 <ColumnListItem press=".onViewShipmentDetails">
                                                     <cells>
-                                                        <Link text="SHP-2024-001236" press=".onViewShipmentDetails"/>
+                                                        <Link text="SHP-2026-001236" press=".onViewShipmentDetails"/>
                                                         <Text text="Tech Solutions Ltd"/>
                                                         <Text text="Seattle, WA"/>
                                                         <Text text="Miami, FL"/>
@@ -1340,7 +1330,7 @@
                                                 </ColumnListItem>
                                                 <ColumnListItem press=".onViewShipmentDetails">
                                                     <cells>
-                                                        <Link text="SHP-2024-001237" press=".onViewShipmentDetails"/>
+                                                        <Link text="SHP-2026-001237" press=".onViewShipmentDetails"/>
                                                         <Text text="Innovation Corp"/>
                                                         <Text text="Boston, MA"/>
                                                         <Text text="Denver, CO"/>
@@ -1385,11 +1375,11 @@
                                                 <!-- Shipment Info Section -->
                                                 <HBox width="100%" class="shipmentInfoContainer">
                                                     <VBox class="shipmentInfoSection" width="100%">
-                                                        <ObjectHeader title="SHP-2024-001234" number="46.30" numberUnit="USD" intro="Express Service" titleActive="true" icon="sap-icon://shipping-status" iconDensityAware="false" class="compactObjectHeader">
+                                                        <ObjectHeader title="SHP-2026-001234" number="46.30" numberUnit="USD" intro="Express Service" titleActive="true" icon="sap-icon://shipping-status" iconDensityAware="false" class="compactObjectHeader">
                                                             <attributes>
                                                                 <ObjectAttribute title="Origin" text="San Francisco, CA"/>
                                                                 <ObjectAttribute title="Destination" text="New York, NY"/>
-                                                                <ObjectAttribute title="Est. Delivery" text="Jan 15, 2024 by 5:00 PM"/>
+                                                                <ObjectAttribute title="Est. Delivery" text="Jan 15, 2026 by 5:00 PM"/>
                                                                 <ObjectAttribute title="Weight" text="2.5 kg"/>
                                                             </attributes>
                                                             <statuses>
@@ -1414,7 +1404,7 @@
                                                                 </VBox>
                                                                 <VBox class="timelineContentCard pickup" alignItems="Center">
                                                                     <Text text="Package Picked Up" class="timelineStatusText"/>
-                                                                    <Text text="Jan 14, 2024" class="timelineDateText"/>
+                                                                    <Text text="Jan 14, 2026" class="timelineDateText"/>
                                                                     <Text text="09:00 AM" class="timelineTimeText"/>
                                                                     <Text text="San Francisco, CA" class="timelineLocationText"/>
                                                                     <Text text="Package collected from sender" class="timelineNotesText"/>
@@ -1431,7 +1421,7 @@
                                                                 </VBox>
                                                                 <VBox class="timelineContentCard intransit" alignItems="Center">
                                                                     <Text text="Departed Facility" class="timelineStatusText"/>
-                                                                    <Text text="Jan 14, 2024" class="timelineDateText"/>
+                                                                    <Text text="Jan 14, 2026" class="timelineDateText"/>
                                                                     <Text text="11:30 AM" class="timelineTimeText"/>
                                                                     <Text text="San Francisco Hub" class="timelineLocationText"/>
                                                                     <Text text="Package in transit to next facility" class="timelineNotesText"/>
@@ -1448,7 +1438,7 @@
                                                                 </VBox>
                                                                 <VBox class="timelineContentCard processing" alignItems="Center">
                                                                     <Text text="Hub Processing" class="timelineStatusText"/>
-                                                                    <Text text="Jan 14, 2024" class="timelineDateText"/>
+                                                                    <Text text="Jan 14, 2026" class="timelineDateText"/>
                                                                     <Text text="03:45 PM" class="timelineTimeText"/>
                                                                     <Text text="Chicago Sorting Facility" class="timelineLocationText"/>
                                                                     <Text text="Package processed at sorting facility" class="timelineNotesText"/>
@@ -1465,7 +1455,7 @@
                                                                 </VBox>
                                                                 <VBox class="timelineContentCard active" alignItems="Center">
                                                                     <Text text="Out for Delivery" class="timelineStatusText"/>
-                                                                    <Text text="Jan 15, 2024" class="timelineDateText"/>
+                                                                    <Text text="Jan 15, 2026" class="timelineDateText"/>
                                                                     <Text text="07:00 AM" class="timelineTimeText"/>
                                                                     <Text text="New York Hub" class="timelineLocationText"/>
                                                                     <Text text="Package loaded for final delivery" class="timelineNotesText"/>
@@ -1482,7 +1472,7 @@
                                                                 </VBox>
                                                                 <VBox class="timelineContentCard delivered" alignItems="Center">
                                                                     <Text text="Delivered" class="timelineStatusText"/>
-                                                                    <Text text="Jan 15, 2024" class="timelineDateText"/>
+                                                                    <Text text="Jan 15, 2026" class="timelineDateText"/>
                                                                     <Text text="Expected by 5:00 PM" class="timelineTimeText"/>
                                                                     <Text text="New York, NY" class="timelineLocationText"/>
                                                                     <Text text="Package will be delivered to recipient" class="timelineNotesText"/>

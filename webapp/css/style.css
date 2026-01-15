@@ -2475,5 +2475,24 @@
     background-color: #c7f8f3;
   }
   .ab12345{
-padding: 10px;
+    border: 1px solid #a1a4a7 !important;
+
   }
+  .routeStart{
+color: green !important;  
+}
+ .routeEnd{
+color: red !important;  
+}
+
+.PositiveText{
+    color:#56cb81
+}
+.sphId{
+color: #0066cc !important;
+}
+.selectedCarrierBox {
+    background-color: #eaf7ee;
+    border: 1px solid #b7e4c7;
+    border-radius: 6px;
+}
