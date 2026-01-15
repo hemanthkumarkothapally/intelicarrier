@@ -28,12 +28,9 @@
         </customHeader>
 
         <content>
-            <l:Grid defaultSpan="L6 M12 S12" class="sapUiSmallMargin">
-
-                <!-- Left Column - Extracted Data -->
-                <l:content>
-                    <VBox class="sapUiSmallMargin">
-                        <Panel headerText="Extracted Order Data" class="sapUiNoContentPadding">
+        <FlexBox >
+                    <VBox class="sapUiSmallMargin" width="98%">
+                        <Panel headerText="Extracted Order Data" class="sapUiNoContentPadding" >
                             <headerToolbar>
                                 <OverflowToolbar>
                                     <core:Icon src="sap-icon://document-text" size="1.2rem" class="sapUiTinyMarginEnd"/>
@@ -44,7 +41,7 @@
                             </headerToolbar>
 
                             <content>
-                                <VBox class="sapUiSmallMargin">
+                                <VBox class="sapUiSmallMargin" width="90%">
 
                                     <!-- Customer Information -->
                                     <VBox class="sapUiMediumMarginBottom">
@@ -162,14 +159,10 @@
                             </content>
                         </Panel>
                     </VBox>
-                </l:content>
-
-                <!-- Right Column - Original Document & Review Checklist -->
-                <l:content>
-                    <VBox class="sapUiSmallMargin">
+                    <VBox class="sapUiSmallMargin" width="98%">
 
                         <!-- Original Document -->
-                        <Panel headerText="Original Document" class="sapUiNoContentPadding sapUiMediumMarginBottom">
+                        <Panel headerText="Original Document"  class="sapUiNoContentPadding sapUiMediumMarginBottom">
                             <headerToolbar>
                                 <OverflowToolbar>
                                     <core:Icon src="sap-icon://pdf-attachment" size="1.2rem" class="sapUiTinyMarginEnd"/>
@@ -180,7 +173,7 @@
                             </headerToolbar>
 
                             <content>
-                                <VBox alignItems="Center" class="sapUiLargeMarginTopBottom sapUiLargeMarginBeginEnd">
+                                <VBox alignItems="Center" width="50%" class="sapUiLargeMarginTopBottom sapUiLargeMarginBeginEnd">
                                     <core:Icon src="sap-icon://pdf-attachment" size="5rem" color="#666"/>
                                     <Title text="{reviewOrder>/documentName}" level="H5" class="sapUiSmallMarginTop"/>
                                     <Text text="{reviewOrder>/sourceText} • {reviewOrder>/language}" class="sapUiTinyMarginTop sapUiTinyText"/>
@@ -209,9 +202,7 @@
                         </Panel>
 
                     </VBox>
-                </l:content>
-
-            </l:Grid>
+                </FlexBox>
         </content>
 
         <footer>

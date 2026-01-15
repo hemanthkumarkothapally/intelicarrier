@@ -40,7 +40,7 @@ sap.ui.define([
                         priorityState: "Warning",
                         status: "Pending Assignment",
                         statusState: "Warning",
-                        value: "฿8,500"
+                        value: "฿ 8,500"
                     },
                     {
                         orderId: "FO-2026-0002",
@@ -56,7 +56,7 @@ sap.ui.define([
                         priorityState: "Error",
                         status: "Pending Assignment",
                         statusState: "Warning",
-                        value: "฿125,000"
+                        value: "฿ 125,000"
                     },
 
                     /* -------- NEW DATA FROM SCREENSHOT -------- */
@@ -75,7 +75,7 @@ sap.ui.define([
                         priorityState: "Information",
                         status: "Internal Fleet",
                         statusState: "Success",
-                        value: "฿285,000"
+                        value: "฿ 285,000"
                     },
                     {
                         orderId: "FO-2026-0004",
@@ -91,7 +91,24 @@ sap.ui.define([
                         priorityState: "Warning",
                         status: "External Carrier",
                         statusState: "Information",
-                        value: "฿75,000"
+                        value: "฿ 75,000"
+                    },
+                    {
+                        orderId: "FO-2026-0006",
+                        coId: "CO-2026-0015",
+                        sphId: "SHP-2026-001235",
+                        customer: "Prime Distribution Co.",
+                        from: "Bangkok (Bang Na)",
+                        to: "Rayong",
+                        distance: "180 km",
+                        cargoType: "Automotive Components",
+                        cargoInfo: "1,200 kg | 6 m³",
+                        deliveryDate: "2026-01-10",
+                        priority: "NORMAL",
+                        priorityState: "Information",
+                        status: "Completed",
+                        statusState: "Success",
+                        value: "฿ 42,800"
                     },
                     {
                         orderId: "FO-2026-0005",
@@ -107,7 +124,7 @@ sap.ui.define([
                         priorityState: "Error",
                         status: "In Transit",
                         statusState: "Warning",
-                        value: "฿18,750"
+                        value: "฿ 18,750"
                     }
                 ],
                 InternalFleet: [
@@ -368,6 +385,13 @@ sap.ui.define([
 
             // Set initial view visibility
             this._showView("dashboard");
+             var oSelectionModel = new sap.ui.model.json.JSONModel({
+        visible: false,
+        text: "",
+        price: ""
+    });
+
+    this.getView().setModel(oSelectionModel, "selectionModel");
         },
         onAfterRendering: function () {
             this.onFleetCockpitTabSelect({
@@ -798,9 +822,9 @@ sap.ui.define([
             sap.m.MessageToast.show("Downloading original document...");
             // Implement actual download logic here
         },
-        onuploadComplete:function(oEvent){
-debugger
-this.getView().getModel("reviewOrder").setProperty("/documentName","12345678")
+        onuploadComplete: function (oEvent) {
+            debugger
+            this.getView().getModel("reviewOrder").setProperty("/documentName", "12345678")
         },
 
         onCancelReview: function () {
@@ -1402,7 +1426,7 @@ this.getView().getModel("reviewOrder").setProperty("/documentName","12345678")
         },
 
         // Shipment Booking Handlers
-        onBookShipment: function () {
+        onBookShipment1: function () {
             var oCustomer = this.byId("customerInput").getValue();
             var oOrigin = this.byId("originShipmentInput").getValue();
             var oDestination = this.byId("destinationShipmentInput").getValue();
@@ -1430,8 +1454,8 @@ this.getView().getModel("reviewOrder").setProperty("/documentName","12345678")
             );
         },
 
-        _createNewBooking: function (sCustomer, sOrigin, sDestination, oVehicle) {
-            var sNewId = "SHP-2024-00" + (1243 + Math.floor(Math.random() * 100));
+        _createNewBooking1: function (sCustomer, sOrigin, sDestination, oVehicle) {
+            var sNewId = "SHP-2026-00" + (1243 + Math.floor(Math.random() * 100));
 
             // Get form data
             var sCargoType = this.byId("cargoTypeSelect").getSelectedItem()?.getText() || "General Freight";
@@ -1734,7 +1758,7 @@ this.getView().getModel("reviewOrder").setProperty("/documentName","12345678")
         },
 
         onShareTracking: function () {
-            var sTrackingNumber = "SHP-2024-001234"; // Default or get from input
+            var sTrackingNumber = "SHP-2026-001234"; // Default or get from input
             var sShareUrl = window.location.origin + window.location.pathname + "?tracking=" + sTrackingNumber;
 
             if (navigator.share) {
@@ -1778,31 +1802,31 @@ this.getView().getModel("reviewOrder").setProperty("/documentName","12345678")
         _getMockRecentShipments: function () {
             return [
                 {
-                    id: "SHP-2024-001234",
+                    id: "SHP-2026-001234",
                     customer: "Acme Corporation",
                     destination: "New York, NY",
                     service: "Express",
                     status: "In Transit",
                     statusState: "Warning",
-                    eta: "2024-01-15"
+                    eta: "2026-01-15"
                 },
                 {
-                    id: "SHP-2024-001233",
+                    id: "SHP-2026-001233",
                     customer: "Global Tech Inc",
                     destination: "Los Angeles, CA",
                     service: "Standard",
                     status: "Delivered",
                     statusState: "Success",
-                    eta: "2024-01-14"
+                    eta: "2026-01-14"
                 },
                 {
-                    id: "SHP-2024-001232",
+                    id: "SHP-2026-001232",
                     customer: "Smart Solutions",
                     destination: "Chicago, IL",
                     service: "Overnight",
                     status: "Processing",
                     statusState: "Information",
-                    eta: "2024-01-16"
+                    eta: "2026-01-16"
                 }
             ];
         },
@@ -1838,7 +1862,7 @@ this.getView().getModel("reviewOrder").setProperty("/documentName","12345678")
                     location: "Houston Hub",
                     driver: "John Smith",
                     fuelType: "Diesel",
-                    lastMaintenance: "2024-01-10",
+                    lastMaintenance: "2026-01-10",
                     statusState: "Success"
                 },
                 {
@@ -1850,7 +1874,7 @@ this.getView().getModel("reviewOrder").setProperty("/documentName","12345678")
                     location: "Dallas Terminal",
                     driver: "Maria Garcia",
                     fuelType: "Diesel",
-                    lastMaintenance: "2024-01-08",
+                    lastMaintenance: "2026-01-08",
                     statusState: "Success"
                 },
                 {
@@ -1862,7 +1886,7 @@ this.getView().getModel("reviewOrder").setProperty("/documentName","12345678")
                     location: "Refinery A",
                     driver: "Robert Johnson",
                     fuelType: "Diesel",
-                    lastMaintenance: "2024-01-12",
+                    lastMaintenance: "2026-01-12",
                     statusState: "Warning"
                 },
                 {
@@ -1874,7 +1898,7 @@ this.getView().getModel("reviewOrder").setProperty("/documentName","12345678")
                     location: "San Antonio Hub",
                     driver: "Lisa Chen",
                     fuelType: "Diesel",
-                    lastMaintenance: "2024-01-09",
+                    lastMaintenance: "2026-01-09",
                     statusState: "Success"
                 },
                 {
@@ -1886,7 +1910,7 @@ this.getView().getModel("reviewOrder").setProperty("/documentName","12345678")
                     location: "Service Center",
                     driver: "Not Assigned",
                     fuelType: "Diesel",
-                    lastMaintenance: "2024-01-13",
+                    lastMaintenance: "2026-01-13",
                     statusState: "Error"
                 },
                 {
@@ -1898,7 +1922,7 @@ this.getView().getModel("reviewOrder").setProperty("/documentName","12345678")
                     location: "Port Authority",
                     driver: "Carlos Rodriguez",
                     fuelType: "Diesel",
-                    lastMaintenance: "2024-01-11",
+                    lastMaintenance: "2026-01-11",
                     statusState: "Success"
                 },
                 {
@@ -1910,7 +1934,7 @@ this.getView().getModel("reviewOrder").setProperty("/documentName","12345678")
                     location: "Refinery B",
                     driver: "Ahmed Hassan",
                     fuelType: "Diesel",
-                    lastMaintenance: "2024-01-07",
+                    lastMaintenance: "2026-01-07",
                     statusState: "Success"
                 },
                 {
@@ -1922,7 +1946,7 @@ this.getView().getModel("reviewOrder").setProperty("/documentName","12345678")
                     location: "Austin Hub",
                     driver: "Jennifer White",
                     fuelType: "Diesel",
-                    lastMaintenance: "2024-01-12",
+                    lastMaintenance: "2026-01-12",
                     statusState: "Success"
                 }
             ];
@@ -1932,14 +1956,14 @@ this.getView().getModel("reviewOrder").setProperty("/documentName","12345678")
         _getMockBookedShipments: function () {
             return [
                 {
-                    id: "SHP-2024-001240",
+                    id: "SHP-2026-001240",
                     vehicleId: "TRK-003",
                     vehicleType: "Standard Truck",
                     customer: "Tech Industries",
                     origin: "Houston, TX",
                     destination: "Austin, TX",
-                    loadDate: "2024-01-16",
-                    deliveryDate: "2024-01-17",
+                    loadDate: "2026-01-16",
+                    deliveryDate: "2026-01-17",
                     driver: "Mike Wilson",
                     status: "Scheduled",
                     statusState: "Information",
@@ -1947,14 +1971,14 @@ this.getView().getModel("reviewOrder").setProperty("/documentName","12345678")
                     weight: "8.5 tons"
                 },
                 {
-                    id: "SHP-2024-001241",
+                    id: "SHP-2026-001241",
                     vehicleId: "CNT-047",
                     vehicleType: "Container",
                     customer: "Global Manufacturing",
                     origin: "Dallas, TX",
                     destination: "Phoenix, AZ",
-                    loadDate: "2024-01-15",
-                    deliveryDate: "2024-01-18",
+                    loadDate: "2026-01-15",
+                    deliveryDate: "2026-01-18",
                     driver: "Sarah Davis",
                     status: "In Transit",
                     statusState: "Warning",
@@ -1962,14 +1986,14 @@ this.getView().getModel("reviewOrder").setProperty("/documentName","12345678")
                     weight: "22 tons"
                 },
                 {
-                    id: "SHP-2024-001242",
+                    id: "SHP-2026-001242",
                     vehicleId: "TNK-015",
                     vehicleType: "Oil Tanker",
                     customer: "Energy Solutions",
                     origin: "Refinery B",
                     destination: "Distribution Center",
-                    loadDate: "2024-01-14",
-                    deliveryDate: "2024-01-16",
+                    loadDate: "2026-01-14",
+                    deliveryDate: "2026-01-16",
                     driver: "David Brown",
                     status: "Loading",
                     statusState: "Warning",
@@ -1977,14 +2001,14 @@ this.getView().getModel("reviewOrder").setProperty("/documentName","12345678")
                     weight: "12,000 gallons"
                 },
                 {
-                    id: "SHP-2024-001243",
+                    id: "SHP-2026-001243",
                     vehicleId: "TRK-009",
                     vehicleType: "Heavy Duty Truck",
                     customer: "Construction Corp",
                     origin: "San Antonio, TX",
                     destination: "El Paso, TX",
-                    loadDate: "2024-01-17",
-                    deliveryDate: "2024-01-19",
+                    loadDate: "2026-01-17",
+                    deliveryDate: "2026-01-19",
                     driver: "James Miller",
                     status: "Scheduled",
                     statusState: "Information",
@@ -2053,6 +2077,7 @@ this.getView().getModel("reviewOrder").setProperty("/documentName","12345678")
             oBinding.filter(aFilters);
         },
         onAnalyzeOrder: function (oEvent) {
+            debugger
             var oOrder = oEvent.getSource().getBindingContext().getObject();
             if (!this._oFleetDialog) {
                 this._oFleetDialog = this.loadFragment("intellicarrier.view.FleetCockpitAnalysis");
@@ -2065,13 +2090,119 @@ this.getView().getModel("reviewOrder").setProperty("/documentName","12345678")
                 oDialog.open();
             });
         },
+        onBookShipment: function () {
+    var oView = this.getView();
+
+    // Selected Order (from Analyze dialog)
+    var oSelectedOrder = oView.getModel("selectedOrder")?.getData();
+
+    // Selected Vehicle / Carrier (from selection logic)
+    var oSelectedVehicle = oView.getModel("selectionModel").getData();
+
+    if (!oSelectedOrder) {
+        sap.m.MessageBox.error("No order selected for booking.");
+        return;
+    }
+    if (!oSelectedVehicle) {
+        sap.m.MessageBox.error("No Carrier is Selected for booking.");
+        return;
+    }
+
+
+    // Extract order details
+    var sCustomer = oSelectedOrder.customer;
+    var sOrigin = oSelectedOrder.from;
+    var sDestination = oSelectedOrder.to;
+    var sDeliveryDate = oSelectedOrder.deliveryDate;
+    var sCargoInfo = oSelectedOrder.cargoInfo;
+    var sOrderId = oSelectedOrder.orderId;
+
+    // Vehicle / Carrier details
+    var sVehicleName = oSelectedVehicle.text
+    // Confirmation message
+    var sMessage =
+        "Confirm booking for the following shipment?\n\n" +
+        "Order ID: " + sOrderId + "\n" +
+        "Customer: " + sCustomer + "\n" +
+        "Route: " + sOrigin + " → " + sDestination + "\n" +
+        "Cargo: " + sCargoInfo + "\n" +
+        "Delivery Date: " + sDeliveryDate + "\n\n" +
+        "Assigned: " + sVehicleName
+
+    sap.m.MessageBox.confirm(sMessage, {
+        title: "Confirm Shipment Booking",
+        actions: [sap.m.MessageBox.Action.OK, sap.m.MessageBox.Action.CANCEL],
+        onClose: function (oAction) {
+            if (oAction === sap.m.MessageBox.Action.OK) {
+                this._createNewBooking(oSelectedOrder, oSelectedVehicle);
+            }
+        }.bind(this)
+    });
+},
+_createNewBooking: function (oOrder, oVehicle) {
+    console.log("Booking Created", {
+        order: oOrder,
+        vehicle: oVehicle
+    });
+
+    sap.m.MessageToast.show(
+        "Shipment " + oOrder.orderId + " booked successfully"
+    );
+},
 
         onCloseFleetCockpit: function () {
 
             this._oFleetDialog.then(function (oDialog) {
                 oDialog.close();
             });
+        },
+        onConformpres:function(){
+            this.onCloseFleetCockpit();
+            this.onBookShipment();
+        },
+        onTrackOrder: function () {
+            var oFakeEvent = {
+                getParameter: function (sName) {
+                    if (sName === "item") {
+                        return {
+                            getKey: function () {
+                                return "tracking";
+                            }
+                        };
+                    }
+                }
+            };
+
+            this.onItemSelect(oFakeEvent);
+        },
+        onCarrierListSelected: function (oEvent) {
+    var oItem = oEvent.getParameter("listItem");
+    if (!oItem) {
+        return;
+    }
+
+    var oVBox = oItem.getContent()[0]; // VBox inside CustomListItem
+    var aItems = oVBox.getItems();
+
+    // Title (first Text)
+    var sTitle = aItems[0].getText();
+
+    // Find price (Text with sapUiPositiveText)
+    var sPrice = "";
+    aItems.forEach(function (oCtrl) {
+        if (oCtrl.hasStyleClass && oCtrl.hasStyleClass("sapUiPositiveText")) {
+            sPrice = oCtrl.getText();
         }
+    });
+
+    // Update model
+    var oModel = this.getView().getModel("selectionModel");
+    oModel.setProperty("/visible", true);
+    oModel.setProperty("/text", sTitle);
+    oModel.setProperty("/price", sPrice);
+}
+
+
 
 
 
