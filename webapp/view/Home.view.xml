@@ -55,26 +55,27 @@
                     <!-- Side Navigation -->
                     <tnt:SideNavigation id="sideNavigation" selectedKey="dashboard" expanded="true" itemSelect=".onItemSelect">
                         <tnt:NavigationList>
-                            <tnt:NavigationListItem text="Smart Rate Shopping" icon="sap-icon://sales-quote" key="rateshopping"/>
                             <tnt:NavigationListGroup text="Operations" key="Operations">
                             <tnt:NavigationListItem text="Dashboard" icon="sap-icon://home" key="dashboard"/>
                             <tnt:NavigationListItem text="Freight Orders" icon="sap-icon://shipping-status" key="freightOrders" />
-                            <tnt:NavigationListItem text="Freight Execution" icon="sap-icon://create" key="shipmentexecution"/>
+                            <tnt:NavigationListItem text="Shipment Execution" icon="sap-icon://create" key="shipmentexecution"/>
                             <tnt:NavigationListItem text="Tracking &amp; Visibility" icon="sap-icon://locate-me" key="tracking"/>
 
-                            <tnt:NavigationListItem text="Cash Advance &amp; Reimbursement" icon="sap-icon://locate-me" key="CashAdvanceandReimbursement"/>
+                            <tnt:NavigationListItem text="Cash Advance &amp; Reimbursement" icon="sap-icon://wallet" key="CashAdvanceandReimbursement"/>
                             
                             </tnt:NavigationListGroup>
-                            <tnt:NavigationListGroup text="Reports" key="Reports" >
+                            <tnt:NavigationListGroup text="Reports" key="Reports" expanded="false">
                             <tnt:NavigationListItem text="Fleet Overview" icon="sap-icon://create" key="shipmentExecutionViewsub2"/>
-                            <tnt:NavigationListItem text="Operational &amp; Financial Reports" icon="sap-icon://home" key="OperationalandFinancialReports"/>
+                            <tnt:NavigationListItem text="Operational &amp; Financial Reports" icon="sap-icon://create" key="OperationalandFinancialReports"/>
 
-                            </tnt:NavigationListGroup>
-                            <tnt:NavigationListGroup text="Masters" key="Masters" >
+                            </tnt:NavigationListGroup >
+                            <tnt:NavigationListGroup text="Masters" key="Masters" expanded="false">
                             <tnt:NavigationListItem text="Rate Master" icon="sap-icon://home" key="RateMaster"/>
                             <tnt:NavigationListItem text="Reference Data" icon="sap-icon://home" key="ReferenceData"/>
 
                             </tnt:NavigationListGroup>
+                            <tnt:NavigationListItem text="Smart Rate Shopping" icon="sap-icon://sales-quote" key="rateshopping"/>
+
                         </tnt:NavigationList>
 
                         <tnt:fixedItem>
