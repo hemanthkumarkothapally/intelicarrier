@@ -685,6 +685,7 @@ sap.ui.define([
             });
 
             this.getView().setModel(oSelectionModel, "selectionModel");
+            //  this._loadVehicleData();
         },
         onAfterRendering: function () {
             this.onFleetCockpitTabSelect({
@@ -693,6 +694,7 @@ sap.ui.define([
                 }
             });
         },
+
 
         // Global fragment load function
         loadFragment: function (sPath) {
@@ -738,6 +740,7 @@ sap.ui.define([
             this.byId("freightOrdersView").setVisible(false);
             this.byId("shipmentExecutionViewsub2").setVisible(false);
             this.byId("CashAdvanceandReimbursement").setVisible(false);
+            this.byId("vehicleChecklist").setVisible(false);
 
 
 
@@ -763,6 +766,9 @@ sap.ui.define([
                     break
                 case "CashAdvanceandReimbursement":
                     this.byId("CashAdvanceandReimbursement").setVisible(true);
+                    break
+                case "vehicleChecklist":
+                    this.byId("vehicleChecklist").setVisible(true);
                     break
             }
         },
@@ -2515,7 +2521,7 @@ sap.ui.define([
                 dates: "Jan 15–17, 2026",
                 history: "2 advances this month (฿13,000) | Outstanding: ฿0 | 100% on-time"
             };
-             if (!this._oAdvanceApprovalDialog) {
+            if (!this._oAdvanceApprovalDialog) {
                 this._oAdvanceApprovalDialog = this.loadFragment("intellicarrier.view.AdvanceApproval");
             }
             var oModel = new sap.ui.model.json.JSONModel(oReviewData);
@@ -2541,50 +2547,154 @@ sap.ui.define([
             this.onCloseAdvanceApproval();
         },
         onOpenNewAdvanceDialog: function () {
-    
-if (!this._oNewAdvanceDialog) {
+
+            if (!this._oNewAdvanceDialog) {
                 this._oNewAdvanceDialog = this.loadFragment("intellicarrier.view.NewCashAdvanceRequest");
             }
             this._oNewAdvanceDialog.then(function (oDialog) {
                 oDialog.open();
             });
-},
+        },
 
-onCloseNewAdvanceDialog: function () {
-this._oNewAdvanceDialog.then(function (oDialog) {
+        onCloseNewAdvanceDialog: function () {
+            this._oNewAdvanceDialog.then(function (oDialog) {
                 oDialog.close();
-            });},
+            });
+        },
 
-onSubmitAdvanceRequest: function () {
-    sap.m.MessageToast.show("Advance Request Submitted for Approval");
-    this.onCloseNewAdvanceDialog();
-},
-onOpenDocPrintDialog: function () {
-    
+        onSubmitAdvanceRequest: function () {
+            sap.m.MessageToast.show("Advance Request Submitted for Approval");
+            this.onCloseNewAdvanceDialog();
+        },
+        onOpenDocPrintDialog: function () {
 
-if (!this._oDocPrintDialog) {
+
+            if (!this._oDocPrintDialog) {
                 this._oDocPrintDialog = this.loadFragment("intellicarrier.view.DocPrintDialog");
             }
-    var oModel = new sap.ui.model.json.JSONModel({
-        shipmentId: "FO-2026-00001",
-        customer: "Customer Name",
-        fleetType: "🚛 Internal Fleet",
-        origin: "Bangkok",
-        destination: "Chiang Mai",
-        vehicle: "TK-001",
-        driver: "Somchai P."
-    });
+            var oModel = new sap.ui.model.json.JSONModel({
+                shipmentId: "FO-2026-00001",
+                customer: "Customer Name",
+                fleetType: "🚛 Internal Fleet",
+                origin: "Bangkok",
+                destination: "Chiang Mai",
+                vehicle: "TK-001",
+                driver: "Somchai P."
+            });
 
-    this.getView().setModel(oModel, "docModel");
-    this._oDocPrintDialog.then(function (oDialog) {
+            this.getView().setModel(oModel, "docModel");
+            this._oDocPrintDialog.then(function (oDialog) {
                 oDialog.open();
             });
+        },
+
+        onCloseDocPrintDialog: function () {
+            this._oDocPrintDialog.then(function (oDialog) {
+                oDialog.close();
+            });
+        },
+
+onViewMaintenance: function (oEvent) {
+    var oContext = oEvent.getSource()
+        .getParent()
+        .getBindingContext("vehicleDataModel");
+
+    this._openWorkOrderDetailsDialog(oContext);
 },
 
-onCloseDocPrintDialog: function () {
-this._oDocPrintDialog.then(function (oDialog) {
-                oDialog.close();
-            });}
+onCreateMaintenance: function(){
+var oView = this.getView();
+
+    if (!this.CreateMaintenanceDialog) {
+        this.CreateMaintenanceDialog = Fragment.load({
+            id: oView.getId(),
+            name: "intellicarrier.view.CreateWorkOrder",
+            controller: this
+        }).then(function (oDialog) {
+            oView.addDependent(oDialog);
+            return oDialog;
+        });
+    }
+
+    this.CreateMaintenanceDialog.then(function (oDialog) {
+        // oDialog.setBindingContext(oContext, "vehicleDataModel");
+        oDialog.open();
+    });
+},
+_openWorkOrderDetailsDialog: function (oContext) {
+    var oView = this.getView();
+
+    if (!this._pWorkOrderDetailsDialog) {
+        this._pWorkOrderDetailsDialog = Fragment.load({
+            id: oView.getId(),
+            name: "intellicarrier.view.WorkOrderDetails",
+            controller: this
+        }).then(function (oDialog) {
+            oView.addDependent(oDialog);
+            return oDialog;
+        });
+    }
+
+    this._pWorkOrderDetailsDialog.then(function (oDialog) {
+        oDialog.setBindingContext(oContext, "vehicleDataModel");
+        oDialog.open();
+    });
+},
+
+onCreateTemplate: function(){
+var oView = this.getView();
+
+    if (!this.onCreateTemplateDialog) {
+        this.onCreateTemplateDialog = Fragment.load({
+            id: oView.getId(),
+            name: "intellicarrier.view.CreateChecklistTemplate",
+            controller: this
+        }).then(function (oDialog) {
+            oView.addDependent(oDialog);
+            return oDialog;
+        });
+    }
+
+    this.onCreateTemplateDialog.then(function (oDialog) {
+        // oDialog.setBindingContext(oContext, "vehicleDataModel");
+        oDialog.open();
+    });
+},
+
+
+
+onMarkComplete: function () {
+    var oDialog = this.byId("workOrderDetailsDialog");
+    var oContext = oDialog.getBindingContext("vehicleDataModel");
+    var oModel = oContext.getModel();
+    var sPath = oContext.getPath();
+
+    oModel.setProperty(sPath + "/maintStatus", "Completed");
+    oModel.setProperty(sPath + "/maintStatusState", "Success");
+
+    sap.m.MessageToast.show("Work order marked as complete");
+    this.onCloseDialog();
+},
+
+ onCloseDialog: function () {
+            // Close all dialogs
+            if (this._pWorkOrderDetailsDialog) {
+                this._pWorkOrderDetailsDialog.then(function (oDialog) {
+                    oDialog.close();
+                });
+            }
+            if (this.CreateMaintenanceDialog) {
+                this.CreateMaintenanceDialog.then(function (oDialog) {
+                    oDialog.close();
+                });
+            }
+            if (this.onCreateTemplateDialog) {
+                this.onCreateTemplateDialog.then(function (oDialog) {
+                    oDialog.close();
+                });
+            }
+        },
+
 
 
     });

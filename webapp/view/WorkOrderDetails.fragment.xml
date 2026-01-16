@@ -1,0 +1,200 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:f="sap.ui.layout.form"
+    xmlns:l="sap.ui.layout">
+
+    <Dialog
+        title="🔧 Work Order Details"
+        contentWidth="900px"
+        contentHeight="700px"
+        resizable="true"
+        draggable="true">
+        
+        <customHeader>
+            <Bar>
+                <contentLeft>
+                    <Title text="🔧 Work Order Details" level="H2"/>
+                </contentLeft>
+                <contentRight>
+                    <Button icon="sap-icon://decline" press="onCloseDialog"/>
+                </contentRight>
+            </Bar>
+        </customHeader>
+
+        <content>
+            <ScrollContainer height="100%" width="100%" vertical="true">
+                <VBox class="sapUiSmallMargin">
+                    
+                    <!-- Header Info -->
+                    <HBox class="sapUiSmallMarginBottom">
+                        <Text text="{vehicleDataModel>workOrderId}" class="sapUiTinyMarginEnd"/>
+                        <Text text="•" class="sapUiTinyMarginEnd"/>
+                        <Text text="{vehicleDataModel>vehicleId}"/>
+                    </HBox>
+
+                    <!-- Linked Checklist Issue -->
+                    <MessageStrip
+                        text="Linked to Checklist Issue"
+                        type="Information"
+                        showIcon="true"
+                        class="sapUiSmallMarginBottom">
+                       
+                        <link>
+                            <Link text="{vehicleDataModel>linkedChecklistId} • {vehicleDataModel>linkedChecklistDate}" press="onViewChecklist"/>
+                        </link>
+                        <!-- <Button text="View Checklist" type="Emphasized" press="onViewChecklist" class="sapUiTinyMarginStart"/> -->
+                    </MessageStrip>
+
+                    <!-- Status Cards -->
+                    <l:Grid defaultSpan="L4 M6 S12" class="sapUiSmallMarginBottom">
+                        <VBox class="sapUiSmallMargin">
+                            <Label text="TYPE" class="sapUiTinyMarginBottom"/>
+                            <HBox alignItems="Center">
+                                <core:Icon src="sap-icon://wrench" color="#E76500" class="sapUiTinyMarginEnd"/>
+                                <Text text="{vehicleDataModel>type}" class="sapUiBoldText" />
+                            </HBox>
+                        </VBox>
+
+                        <VBox class="sapUiSmallMargin">
+                            <Label text="PRIORITY" class="sapUiTinyMarginBottom"/>
+                            <Text text="{vehicleDataModel>priority}" class="sapUiBoldText"/>
+                        </VBox>
+
+                        <VBox class="sapUiSmallMargin">
+                            <Label text="STATUS" class="sapUiTinyMarginBottom"/>
+                            <HBox alignItems="Center">
+                                <core:Icon src="sap-icon://status-in-process" color="#E76500" class="sapUiTinyMarginEnd"/>
+                                <Text text="{vehicleDataModel>status}" class="sapUiBoldText" />
+                            </HBox>
+                        </VBox>
+                    </l:Grid>
+
+                    <!-- Vehicle and Service Provider -->
+                    <l:Grid defaultSpan="L6 M12 S12" class="sapUiSmallMarginBottom">
+                        <VBox class="sapUiSmallMargin">
+                            <Label text="VEHICLE" class="sapUiTinyMarginBottom"/>
+                            <Text text="{vehicleDataModel>vehicleNumber}" class="sapUiBoldText"/>
+                            <Text text="{vehicleDataModel>vehicleType}" class="sapUiTinyText"/>
+                        </VBox>
+
+                        <VBox class="sapUiSmallMargin">
+                            <Label text="SERVICE PROVIDER" class="sapUiTinyMarginBottom"/>
+                            <Text text="{vehicleDataModel>serviceProvider}" class="sapUiBoldText"/>
+                        </VBox>
+                    </l:Grid>
+
+                    <!-- Description -->
+                    <VBox class="sapUiSmallMarginBottom">
+                        <Label text="DESCRIPTION" class="sapUiTinyMarginBottom"/>
+                        <Text text="{vehicleDataModel>description}"/>
+                    </VBox>
+
+                    <!-- Progress Timeline -->
+                    <VBox class="sapUiSmallMarginTop">
+                        <Title text="Progress Timeline" level="H4" class="sapUiSmallMarginBottom"/>
+                        
+                        <VBox>
+                            <!-- Timeline Items -->
+                            <HBox class="sapUiSmallMarginBottom" alignItems="Start">
+                                <core:Icon src="sap-icon://accept" color="#2B7D2B" size="1rem" class="sapUiTinyMarginEnd"/>
+                                <VBox>
+                                    <Text text="Work order created" class="sapUiBoldText"/>
+                                    <Text text="Jan 15, 2026 06:00 AM" class="sapUiTinyText"/>
+                                </VBox>
+                            </HBox>
+
+                            <HBox class="sapUiSmallMarginBottom" alignItems="Start">
+                                <core:Icon src="sap-icon://accept" color="#2B7D2B" size="1rem" class="sapUiTinyMarginEnd"/>
+                                <VBox>
+                                    <Text text="Vehicle arrived at service center" class="sapUiBoldText"/>
+                                    <Text text="Jan 16, 2026 08:15 AM" class="sapUiTinyText"/>
+                                </VBox>
+                            </HBox>
+
+                            <HBox class="sapUiSmallMarginBottom" alignItems="Start">
+                                <core:Icon src="sap-icon://accept" color="#2B7D2B" size="1rem" class="sapUiTinyMarginEnd"/>
+                                <VBox>
+                                    <Text text="Coolant leak repaired" class="sapUiBoldText"/>
+                                    <Text text="Jan 16, 2026 10:30 AM" class="sapUiTinyText"/>
+                                </VBox>
+                            </HBox>
+
+                            <HBox class="sapUiSmallMarginBottom" alignItems="Start">
+                                <core:Icon src="sap-icon://pending" color="#0070F2" size="1rem" class="sapUiTinyMarginEnd"/>
+                                <VBox>
+                                    <Text text="Body repair in progress" class="sapUiBoldText"/>
+                                    <Text text="In Progress" class="sapUiTinyText"/>
+                                </VBox>
+                            </HBox>
+
+                            <HBox class="sapUiSmallMarginBottom" alignItems="Start">
+                                <core:Icon src="sap-icon://circle-task" color="#6A6D70" size="1rem" class="sapUiTinyMarginEnd"/>
+                                <VBox>
+                                    <Text text="Final inspection"/>
+                                    <Text text="Pending" class="sapUiTinyText"/>
+                                </VBox>
+                            </HBox>
+                        </VBox>
+                    </VBox>
+
+                    <!-- Parts & Cost Breakdown -->
+                    <VBox class="sapUiMediumMarginTop">
+                        <Title text="Parts &amp; Cost Breakdown" level="H4" class="sapUiSmallMarginBottom"/>
+                        
+                        <VBox class="sapUiSmallMargin">
+                            <HBox justifyContent="SpaceBetween" class="sapUiTinyMarginBottom">
+                                <Text text="Coolant (5L)"/>
+                                <HBox>
+                                    <Text text="x1" class="sapUiTinyMarginEnd"/>
+                                    <Text text="฿850" class="sapUiBoldText"/>
+                                </HBox>
+                            </HBox>
+
+                            <HBox justifyContent="SpaceBetween" class="sapUiTinyMarginBottom">
+                                <Text text="Radiator hose"/>
+                                <HBox>
+                                    <Text text="x1" class="sapUiTinyMarginEnd"/>
+                                    <Text text="฿1,200" class="sapUiBoldText"/>
+                                </HBox>
+                            </HBox>
+
+                            <HBox justifyContent="SpaceBetween" class="sapUiTinyMarginBottom">
+                                <Text text="Fire extinguisher (4kg)"/>
+                                <HBox>
+                                    <Text text="x1" class="sapUiTinyMarginEnd"/>
+                                    <Text text="฿1,500" class="sapUiBoldText"/>
+                                </HBox>
+                            </HBox>
+
+                            <HBox justifyContent="SpaceBetween" class="sapUiTinyMarginBottom">
+                                <Text text="Body repair &amp; paint"/>
+                                <HBox>
+                                    <Text text="x1" class="sapUiTinyMarginEnd"/>
+                                    <Text text="฿4,650" class="sapUiBoldText"/>
+                                </HBox>
+                            </HBox>
+
+                            <Toolbar class="sapUiSmallMarginTop">
+                                <ToolbarSpacer/>
+                                <Title text="Total Cost" level="H5"/>
+                                <ToolbarSpacer/>
+                                <Title text="฿8,200" level="H3"/>
+                            </Toolbar>
+                        </VBox>
+                    </VBox>
+
+                </VBox>
+            </ScrollContainer>
+        </content>
+
+        <beginButton>
+            <Button text="Close" press="onCloseDialog"/>
+        </beginButton>
+        <endButton>
+            <Button text="Edit" icon="sap-icon://edit" type="Emphasized" press="onEditWorkOrder" class="sapUiTinyMarginEnd"/>
+            <!-- <Button text="Mark Complete" icon="sap-icon://accept" type="Accept" press="onMarkComplete"/> -->
+        </endButton>
+    </Dialog>
+
+</core:FragmentDefinition>

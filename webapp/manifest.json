@@ -29,7 +29,6 @@
       }
     }
   },
-
   "sap.ui": {
     "technology": "UI5",
     "icons": {
@@ -46,7 +45,6 @@
       "phone": true
     }
   },
-
   "sap.ui5": {
     "flexEnabled": false,
     "dependencies": {
@@ -60,7 +58,6 @@
       "compact": true,
       "cozy": true
     },
-
     "models": {
       "i18n": {
         "type": "sap.ui.model.resource.ResourceModel",
@@ -76,6 +73,10 @@
         "type": "sap.ui.model.json.JSONModel",
         "uri": "model/subdistricts.json"
       },
+      "vehicleDataModel": {
+        "type": "sap.ui.model.json.JSONModel",
+        "uri": "model/vehicleData.json"
+      },
       "orders": {
         "type": "sap.ui.model.json.JSONModel",
         "uri": "model/orders.json",
@@ -84,7 +85,6 @@
         }
       }
     },
-
     "resources": {
       "css": [
         {
@@ -92,7 +92,6 @@
         }
       ]
     },
-
     "routing": {
       "config": {
         "routerClass": "sap.m.routing.Router",
@@ -113,7 +112,7 @@
             "TargetHome"
           ]
         },
-       {
+        {
           "pattern": "freightOrders",
           "name": "freightOrders",
           "target": "freightOrders"
@@ -123,14 +122,13 @@
         "TargetHome": {
           "id": "Home",
           "name": "Home"
-        },        
+        },
         "freightOrders": {
           "viewName": "FreightOrderManagement",
           "viewLevel": 2
         }
       }
     },
-
     "rootView": {
       "viewName": "intellicarrier.view.App",
       "type": "XML",
@@ -138,7 +136,6 @@
       "async": true
     }
   },
-
   "sap.cloud": {
     "public": true,
     "service": "IntelliCarrier"
