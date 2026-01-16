@@ -146,6 +146,9 @@
 
                                                 <Label text="Volume (m³)"/>
                                                 <Input value="{reviewOrder>/volume}" type="Number"/>
+                                                 <Label text="Priority"/>
+                            <Input value="{manualOrder>/priority}" placeholder="0"/>
+
                                             </f:content>
                                         </f:SimpleForm>
 

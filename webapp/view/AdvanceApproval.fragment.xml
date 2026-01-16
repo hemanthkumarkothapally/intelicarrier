@@ -52,7 +52,7 @@
         <buttons>
             <Button text="Cancel" press=".onCloseAdvanceApproval"/>
             <Button text="Reject" type="Reject" icon="sap-icon://decline" press=".onRejectAdvance"/>
-            <Button text="Approve" type="Accept" icon="sap-icon://accept" press=".onApproveAdvance"/>
+            <Button text="Send for Approval" type="Accept" icon="sap-icon://accept" press=".onApproveAdvance"/>
         </buttons>
 
     </Dialog>

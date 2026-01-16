@@ -971,6 +971,9 @@ sap.ui.define([
             this.getView().setModel(oSelectionModel, "selectionModel");
         },
         onAfterRendering: function () {
+            if (!this._oFleetDialog) {
+                this._oFleetDialog = this.loadFragment("intellicarrier.view.FleetCockpitAnalysis");
+            }
             this.onFleetCockpitTabSelect({
                 getParameter: function () {
                     return "PendingAssignment";
@@ -4090,6 +4093,10 @@ sap.ui.define([
     oModel.setProperty("/driverDetails", oSelectedData.details);
     oModel.setProperty("/cost", oSelectedData.cost);
 
-        }
+        },
+        onDocSelect: function (oEvent) {
+    oEvent.getSource().toggleStyleClass("selected");
+}
+
     });
 });

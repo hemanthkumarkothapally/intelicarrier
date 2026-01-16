@@ -58,19 +58,20 @@
                             <tnt:NavigationListGroup text="Operations" key="Operations">
                             <tnt:NavigationListItem text="Dashboard" icon="sap-icon://home" key="dashboard"/>
                             <tnt:NavigationListItem text="Freight Orders Creation" icon="sap-icon://shipping-status" key="freightOrders" />
-                            <tnt:NavigationListItem text="Shipment Execution" icon="sap-icon://create" key="shipmentexecution"/>
+                            <tnt:NavigationListItem text="Fleet Planning and Assignment" icon="sap-icon://create" key="shipmentexecution"/>
                             <tnt:NavigationListItem text="Fleet Overview" icon="sap-icon://create" key="shipmentExecutionViewsub2"/>
                             <tnt:NavigationListItem text="Tracking &amp; Visibility" icon="sap-icon://map" key="tracking"/>
                             <tnt:NavigationListItem text="BOL &amp; Document Management" icon="sap-icon://document" key="bol"/>
                             <tnt:NavigationListItem text="Rate Master" icon="sap-icon://money-bills" key="rateMaster"/>
                             <tnt:NavigationListItem text="Price Determination &amp; Settlement" icon="sap-icon://sales-order" key="priceCalculation"/>
-                            <tnt:NavigationListItem text="Tracking &amp; Visibility" icon="sap-icon://locate-me" key="tracking"/>
 
                             <tnt:NavigationListItem text="Cash Advance &amp; Reimbursement" icon="sap-icon://wallet" key="CashAdvanceandReimbursement"/>
                             
                             </tnt:NavigationListGroup>
                             <tnt:NavigationListGroup text="Reports" key="Reports" expanded="false">
                             <tnt:NavigationListItem text="Fleet Overview" icon="sap-icon://create" key="shipmentExecutionViewsub2"/>
+                            <tnt:NavigationListItem text="Tracking &amp; Visibility" icon="sap-icon://locate-me" key="tracking"/>
+                            
                             <tnt:NavigationListItem text="Operational &amp; Financial Reports" icon="sap-icon://create" key="OperationalandFinancialReports"/>
 
                             </tnt:NavigationListGroup >
@@ -463,7 +464,7 @@
                                                 <!-- Action -->
                                                 <HBox justifyContent="Center">
                                                     <Button text="Track" type="Neutral" tooltip="Track Order" visible="{= ${status} === 'Completed' }" press=".onTrackOrder"/>
-                                                    <Button text="Analyze" type="Emphasized" visible="{= ${status} === 'Pending Assignment' }" press=".onAnalyzeOrder"/>
+                                                    <Button text="Plan &amp; Assign" type="Emphasized" visible="{= ${status} === 'Pending Assignment' }" press=".onAnalyzeOrder"/>
 <Button
     text="Print Docs"
     type="Emphasized"
