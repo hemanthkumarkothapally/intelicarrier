@@ -1,4 +1,5 @@
-<mvc:View xmlns:unified="sap.ui.unified" xmlns:form="sap.ui.layout.form"
+<mvc:View xmlns:unified="sap.ui.unified"
+    xmlns:form="sap.ui.layout.form"
     xmlns:vk="sap.ui.vk" controllerName="intellicarrier.controller.Home"
     xmlns="sap.m"
     xmlns:mvc="sap.ui.core.mvc"
@@ -54,12 +55,26 @@
                     <!-- Side Navigation -->
                     <tnt:SideNavigation id="sideNavigation" selectedKey="dashboard" expanded="true" itemSelect=".onItemSelect">
                         <tnt:NavigationList>
+                            <tnt:NavigationListItem text="Smart Rate Shopping" icon="sap-icon://sales-quote" key="rateshopping"/>
+                            <tnt:NavigationListGroup text="Operations" key="Operations">
                             <tnt:NavigationListItem text="Dashboard" icon="sap-icon://home" key="dashboard"/>
                             <tnt:NavigationListItem text="Freight Orders" icon="sap-icon://shipping-status" key="freightOrders" />
-                            <tnt:NavigationListItem text="Smart Rate Shopping" icon="sap-icon://sales-quote" key="rateshopping"/>
                             <tnt:NavigationListItem text="Freight Execution" icon="sap-icon://create" key="shipmentexecution"/>
-                            <tnt:NavigationListItem text="Fleet Overview" icon="sap-icon://create" key="shipmentExecutionViewsub2"/>
                             <tnt:NavigationListItem text="Tracking &amp; Visibility" icon="sap-icon://locate-me" key="tracking"/>
+
+                            <tnt:NavigationListItem text="Cash Advance &amp; Reimbursement" icon="sap-icon://locate-me" key="CashAdvanceandReimbursement"/>
+                            
+                            </tnt:NavigationListGroup>
+                            <tnt:NavigationListGroup text="Reports" key="Reports" >
+                            <tnt:NavigationListItem text="Fleet Overview" icon="sap-icon://create" key="shipmentExecutionViewsub2"/>
+                            <tnt:NavigationListItem text="Operational &amp; Financial Reports" icon="sap-icon://home" key="OperationalandFinancialReports"/>
+
+                            </tnt:NavigationListGroup>
+                            <tnt:NavigationListGroup text="Masters" key="Masters" >
+                            <tnt:NavigationListItem text="Rate Master" icon="sap-icon://home" key="RateMaster"/>
+                            <tnt:NavigationListItem text="Reference Data" icon="sap-icon://home" key="ReferenceData"/>
+
+                            </tnt:NavigationListGroup>
                         </tnt:NavigationList>
 
                         <tnt:fixedItem>
@@ -433,7 +448,7 @@
                                                 <!-- Priority -->
                                                 <GenericTag text="{priority}" status="{priorityState}" design="StatusIconHidden"/>
 
-                                                
+
                                                 <GenericTag text="{status}" status="{statusState}" design="StatusIconHidden"></GenericTag>
 
                                                 <!-- Value -->
@@ -442,7 +457,9 @@
                                                 <!-- Action -->
                                                 <HBox justifyContent="Center">
                                                     <Button text="Track" type="Neutral" tooltip="Track Order" visible="{= ${status} === 'Completed' }" press=".onTrackOrder"/>
-                                                    <Button text="Analyze"  type="Emphasized" visible="{= ${status} !== 'Completed' }" press=".onAnalyzeOrder"/>
+                                                    <Button text="Analyze" type="Emphasized" visible="{= ${status} !== 'Completed' }" press=".onAnalyzeOrder"/>
+                                                    <Button text="Print Docs" type="Emphasized" visible="{= ${status} !== 'Completed' }" press=".onOpenDocPrintDialog"/>
+
                                                 </HBox>
 
 
@@ -452,387 +469,387 @@
 
                                 </Table>
                             </VBox>
-                            
+
                         </VBox>
                         <VBox id="shipmentExecutionViewsub2" visible="false" width="100%" class="intellicarrier-content-padding sapUiMediumMarginBottom">
-                                <Title text="Fleet Overview" level="H2" class="sapUiMediumMarginBottom"/>
-                                <!-- Total Vehicles -->
-                                <FlexBox wrap="NoWrap" alignItems="Start" class="sapUiMediumMarginBottom">
-                                    <GenericTile header="Total Vehicles" subheader="Owned fleet" frameType="TwoByHalf" class="sapUiTinyMarginEnd sapUiSmallMarginBottom" width="10vw">
-                                        <tileContent>
-                                            <TileContent>
-                                                <content>
-                                                    <NumericContent value="6" valueColor="Neutral" icon="sap-icon://shipping-status"/>
-                                                </content>
-                                            </TileContent>
-                                        </tileContent>
-                                    </GenericTile>
-                                    <!-- Available -->
-                                    <GenericTile header="Available" subheader="Ready to dispatch" frameType="TwoByHalf" class="sapUiTinyMarginEnd sapUiSmallMarginBottom" width="10vw">
-                                        <tileContent>
-                                            <TileContent>
-                                                <content>
-                                                    <NumericContent value="3" valueColor="Good" icon="sap-icon://sys-enter-2"/>
-                                                </content>
-                                            </TileContent>
-                                        </tileContent>
-                                    </GenericTile>
-                                    <!-- In Use -->
-                                    <GenericTile header="In Use" subheader="Currently deployed" frameType="TwoByHalf" class="sapUiTinyMarginEnd sapUiSmallMarginBottom" width="10vw">
-                                        <tileContent>
-                                            <TileContent>
-                                                <content>
-                                                    <NumericContent value="2" valueColor="Critical" icon="sap-icon://shipping-status"/>
-                                                </content>
-                                            </TileContent>
-                                        </tileContent>
-                                    </GenericTile>
-                                    <!-- Maintenance -->
-                                    <GenericTile header="Maintenance" subheader="Under service" frameType="TwoByHalf" class="sapUiTinyMarginEnd sapUiSmallMarginBottom" width="10vw">
-                                        <tileContent>
-                                            <TileContent>
-                                                <content>
-                                                    <NumericContent value="1" valueColor="Error" icon="sap-icon://wrench"/>
-                                                </content>
-                                            </TileContent>
-                                        </tileContent>
-                                    </GenericTile>
-                                    <!-- Active Carriers -->
-                                    <GenericTile header="Active Carriers" subheader="Partner network" frameType="TwoByHalf" class="sapUiTinyMarginEnd sapUiSmallMarginBottom" width="10vw">
-                                        <tileContent>
-                                            <TileContent>
-                                                <content>
-                                                    <NumericContent value="5" icon="sap-icon://factory"/>
-                                                </content>
-                                            </TileContent>
-                                        </tileContent>
-                                    </GenericTile>
-                                    <!-- Drivers -->
-                                    <GenericTile header="Drivers" subheader="Total drivers" frameType="TwoByHalf" class="sapUiTinyMarginEnd sapUiSmallMarginBottom" width="10vw">
-                                        <tileContent>
-                                            <TileContent>
-                                                <content>
-                                                    <NumericContent value="8" valueColor="Neutral" icon="sap-icon://employee"/>
-                                                </content>
-                                            </TileContent>
-                                        </tileContent>
-                                    </GenericTile>
-                                </FlexBox>
-                                <IconTabBar id="shipmentTabBar2" expandable="false" headerMode="Inline" selectedKey="PendingAssignment" select=".onFleetCockpitTabSelect">
-                                    <items>
-                                        <IconTabFilter key="InternalFleet" text="🚛 Internal Fleet" class="shipment-tab-item">
-                                            <Table id="InternalFleetTable" items="{/InternalFleet}" growing="true" growingScrollToLoad="true">
-                                                <headerToolbar>
-                                                    <!-- Search + Actions -->
-                                                    <Toolbar>
-                                                        <Title text="Internal Fleet Vehicles"></Title>
-                                                        <ToolbarSpacer/>
-                                                        <SearchField placeholder="Search orders..." liveChange=".onSearchOrders" width="20rem" />
-                                                        <Select forceSelection="false" selectedKey="All">
-                                                            <core:Item key="All" text="All Status" />
-                                                            <core:Item key="Maintenance" text="Maintenance" />
-                                                            <core:Item key="Available" text="Available" />
-                                                            <core:Item key="InUse" text="In Use" />
-                                                        </Select>
-                                                    </Toolbar>
-                                                </headerToolbar>
-                                                <columns>
-                                                    <Column>
-                                                        <Text text="Vehicle ID"/>
-                                                    </Column>
+                            <Title text="Fleet Overview" level="H2" class="sapUiMediumMarginBottom"/>
+                            <!-- Total Vehicles -->
+                            <FlexBox wrap="NoWrap" alignItems="Start" class="sapUiMediumMarginBottom">
+                                <GenericTile header="Total Vehicles" subheader="Owned fleet" frameType="TwoByHalf" class="sapUiTinyMarginEnd sapUiSmallMarginBottom" width="10vw">
+                                    <tileContent>
+                                        <TileContent>
+                                            <content>
+                                                <NumericContent value="6" valueColor="Neutral" icon="sap-icon://shipping-status"/>
+                                            </content>
+                                        </TileContent>
+                                    </tileContent>
+                                </GenericTile>
+                                <!-- Available -->
+                                <GenericTile header="Available" subheader="Ready to dispatch" frameType="TwoByHalf" class="sapUiTinyMarginEnd sapUiSmallMarginBottom" width="10vw">
+                                    <tileContent>
+                                        <TileContent>
+                                            <content>
+                                                <NumericContent value="3" valueColor="Good" icon="sap-icon://sys-enter-2"/>
+                                            </content>
+                                        </TileContent>
+                                    </tileContent>
+                                </GenericTile>
+                                <!-- In Use -->
+                                <GenericTile header="In Use" subheader="Currently deployed" frameType="TwoByHalf" class="sapUiTinyMarginEnd sapUiSmallMarginBottom" width="10vw">
+                                    <tileContent>
+                                        <TileContent>
+                                            <content>
+                                                <NumericContent value="2" valueColor="Critical" icon="sap-icon://shipping-status"/>
+                                            </content>
+                                        </TileContent>
+                                    </tileContent>
+                                </GenericTile>
+                                <!-- Maintenance -->
+                                <GenericTile header="Maintenance" subheader="Under service" frameType="TwoByHalf" class="sapUiTinyMarginEnd sapUiSmallMarginBottom" width="10vw">
+                                    <tileContent>
+                                        <TileContent>
+                                            <content>
+                                                <NumericContent value="1" valueColor="Error" icon="sap-icon://wrench"/>
+                                            </content>
+                                        </TileContent>
+                                    </tileContent>
+                                </GenericTile>
+                                <!-- Active Carriers -->
+                                <GenericTile header="Active Carriers" subheader="Partner network" frameType="TwoByHalf" class="sapUiTinyMarginEnd sapUiSmallMarginBottom" width="10vw">
+                                    <tileContent>
+                                        <TileContent>
+                                            <content>
+                                                <NumericContent value="5" icon="sap-icon://factory"/>
+                                            </content>
+                                        </TileContent>
+                                    </tileContent>
+                                </GenericTile>
+                                <!-- Drivers -->
+                                <GenericTile header="Drivers" subheader="Total drivers" frameType="TwoByHalf" class="sapUiTinyMarginEnd sapUiSmallMarginBottom" width="10vw">
+                                    <tileContent>
+                                        <TileContent>
+                                            <content>
+                                                <NumericContent value="8" valueColor="Neutral" icon="sap-icon://employee"/>
+                                            </content>
+                                        </TileContent>
+                                    </tileContent>
+                                </GenericTile>
+                            </FlexBox>
+                            <IconTabBar id="shipmentTabBar2" expandable="false" headerMode="Inline" selectedKey="PendingAssignment" select=".onFleetCockpitTabSelect">
+                                <items>
+                                    <IconTabFilter key="InternalFleet" text="🚛 Internal Fleet" class="shipment-tab-item">
+                                        <Table id="InternalFleetTable" items="{/InternalFleet}" growing="true" growingScrollToLoad="true">
+                                            <headerToolbar>
+                                                <!-- Search + Actions -->
+                                                <Toolbar>
+                                                    <Title text="Internal Fleet Vehicles"></Title>
+                                                    <ToolbarSpacer/>
+                                                    <SearchField placeholder="Search orders..." liveChange=".onSearchOrders" width="20rem" />
+                                                    <Select forceSelection="false" selectedKey="All">
+                                                        <core:Item key="All" text="All Status" />
+                                                        <core:Item key="Maintenance" text="Maintenance" />
+                                                        <core:Item key="Available" text="Available" />
+                                                        <core:Item key="InUse" text="In Use" />
+                                                    </Select>
+                                                </Toolbar>
+                                            </headerToolbar>
+                                            <columns>
+                                                <Column>
+                                                    <Text text="Vehicle ID"/>
+                                                </Column>
 
-                                                    <Column>
-                                                        <Text text="Vehicle Type"/>
-                                                    </Column>
+                                                <Column>
+                                                    <Text text="Vehicle Type"/>
+                                                </Column>
 
-                                                    <Column>
-                                                        <Text text="Status"/>
-                                                    </Column>
+                                                <Column>
+                                                    <Text text="Status"/>
+                                                </Column>
 
-                                                    <Column>
-                                                        <Text text="Driver"/>
-                                                    </Column>
+                                                <Column>
+                                                    <Text text="Driver"/>
+                                                </Column>
 
-                                                    <Column>
-                                                        <Text text="Current Location"/>
-                                                    </Column>
+                                                <Column>
+                                                    <Text text="Current Location"/>
+                                                </Column>
 
-                                                    <Column>
-                                                        <Text text="Capacity"/>
-                                                    </Column>
+                                                <Column>
+                                                    <Text text="Capacity"/>
+                                                </Column>
 
-                                                    <Column hAlign="End">
-                                                        <Text text="Daily Rate"/>
-                                                    </Column>
+                                                <Column hAlign="End">
+                                                    <Text text="Daily Rate"/>
+                                                </Column>
 
-                                                    <Column hAlign="Center">
-                                                        <Text text="Actions"/>
-                                                    </Column>
-                                                </columns>
+                                                <Column hAlign="Center">
+                                                    <Text text="Actions"/>
+                                                </Column>
+                                            </columns>
 
-                                                <items>
-                                                    <ColumnListItem>
-                                                        <cells>
-                                                            <!-- vehicleID -->
-                                                            <VBox>
-                                                                <Text text="{vehicleID}" class="sapUiBoldText"/>
-                                                            </VBox>
+                                            <items>
+                                                <ColumnListItem>
+                                                    <cells>
+                                                        <!-- vehicleID -->
+                                                        <VBox>
+                                                            <Text text="{vehicleID}" class="sapUiBoldText"/>
+                                                        </VBox>
 
-                                                            <!-- vehicleType -->
-                                                            <VBox>
-                                                                <Text text="{vehicleType}"/>
-                                                                <Text text="{subType}" class="sapUiTinyMarginBegin"/>
-                                                            </VBox>
+                                                        <!-- vehicleType -->
+                                                        <VBox>
+                                                            <Text text="{vehicleType}"/>
+                                                            <Text text="{subType}" class="sapUiTinyMarginBegin"/>
+                                                        </VBox>
 
-                                                            <!-- status -->
-                                                            <ObjectStatus text="{status}" state="{statusState}" inverted="true" />
+                                                        <!-- status -->
+                                                        <ObjectStatus text="{status}" state="{statusState}" inverted="true" />
 
-                                                            <!-- Driver -->
-                                                            <VBox>
-                                                                <Text text="{driver}"/>
-                                                                <Text text="{driverPhone}" class="sapUiTinyMarginTop"/>
-                                                            </VBox>
+                                                        <!-- Driver -->
+                                                        <VBox>
+                                                            <Text text="{driver}"/>
+                                                            <Text text="{driverPhone}" class="sapUiTinyMarginTop"/>
+                                                        </VBox>
 
-                                                            <!-- Current Location -->
-                                                            <Text text="{location}"/>
+                                                        <!-- Current Location -->
+                                                        <Text text="{location}"/>
 
-                                                            <!-- Capacity -->
-                                                            <VBox>
-                                                                <Text text="{capacity}"/>
-                                                                <Text text="{metrics}" class="sapUiTinyMarginTop"/>
-                                                            </VBox>
+                                                        <!-- Capacity -->
+                                                        <VBox>
+                                                            <Text text="{capacity}"/>
+                                                            <Text text="{metrics}" class="sapUiTinyMarginTop"/>
+                                                        </VBox>
 
-                                                            <!-- dailyRate -->
-                                                            <Text text="{dailyRate}" class="sapUiBoldText sapUiPositiveText"/>
+                                                        <!-- dailyRate -->
+                                                        <Text text="{dailyRate}" class="sapUiBoldText sapUiPositiveText"/>
 
-                                                            <!-- Action -->
-                                                            <HBox justifyContent="Center">
-                                                                <Button icon="sap-icon://calendar" tooltip="Schedule"/>
-                                                                <Button icon="sap-icon://edit" />
-                                                            </HBox>
-                                                        </cells>
-                                                    </ColumnListItem>
-                                                </items>
-                                            </Table>
+                                                        <!-- Action -->
+                                                        <HBox justifyContent="Center">
+                                                            <Button icon="sap-icon://calendar" tooltip="Schedule"/>
+                                                            <Button icon="sap-icon://edit" />
+                                                        </HBox>
+                                                    </cells>
+                                                </ColumnListItem>
+                                            </items>
+                                        </Table>
 
-                                        </IconTabFilter>
-                                        <IconTabFilter key="AssiExternalCarriersgned" text="🏢 External Carriers" class="shipment-tab-item">
+                                    </IconTabFilter>
+                                    <IconTabFilter key="AssiExternalCarriersgned" text="🏢 External Carriers" class="shipment-tab-item">
                                         <!-- External Carrier Partners -->
-                                <Table id="ExternalCarriersTable" items="{/ExternalCarriers}" growing="true" growingScrollToLoad="true">
-                                    <headerToolbar>
-                                    <!-- Search + Actions -->
-                                    <Toolbar>
-                                        <Title text="External Carrier Partners"></Title>
-                                    </Toolbar>
-                                    </headerToolbar>
-                                    <columns>
-                                        <Column>
-                                            <Text text="Carrier"/>
-                                        </Column>
+                                        <Table id="ExternalCarriersTable" items="{/ExternalCarriers}" growing="true" growingScrollToLoad="true">
+                                            <headerToolbar>
+                                                <!-- Search + Actions -->
+                                                <Toolbar>
+                                                    <Title text="External Carrier Partners"></Title>
+                                                </Toolbar>
+                                            </headerToolbar>
+                                            <columns>
+                                                <Column>
+                                                    <Text text="Carrier"/>
+                                                </Column>
 
-                                        <Column>
-                                            <Text text="Rating"/>
-                                        </Column>
+                                                <Column>
+                                                    <Text text="Rating"/>
+                                                </Column>
 
-                                        <Column>
-                                            <Text text="Coverage"/>
-                                        </Column>
+                                                <Column>
+                                                    <Text text="Coverage"/>
+                                                </Column>
 
-                                        <Column>
-                                            <Text text="Lead Time"/>
-                                        </Column>
+                                                <Column>
+                                                    <Text text="Lead Time"/>
+                                                </Column>
 
-                                        <Column hAlign="End">
-                                            <Text text="Base Rate"/>
-                                        </Column>
+                                                <Column hAlign="End">
+                                                    <Text text="Base Rate"/>
+                                                </Column>
 
-                                        <Column hAlign="End">
-                                            <Text text="Per Km"/>
-                                        </Column>
+                                                <Column hAlign="End">
+                                                    <Text text="Per Km"/>
+                                                </Column>
 
-                                        <Column>
-                                            <Text text="Max Capacity"/>
-                                        </Column>
+                                                <Column>
+                                                    <Text text="Max Capacity"/>
+                                                </Column>
 
-                                        <Column>
-                                            <Text text="Tracking"/>
-                                        </Column>
+                                                <Column>
+                                                    <Text text="Tracking"/>
+                                                </Column>
 
-                                        <Column hAlign="Center">
-                                            <Text text="Actions"/>
-                                        </Column>
-                                    </columns>
+                                                <Column hAlign="Center">
+                                                    <Text text="Actions"/>
+                                                </Column>
+                                            </columns>
 
-                                    <items>
-                                        <ColumnListItem>
-                                            <cells>
-                                                <ObjectIdentifier title="🏢 {carrierName}" />
+                                            <items>
+                                                <ColumnListItem>
+                                                    <cells>
+                                                        <ObjectIdentifier title="🏢 {carrierName}" />
 
-                                                <HBox alignItems="Center" justifyContent="Center">
-                                                    <RatingIndicator value="{ratingValue}" maxValue="5" editable="false" iconSize="12px" />
-                                                    <Text text="{ratingValue}" class="sapUiTinyMarginBegin" />
-                                                </HBox>
+                                                        <HBox alignItems="Center" justifyContent="Center">
+                                                            <RatingIndicator value="{ratingValue}" maxValue="5" editable="false" iconSize="12px" />
+                                                            <Text text="{ratingValue}" class="sapUiTinyMarginBegin" />
+                                                        </HBox>
 
-                                                <Text text="{coverage}" />
+                                                        <Text text="{coverage}" />
 
-                                                <Text text="{leadTime}" />
+                                                        <Text text="{leadTime}" />
 
-                                                <Text text="{baseRate}" />
+                                                        <Text text="{baseRate}" />
 
-                                                <Text text="{perKmRate}" />
+                                                        <Text text="{perKmRate}" />
 
-                                                <Text text="{capacity}" />
+                                                        <Text text="{capacity}" />
 
-                                                <ObjectStatus text="{tracking}" state="{trackingState}" icon="sap-icon://accept" />
+                                                        <ObjectStatus text="{tracking}" state="{trackingState}" icon="sap-icon://accept" />
 
-                                                <HBox justifyContent="Center">
-                                                    <Button icon="sap-icon://document-text" tooltip="View Contract"/>
-                                                    <Button icon="sap-icon://edit" tooltip="Edit Carrier"/>
-                                                </HBox>
-                                            </cells>
-                                        </ColumnListItem>
-                                    </items>
-                                </Table>
-                                        </IconTabFilter>
-                                        <IconTabFilter key="Drivers" text="👨‍✈️ Drivers" class="shipment-tab-item">
-                                         <!-- Driver Management -->
-                                <Table items="{/Drivers}" growing="true" growingScrollToLoad="true">
-                                    <headerToolbar>
-                                    <!-- Search + Actions -->
-                                    <Toolbar>
-                                        <Title text="Driver Management"></Title>
-                                    </Toolbar>
-                                    </headerToolbar>
-                                    <columns>
-                                        <Column>
-                                            <Text text="Driver ID"/>
-                                        </Column>
+                                                        <HBox justifyContent="Center">
+                                                            <Button icon="sap-icon://document-text" tooltip="View Contract"/>
+                                                            <Button icon="sap-icon://edit" tooltip="Edit Carrier"/>
+                                                        </HBox>
+                                                    </cells>
+                                                </ColumnListItem>
+                                            </items>
+                                        </Table>
+                                    </IconTabFilter>
+                                    <IconTabFilter key="Drivers" text="👨‍✈️ Drivers" class="shipment-tab-item">
+                                        <!-- Driver Management -->
+                                        <Table items="{/Drivers}" growing="true" growingScrollToLoad="true">
+                                            <headerToolbar>
+                                                <!-- Search + Actions -->
+                                                <Toolbar>
+                                                    <Title text="Driver Management"></Title>
+                                                </Toolbar>
+                                            </headerToolbar>
+                                            <columns>
+                                                <Column>
+                                                    <Text text="Driver ID"/>
+                                                </Column>
 
-                                        <Column>
-                                            <Text text="Driver Name"/>
-                                        </Column>
+                                                <Column>
+                                                    <Text text="Driver Name"/>
+                                                </Column>
 
-                                        <Column>
-                                            <Text text="Contact"/>
-                                        </Column>
+                                                <Column>
+                                                    <Text text="Contact"/>
+                                                </Column>
 
-                                        <Column>
-                                            <Text text="Status"/>
-                                        </Column>
+                                                <Column>
+                                                    <Text text="Status"/>
+                                                </Column>
 
-                                        <Column>
-                                            <Text text="Assigned Vehicle"/>
-                                        </Column>
+                                                <Column>
+                                                    <Text text="Assigned Vehicle"/>
+                                                </Column>
 
-                                        <Column>
-                                            <Text text="License"/>
-                                        </Column>
+                                                <Column>
+                                                    <Text text="License"/>
+                                                </Column>
 
-                                        <Column>
-                                            <Text text="Rating"/>
-                                        </Column>
+                                                <Column>
+                                                    <Text text="Rating"/>
+                                                </Column>
 
-                                        <Column>
-                                            <Text text="Total Trips"/>
-                                        </Column>
-                                        
-                                        
-                                    </columns>
+                                                <Column>
+                                                    <Text text="Total Trips"/>
+                                                </Column>
 
-                                    <items>
-                                        <ColumnListItem>
-                                            <cells>
-                                                <Text text="{driverId}" />
 
-                                                <ObjectIdentifier title="{name}"/>
+                                            </columns>
 
-                                                <Text text="{contact}" />
+                                            <items>
+                                                <ColumnListItem>
+                                                    <cells>
+                                                        <Text text="{driverId}" />
 
-                                                <ObjectStatus text="{status}" state="{statusState}" inverted="true" />
+                                                        <ObjectIdentifier title="{name}"/>
 
-                                                <Text text="{assignedVehicle}" />
+                                                        <Text text="{contact}" />
 
-                                                <Text text="{license}" />
+                                                        <ObjectStatus text="{status}" state="{statusState}" inverted="true" />
 
-                                                <HBox alignItems="Center">
-                                                    <RatingIndicator value="{rating}" maxValue="5" editable="false" iconSize="12px" />
-                                                    <Text text="{rating}" class="sapUiTinyMarginBegin" />
-                                                </HBox>
+                                                        <Text text="{assignedVehicle}" />
 
-                                                <Text text="{totalTrips}" />
-                            
-                                            </cells>
-                                        </ColumnListItem>
-                                    </items>
-                                </Table>
-                                        </IconTabFilter>
-                                        <IconTabFilter key="Maintenance" text="🔧 Maintenance" class="shipment-tab-item">
+                                                        <Text text="{license}" />
+
+                                                        <HBox alignItems="Center">
+                                                            <RatingIndicator value="{rating}" maxValue="5" editable="false" iconSize="12px" />
+                                                            <Text text="{rating}" class="sapUiTinyMarginBegin" />
+                                                        </HBox>
+
+                                                        <Text text="{totalTrips}" />
+
+                                                    </cells>
+                                                </ColumnListItem>
+                                            </items>
+                                        </Table>
+                                    </IconTabFilter>
+                                    <IconTabFilter key="Maintenance" text="🔧 Maintenance" class="shipment-tab-item">
                                         <!-- Maintenance Schedule -->
-                                <Table items="{/Maintenance}" growing="true" growingScrollToLoad="true">
-                                    <headerToolbar>
-                                    <!-- Search + Actions -->
-                                    <Toolbar>
-                                        <Title text="Maintenance Schedule"></Title>
-                                    </Toolbar>
-                                    </headerToolbar>
-                                    <columns>
-                                        <Column>
-                                            <Text text="Vehicle"/>
-                                        </Column>
+                                        <Table items="{/Maintenance}" growing="true" growingScrollToLoad="true">
+                                            <headerToolbar>
+                                                <!-- Search + Actions -->
+                                                <Toolbar>
+                                                    <Title text="Maintenance Schedule"></Title>
+                                                </Toolbar>
+                                            </headerToolbar>
+                                            <columns>
+                                                <Column>
+                                                    <Text text="Vehicle"/>
+                                                </Column>
 
-                                        <Column>
-                                            <Text text="Service Type"/>
-                                        </Column>
+                                                <Column>
+                                                    <Text text="Service Type"/>
+                                                </Column>
 
-                                        <Column>
-                                            <Text text="Date"/>
-                                        </Column>
+                                                <Column>
+                                                    <Text text="Date"/>
+                                                </Column>
 
-                                        <Column>
-                                            <Text text="Duration"/>
-                                        </Column>
+                                                <Column>
+                                                    <Text text="Duration"/>
+                                                </Column>
 
-                                        <Column>
-                                            <Text text="Status"/>
-                                        </Column>
+                                                <Column>
+                                                    <Text text="Status"/>
+                                                </Column>
 
-                                        <Column>
-                                            <Text text="Service Center"/>
-                                        </Column>
+                                                <Column>
+                                                    <Text text="Service Center"/>
+                                                </Column>
 
-                                        <Column hAlign="Center">
-                                            <Text text="Actions"/>
-                                        </Column>
-                                    </columns>
+                                                <Column hAlign="Center">
+                                                    <Text text="Actions"/>
+                                                </Column>
+                                            </columns>
 
-                                    <items>
-                                        <ColumnListItem>
-                                            <cells>
-                                                <ObjectIdentifier title="{vehicleId}" text="{vehicleType}" />
+                                            <items>
+                                                <ColumnListItem>
+                                                    <cells>
+                                                        <ObjectIdentifier title="{vehicleId}" text="{vehicleType}" />
 
-                                                <Text text="{serviceType}" />
+                                                        <Text text="{serviceType}" />
 
-                                                <Text text="{scheduledDate}" />
+                                                        <Text text="{scheduledDate}" />
 
-                                                <Text text="{duration}" />
+                                                        <Text text="{duration}" />
 
-                                                <ObjectStatus text="{status}" state="{statusState}" inverted="true" />
+                                                        <ObjectStatus text="{status}" state="{statusState}" inverted="true" />
 
-                                                <Text text="{serviceCenter}" />
+                                                        <Text text="{serviceCenter}" />
 
-                                                <HBox justifyContent="Center">
-                                                    <Button icon="sap-icon://appointment-2" tooltip="Reschedule" />
-                                                </HBox>
-                                            </cells>
-                                        </ColumnListItem>
-                                    </items>
-                                </Table>
-                            
-                                        </IconTabFilter>
+                                                        <HBox justifyContent="Center">
+                                                            <Button icon="sap-icon://appointment-2" tooltip="Reschedule" />
+                                                        </HBox>
+                                                    </cells>
+                                                </ColumnListItem>
+                                            </items>
+                                        </Table>
 
-                                    </items>
-                                </IconTabBar>
-                            </VBox>
+                                    </IconTabFilter>
+
+                                </items>
+                            </IconTabBar>
+                        </VBox>
                         <VBox id="shipmentExecutionView1" visible="false" width="100%" class="intellicarrier-content-padding sapUiMediumMarginBottom">
                             <Title text="Shipment Execution &amp; Fleet Management" level="H2" class="sapUiMediumMarginBottom"/>
 
@@ -1579,7 +1596,7 @@
                             <HBox justifyContent="SpaceBetween" alignItems="Center" class="sapUiMediumMarginBottom">
                                 <Title text="Freight Order Management" level="H2"/>
                                 <HBox>
-                                <unified:FileUploader buttonOnly="true" buttonText="Upload PDF" fileType="pdf" ></unified:FileUploader>
+                                    <unified:FileUploader buttonOnly="true" buttonText="Upload PDF" fileType="pdf"></unified:FileUploader>
                                     <!-- <Button icon="sap-icon://upload" text="Upload PDF" press=".onUploadFreight" class="sapUiTinyMarginEnd"/> -->
                                     <Button icon="sap-icon://edit" text="Create Freight Order " press=".onManualEntryFreight"/>
                                 </HBox>
@@ -1747,7 +1764,555 @@
                                 </content>
                             </Panel>
                         </VBox>
+                        <VBox id="CashAdvanceandReimbursement" visible="false" width="100%" class="intellicarrier-content-padding">
+                            <!-- Header Section -->
+                            <HBox justifyContent="SpaceBetween" alignItems="Center" class="sapUiMediumMarginBottom">
+                                <Title text="Cash Advance &amp; Reimbursement Management" level="H2"/>
+                                <HBox>
+                                    <Button icon="sap-icon://upload" text="New Advance Request" press=".onOpenNewAdvanceDialog" class="sapUiTinyMarginEnd"/>
+                                    <!-- <Button icon="sap-icon://edit" text="Create Freight Order " press=".onManualEntryFreight"/> -->
+                                </HBox>
+                            </HBox>
+                            <FlexBox wrap="Wrap" columnGap="0px">
 
+                                <!-- Pending Approval -->
+                                <GenericTile class="sapUiSmallMarginBottom" frameType="TwoByHalf" width="10rem" header="Pending Approval" subheader="Advance requests" press=".onCardPressFreight">
+                                    <TileContent>
+                                        <NumericContent value="5" withMargin="false"/>
+                                    </TileContent>
+                                </GenericTile>
+
+                                <!-- Active Advances -->
+                                <GenericTile class="sapUiSmallMarginBottom" frameType="TwoByHalf" width="10rem" header="Active Advances" subheader="Disbursed &amp; tracking" press=".onCardPressFreight">
+                                    <TileContent>
+                                        <NumericContent value="12" withMargin="false"/>
+                                    </TileContent>
+                                </GenericTile>
+
+                                <!-- Total Outstanding -->
+                                <GenericTile class="sapUiSmallMarginBottom" frameType="TwoByHalf" width="10rem" header="Total Outstanding" subheader="Advance balance" press=".onCardPressFreight">
+                                    <TileContent>
+                                        <NumericContent value="฿124,500" withMargin="false"/>
+                                    </TileContent>
+                                </GenericTile>
+
+                                <!-- Ready to Reconcile -->
+                                <GenericTile class="sapUiSmallMarginBottom" frameType="TwoByHalf" width="10rem" header="Ready to Reconcile" subheader="Pending settlement" press=".onCardPressFreight">
+                                    <TileContent>
+                                        <NumericContent value="8" withMargin="false"/>
+                                    </TileContent>
+                                </GenericTile>
+
+                                <!-- Settled This Month -->
+                                <GenericTile class="sapUiSmallMarginBottom" frameType="TwoByHalf" width="10rem" header="Settled This Month" subheader="Completed" press=".onCardPressFreight">
+                                    <TileContent>
+                                        <NumericContent value="23" withMargin="false"/>
+                                    </TileContent>
+                                </GenericTile>
+
+                                <!-- Policy Violations -->
+                                <GenericTile class="sapUiSmallMarginBottom" frameType="TwoByHalf" width="10rem" header="Policy Violations" subheader="Review needed" press=".onCardPressFreight">
+                                    <TileContent>
+                                        <NumericContent value="3" withMargin="false"/>
+                                    </TileContent>
+                                </GenericTile>
+
+                            </FlexBox>
+                            <IconTabBar id="shipmentTabBar4" expandable="false" headerMode="Inline" selectedKey="PendingAssignment" select=".onAdvanceTabSelect">
+                                <items>
+                                    <IconTabFilter key="AdvanceRequests" text="💵 Advance Requests" class="shipment-tab-item">
+                                        <Table id="cashAdvanceTable" items="{/cashAdvanceRequests}" growing="true" growingScrollToLoad="true">
+
+                                            <!-- Header -->
+                                            <headerToolbar>
+                                                <Toolbar>
+                                                    <Title text="Cash Advance Requests"/>
+                                                    <ToolbarSpacer/>
+                                                    <SearchField placeholder="Search requests..." liveChange=".onSearchCashAdvance" width="18rem"/>
+                                                    <Select>
+                                                        <items>
+                                                            <core:Item key="ALL" text="All Status"/>
+                                                            <core:Item key="Pending" text="Pending"/>
+                                                            <core:Item key="Disbursed" text="Disbursed"/>
+                                                        </items>
+                                                    </Select>
+                                                    <Button icon="sap-icon://bar-chart"/>
+                                                </Toolbar>
+                                            </headerToolbar>
+
+                                            <!-- Columns -->
+                                            <columns>
+                                                <Column width="9rem">
+                                                    <Text text="Request ID"/>
+                                                </Column>
+                                                <Column>
+                                                    <Text text="Driver"/>
+                                                </Column>
+                                                <Column hAlign="End">
+                                                    <Text text="Amount"/>
+                                                </Column>
+                                                <Column>
+                                                    <Text text="Purpose"/>
+                                                </Column>
+                                                <Column width="9rem">
+                                                    <Text text="Request Date"/>
+                                                </Column>
+                                                <Column>
+                                                    <Text text="Status"/>
+                                                </Column>
+                                                <Column>
+                                                    <Text text="Disbursement"/>
+                                                </Column>
+                                                <Column width="7rem" hAlign="Center">
+                                                    <Text text="Actions"/>
+                                                </Column>
+                                            </columns>
+
+                                            <!-- Items -->
+                                            <items>
+                                                <ColumnListItem>
+                                                    <cells>
+
+                                                        <!-- Request ID -->
+                                                        <Title text="{requestId}" class="sapUiBoldText"/>
+
+                                                        <!-- Driver -->
+                                                        <VBox>
+                                                            <Text text="{driver}"/>
+                                                            <Text text="{driverId}" class="sapUiContentLabel"/>
+                                                        </VBox>
+
+                                                        <!-- Amount -->
+                                                        <Text text="{amount}" class="sapUiBoldText"/>
+
+                                                        <!-- Purpose -->
+                                                        <Text text="{purpose}"/>
+
+                                                        <!-- Request Date -->
+                                                        <Text text="{requestDate}"/>
+
+                                                        <!-- Status -->
+                                                        <GenericTag text="{status}" design="StatusIconHidden" status="{statusState}"/>
+
+                                                        <!-- Disbursement -->
+                                                        <Text text="{disbursement}"/>
+
+                                                        <!-- Actions -->
+                                                        <HBox justifyContent="Center">
+                                                            <Button text="Review" type="Accept" visible="{= ${status} === 'Pending' }" press=".onReviewRequest"/>
+                                                            <Button text="View" type="Transparent" visible="{= ${status} === 'Disbursed' }" press=".onViewRequest"/>
+                                                        </HBox>
+
+                                                    </cells>
+                                                </ColumnListItem>
+                                            </items>
+                                        </Table>
+
+                                    </IconTabFilter>
+                                    <IconTabFilter key="ActiveAdvances" text="📊 Active Advances" class="shipment-tab-item">
+                                        <Table id="activeAdvanceTable" items="{/activeAdvances}" growing="true" growingScrollToLoad="true">
+
+                                            <!-- Header -->
+                                            <headerToolbar>
+                                                <Toolbar>
+                                                    <Title text="Active Advance Tracking"/>
+                                                </Toolbar>
+                                            </headerToolbar>
+
+                                            <!-- Columns -->
+                                            <columns>
+                                                <Column width="9rem">
+                                                    <Text text="Advance ID"/>
+                                                </Column>
+                                                <Column>
+                                                    <Text text="Driver"/>
+                                                </Column>
+                                                <Column hAlign="End">
+                                                    <Text text="Advance"/>
+                                                </Column>
+                                                <Column hAlign="End">
+                                                    <Text text="Expenses"/>
+                                                </Column>
+                                                <Column hAlign="End">
+                                                    <Text text="Remaining"/>
+                                                </Column>
+                                                <Column width="10rem">
+                                                    <Text text="Usage"/>
+                                                </Column>
+                                                <Column width="5rem">
+                                                    <Text text="Days"/>
+                                                </Column>
+                                                <Column width="8rem">
+                                                    <Text text="Status"/>
+                                                </Column>
+                                                <Column width="8rem" hAlign="Center">
+                                                    <Text text="Actions"/>
+                                                </Column>
+                                            </columns>
+
+                                            <!-- Items -->
+                                            <items>
+                                                <ColumnListItem>
+                                                    <cells>
+
+                                                        <!-- Advance ID -->
+                                                        <Title text="{advanceId}" class="sapUiBoldText"/>
+
+                                                        <!-- Driver -->
+                                                        <VBox>
+                                                            <Text text="{driver}"/>
+                                                            <Text text="{driverId}" class="sapUiContentLabel"/>
+                                                        </VBox>
+
+                                                        <!-- Advance -->
+                                                        <Text text="{advance}" class="sapUiBoldText"/>
+
+                                                        <!-- Expenses -->
+                                                        <Text text="{expenses}" class="sapUiBoldText sapUiCriticalText"/>
+
+                                                        <!-- Remaining -->
+                                                        <Text text="{remaining}" class="sapUiBoldText" wrapping="false"/>
+
+                                                        <!-- Usage -->
+                                                        <HBox alignItems="Center">
+                                                            <ProgressIndicator percentValue="{usagePercent}" displayValue="{usagePercent}%" width="6rem" state="{usageState}"/>
+                                                        </HBox>
+
+                                                        <!-- Days -->
+                                                        <Text text="{days}"/>
+
+                                                        <!-- Status -->
+                                                        <GenericTag text="{status}" design="StatusIconHidden" status="{statusState}"/>
+
+                                                        <!-- Actions -->
+                                                        <HBox justifyContent="Center">
+                                                            <Button icon="sap-icon://show" type="Transparent" tooltip="View"/>
+                                                            <Button icon="sap-icon://money-bills" type="Emphasized" visible="{= ${status} !== 'Active' }" tooltip="Settle"/>
+                                                        </HBox>
+
+                                                    </cells>
+                                                </ColumnListItem>
+                                            </items>
+
+                                        </Table>
+
+                                    </IconTabFilter>
+                                    <IconTabFilter key="ExpenseTracking" text="📝 Expense Tracking" class="shipment-tab-item">
+                                        <Panel>
+                                        <headerToolbar>
+                                        <OverflowToolbar >
+                                        <Title text="Upload Expencse Receipts" />
+                                        <ToolbarSpacer ></ToolbarSpacer>
+                                        <Button type="Emphasized" text="Scan Receipt(OCR)"></Button>
+                                        </OverflowToolbar>
+                                        </headerToolbar>
+                                        <HBox>
+                                        
+                                        </HBox>
+                                        </Panel>
+                                        <Table id="expenseOcrTable" items="{/expenseSubmissions}" growing="true" growingScrollToLoad="true">
+
+                                            <!-- Header -->
+                                            <headerToolbar>
+                                                <Toolbar>
+                                                    <Title text="Expense Submissions with OCR"/>
+                                                    <ToolbarSpacer/>
+                                                    <SearchField placeholder="Search expenses..." liveChange=".onSearchExpenses" width="18rem"/>
+                                                    <Select>
+                                                        <items>
+                                                            <core:Item key="ALL" text="All Categories"/>
+                                                            <core:Item key="Fuel" text="Fuel"/>
+                                                            <core:Item key="Toll" text="Toll"/>
+                                                            <core:Item key="Meal" text="Meal"/>
+                                                            <core:Item key="Parking" text="Parking"/>
+                                                        </items>
+                                                    </Select>
+                                                </Toolbar>
+                                            </headerToolbar>
+
+                                            <!-- Columns -->
+                                            <columns>
+                                                <Column width="8rem">
+                                                    <Text text="Expense ID"/>
+                                                </Column>
+                                                <Column>
+                                                    <Text text="Driver"/>
+                                                </Column>
+                                                <Column width="9rem">
+                                                    <Text text="Category"/>
+                                                </Column>
+                                                <Column>
+                                                    <Text text="Vendor"/>
+                                                </Column>
+                                                <Column hAlign="End">
+                                                    <Text text="Amount"/>
+                                                </Column>
+                                                <Column width="9rem">
+                                                    <Text text="Date"/>
+                                                </Column>
+                                                <Column width="8rem">
+                                                    <Text text="OCR Status"/>
+                                                </Column>
+                                                <Column width="9rem">
+                                                    <Text text="Validation"/>
+                                                </Column>
+                                                <Column width="7rem" hAlign="Center">
+                                                    <Text text="Actions"/>
+                                                </Column>
+                                            </columns>
+
+                                            <!-- Items -->
+                                            <items>
+                                                <ColumnListItem>
+                                                    <cells>
+
+                                                        <!-- Expense ID -->
+                                                        <Text text="{expenseId}" class="sapUiBoldText"/>
+
+                                                        <!-- Driver -->
+                                                        <VBox>
+                                                            <Text text="{driver}"/>
+                                                            <Text text="{driverId}" class="sapUiContentLabel"/>
+                                                        </VBox>
+
+                                                        <!-- Category -->
+                                                        <HBox>
+                                                            <core:Icon src="{categoryIcon}" class="sapUiTinyMarginEnd"/>
+                                                            <Text text="{category}"/>
+                                                        </HBox>
+
+                                                        <!-- Vendor -->
+                                                        <Text text="{vendor}"/>
+
+                                                        <!-- Amount -->
+                                                        <Text text="{amount}" class="sapUiBoldText"/>
+
+                                                        <!-- Date -->
+                                                        <Text text="{date}"/>
+
+                                                        <!-- OCR Status -->
+                                                        <GenericTag text="{ocrStatus}" design="StatusIconHidden" status="{ocrState}"/>
+
+                                                        <!-- Validation -->
+                                                        <GenericTag text="{validationStatus}" design="StatusIconHidden" status="{validationState}"/>
+
+                                                        <!-- Actions -->
+                                                        <HBox justifyContent="Center">
+                                                            <Button icon="sap-icon://show" type="Transparent" tooltip="View Receipt" press=".onViewExpense"/>
+                                                        </HBox>
+
+                                                    </cells>
+                                                </ColumnListItem>
+                                            </items>
+
+                                        </Table>
+
+                                    </IconTabFilter>
+                                    <IconTabFilter key="Reconciliation" text="⚖️ Reconciliation" class="shipment-tab-item">
+                                        <Panel headerText="Settlement Summary - ADV-2026-0245" width="100%">
+                                        <VBox width="85%">
+                                        <HBox  justifyContent="SpaceBetween">
+                                        <Label text="Advance Approved"></Label>
+                                        <Text text="10000"/>
+                                        </HBox>
+                                        <HBox justifyContent="SpaceBetween">
+                                        <Label text="Total Expenses Submitted" />
+                                        <Text text="8,700" />
+                                        </HBox>
+                                        <HBox justifyContent="SpaceBetween">
+                                        <Label text="Policy Voilations" />
+                                        <Text text="0" />
+                                        </HBox>
+                                       <ToolbarSeparator ></ToolbarSeparator>
+                                        <HBox justifyContent="SpaceBetween">
+                                        <Title text="Net Settlement Amount" />
+                                        <Text text="18,700" />
+                                        </HBox>
+                                        </VBox>
+                                        <HBox justifyContent="SpaceBetween" class="sapUiSmallMarginTop" width="98%">
+                                        <VBox >
+                                        <Label text="SETTLEMENT TYPE" />
+                                        <GenericTag text="Refund to Company" status="Success"></GenericTag>
+                                        </VBox>
+                                        <VBox >
+                                        <Label text="SETTLEMENT METHOD" />
+                                        <Text text="Payroll Deduction"></Text>
+                                        </VBox>
+                                        <VBox >
+                                        <Label text="STATUS" />
+                                        <GenericTag text="Pending Approval" status="Warning"></GenericTag>
+                                        </VBox>
+                                        </HBox>
+                                        </Panel>
+                                        <Table id="reconciliationQueueTable" items="{/reconciliationQueue}" growing="true" growingScrollToLoad="true">
+
+                                            <!-- Header -->
+                                            <headerToolbar>
+                                                <Toolbar>
+                                                    <Title text="Reconciliation Queue"/>
+                                                    <ToolbarSpacer/>
+                                                    <Button text="Auto-Reconcile" icon="sap-icon://synchronize" type="Emphasized" press=".onAutoReconcile"/>
+                                                </Toolbar>
+                                            </headerToolbar>
+
+                                            <!-- Columns -->
+                                            <columns>
+                                                <Column width="8rem">
+                                                    <Text text="Advance ID"/>
+                                                </Column>
+                                                <Column>
+                                                    <Text text="Driver"/>
+                                                </Column>
+                                                <Column hAlign="End">
+                                                    <Text text="Advance"/>
+                                                </Column>
+                                                <Column hAlign="End">
+                                                    <Text text="Expenses"/>
+                                                </Column>
+                                                <Column hAlign="End">
+                                                    <Text text="Balance"/>
+                                                </Column>
+                                                <Column width="10rem">
+                                                    <Text text="Settlement Type"/>
+                                                </Column>
+                                                <Column width="8rem">
+                                                    <Text text="Issues"/>
+                                                </Column>
+                                                <Column width="9rem" hAlign="Center">
+                                                    <Text text="Actions"/>
+                                                </Column>
+                                            </columns>
+
+                                            <!-- Items -->
+                                            <items>
+                                                <ColumnListItem>
+                                                    <cells>
+
+                                                        <!-- Advance ID -->
+                                                        <Text text="{advanceId}" class="sapUiBoldText"/>
+
+                                                        <!-- Driver -->
+                                                        <VBox>
+                                                            <Text text="{driver}"/>
+                                                            <Text text="{driverId}" class="sapUiContentLabel"/>
+                                                        </VBox>
+
+                                                        <!-- Advance -->
+                                                        <Text text="{advance}" class="sapUiBoldText"/>
+
+                                                        <!-- Expenses -->
+                                                        <Text text="{expenses}" class="sapUiBoldText sapUiCriticalText"/>
+
+                                                        <!-- Balance -->
+                                                        <Text text="{balance}" class="sapUiBoldText"/>
+
+                                                        <!-- Settlement Type -->
+                                                        <GenericTag text="{settlementType}" design="StatusIconHidden" status="{settlementState}"/>
+
+                                                        <!-- Issues -->
+                                                        <GenericTag text="{issues}" design="StatusIconHidden" status="{issuesState}"/>
+
+                                                        <!-- Actions -->
+                                                        <HBox justifyContent="Center">
+                                                            <Button text="Reconcile" icon="sap-icon://balance" type="Emphasized" press=".onReconcile"/>
+                                                        </HBox>
+
+                                                    </cells>
+                                                </ColumnListItem>
+                                            </items>
+
+                                        </Table>
+
+                                    </IconTabFilter>
+                                    <IconTabFilter key="SettlementHistory" text="✅ Settlement History" class="shipment-tab-item">
+                                        <Table id="completedSettlementsTable" items="{/completedSettlements}" growing="true" growingScrollToLoad="true">
+
+                                            <!-- Header -->
+                                            <headerToolbar>
+                                                <Toolbar>
+                                                    <Title text="Completed Settlements"/>
+                                                </Toolbar>
+                                            </headerToolbar>
+
+                                            <!-- Columns -->
+                                            <columns>
+                                                <Column width="8rem">
+                                                    <Text text="Settlement ID"/>
+                                                </Column>
+                                                <Column>
+                                                    <Text text="Driver"/>
+                                                </Column>
+                                                <Column hAlign="End">
+                                                    <Text text="Advance"/>
+                                                </Column>
+                                                <Column hAlign="End">
+                                                    <Text text="Expenses"/>
+                                                </Column>
+                                                <Column hAlign="End">
+                                                    <Text text="Settlement"/>
+                                                </Column>
+                                                <Column width="9rem">
+                                                    <Text text="Type"/>
+                                                </Column>
+                                                <Column width="9rem">
+                                                    <Text text="Date"/>
+                                                </Column>
+                                                <Column width="8rem">
+                                                    <Text text="SAP Doc"/>
+                                                </Column>
+                                                <Column width="6rem" hAlign="Center">
+                                                    <Text text="Actions"/>
+                                                </Column>
+                                            </columns>
+
+                                            <!-- Items -->
+                                            <items>
+                                                <ColumnListItem>
+                                                    <cells>
+
+                                                        <!-- Settlement ID -->
+                                                        <Text text="{settlementId}" class="sapUiBoldText"/>
+
+                                                        <!-- Driver -->
+                                                        <Text text="{driver}"/>
+
+                                                        <!-- Advance -->
+                                                        <Text text="{advance}" class="sapUiBoldText"/>
+
+                                                        <!-- Expenses -->
+                                                        <Text text="{expenses}" class="sapUiBoldText"/>
+
+                                                        <!-- Settlement -->
+                                                        <Text text="{settlement}" class="sapUiBoldText"/>
+
+                                                        <!-- Type -->
+                                                        <GenericTag text="{type}" design="StatusIconHidden" status="{typeState}"/>
+
+                                                        <!-- Date -->
+                                                        <Text text="{date}"/>
+
+                                                        <!-- SAP Doc -->
+                                                        <Link text="{sapDoc}" press=".onOpenSapDoc"/>
+
+                                                        <!-- Actions -->
+                                                        <HBox justifyContent="Center">
+                                                            <Button icon="sap-icon://show" type="Transparent" tooltip="View Settlement" press=".onViewSettlement"/>
+                                                        </HBox>
+
+                                                    </cells>
+                                                </ColumnListItem>
+                                            </items>
+
+                                        </Table>
+
+                                    </IconTabFilter>
+
+                                </items>
+                            </IconTabBar>
+
+
+
+                        </VBox>
                     </ScrollContainer>
                 </FlexBox>
             </content>

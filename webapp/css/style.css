@@ -2492,7 +2492,12 @@ color: red !important;
 color: #0066cc !important;
 }
 .selectedCarrierBox {
-    background-color: #eaf7ee;
+    background-color: #b0f6c5;
     border: 1px solid #b7e4c7;
     border-radius: 6px;
+}
+.amountcss{
+    color:#0066cc;
+    font-size: 30px;
+    font-weight: bold;
 }
