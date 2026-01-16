@@ -1,0 +1,117 @@
+<core:FragmentDefinition xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:f="sap.f"
+    xmlns:form="sap.ui.layout.form">
+
+    <Dialog id="rateDetailsDialog" contentWidth="720px" stretchOnPhone="true" verticalScrolling="true" horizontalScrolling="false" class="rateDetailsDialog sapUiResponsivePadding">
+
+        <!-- ================= HEADER ================= -->
+        <customHeader>
+            <Bar class="rateDialogHeader">
+                <contentLeft>
+                    <HBox alignItems="Center">
+
+                        <VBox>
+                            <Title text="👤Customer Rate Agreement" level="H4"/>
+                        </VBox>
+                    </HBox>
+                </contentLeft>
+
+                <contentRight>
+                    <Button icon="sap-icon://decline" type="Transparent" press="onCloseRateDialog"/>
+                </contentRight>
+            </Bar>
+        </customHeader>
+
+        <!-- ================= CONTENT ================= -->
+        <content>
+
+            <!-- ===== BASIC INFO ===== -->
+            <form:SimpleForm editable="false" layout="ResponsiveGridLayout" class="sapUiSmallMarginBottom">
+
+                <Label text="Rate ID"/>
+                <Text text="{RateMasterData>id}"/>
+
+                <Label text="Customer"/>
+                <Text text="{RateMasterData>customerName}"/>
+
+                <Label text="Status"/>
+                <ObjectStatus text="{RateMasterData>status}" state="{ path: 'RateMasterData>status', formatter: '.formatter.getStatusState' }"/>
+
+                <Label text="Valid Period"/>
+                <Text text="{
+                    parts: ['RateMasterData>validFrom', 'RateMasterData>validTo'],
+                    formatter: '.formatter.formatDateRange'
+                }"/>
+
+            </form:SimpleForm>
+            <Toolbar>
+                <Title text="💰Pricing Details"/>
+            </Toolbar>
+
+            <layout:Grid xmlns:layout="sap.ui.layout" defaultSpan="L3 M6 S12" class="sapUiSmallMarginTop">
+
+                <VBox>
+                    <Text text="Base Rate / km"/>
+                    <ObjectNumber number="{RateMasterData>baseKm}" unit="฿" emphasized="true"/>
+                </VBox>
+
+                <VBox>
+                    <Text text="Weight Rate / kg"/>
+                    <ObjectNumber number="{RateMasterData>weightKg}" unit="฿" emphasized="true"/>
+                </VBox>
+
+                <VBox>
+                    <Text text="Fuel Surcharge"/>
+                    <ObjectNumber number="{RateMasterData>fuel}" unit="%" state="Warning"/>
+                </VBox>
+
+                <VBox>
+                    <Text text="Discount"/>
+                    <ObjectNumber number="{RateMasterData>discount}" unit="%" state="Success"/>
+                </VBox>
+
+            </layout:Grid>
+
+
+            <!-- ===== USAGE STATISTICS ===== -->
+            <Toolbar class="sapUiMediumMarginTop">
+                <Title text="📊Usage Statistics"/>
+            </Toolbar>
+
+            <layout:Grid xmlns:layout="sap.ui.layout" defaultSpan="L4 M6 S12" class="sapUiSmallMarginTop">
+
+                <VBox>
+                    <Text text="Shipments (This Month)"/>
+                    <ObjectNumber number="{RateMasterData>monthlyShipments}"/>
+                </VBox>
+
+                <VBox>
+                    <Text text="Revenue (This Month)"/>
+                    <ObjectNumber number="{RateMasterData>monthlyRevenue}" unit="฿" state="Success"/>
+                </VBox>
+
+                <VBox>
+                    <Text text="Last Used"/>
+                    <Text text="{ path: 'RateMasterData>lastUsed', formatter: '.formatter.formatDate' }"/>
+                </VBox>
+
+            </layout:Grid>
+
+
+        </content>
+
+       
+
+        <buttons>
+        
+             <Button text="Deactivate" type="Reject" icon="sap-icon://cancel" press="onDeactivateRatePress"/>
+
+            <Button text="Duplicate" type="Attention" icon="sap-icon://duplicate" press="onDuplicateRatePress"/>
+
+            <Button text="Edit" type="Emphasized" icon="sap-icon://edit" press="onEditRatePress"/>
+        </buttons>
+
+    </Dialog>
+
+</core:FragmentDefinition>
