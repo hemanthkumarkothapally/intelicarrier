@@ -12,7 +12,30 @@ sap.ui.define([
     return Controller.extend("intellicarrier.controller.Home", {
 
         onInit: function () {
+             var oDriverModel = new sap.ui.model.json.JSONModel({
+        selectedDriverId: "",
+        driverDetails: "",
+        cost: {
+            base: "",
+            fuel: "",
+            surcharge: "",
+            serviceFee: "",
+            total: ""
+        }
+    });
 
+    this.getView().setModel(oDriverModel, "driverModel");
+ var oFormModel = new JSONModel({
+                productType: "",
+                routeCode: "",
+
+                distance: "",
+                duration: "",
+                baseRate: "",
+                zlsdeScreen: ""
+            });
+
+            this.getView().setModel(oFormModel, "formModel");
             // Initialize view model with fleet and shipment data
             var oViewModel = new JSONModel({
                 selectedKey: "dashboard",
@@ -96,7 +119,7 @@ sap.ui.define([
                     {
                         orderId: "FO-2026-0006",
                         coId: "CO-2026-0015",
-                        sphId: "SHP-2026-001235",
+                        sphId: "8062225001",
                         customer: "Prime Distribution Co.",
                         from: "Bangkok (Bang Na)",
                         to: "Rayong",
@@ -2017,7 +2040,7 @@ sap.ui.define([
                     onClose: function (oAction) {
                         if (oAction === MessageBox.Action.OK) {
                             // Simulate booking
-                            this._createNewBooking(oCustomer, oOrigin, oDestination, oSelectedVehicle);
+                            this._createNewBooking1(oCustomer, oOrigin, oDestination, oSelectedVehicle);
                         }
                     }.bind(this)
                 }
@@ -2710,13 +2733,96 @@ sap.ui.define([
             });
         },
         _createNewBooking: function (oOrder, oVehicle) {
-            console.log("Booking Created", {
-                order: oOrder,
-                vehicle: oVehicle
-            });
+
+    // ✅ Generate new Shipment ID
+    var sNewId = new Date().getFullYear() + Math.floor(100000 + Math.random() * 900000);
+
+    // ✅ Extract order details safely
+    var sCustomer = oOrder.customer || "-";
+    var sOrigin = oOrder.from || "-";
+    var sDestination = oOrder.to || "-";
+    var sDeliveryDate = oOrder.deliveryDate || "-";
+    var sCargoInfo = oOrder.cargoInfo || "-";
+    var sOrderId = oOrder.orderId || "-";
+    var sPriority = oOrder.priority || "-";
+
+    // ✅ Vehicle/Carrier selected name
+    var sAssignedTo = oVehicle.text || oVehicle.vehicle || oVehicle.name || "Assigned Carrier";
+
+    // ✅ Decide Status based on selection type
+    // (you can adjust based on your selectionModel structure)
+    var sStatusText = "Assigned";
+    if (sAssignedTo.includes("Express") || sAssignedTo.includes("Carrier")) {
+        sStatusText = "External Carrier";
+    } else {
+        sStatusText = "Internal Fleet";
+    }
+
+    // ✅ Update order status in orders model
+    var oOrdersModel = this.getView().getModel("orders");
+    if (oOrdersModel) {
+        var aOrders = oOrdersModel.getProperty("/orders") || [];
+
+        aOrders.forEach(function (oItem) {
+            if (oItem.orderId === sOrderId) {
+                oItem.status = "Assigned";
+                oItem.statusState = "Success";
+                oItem.statusText = sStatusText;
+                oItem.shipmentId = sNewId;
+            }
+        });
+
+        oOrdersModel.setProperty("/orders", aOrders);
+        oOrdersModel.refresh(true);
+    }
+
+    // ✅ Booking created log
+    console.log("✅ Booking Created", {
+        shipmentId: sNewId,
+        order: oOrder,
+        assignedTo: oVehicle
+    });
+
+    // ✅ Success MessageBox
+    sap.m.MessageBox.success(
+        "🚛 SHIPMENT BOOKED SUCCESSFULLY!\n\n" +
+        "Shipment ID: " + sNewId + "\n" +
+        "Order ID: " + sOrderId + "\n" +
+        "Customer: " + sCustomer + "\n" +
+        "Route: " + sOrigin + " → " + sDestination + "\n" +
+        "Cargo: " + sCargoInfo + "\n" +
+        "Delivery: " + sDeliveryDate + "\n" +
+        "Priority: " + sPriority + "\n\n" +
+        "Assigned: " + sAssignedTo + "\n\n" +
+        "Next Steps:\n" +
+        "• Assignment confirmed\n" +
+        "• Driver/Carrier will be notified\n" +
+        "• Tracking will be activated\n" +
+        "• Documentation will be generated",
+        {
+            title: "✅ Booking Confirmed"
+            }
+    );
+},
 
 
-
+    onBookShipment: function () {
+            var oView = this.getView();
+ 
+            // Selected Order (from Analyze dialog)
+            var oSelectedOrder = oView.getModel("selectedOrder")?.getData();
+ 
+            // Selected Vehicle / Carrier (from selection logic)
+            var oSelectedVehicle = oView.getModel("selectionModel").getData();
+ 
+            if (!oSelectedOrder) {
+                sap.m.MessageBox.error("No order selected for booking.");
+                return;
+            }
+            if (!oSelectedVehicle) {
+                sap.m.MessageBox.error("No Carrier is Selected for booking.");
+                return;
+            }
             // Extract order details
             var sCustomer = oSelectedOrder.customer;
             var sOrigin = oSelectedOrder.from;
@@ -3763,22 +3869,22 @@ sap.ui.define([
             }
         },
 
-        // Title (first Text)
-        //     var sTitle = aItems[0].getText();
+            // // Title (first Text)
+            // var sTitle = aItems[0].getText();
 
-        //     // Find price (Text with sapUiPositiveText)
-        //     var sPrice = "";
-        //     aItems.forEach(function (oCtrl) {
-        //         if (oCtrl.hasStyleClass && oCtrl.hasStyleClass("sapUiPositiveText")) {
-        //             sPrice = oCtrl.getText();
-        //         }
-        //     });
+            // // Find price (Text with sapUiPositiveText)
+            // var sPrice = "";
+            // aItems.forEach(function (oCtrl) {
+            //     if (oCtrl.hasStyleClass && oCtrl.hasStyleClass("sapUiPositiveText")) {
+            //         sPrice = oCtrl.getText();
+            //     }
+            // });
 
-        //     // Update model
-        //     var oModel = this.getView().getModel("selectionModel");
-        //     oModel.setProperty("/visible", true);
-        //     oModel.setProperty("/text", sTitle);
-        //     oModel.setProperty("/price", sPrice);
+            // // Update model
+            // var oModel = this.getView().getModel("selectionModel");
+            // oModel.setProperty("/visible", true);
+            // oModel.setProperty("/text", sTitle);
+            // oModel.setProperty("/price", sPrice);
         // },
         onReviewRequest: function (oEvent) {
             var oRowData = oEvent.getSource()
@@ -3867,9 +3973,123 @@ sap.ui.define([
         onCloseDocPrintDialog: function () {
             this._oDocPrintDialog.then(function (oDialog) {
                 oDialog.close();
-            });
+            });},
+            onProductOrRouteChange: function () {
+            var oModel = this.getView().getModel("formModel");
+
+            var sProduct = oModel.getProperty("/productType");
+            var sRoute = oModel.getProperty("/routeCode");
+
+            if (sProduct && sRoute) {
+                // Lookup example data based on Product + Route combination
+                var oRateMap = {
+                    "RT-CONT-001": {
+                        distance: "120 km",
+                        duration: "2-3 hrs",
+                        baseRate: "฿0.4/kg",
+                        zlsdeScreen: "ZLSDE015"
+                    },
+                    "RT-CONT-002": {
+                        distance: "685 km",
+                        duration: "1-2 days",
+                        baseRate: "฿1.2/kg",
+                        zlsdeScreen: "ZLSDE025"
+                    },
+                    "RT-LPG-001": {
+                        distance: "147 km",
+                        duration: "3-4 hrs",
+                        baseRate: "฿0.8/kg",
+                        zlsdeScreen: "ZLSDE035"
+                    }
+                };
+
+                var sKey = sRoute;
+                var oData = oRateMap[sKey];
+
+                if (oData) {
+                    oModel.setProperty("/distance", oData.distance);
+                    oModel.setProperty("/duration", oData.duration);
+                    oModel.setProperty("/baseRate", oData.baseRate);
+                    oModel.setProperty("/zlsdeScreen", oData.zlsdeScreen);
+                } else {
+                    // fallback if mapping not available
+                    oModel.setProperty("/distance", "N/A");
+                    oModel.setProperty("/duration", "N/A");
+                    oModel.setProperty("/baseRate", "N/A");
+                    oModel.setProperty("/zlsdeScreen", "N/A");
+                }
+            } else {
+                // Clear when one dropdown removed
+                oModel.setProperty("/distance", "");
+                oModel.setProperty("/duration", "");
+                oModel.setProperty("/baseRate", "");
+                oModel.setProperty("/zlsdeScreen", "");
+            }
+        },
+
+        onOpenZlsdeScreen: function () {
+            MessageToast.show("Opening ZLSDE Screen...");
+        },
+        onDriverChange: function (oEvent) {
+    var sDriverId = oEvent.getSource().getSelectedKey();
+    var oModel = this.getView().getModel("driverModel");
+
+    if (!sDriverId) {
+        // Clear everything
+        oModel.setProperty("/selectedDriverId", "");
+        oModel.setProperty("/driverDetails", "");
+        oModel.setProperty("/cost", {
+            base: "",
+            fuel: "",
+            surcharge: "",
+            serviceFee: "",
+            total: ""
+        });
+        return;
+    }
+
+    // Store selected driver
+    oModel.setProperty("/selectedDriverId", sDriverId);
+
+    // Demo driver details + costs (you can replace with backend)
+    var oDriverDataMap = {
+        "DRV-003": {
+            details: "📞 081-456-7890 | 🧾 Class 2 + Fuel | ⭐ 4.5",
+            cost: {
+                base: "฿5,500",
+                fuel: "฿420",
+                surcharge: "฿0",
+                serviceFee: "฿275",
+                total: "฿6,195"
+            }
+        },
+        "DRV-001": {
+            details: "📞 081-111-2222 | 🧾 Class 1 | ⭐ 4.8",
+            cost: {
+                base: "฿5,200",
+                fuel: "฿380",
+                surcharge: "฿50",
+                serviceFee: "฿250",
+                total: "฿5,880"
+            }
+        },
+        "DRV-002": {
+            details: "📞 089-333-4444 | 🧾 Class 2 | ⭐ 4.6",
+            cost: {
+                base: "฿5,350",
+                fuel: "฿410",
+                surcharge: "฿25",
+                serviceFee: "฿260",
+                total: "฿6,045"
+            }
         }
+    };
 
+    var oSelectedData = oDriverDataMap[sDriverId];
 
+    oModel.setProperty("/driverDetails", oSelectedData.details);
+    oModel.setProperty("/cost", oSelectedData.cost);
+
+        }
     });
 });
