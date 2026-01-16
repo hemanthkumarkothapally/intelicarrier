@@ -2537,7 +2537,7 @@ color: #0066cc !important;
 
 /* ===== Document Cards ===== */
 .docCard {
-    width: 200px;
+    width: 100px;
     height: 160px;
     border: 1px solid #e5e5e5;
     border-radius: 12px;
@@ -2586,4 +2586,14 @@ color: #0066cc !important;
     background: #f2f2f2;
     border-radius: 10px;
     border: 1px solid #e5e5e5;
+}
+.routeInfoBox {
+    background: #f5f7f9;
+    border-radius: 10px;
+    padding: 12px;
+}
+.costBox {
+    background: #f5f7f9;
+    border-radius: 10px;
+    padding: 14px;
 }
