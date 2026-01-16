@@ -1,0 +1,448 @@
+<core:FragmentDefinition xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:layout="sap.ui.layout"
+    xmlns:f="sap.ui.layout.form">
+
+    <VBox width="100%">
+        <!-- Header Statistics -->
+        <FlexBox wrap="Wrap" alignItems="Start" class="sapUiMediumMarginBottom">
+            <GenericTile header="Total Documents" subheader="Active Shipments" frameType="TwoByHalf" width="13rem" class="sapUiSmallMarginEnd sapUiSmallMarginBottom trackingTile">
+                <tileContent>
+                    <TileContent>
+                        <content>
+                            <NumericContent value="24" valueColor="Neutral" icon="sap-icon://document"/>
+                        </content>
+                    </TileContent>
+                </tileContent>
+            </GenericTile>
+
+            <GenericTile header="Pending Print" subheader="Completed" frameType="TwoByHalf" width="13rem" class="sapUiSmallMarginEnd sapUiSmallMarginBottom trackingTile">
+                <tileContent>
+                    <TileContent>
+                        <content>
+                            <NumericContent value="18" valueColor="Good" icon="sap-icon://print"/>
+                        </content>
+                    </TileContent>
+                </tileContent>
+            </GenericTile>
+
+            <GenericTile header="Printed Today" subheader="Need Attention" frameType="TwoByHalf" width="13rem" class="sapUiSmallMarginEnd sapUiSmallMarginBottom trackingTile">
+                <tileContent>
+                    <TileContent>
+                        <content>
+                            <NumericContent value="3" valueColor="Error" icon="sap-icon://accept"/>
+                        </content>
+                    </TileContent>
+                </tileContent>
+            </GenericTile>
+
+            <GenericTile header="BOL Generated" subheader="Today" frameType="TwoByHalf" width="13rem" class=" sapUiSmallMarginBottom trackingTile">
+                <tileContent>
+                    <TileContent>
+                        <content>
+                            <NumericContent value="12" valueColor="Neutral" icon="sap-icon://receipt"/>
+                        </content>
+                    </TileContent>
+                </tileContent>
+            </GenericTile>
+
+            <GenericTile header="EIR Issued" subheader="Today" frameType="TwoByHalf" width="13rem" class=" sapUiSmallMarginBottom trackingTile">
+                <tileContent>
+                    <TileContent>
+                        <content>
+                            <NumericContent value="12" valueColor="Neutral" icon="sap-icon://shipping-status"/>
+                        </content>
+                    </TileContent>
+                </tileContent>
+            </GenericTile>
+        </FlexBox>
+        <!-- Icon Tab Bar for Different Document Types -->
+        <IconTabBar id="documentTabBar" select="onTabSelect" expandable="false" headerMode="Inline">
+            <items>
+                <IconTabFilter key="shippingLabels" text="Shipping Labels">
+                    <VBox>
+                        <!-- Toolbar -->
+                        <OverflowToolbar>
+                            <Title text="Shipping Labels" level="H2" />
+                            <ToolbarSpacer />
+                            <ComboBox id="statusFilter" placeholder="Filter by Status" selectionChange="onStatusFilterChange">
+                                <items>
+                                    <core:Item key="all" text="All Status" />
+                                    <core:Item key="draft" text="Draft" />
+                                    <core:Item key="ready" text="Ready to Print" />
+                                    <core:Item key="printed" text="Printed" />
+                                    <core:Item key="sent" text="Sent" />
+                                </items>
+                            </ComboBox>
+                            <Button text="Bulk Print Selected" icon="sap-icon://print" type="Emphasized" press="onBulkPrint" />
+                        </OverflowToolbar>
+
+                        <!-- Shipping Labels Table -->
+                        <Table id="shippingLabelsTable" mode="MultiSelect" items="{logistics>/shipments}" growing="true" growingThreshold="20" class="sapUiSmallMarginTop">
+                            <columns>
+                                <Column width="12em">
+                                    <Text text="Shipment ID" />
+                                </Column>
+                                <Column minScreenWidth="Tablet" demandPopin="true">
+                                    <Text text="Customer" />
+                                </Column>
+                                <Column minScreenWidth="Tablet" demandPopin="true">
+                                    <Text text="Route" />
+                                </Column>
+                                <Column minScreenWidth="Desktop" demandPopin="true" hAlign="Center">
+                                    <Text text="Items" />
+                                </Column>
+                                <Column minScreenWidth="Desktop" demandPopin="true" hAlign="Center">
+                                    <Text text="Weight" />
+                                </Column>
+                                <Column minScreenWidth="Tablet" demandPopin="true">
+                                    <Text text="Vehicle" />
+                                </Column>
+                                <Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+                                    <Text text="Type" />
+                                </Column>
+                                <Column hAlign="Center">
+                                    <Text text="Status" />
+                                </Column>
+                                <Column width="10em" hAlign="Center">
+                                    <Text text="Actions" />
+                                </Column>
+                            </columns>
+                            <items>
+                                <ColumnListItem type="Active" press="onShipmentPress">
+                                    <cells>
+                                        <ObjectIdentifier title="{logistics>id}" />
+                                        <Text text="{logistics>customer}" />
+                                        <VBox>
+                                            <Text text="{logistics>origin}"/>
+                                            <Text text="→ {logistics>destination}" class="sapUiTinyMarginTop" />
+                                        </VBox>
+                                        <ObjectNumber number="{logistics>items}" unit="pcs" />
+                                        <ObjectNumber number="{logistics>weight}" />
+                                        <Text text="{logistics>vehicle}" />
+                                        <ObjectStatus text="{logistics>type}" state="{= ${logistics>type} === 'Express' ? 'Warning' : 'None'}" />
+                                        <ObjectStatus text="{logistics>status}" state="{= ${status} === 'ready' ? 'Success' : ${logistics>status} === 'draft' ? 'Warning' : ${logistics>status} === 'printed' ? 'Information' : 'None'}" />
+                                        <HBox>
+                                            <Button icon="sap-icon://show" type="Transparent" press="onPreviewLabel" tooltip="Preview" />
+                                            <Button icon="sap-icon://print" type="Transparent" press="onPrintLabel" tooltip="Print" />
+                                        </HBox>
+                                    </cells>
+                                </ColumnListItem>
+                            </items>
+                        </Table>
+                    </VBox>
+                </IconTabFilter>
+                <!-- Bill of Lading Tab -->
+                <IconTabFilter key="bol" text="Bill of Lading" icon="sap-icon://receipt">
+                    <VBox>
+                        <!-- Toolbar -->
+                        <OverflowToolbar>
+                            <Title text="Bill of Lading (BOL)" level="H2" />
+                            <ToolbarSpacer />
+                            <Button text="Create New BOL" icon="sap-icon://add" type="Accept" press="onCreateBOL" />
+                        </OverflowToolbar>
+
+                        <!-- BOL Table -->
+                        <Table id="bolTable" items="{logistics>/bolDocuments}" growing="true" class="sapUiSmallMarginTop">
+                            <columns>
+                                <Column width="10em">
+                                    <Text text="BOL No." />
+                                </Column>
+                                <Column minScreenWidth="Tablet" demandPopin="true">
+                                    <Text text="Shipment" />
+                                </Column>
+                                <Column minScreenWidth="Tablet" demandPopin="true">
+                                    <Text text="Shipper" />
+                                </Column>
+                                <Column minScreenWidth="Desktop" demandPopin="true">
+                                    <Text text="Consignee" />
+                                </Column>
+                                <Column minScreenWidth="Desktop" demandPopin="true">
+                                    <Text text="Port of Loading" />
+                                </Column>
+                                <Column minScreenWidth="Desktop" demandPopin="true">
+                                    <Text text="Port of Discharge" />
+                                </Column>
+                                <Column minScreenWidth="Tablet" demandPopin="true">
+                                    <Text text="Goods" />
+                                </Column>
+                                <Column hAlign="Center">
+                                    <Text text="Status" />
+                                </Column>
+                                <Column minScreenWidth="Tablet" demandPopin="true">
+                                    <Text text="Date" />
+                                </Column>
+                                <Column width="10em" hAlign="Center">
+                                    <Text text="Actions" />
+                                </Column>
+                            </columns>
+                            <items>
+                                <ColumnListItem type="Active" press="onBOLPress">
+                                    <cells>
+                                        <ObjectIdentifier title="{logistics>id}" />
+                                        <Link text="{logistics>shipmentId}" press="onShipmentLinkPress" />
+                                        <Text text="{logistics>shipper}" />
+                                        <Text text="{logistics>consignee}" />
+                                        <Text text="{logistics>portLoading}" />
+                                        <Text text="{logistics>portDischarge}" />
+                                        <Text text="{logistics>goods}" />
+                                        <ObjectStatus text="{logistics>status}" state="{= ${logistics>status} === 'ready' ? 'Success' : ${logistics>status} === 'draft' ? 'Warning' : 'Information'}" />
+                                        <Text text="{logistics>date}" />
+                                        <HBox>
+                                            <Button icon="sap-icon://show" type="Transparent" press="onPreviewBOL" tooltip="Preview" />
+                                            <Button icon="sap-icon://print" type="Transparent" press="onPrintBOL" tooltip="Print" />
+                                            <Button icon="sap-icon://edit" type="Transparent" press="onEditBOL" tooltip="Edit" />
+                                        </HBox>
+                                    </cells>
+                                </ColumnListItem>
+                            </items>
+                        </Table>
+                    </VBox>
+                </IconTabFilter>
+                <!-- Delivery Note Tab -->
+                <IconTabFilter key="deliveryNote" text="Delivery Note" icon="sap-icon://shipping-status">
+                    <VBox>
+                        <!-- Toolbar -->
+                        <OverflowToolbar>
+                            <Title text="Delivery Note / Delivery Order (DO)" level="H2" />
+                            <ToolbarSpacer />
+                            <Button text="Generate from Shipment" icon="sap-icon://add" type="Accept" press="onGenerateDO" />
+                        </OverflowToolbar>
+
+                        <!-- Delivery Orders List -->
+                        <List id="deliveryOrderList" items="{logistics>/deliveryOrders}" class="sapUiSmallMarginTop">
+                            <CustomListItem type="Active" press="onDOPress">
+                                <VBox width="100%" class="sapUiSmallMarginTop sapUiSmallMarginBottom">
+                                    <!-- Header -->
+                                    <HBox justifyContent="SpaceBetween" alignItems="Center" class="sapUiTinyMarginBottom">
+                                        <HBox alignItems="Center">
+                                            <ObjectIdentifier title="{logistics>doId}" class="sapUiTinyMarginEnd" />
+                                            <ObjectStatus text="{logistics>status}" state="{= ${logistics>status} === 'ready' ? 'Success' : ${logistics>status} === 'draft' ? 'Warning' : 'Information'}" />
+                                        </HBox>
+                                        <Text text="Ref: {logistics>shipmentId}" class="sapUiTinyText" />
+                                    </HBox>
+
+                                    <!-- Details Grid -->
+                                    <layout:Grid defaultSpan="XL4 L4 M12 S12" class="sapUiTinyMarginTop">
+                                        <VBox class="sapUiSmallMarginEnd">
+                                            <Label text="Ship From" design="Bold" />
+                                            <Text text="{logistics>origin}" class="sapUiTinyMarginTop" />
+                                            <Text text="SC Group Co., Ltd." class="sapUiTinyText" />
+                                        </VBox>
+                                        <VBox class="sapUiSmallMarginEnd">
+                                            <Label text="Ship To" design="Bold" />
+                                            <Text text="{logistics>destination}" class="sapUiTinyMarginTop" />
+                                            <Text text="{logistics>customer}" class="sapUiTinyText" />
+                                        </VBox>
+                                        <VBox>
+                                            <Label text="Delivery Details" design="Bold" />
+                                            <Text text="{logistics>items} Items • {logistics>weight}" class="sapUiTinyMarginTop" />
+                                            <Text text="{logistics>vehicle} • {logistics>driver}" class="sapUiTinyText" />
+                                        </VBox>
+                                    </layout:Grid>
+
+                                    <!-- Actions -->
+                                    <HBox justifyContent="End" class="sapUiSmallMarginTop">
+                                        <Button text="Preview" icon="sap-icon://show" press="onPreviewDO" class="sapUiTinyMarginEnd" />
+                                        <Button text="Print DO" icon="sap-icon://print" type="Emphasized" press="onPrintDO" />
+                                    </HBox>
+                                </VBox>
+                            </CustomListItem>
+                        </List>
+                    </VBox>
+                </IconTabFilter>
+                <!-- EIR Tab -->
+                <IconTabFilter key="eir" text="EIR" icon="sap-icon://container-loading">
+                    <VBox>
+                        <!-- Toolbar -->
+                        <OverflowToolbar>
+                            <Title text="Equipment Interchange Receipt (EIR)" level="H2" />
+                            <ToolbarSpacer />
+                            <Button text="Gate-In EIR" icon="sap-icon://incoming-call" type="Accept" press="onCreateEIR" />
+                            <Button text="Gate-Out EIR" icon="sap-icon://outgoing-call" type="Emphasized" press="onCreateEIR" />
+                        </OverflowToolbar>
+
+                        <!-- EIR Table -->
+                        <Table id="eirTable" items="{logistics>/eirDocuments}" growing="true" class="sapUiSmallMarginTop">
+                            <columns>
+                                <Column width="10em">
+                                    <Text text="EIR No." />
+                                </Column>
+                                <Column>
+                                    <Text text="Container No." />
+                                </Column>
+                                <Column minScreenWidth="Tablet" demandPopin="true">
+                                    <Text text="Size/Type" />
+                                </Column>
+                                <Column hAlign="Center">
+                                    <Text text="Gate Type" />
+                                </Column>
+                                <Column hAlign="Center">
+                                    <Text text="Condition" />
+                                </Column>
+                                <Column minScreenWidth="Desktop" demandPopin="true">
+                                    <Text text="Location" />
+                                </Column>
+                                <Column minScreenWidth="Tablet" demandPopin="true">
+                                    <Text text="Date/Time" />
+                                </Column>
+                                <Column hAlign="Center">
+                                    <Text text="Status" />
+                                </Column>
+                                <Column width="8em" hAlign="Center">
+                                    <Text text="Actions" />
+                                </Column>
+                            </columns>
+                            <items>
+                                <ColumnListItem type="Active" press="onEIRPress">
+                                    <cells>
+                                        <ObjectIdentifier title="{logistics>id}" />
+                                        <Text text="{logistics>containerNo}" wrapping="false" class="sapUiMonoFont" />
+                                        <Text text="{logistics>size} {logistics>type}" />
+                                        <ObjectStatus text="{logistics>gateType}" state="{= ${logistics>gateType} === 'Gate-In' ? 'Success' : 'Information'}" icon="{= ${logistics>gateType} === 'Gate-In' ? 'sap-icon://incoming-call' : 'sap-icon://outgoing-call'}" />
+                                        <ObjectStatus text="{logistics>condition}" state="{= ${logistics>condition} === 'Good' ? 'Success' : 'Warning'}" />
+                                        <Text text="{logistics>location}" />
+                                        <VBox>
+                                            <Text text="{logistics>date}" />
+                                            <Text text="{logistics>time}" class="sapUiTinyText" />
+                                        </VBox>
+                                        <ObjectStatus text="{logistics>status}" state="{= ${logistics>status} === 'ready' ? 'Success' : ${logistics>status} === 'draft' ? 'Warning' : 'Information'}" />
+                                        <HBox>
+                                            <Button icon="sap-icon://show" type="Transparent" press="onPreviewEIR" tooltip="Preview" />
+                                            <Button icon="sap-icon://print" type="Transparent" press="onPrintEIR" tooltip="Print" />
+                                        </HBox>
+                                    </cells>
+                                </ColumnListItem>
+                            </items>
+                        </Table>
+
+                        <!-- Container Condition Reference -->
+                        <Panel headerText="Container Condition Reference" expandable="true" expanded="false" class="sapUiSmallMarginTop">
+                            <layout:Grid defaultSpan="XL3 L3 M6 S12">
+                                <VBox alignItems="Center" class="sapUiSmallPadding">
+                                    <core:Icon src="sap-icon://status-positive" size="2rem" color="#107E3E" />
+                                    <Title text="Good" level="H4" class="sapUiTinyMarginTop" />
+                                    <Text text="No damage" class="sapUiTinyText" />
+                                </VBox>
+                                <VBox alignItems="Center" class="sapUiSmallPadding">
+                                    <core:Icon src="sap-icon://status-critical" size="2rem" color="#E9730C" />
+                                    <Title text="Minor Damage" level="H4" class="sapUiTinyMarginTop" />
+                                    <Text text="Dents, scratches" class="sapUiTinyText" />
+                                </VBox>
+                                <VBox alignItems="Center" class="sapUiSmallPadding">
+                                    <core:Icon src="sap-icon://status-error" size="2rem" color="#B00" />
+                                    <Title text="Major Damage" level="H4" class="sapUiTinyMarginTop" />
+                                    <Text text="Holes, rust" class="sapUiTinyText" />
+                                </VBox>
+                                <VBox alignItems="Center" class="sapUiSmallPadding">
+                                    <core:Icon src="sap-icon://decline" size="2rem" color="#880000" />
+                                    <Title text="Rejected" level="H4" class="sapUiTinyMarginTop" />
+                                    <Text text="Not usable" class="sapUiTinyText" />
+                                </VBox>
+                            </layout:Grid>
+                        </Panel>
+                    </VBox>
+                </IconTabFilter>
+                <!-- Customs Documents Tab -->
+                <IconTabFilter key="customs" text="Customs Documents" icon="sap-icon://world">
+                    <VBox>
+                        <!-- Toolbar -->
+                        <OverflowToolbar>
+                            <Title text="Customs Documents" level="H2" />
+                            <ToolbarSpacer />
+                            <Button text="Create Document" icon="sap-icon://add" type="Accept" press="onCreateCustomsDoc" />
+                        </OverflowToolbar>
+
+                        <FlexBox wrap="Wrap" alignItems="Start" class="sapUiMediumMarginBottom">
+                            <GenericTile header="Commercial Invoice" subheader="Export billing document" frameType="TwoByHalf" width="13rem" class="sapUiSmallMarginEnd sapUiSmallMarginBottom trackingTile">
+                                <tileContent>
+                                    <TileContent>
+                                        <content>
+                                            <NumericContent value="24" valueColor="Neutral" icon="document-text"/>
+                                        </content>
+                                    </TileContent>
+                                </tileContent>
+                            </GenericTile>
+
+                            <GenericTile header="Packing List" subheader="Cargo contents detail" frameType="TwoByHalf" width="13rem" class="sapUiSmallMarginEnd sapUiSmallMarginBottom trackingTile">
+                                <tileContent>
+                                    <TileContent>
+                                        <content>
+                                            <NumericContent value="18" valueColor="Good" icon="sap-icon://sales-document"/>
+                                        </content>
+                                    </TileContent>
+                                </tileContent>
+                            </GenericTile>
+
+                            <GenericTile header="Certificate of Origin" subheader="Country of origin proof" frameType="TwoByHalf" width="13rem" class="sapUiSmallMarginEnd sapUiSmallMarginBottom trackingTile">
+                                <tileContent>
+                                    <TileContent>
+                                        <content>
+                                            <NumericContent value="3" valueColor="Error" icon="sap-icon://official-service"/>
+                                        </content>
+                                    </TileContent>
+                                </tileContent>
+                            </GenericTile>
+
+                            <GenericTile header="Customs Declaration" subheader="Import/Export form" frameType="TwoByHalf" width="13rem" class=" sapUiSmallMarginBottom trackingTile">
+                                <tileContent>
+                                    <TileContent>
+                                        <content>
+                                            <NumericContent value="12" valueColor="Neutral"  icon="sap-icon://globe"/>
+                                        </content>
+                                    </TileContent>
+                                </tileContent>
+                            </GenericTile>
+
+                        </FlexBox>
+
+                        <!-- Recent Customs Documents -->
+                        <Panel headerText="Recent Customs Documents" class="sapUiResponsiveMargin">
+                            <Table items="{logistics>/customsDocuments}">
+                                <columns>
+                                    <Column width="10em">
+                                        <Text text="Doc No." />
+                                    </Column>
+                                    <Column minScreenWidth="Tablet" demandPopin="true">
+                                        <Text text="Type" />
+                                    </Column>
+                                    <Column minScreenWidth="Tablet" demandPopin="true">
+                                        <Text text="Shipment" />
+                                    </Column>
+                                    <Column minScreenWidth="Desktop" demandPopin="true">
+                                        <Text text="Destination" />
+                                    </Column>
+                                    <Column minScreenWidth="Desktop" demandPopin="true" hAlign="End">
+                                        <Text text="Value" />
+                                    </Column>
+                                    <Column hAlign="Center">
+                                        <Text text="Status" />
+                                    </Column>
+                                    <Column width="8em" hAlign="Center">
+                                        <Text text="Actions" />
+                                    </Column>
+                                </columns>
+                                <items>
+                                    <ColumnListItem type="Active" press="onCustomsDocPress">
+                                        <cells>
+                                            <ObjectIdentifier title="{logistics>docId}" />
+                                            <Text text="{logistics>docType}" />
+                                            <Link text="{logistics>shipmentId}" press="onShipmentLinkPress" />
+                                            <Text text="{logistics>destination}" />
+                                            <ObjectNumber number="{logistics>value}" unit="{logistics>currency}" />
+                                            <ObjectStatus text="{logistics>status}" state="{= ${logistics>status} === 'ready' ? 'Success' : ${logistics>status} === 'draft' ? 'Warning' : 'Information'}" />
+                                            <HBox>
+                                                <Button icon="sap-icon://show" type="Transparent" press="onPreviewCustomsDoc" tooltip="Preview" />
+                                                <Button icon="sap-icon://print" type="Transparent" press="onPrintCustomsDoc" tooltip="Print" />
+                                            </HBox>
+                                        </cells>
+                                    </ColumnListItem>
+                                </items>
+                            </Table>
+                        </Panel>
+                    </VBox>
+                </IconTabFilter>
+            </items>
+        </IconTabBar>
+    </VBox>
+</core:FragmentDefinition>

@@ -59,6 +59,13 @@
                             <tnt:NavigationListItem text="Dashboard" icon="sap-icon://home" key="dashboard"/>
                             <tnt:NavigationListItem text="Freight Orders Creation" icon="sap-icon://shipping-status" key="freightOrders" />
                             <tnt:NavigationListItem text="Shipment Execution" icon="sap-icon://create" key="shipmentexecution"/>
+                            <tnt:NavigationListItem text="Freight Orders" icon="sap-icon://shipping-status" key="freightOrders" />
+                            <tnt:NavigationListItem text="Freight Execution" icon="sap-icon://create" key="shipmentexecution"/>
+                            <tnt:NavigationListItem text="Fleet Overview" icon="sap-icon://create" key="shipmentExecutionViewsub2"/>
+                            <tnt:NavigationListItem text="Tracking &amp; Visibility" icon="sap-icon://map" key="tracking"/>
+                            <tnt:NavigationListItem text="BOL &amp; Document Management" icon="sap-icon://document" key="bol"/>
+                            <tnt:NavigationListItem text="Rate Master" icon="sap-icon://money-bills" key="rateMaster"/>
+                            <tnt:NavigationListItem text="Price Determination &amp; Settlement" icon="sap-icon://sales-order" key="priceCalculation"/>
                             <tnt:NavigationListItem text="Tracking &amp; Visibility" icon="sap-icon://locate-me" key="tracking"/>
 
                             <tnt:NavigationListItem text="Cash Advance &amp; Reimbursement" icon="sap-icon://wallet" key="CashAdvanceandReimbursement"/>
@@ -1595,6 +1602,21 @@
                                 </Panel>
                             </VBox>
                         </VBox>
+
+                        <VBox id="bolView" visible="false" width="100%" class="intellicarrier-content-padding">
+                         <core:Fragment fragmentName="intellicarrier.view.BOLManagement" type="XML"/>
+                        </VBox>
+
+                        <VBox id="rateMasterView" visible="false" width="100%" class="intellicarrier-content-padding">
+                            <core:Fragment fragmentName="intellicarrier.view.RateMaster" type="XML"/>
+                        </VBox>
+
+                        <VBox id="priceCalculationView" visible="false" width="100%" class="intellicarrier-content-padding">
+                             <core:Fragment fragmentName="intellicarrier.view.PriceSettlement" type="XML"/>
+                             
+                        </VBox>
+
+                        
 
                         <VBox id="freightOrdersView" visible="false" width="100%" class="intellicarrier-content-padding">
                             <!-- Header Section -->
