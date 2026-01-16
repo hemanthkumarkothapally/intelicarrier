@@ -620,8 +620,7 @@ sap.ui.define([
                         s4Icon: "sap-icon://pending", // ⏳
                         sentAt: "2026-01-14 11:15"
                     }
-                ]
-
+                ],
 
                 cashAdvanceRequests: [
                     {
@@ -3208,22 +3207,22 @@ sap.ui.define([
         },
 
             // Title (first Text)
-            var sTitle = aItems[0].getText();
+        //     var sTitle = aItems[0].getText();
 
-            // Find price (Text with sapUiPositiveText)
-            var sPrice = "";
-            aItems.forEach(function (oCtrl) {
-                if (oCtrl.hasStyleClass && oCtrl.hasStyleClass("sapUiPositiveText")) {
-                    sPrice = oCtrl.getText();
-                }
-            });
+        //     // Find price (Text with sapUiPositiveText)
+        //     var sPrice = "";
+        //     aItems.forEach(function (oCtrl) {
+        //         if (oCtrl.hasStyleClass && oCtrl.hasStyleClass("sapUiPositiveText")) {
+        //             sPrice = oCtrl.getText();
+        //         }
+        //     });
 
-            // Update model
-            var oModel = this.getView().getModel("selectionModel");
-            oModel.setProperty("/visible", true);
-            oModel.setProperty("/text", sTitle);
-            oModel.setProperty("/price", sPrice);
-        },
+        //     // Update model
+        //     var oModel = this.getView().getModel("selectionModel");
+        //     oModel.setProperty("/visible", true);
+        //     oModel.setProperty("/text", sTitle);
+        //     oModel.setProperty("/price", sPrice);
+        // },
         onReviewRequest: function (oEvent) {
             var oRowData = oEvent.getSource()
                 .getBindingContext()

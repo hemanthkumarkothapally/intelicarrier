@@ -1,0 +1,500 @@
+<core:FragmentDefinition xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:layout="sap.ui.layout"
+    xmlns:f="sap.ui.layout.form"
+    xmlns:viz="sap.viz.ui5.controls"
+    xmlns:viz.data="sap.viz.ui5.data"
+    xmlns:viz.feeds="sap.viz.ui5.controls.common.feeds">
+
+    <VBox width="100%" renderType="Bare" class="intellicarrier-dashboard">
+
+        <!-- Hero / Title -->
+        <Panel class="intellicarrier-hero sapUiSmallMarginBottom" width="100%" backgroundDesign="Solid" stickyHeader="true">
+            <content>
+                <HBox>
+                    <VBox>
+                        <Title text="Welcome to IntelliCarrier Operations Center" level="H2" class="sapUiSmallMarginBottom" />
+                        <Text text="Real-time visibility across all logistics operations • SC Group / Hitachi" class="sapUiSmallMarginBottom" />
+                    </VBox>
+                    <HBox>
+                        <items>
+                            <Button text="Refresh" icon="sap-icon://refresh" type="Default" class="sapUiSmallMarginEnd sapUiSmallMarginTop" press="onRefreshData"/>
+                            <Button text="Export" icon="sap-icon://excel-attachment" class="sapUiSmallMarginTop" type="Attention" />
+                        </items>
+                    </HBox>
+                </HBox>
+            </content>
+        </Panel>
+
+        <!-- KPI tiles row -->
+        <HBox justifyContent="Start" class="intellicarrier-kpi-row sapUiSmallMarginBottom" width="100%" renderType="Bare">
+            <items>
+                <GenericTile subheader="Today" header="{dashboard>/kpis/0/label}" headerImage="sap-icon://product" frameType="Auto" class="kpiTileBlue sapUiSmallMarginEnd" width="15%">
+                    <tileContent>
+                        <TileContent footer="↑ 12% vs yesterday">
+                            <content>
+                                <NumericContent value="{dashboard>/kpis/0/value}" scale="" />
+                            </content>
+                        </TileContent>
+                    </tileContent>
+                </GenericTile>
+
+                <GenericTile subheader="Active" header="{dashboard>/kpis/1/label}" headerImage="sap-icon://shipping-status" frameType="Auto" class="kpiTile sapUiSmallMarginEnd" width="15%">
+                    <tileContent>
+                        <TileContent footer="42 vehicles on road">
+                            <content>
+                                <NumericContent value="{dashboard>/kpis/1/value}" scale="" />
+                            </content>
+                        </TileContent>
+                    </tileContent>
+                </GenericTile>
+
+                <GenericTile subheader="Pending" headerImage="sap-icon://lateness" header="{dashboard>/kpis/2/label}" frameType="Auto" class="kpiTile sapUiSmallMarginEnd" width="15%">
+                    <tileContent>
+                        <TileContent footer="8 need review">
+                            <content>
+                                <NumericContent value="{dashboard>/kpis/2/value}" scale="" />
+                            </content>
+                        </TileContent>
+                    </tileContent>
+                </GenericTile>
+
+                <GenericTile subheader="MTD" header="{dashboard>/kpis/3/label}" headerImage="sap-icon://lead" frameType="Auto" class="kpiTile sapUiSmallMarginEnd" width="15%">
+                    <tileContent>
+                        <TileContent footer="↑ 8% vs last month
+">
+                            <content>
+                                <NumericContent value="{dashboard>/kpis/3/value}" scale="" />
+                            </content>
+                        </TileContent>
+                    </tileContent>
+                </GenericTile>
+
+                <GenericTile subheader="Rate" headerImage="sap-icon://accept" header="{dashboard>/kpis/4/label}" frameType="Auto" class="kpiTile sapUiSmallMarginEnd" width="15%">
+                    <tileContent>
+                        <TileContent footer="↑ 2.3% improvement">
+                            <content>
+                                <NumericContent value="{dashboard>/kpis/4/value}" scale="" />
+                            </content>
+                        </TileContent>
+                    </tileContent>
+                </GenericTile>
+
+                <GenericTile subheader="Alert" header="{dashboard>/kpis/5/label}" headerImage="sap-icon://alert" frameType="Auto" class="kpiTile" width="15%">
+                    <tileContent>
+                        <TileContent footer="2 critical">
+                            <content>
+                                <NumericContent value="{dashboard>/kpis/5/value}" scale="" />
+                            </content>
+                        </TileContent>
+                    </tileContent>
+                </GenericTile>
+            </items>
+        </HBox>
+
+        <!-- Main content section -->
+        <Panel width="100%" class="sapUiMediumMarginBottom" backgroundDesign="Solid">
+            <content>
+                <HBox width="95%" justifyContent="SpaceBetween" alignItems="Start">
+                    <!-- Left column: charts and modules -->
+                    <VBox width="70%" class="sapUiSmallMarginEnd">
+                        <!-- Operations Modules Panel -->
+                        <Panel width="100%" headerText="Operations Modules" class="sapUiMediumMarginBottom" backgroundDesign="Solid">
+                            <content>
+                                <VBox>
+                                    <!-- BTP Flow Title -->
+                                    <Title text="SAP BTP - SHIPMENT &amp; TRANSPORTATION FLOW" level="H4" textAlign="Center" class="sapUiMediumMarginBottom sapUiMediumMarginTop" />
+
+                                    <!-- BTP Flow - Avatars -->
+                                    <HBox justifyContent="SpaceAround" alignItems="Center" width="95%" class="sapUiMediumMarginBegin sapUiMediumMarginEnd sapUiLargeMarginBottom">
+                                        <items>
+                                            <VBox alignItems="Center">
+                                                <items>
+                                                    <Avatar  initials="I" displaySize="XL"  backgroundColor="Accent1" class="sapUiSmallMarginBottom"/>
+                                                    <Text text="Freight Order" class="sapUiMediumMarginTop"/>
+                                                </items>
+                                            </VBox>
+                                            <Text text="→" class="sapUiLargeMarginBegin sapUiLargeMarginEnd sapUiLargeText sapUiTinyFontWeight"/>
+                                            <VBox alignItems="Center">
+                                                <items>
+                                                    <Avatar initials="II" displaySize="XL" backgroundColor="Accent4" class="sapUiSmallMarginBottom"/>
+                                                    <Text text="Monitor" class="sapUiMediumMarginTop"/>
+                                                </items>
+                                            </VBox>
+                                            <Text text="→" class="sapUiLargeMarginBegin sapUiLargeMarginEnd sapUiLargeText sapUiTinyFontWeight"/>
+                                            <VBox alignItems="Center">
+                                                <items>
+                                                    <Avatar initials="III" displaySize="XL" backgroundColor="Accent5" class="sapUiSmallMarginBottom"/>
+                                                    <Text text="Charges" class="sapUiMediumMarginTop"/>
+                                                </items>
+                                            </VBox>
+                                            <Text text="→" class="sapUiLargeMarginBegin sapUiLargeMarginEnd sapUiLargeText sapUiTinyFontWeight"/>
+                                            <VBox alignItems="Center">
+                                                <items>
+                                                    <Avatar initials="IV" displaySize="XL" backgroundColor="Accent7" class="sapUiSmallMarginBottom"/>
+                                                    <Text text="Settlement" class="sapUiMediumMarginTop"/>
+                                                </items>
+                                            </VBox>
+                                        </items>
+                                    </HBox>
+
+                                    <!-- Module Tiles Title -->
+                                    <Title text="Key Operational Modules" level="H5" class="sapUiMediumMarginBottom sapUiMediumMarginTop" />
+
+                                    <!-- Large Module Tiles (2x2) -->
+                                    <layout:Grid defaultSpan="L6 M6 S12" hSpacing="1" vSpacing="1" containerQuery="true" class="sapUiMediumMarginBottom">
+                                        <layout:content>
+                                            <GenericTile header="Freight Order Management" headerImage="sap-icon://document" subheader="MODULE 1" frameType="TwoByOne" class="module-tile">
+                                                <tileContent>
+                                                    <TileContent>
+                                                        <content>
+                                                            <VBox class="sapUiMediumMarginEnd">
+                                                                <items>
+                                                                    <Text text="PDF/BOT intake, OCR, Review Queue, Approvals" class="sapUiSmallMarginBottom" wrapping="true"/>
+                                                                    <!-- <Text text="" class="sapUiSmallMarginBottom" wrapping="true"/> -->
+                                                                    <!-- <Text text="8 Pending Review, 15 Approved" class="sapUiMediumMarginTop" wrapping="true"/>
+                                                                     -->
+                                                                    <HBox justifyContent="SpaceAround" width="95%">
+                                                                        <MessageStrip text="8 Pending Review" type="Warning" showIcon="true" class="sapUiMediumMarginBottom"/>
+                                                                        <MessageStrip text="15 Approved." type="Success" showIcon="true" class="sapUiMediumMarginBottom"/>
+                                                                    </HBox>
+                                                                </items>
+                                                            </VBox>
+                                                        </content>
+                                                    </TileContent>
+                                                </tileContent>
+                                            </GenericTile>
+
+                                            <GenericTile header="Fleet Management Cockpit" headerImage="sap-icon://shipping-status" subheader="MODULE 2" frameType="TwoByOne" class="module-tile">
+                                                <tileContent>
+                                                    <TileContent>
+                                                        <content>
+                                                            <VBox  class="sapUiMediumMarginEnd">
+                                                                <items>
+                                                                    <Text text="Real-time tracking, Vehicle status, Driver assignment" class="sapUiSmallMarginBottom" wrapping="true"/>
+                                                                    <!-- <Text text="" class="sapUiSmallMarginBottom" wrapping="true"/> -->
+                                                                    <!-- <Text text="42 On Road, 8 Available" class="sapUiMediumMarginTop" wrapping="true"/> -->
+                                                                    <HBox justifyContent="SpaceAround" width="95%">
+                                                                        <MessageStrip text="42 On Road" type="Information" showIcon="true" class="sapUiMediumMarginBottom"/>
+                                                                        <MessageStrip text="8 Available" type="Success" showIcon="true" class="sapUiMediumMarginBottom"/>
+                                                                    </HBox>
+                                                                </items>
+                                                            </VBox>
+                                                        </content>
+                                                    </TileContent>
+                                                </tileContent>
+                                            </GenericTile>
+
+                                            <GenericTile header="Price &amp; Settlement" headerImage="sap-icon://lead" subheader="MODULE 3 &amp; 4" frameType="TwoByOne" class="module-tile">
+                                                <tileContent>
+                                                    <TileContent>
+                                                        <content>
+                                                            <VBox class="sapUiMediumMarginEnd">
+                                                                <items>
+                                                                    <Text text="Charges calculation, Invoice validation, S/4 posting" class="sapUiSmallMarginBottom" wrapping="true"/>
+                                                                    <!-- <Text text="12 Awaiting Calc, 3 Discrepancies" class="sapUiMediumMarginTop" wrapping="true"/> -->
+                                                                    <HBox justifyContent="SpaceAround" width="95%">
+                                                                        <MessageStrip text="12 Awaiting Calc" type="Warning" showIcon="true" class="sapUiMediumMarginBottom"/>
+                                                                        <MessageStrip text="3 Discrepancies" type="Error" showIcon="true" class="sapUiMediumMarginBottom"/>
+                                                                    </HBox>
+                                                                </items>
+                                                            </VBox>
+                                                        </content>
+                                                    </TileContent>
+                                                </tileContent>
+                                            </GenericTile>
+
+                                            <GenericTile header="Cash Advance &amp; Reimbursement" headerImage="sap-icon://money-bills" subheader="FINANCE" frameType="TwoByOne" class="module-tile">
+                                                <tileContent>
+                                                    <TileContent>
+                                                        <content>
+                                                            <VBox class="sapUiMediumMarginEnd">
+                                                                <items>
+                                                                    <Text text="Driver advances, Expense claims, Settlements" class="sapUiSmallMarginBottom" wrapping="true"/>
+                                                                    <!-- <Text text="" class="sapUiSmallMarginBottom" wrapping="true"/> -->
+                                                                    <!-- <Text text="5 Pending, $125K Disbursed" class="sapUiMediumMarginTop" wrapping="true"/> -->
+                                                                    <HBox justifyContent="SpaceAround">
+                                                                        <MessageStrip text="5 Pending" type="Warning" showIcon="true" class="sapUiMediumMarginBottom"/>
+                                                                        <MessageStrip text="$125K Disbursed." type="Information" showIcon="true" class="sapUiMediumMarginBottom"/>
+                                                                    </HBox>
+                                                                </items>
+                                                            </VBox>
+                                                        </content>
+                                                    </TileContent>
+                                                </tileContent>
+                                            </GenericTile>
+                                        </layout:content>
+                                    </layout:Grid>
+
+                                    <!-- Small Utility Modules -->
+                                    <!-- <Title text="Utilities" level="H5" class="sapUiMediumMarginBottom sapUiMediumMarginTop" /> -->
+                                    <HBox justifyContent="SpaceAround" wrap="Wrap" class="sapUiMediumMarginBottom" width="100%">
+                                        <items>
+                                            <GenericTile header="Rate Master" subheader="Pricing configuration" frameType="OneByOne" class="module-tile sapUiSmallMarginEnd" width="100%">
+                                                <tileContent>
+                                                    <TileContent>
+                                                        <content>
+                                                            <core:Icon src="sap-icon://list" size="2.5rem" />
+                                                        </content>
+                                                    </TileContent>
+                                                </tileContent>
+                                            </GenericTile>
+
+                                            <GenericTile header="Tracking &amp; Visibility" subheader="Shipment tracking" frameType="OneByOne" class="module-tile sapUiSmallMarginEnd" width="100%">
+                                                <tileContent>
+                                                    <TileContent>
+                                                        <content>
+                                                            <core:Icon src="sap-icon://map" size="2.5rem" />
+                                                        </content>
+                                                    </TileContent>
+                                                </tileContent>
+                                            </GenericTile>
+
+                                            <GenericTile header="Driver Mobile App" subheader="ePOD, Expenses, Check-in" frameType="OneByOne" class="module-tile" width="100%">
+                                                <tileContent>
+                                                    <TileContent>
+                                                        <content>
+                                                            <core:Icon src="sap-icon://phone" size="2.5rem" />
+                                                        </content>
+                                                    </TileContent>
+                                                </tileContent>
+                                            </GenericTile>
+                                        </items>
+                                    </HBox>
+                                </VBox>
+                            </content>
+                        </Panel>
+
+                        <!-- Charts vertical layout -->
+                        <VBox width="100%">
+                            <items>
+                                <Panel headerText="Orders Trend (Last 7 Days)" width="100%" class="sapUiMediumMarginBottom">
+                                    <content>
+                                        <viz:VizFrame  id="ordersTrendViz" vizType="line" width="100%" height="360px">
+                                            <viz:dataset>
+                                                <viz.data:FlattenedDataset data="{dashboard>/ordersTrend}">
+                                                    <viz.data:dimensions>
+                                                        <viz.data:DimensionDefinition name="Day" value="{dashboard>Day}" />
+                                                    </viz.data:dimensions>
+                                                    <viz.data:measures>
+                                                        <viz.data:MeasureDefinition name="Orders" value="{dashboard>Orders}" />
+                                                        <viz.data:MeasureDefinition name="Completed" value="{dashboard>Completed}" />
+                                                    </viz.data:measures>
+                                                </viz.data:FlattenedDataset>
+                                            </viz:dataset>
+                                            <viz:feeds>
+                                                <viz.feeds:FeedItem uid="valueAxis" type="Measure" values="Orders,Completed" />
+                                                <viz.feeds:FeedItem uid="categoryAxis" type="Dimension" values="Day" />
+                                            </viz:feeds>
+                                        </viz:VizFrame>
+                                    </content>
+                                </Panel>
+
+                                <Panel headerText="Revenue by Service Type" width="100%">
+                                    <content>
+                                        <viz:VizFrame id="revenueDonut" vizType="donut" width="100%" height="360px">
+                                            <viz:dataset>
+                                                <viz.data:FlattenedDataset data="{dashboard>/revenueByService}">
+                                                    <viz.data:dimensions>
+                                                        <viz.data:DimensionDefinition name="Service" value="{dashboard>service}" />
+                                                    </viz.data:dimensions>
+                                                    <viz.data:measures>
+                                                        <viz.data:MeasureDefinition name="Revenue" value="{dashboard>value}" />
+                                                    </viz.data:measures>
+                                                </viz.data:FlattenedDataset>
+                                            </viz:dataset>
+                                            <viz:feeds>
+                                                <viz.feeds:FeedItem uid="size" type="Measure" values="Revenue" />
+                                                <viz.feeds:FeedItem uid="color" type="Dimension" values="Service" />
+                                            </viz:feeds>
+                                        </viz:VizFrame>
+                                    </content>
+                                </Panel>
+                            </items>
+                        </VBox>
+
+                    </VBox>
+
+                    <!-- Right column: placeholders for Quick Actions / Lists -->
+                    <VBox width="30%">
+                        <Panel headerText="Quick Actions" width="100%" class="sapUiMediumMarginBottom">
+                            <content>
+                                <layout:Grid defaultSpan="L6 M6 S12" hSpacing="2" vSpacing="1" containerQuery="true">
+                                    <layout:content>
+                                        <GenericTile header="New Order" subheader="Create freight order" frameType="OneByOne" class="quick-action-tile">
+                                            <tileContent>
+                                                <TileContent>
+                                                    <content>
+                                                        <core:Icon src="sap-icon://add" size="2rem" />
+                                                    </content>
+                                                </TileContent>
+                                            </tileContent>
+                                        </GenericTile>
+                                        <GenericTile header="Assign Fleet" subheader="Vehicle assignment" frameType="OneByOne" class="quick-action-tile">
+                                            <tileContent>
+                                                <TileContent>
+                                                    <content>
+                                                        <core:Icon src="sap-icon://inventory" size="2rem" />
+                                                    </content>
+                                                </TileContent>
+                                            </tileContent>
+                                        </GenericTile>
+                                        <GenericTile header="Calculate Price" subheader="Process charges" frameType="OneByOne" class="quick-action-tile">
+                                            <tileContent>
+                                                <TileContent>
+                                                    <content>
+                                                        <core:Icon src="sap-icon://lead" size="2rem" />
+                                                    </content>
+                                                </TileContent>
+                                            </tileContent>
+                                        </GenericTile>
+                                        <GenericTile header="Cash Advance" subheader="Process request" frameType="OneByOne" class="quick-action-tile">
+                                            <tileContent>
+                                                <TileContent>
+                                                    <content>
+                                                        <core:Icon src="sap-icon://money-bills" size="2rem" />
+                                                    </content>
+                                                </TileContent>
+                                            </tileContent>
+                                        </GenericTile>
+                                    </layout:content>
+                                </layout:Grid>
+                            </content>
+                        </Panel>
+
+                        <Panel headerText="Pending Actions" width="100%" class="sapUiMediumMarginBottom">
+                            <content>
+                                <ScrollContainer height="300px" horizontal="false" vertical="true">
+                                    <List>
+                                        <items>
+                                            <StandardListItem title="8 Orders Pending Review" description="OCR data needs verification" info="View →" type="Navigation"/>
+                                            <StandardListItem title="5 Awaiting Approval" description="Manager approval required" info="View →" type="Navigation"/>
+                                            <StandardListItem title="12 Price Calculations" description="Awaiting charge calculation" info="View →" type="Navigation"/>
+                                            <StandardListItem title="3 Invoice Discrepancies" description="Require verification" info="Resolve →" type="Navigation"/>
+                                        </items>
+                                    </List>
+                                </ScrollContainer>
+                            </content>
+                        </Panel>
+
+                        <Panel headerText="Live Activity" width="100%">
+                            <content>
+                                <ScrollContainer height="300px" horizontal="false" vertical="true">
+                                    <List>
+                                        <items>
+                                            <StandardListItem title="Dashboard refreshed" info="Just now" description="Data updated successfully"/>
+                                            <StandardListItem title="Dashboard refreshed" info="Just now" description="Data updated successfully"/>
+                                            <StandardListItem title="Dashboard refreshed" info="Just now" description="Data updated successfully"/>
+                                            <StandardListItem title="Dashboard refreshed" info="Just now" description="Data updated successfully"/>
+                                            <StandardListItem title="Dashboard refreshed" info="Just now" description="Data updated successfully"/>
+                                            <StandardListItem title="Dashboard refreshed" info="Just now" description="Data updated successfully"/>
+                                        </items>
+                                    </List>
+                                </ScrollContainer>
+                            </content>
+                        </Panel>
+                    </VBox>
+                </HBox>
+            </content>
+        </Panel>
+
+    </VBox>
+    <!-- Fleet status overview -->
+    <Panel headerText="Fleet Status Overview" width="100%">
+        <content>
+            <HBox justifyContent="SpaceAround" width="100%" wrap="Wrap" class="sapUiTinyMarginBegin sapUiTinyMarginEnd">
+                <items>
+                    <GenericTile header="On Road" subheader="42 vehicles" frameType="Auto" class="fleet-status-tile sapUiTinyMarginEnd" width="100%">
+                        <tileContent>
+                            <TileContent>
+                                <content>
+                                    <VBox>
+                                        <items>
+                                            <Title text="{dashboard>/fleetStatus/0/value}" level="H2" />
+                                            <ProgressIndicator percentValue="84" state="Success" width="100%" />
+                                        </items>
+                                    </VBox>
+                                </content>
+                            </TileContent>
+                        </tileContent>
+                    </GenericTile>
+
+                    <GenericTile header="Available" subheader="8 vehicles" frameType="Auto" class="fleet-status-tile sapUiTinyMarginEnd" width="100%">
+                        <tileContent>
+                            <TileContent>
+                                <content>
+                                    <VBox>
+                                        <items>
+                                            <Title text="{dashboard>/fleetStatus/1/value}" level="H2" />
+                                            <ProgressIndicator percentValue="16" state="Information" width="100%" />
+                                        </items>
+                                    </VBox>
+                                </content>
+                            </TileContent>
+                        </tileContent>
+                    </GenericTile>
+
+                    <GenericTile header="Loading" subheader="3 vehicles" frameType="Auto" class="fleet-status-tile sapUiTinyMarginEnd" width="100%">
+                        <tileContent>
+                            <TileContent>
+                                <content>
+                                    <VBox>
+                                        <items>
+                                            <Title text="{dashboard>/fleetStatus/2/value}" level="H2" />
+                                            <ProgressIndicator percentValue="6" state="Information" width="100%" />
+                                        </items>
+                                    </VBox>
+                                </content>
+                            </TileContent>
+                        </tileContent>
+                    </GenericTile>
+
+                    <GenericTile header="Unloading" subheader="5 vehicles" frameType="Auto" class="fleet-status-tile sapUiTinyMarginEnd" width="100%">
+                        <tileContent>
+                            <TileContent>
+                                <content>
+                                    <VBox>
+                                        <items>
+                                            <Title text="{dashboard>/fleetStatus/3/value}" level="H2" />
+                                            <ProgressIndicator percentValue="10" state="Information" width="100%" />
+                                        </items>
+                                    </VBox>
+                                </content>
+                            </TileContent>
+                        </tileContent>
+                    </GenericTile>
+
+                    <GenericTile header="Maintenance" subheader="2 vehicles" frameType="Auto" class="fleet-status-tile sapUiTinyMarginEnd" width="100%">
+                        <tileContent>
+                            <TileContent>
+                                <content>
+                                    <VBox>
+                                        <items>
+                                            <Title text="{dashboard>/fleetStatus/4/value}" level="H2" />
+                                            <ProgressIndicator percentValue="4" state="Warning" width="100%" />
+                                        </items>
+                                    </VBox>
+                                </content>
+                            </TileContent>
+                        </tileContent>
+                    </GenericTile>
+
+                    <GenericTile header="Breakdown" subheader="0 vehicles" frameType="Auto" class="fleet-status-tile" width="100%">
+                        <tileContent>
+                            <TileContent>
+                                <content>
+                                    <VBox>
+                                        <items>
+                                            <Title text="{dashboard>/fleetStatus/5/value}" level="H2" />
+                                            <ProgressIndicator percentValue="0" state="Error" width="100%" />
+                                        </items>
+                                    </VBox>
+                                </content>
+                            </TileContent>
+                        </tileContent>
+                    </GenericTile>
+                </items>
+            </HBox>
+        </content>
+    </Panel>
+</core:FragmentDefinition>
