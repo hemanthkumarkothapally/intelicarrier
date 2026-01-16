@@ -1,0 +1,168 @@
+<core:FragmentDefinition xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:html="http://www.w3.org/1999/xhtml">
+
+    <Dialog id="documentPreviewDialog" title="{previewModel>/title}" contentWidth="60%" contentHeight="80%" resizable="true" draggable="true">
+
+        <customHeader>
+            <Bar>
+                <contentLeft>
+                    <Title text="{previewModel>/title}" level="H2" />
+                </contentLeft>
+                <contentRight>
+                    <Button icon="sap-icon://print" text="Print" type="Emphasized" press="onPreviewPrint" />
+                    <Button icon="sap-icon://download" text="Download PDF" press="onPreviewDownload" />
+                    <Button icon="sap-icon://decline" press="onClosePreview" />
+                </contentRight>
+            </Bar>
+        </customHeader>
+
+        <content>
+            <ScrollContainer height="100%" width="100%" vertical="true" horizontal="false">
+
+                <!-- Preview content will be dynamically loaded here -->
+                <VBox id="previewContentContainer" width="100%" alignItems="Center" class="sapUiSmallMargin">
+
+                    <!-- Shipping Label Preview Template -->
+                    <VBox visible="{= ${previewModel>/type} === 'label'}" class="documentPreview" width="4in">
+                        <VBox class="sapUiSmallPadding" style="border: 2px solid #ccc; background: white;">
+                            <!-- Label Header -->
+                            <HBox justifyContent="SpaceBetween" class="sapUiSmallMarginBottom" style="border-bottom: 2px solid black; padding-bottom: 8px;">
+                                <Title text="🚚 SC GROUP" level="H3" />
+                                <VBox alignItems="End">
+                                    <Label text="Tracking #" design="Bold" />
+                                    <Text text="{previewModel>/data/id}" class="sapUiMonoFont" />
+                                </VBox>
+                            </HBox>
+
+                            <!-- Barcode Placeholder -->
+                            <VBox alignItems="Center" class="sapUiSmallMarginBottom">
+                                <html:div style="width: 250px; height: 60px; background: #f0f0f0; border: 1px dashed #999; display: flex; align-items: center; justify-content: center;">
+                                   <Image src="/img/barcode-sample.png" width="160px" height="50px" />
+                                </html:div>
+                            </VBox>
+
+                            <!-- Ship From -->
+                            <VBox class="sapUiTinyPadding sapUiSmallMarginBottom" style="background: #f5f5f5; border-radius: 4px;">
+                                <Label text="FROM:" design="Bold" class="sapUiTinyText" />
+                                <Text text="{previewModel>/data/origin}" class="sapUiSmallText" />
+                                <Text text="SC Group Co., Ltd." class="sapUiTinyText" />
+                                <Text text="Bangkok, Thailand" class="sapUiTinyText" />
+                            </VBox>
+
+                            <!-- Ship To -->
+                            <VBox class="sapUiTinyPadding sapUiSmallMarginBottom" style="background: #e3f2fd; border: 2px solid #2196f3; border-radius: 4px;">
+                                <Label text="TO:" design="Bold" class="sapUiTinyText" />
+                                <Text text="{previewModel>/data/customer}" class="sapUiSmallText" />
+                                <Text text="{previewModel>/data/destination}" class="sapUiSmallText" />
+                            </VBox>
+
+                            <!-- Service & Weight -->
+                            <HBox justifyContent="SpaceBetween" class="sapUiSmallMarginBottom">
+                                <VBox class="sapUiTinyPadding" width="48%" style="background: #fff9c4; border-radius: 4px; text-align: center;">
+                                    <Label text="SERVICE" class="sapUiTinyText" />
+                                    <Title text="{previewModel>/data/type}" level="H4" />
+                                </VBox>
+                                <VBox class="sapUiTinyPadding" width="48%" style="background: #f5f5f5; border-radius: 4px; text-align: center;">
+                                    <Label text="WEIGHT" class="sapUiTinyText" />
+                                    <Title text="{previewModel>/data/weight}" level="H4" />
+                                </VBox>
+                            </HBox>
+
+                            <!-- QR Code Placeholder -->
+                            <VBox alignItems="Center" class="sapUiSmallMarginBottom">
+                              <Image src="/img/barcode-sample.png" width="80px" height="80px" />
+                                <Label text="Scan for tracking" class="sapUiTinyText sapUiTinyMarginTop" />
+                            </VBox>
+
+                            <!-- Footer -->
+                            <VBox alignItems="Center" style="border-top: 1px solid #ddd; padding-top: 8px;">
+                                <Text text="Items: {previewModel>/data/items} pcs | Vehicle: {previewModel>/data/vehicle}" class="sapUiTinyText" />
+                            </VBox>
+                        </VBox>
+                    </VBox>
+
+                    <!-- BOL Preview Template -->
+                    <VBox visible="{= ${previewModel>/type} === 'bol'}" class="documentPreview" width="8.5in">
+                        <VBox class="sapUiMediumPadding" style="border: 1px solid #ccc; background: white;">
+                            <!-- BOL Header -->
+                            <HBox justifyContent="SpaceBetween" class="sapUiSmallMarginBottom" style="border-bottom: 2px solid black; padding-bottom: 16px;">
+                                <VBox>
+                                    <Title text="SC GROUP" level="H2" titleStyle="H2" />
+                                    <Text text="Transportation &amp; Logistics" class="sapUiSmallText" />
+                                </VBox>
+                                <VBox alignItems="End">
+                                    <Title text="BILL OF LADING" level="H3" />
+                                    <Text text="NON-NEGOTIABLE" class="sapUiTinyText" />
+                                    <VBox class="sapUiTinyPadding sapUiTinyMarginTop" style="background: #f5f5f5; border-radius: 4px;">
+                                        <Label text="B/L Number" class="sapUiTinyText" />
+                                        <Text text="{previewModel>/data/id}" class="sapUiMonoFont" />
+                                    </VBox>
+                                </VBox>
+                            </HBox>
+
+                            <!-- Shipper & Consignee -->
+                            <HBox justifyContent="SpaceBetween" class="sapUiSmallMarginBottom">
+                                <VBox width="48%" class="sapUiTinyPadding" style="border: 1px solid #ddd; border-radius: 4px;">
+                                    <Label text="SHIPPER" design="Bold" class="sapUiTinyText sapUiTinyMarginBottom" />
+                                    <Text text="{previewModel>/data/shipper}" />
+                                    <Text text="555 Vibhavadi Road" class="sapUiTinyText sapUiTinyMarginTop" />
+                                    <Text text="Bangkok, Thailand" class="sapUiTinyText" />
+                                </VBox>
+                                <VBox width="48%" class="sapUiTinyPadding" style="border: 1px solid #ddd; border-radius: 4px;">
+                                    <Label text="CONSIGNEE" design="Bold" class="sapUiTinyText sapUiTinyMarginBottom" />
+                                    <Text text="{previewModel>/data/consignee}" />
+                                    <Text text="{previewModel>/data/portDischarge}" class="sapUiTinyText sapUiTinyMarginTop" />
+                                </VBox>
+                            </HBox>
+
+                            <!-- Port Information -->
+                            <HBox justifyContent="SpaceBetween" class="sapUiSmallMarginBottom">
+                                <VBox width="32%" class="sapUiTinyPadding" alignItems="Center" style="border: 1px solid #ddd; border-radius: 4px;">
+                                    <Label text="PORT OF LOADING" class="sapUiTinyText" />
+                                    <Text text="{previewModel>/data/portLoading}" />
+                                </VBox>
+                                <VBox width="32%" class="sapUiTinyPadding" alignItems="Center" style="border: 1px solid #ddd; border-radius: 4px;">
+                                    <Label text="PORT OF DISCHARGE" class="sapUiTinyText" />
+                                    <Text text="{previewModel>/data/portDischarge}" />
+                                </VBox>
+                                <VBox width="32%" class="sapUiTinyPadding" alignItems="Center" style="border: 1px solid #ddd; border-radius: 4px;">
+                                    <Label text="DATE" class="sapUiTinyText" />
+                                    <Text text="{previewModel>/data/date}" />
+                                </VBox>
+                            </HBox>
+
+                            <!-- Cargo Details -->
+                            <VBox class="sapUiSmallMarginBottom" style="border: 1px solid #ddd; border-radius: 4px;">
+                                <HBox class="sapUiTinyPadding" style="background: #f5f5f5; border-bottom: 1px solid #ddd;">
+                                    <Label text="DESCRIPTION OF GOODS" design="Bold" />
+                                </HBox>
+                                <VBox class="sapUiSmallPadding">
+                                    <Text text="Reference: {previewModel>/data/shipmentId}" class="sapUiSmallText" />
+                                    <Text text="{previewModel>/data/goods}" class="sapUiSmallMarginTop" />
+                                </VBox>
+                            </VBox>
+
+                            <!-- Footer -->
+                            <VBox alignItems="Center" style="border-top: 1px solid #ddd; padding-top: 8px;">
+                                <Text text="This is a computer generated document." class="sapUiTinyText" />
+                            </VBox>
+                        </VBox>
+                    </VBox>
+
+                    <!-- Generic message for other document types -->
+                    <VBox visible="{= ${previewModel>/type} !== 'label' &amp;&amp; ${previewModel>/type} !== 'bol'}" alignItems="Center" class="sapUiLargeMargin">
+                        <core:Icon src="sap-icon://document" size="5rem" color="#0854a0" class="sapUiLargeMarginBottom" />
+                        <Title text="Document Preview" level="H2" class="sapUiSmallMarginBottom" />
+                        <Text text="Preview for {previewModel>/type} documents will be displayed here" class="sapUiMediumText" />
+                    </VBox>
+
+                </VBox>
+            </ScrollContainer>
+        </content>
+
+        <beginButton>
+            <Button text="Close" press="onClosePreview" />
+        </beginButton>
+    </Dialog>
+</core:FragmentDefinition>

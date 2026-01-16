@@ -378,20 +378,263 @@ sap.ui.define([
                         statusState: "Information",
                         serviceCenter: "Toyota Service Center - Bangna"
                     }
+                ],
+                Discrepancies: [
+                    {
+                        id: "SHP-2026-0048",
+                        carrier: "FedEx Thailand",
+                        issueType: "Price Variance",
+                        issueState: "Error",          // Red background
+                        contractRate: "12500",
+                        invoiced: "14750",
+                        difference: "2250",
+                        diffState: "Error",           // Red text
+                        currency: "฿",
+                        details: "Peak season surcharge not in contract"
+                    },
+                    {
+                        id: "SHP-2026-0053",
+                        carrier: "DHL Express",
+                        issueType: "Weight Mismatch",
+                        issueState: "Error",
+                        contractRate: "9200",
+                        invoiced: "9850",
+                        difference: "650",
+                        diffState: "Error",
+                        currency: "฿",
+                        details: "Actual weight 12% higher than booked"
+                    },
+                    {
+                        id: "SHP-2026-0054",
+                        carrier: "Kerry Logistics",
+                        issueType: "Service Type",
+                        issueState: "Error",
+                        contractRate: "5500",
+                        invoiced: "7200",
+                        difference: "1700",
+                        diffState: "Error",
+                        currency: "฿",
+                        details: "Billed as Express, contracted Standard"
+                    }
+                ],
+                ExternalValidation: [
+                    {
+                        id: "SHP-2026-0050",
+                        carrier: "DHL Express",
+                        invoiceNo: "DHL-TH-2026-45678",
+                        invoiceDate: "2026-01-13",
+                        // Storing numbers as formatted strings foreasier binding with "฿" in front
+                        invoiceAmt: "15,450",
+                        contractRate: "15,450",
+                        variance: "0",
+                        // OCR Status
+                        ocrText: "Verified",
+                        ocrState: "Success",       // Green
+                        ocrIcon: "sap-icon://accept",
+                        // Validation Status
+                        valText: "Passed",
+                        valState: "Success",       // Green
+                        valIcon: "sap-icon://validate",
+                        // Action Logic
+                        showApprove: true
+                    },
+                    {
+                        id: "SHP-2026-0051",
+                        carrier: "Kerry Logistics",
+                        invoiceNo: "KRY-2026-78901",
+                        invoiceDate: "2026-01-13",
+                        invoiceAmt: "8,200",
+                        contractRate: "8,200",
+                        variance: "0",
+                        ocrText: "Verified",
+                        ocrState: "Success",
+                        ocrIcon: "sap-icon://accept",
+                        valText: "Passed",
+                        valState: "Success",
+                        valIcon: "sap-icon://validate",
+                        showApprove: true
+                    },
+                    {
+                        id: "SHP-2026-0052",
+                        carrier: "TNT Express",
+                        invoiceNo: "TNT-TH-2026-11223",
+                        invoiceDate: "2026-01-12",
+                        invoiceAmt: "6,500",
+                        contractRate: "6,500",
+                        variance: "0",
+                        ocrText: "Processing",
+                        ocrState: "Information",   // Blue (or Warning for Orange)
+                        ocrIcon: "sap-icon://process",
+                        valText: "Pending",
+                        valState: "Warning",       // Orange
+                        valIcon: "sap-icon://pending",
+                        showApprove: false         // Hide button
+                    }
+                ],
+                InternalPending: [
+                    {
+                        id: "SHP-2026-0038",
+                        customer: "Tech Solutions",
+                        driver: "Somchai P.",
+                        route: "BKK→CNX",
+                        rateId: "RA-TECH-2026-001",
+                        baseCharge: "17572",
+                        surcharges: "1494",
+                        total: "18113",
+                        currency: "฿",
+                        calculatedAt: "2026-01-14 09:15"
+                    },
+                    {
+                        id: "SHP-2026-0039",
+                        customer: "Metro Retail",
+                        driver: "Wichai T.",
+                        route: "RYG→BKK",
+                        rateId: "RR-BKK-CNX-001",
+                        baseCharge: "8500",
+                        surcharges: "723",
+                        total: "9223",
+                        currency: "฿",
+                        calculatedAt: "2026-01-14 09:20"
+                    },
+                    {
+                        id: "SHP-2026-0040",
+                        customer: "Global Corp",
+                        driver: "Narong S.",
+                        route: "BKK→HKT",
+                        rateId: "RA-GLOBAL-2026-001",
+                        baseCharge: "15200",
+                        surcharges: "1292",
+                        total: "15276",
+                        currency: "฿",
+                        calculatedAt: "2026-01-14 09:30"
+                    }
+                ],
+                PendingShipments: [
+                    {
+                        id: "SHP-2026-0045",
+                        fleetType: "Internal",
+                        fleetIcon: "sap-icon://shipping-status", // 🚛
+                        fleetState: "Success",       // Green
+                        customer: "Tech Solutions",
+                        origin: "Bangkok Hub",
+                        destination: "Chiang Mai DC",
+                        weight: "2,450 kg",
+                        distance: "685 km",
+                        deliveredAt: "2026-01-14 08:30",
+                        rateId: "RA-TECH-2026-001"
+                    },
+                    {
+                        id: "SHP-2026-0046",
+                        fleetType: "External",
+                        fleetIcon: "sap-icon://building", // 🏢
+                        fleetState: "Information",   // Blue
+                        customer: "Global Corp",
+                        origin: "Bangkok",
+                        destination: "Phuket",
+                        weight: "890 kg",
+                        distance: "862 km",
+                        deliveredAt: "2026-01-14 09:15",
+                        rateId: "CR-DHL-2026-001"
+                    },
+                    {
+                        id: "SHP-2026-0047",
+                        fleetType: "Internal",
+                        fleetIcon: "sap-icon://shipping-status",
+                        fleetState: "Success",
+                        customer: "Metro Retail",
+                        origin: "Rayong Plant",
+                        destination: "Bangkok DC",
+                        weight: "5,200 kg",
+                        distance: "180 km",
+                        deliveredAt: "2026-01-14 07:45",
+                        rateId: "RR-BKK-CNX-001"
+                    },
+                    {
+                        id: "SHP-2026-0048",
+                        fleetType: "External",
+                        fleetIcon: "sap-icon://building",
+                        fleetState: "Information",
+                        customer: "Smart Logistics",
+                        origin: "Bangkok",
+                        destination: "Khon Kaen",
+                        weight: "1,250 kg",
+                        distance: "450 km",
+                        deliveredAt: "2026-01-14 10:00",
+                        rateId: "CR-FEDEX-2026-001"
+                    }
+                ],
+                SentToS4: [
+                    {
+                        id: "SHP-2026-0032",
+                        fleetType: "Internal",
+                        fleetIcon: "sap-icon://shipping-status", // 🚛
+                        fleetState: "Success",       // Green badge
+                        customer: "Tech Solutions",
+                        chargeAmount: "18250",       // Raw number for formatting
+                        currency: "฿",
+                        salesOrder: "SO-2026-04521",
+                        s4Status: "Processed",
+                        s4State: "Success",          // Green text
+                        s4Icon: "sap-icon://accept", // ✅
+                        sentAt: "2026-01-14 10:30"
+                    },
+                    {
+                        id: "SHP-2026-0033",
+                        fleetType: "External",
+                        fleetIcon: "sap-icon://building", // 🏢
+                        fleetState: "Information",   // Blue badge
+                        customer: "Global Corp",
+                        chargeAmount: "15450",
+                        currency: "฿",
+                        salesOrder: "SO-2026-04522",
+                        s4Status: "Processed",
+                        s4State: "Success",
+                        s4Icon: "sap-icon://accept",
+                        sentAt: "2026-01-14 10:45"
+                    },
+                    {
+                        id: "SHP-2026-0034",
+                        fleetType: "Internal",
+                        fleetIcon: "sap-icon://shipping-status",
+                        fleetState: "Success",
+                        customer: "Metro Retail",
+                        chargeAmount: "9800",
+                        currency: "฿",
+                        salesOrder: "SO-2026-04523",
+                        s4Status: "Processed",
+                        s4State: "Success",
+                        s4Icon: "sap-icon://accept",
+                        sentAt: "2026-01-14 11:00"
+                    },
+                    {
+                        id: "SHP-2026-0035",
+                        fleetType: "External",
+                        fleetIcon: "sap-icon://building",
+                        fleetState: "Information",
+                        customer: "Innovation Labs",
+                        chargeAmount: "6200",
+                        currency: "฿",
+                        salesOrder: "SO-2026-04524",
+                        s4Status: "Pending",
+                        s4State: "Warning",          // Orange text
+                        s4Icon: "sap-icon://pending", // ⏳
+                        sentAt: "2026-01-14 11:15"
+                    }
                 ]
+
 
             });
             this.getView().setModel(oViewModel);
 
             // Set initial view visibility
             this._showView("dashboard");
-             var oSelectionModel = new sap.ui.model.json.JSONModel({
-        visible: false,
-        text: "",
-        price: ""
-    });
+            var oSelectionModel = new sap.ui.model.json.JSONModel({
+                visible: false,
+                text: "",
+                price: ""
+            });
 
-    this.getView().setModel(oSelectionModel, "selectionModel");
+            this.getView().setModel(oSelectionModel, "selectionModel");
         },
         onAfterRendering: function () {
             this.onFleetCockpitTabSelect({
@@ -444,6 +687,10 @@ sap.ui.define([
             this.byId("trackingView").setVisible(false);
             this.byId("freightOrdersView").setVisible(false);
             this.byId("shipmentExecutionViewsub2").setVisible(false);
+            this.byId("bolView").setVisible(false);
+            this.byId("rateMasterView").setVisible(false);
+            this.byId("priceCalculationView").setVisible(false);
+
 
 
             // Show selected view
@@ -466,7 +713,15 @@ sap.ui.define([
                 case "shipmentExecutionViewsub2":
                     this.byId("shipmentExecutionViewsub2").setVisible(true);
                     break
-
+                case "bol":
+                    this.byId("bolView").setVisible(true);
+                    break;
+                case "rateMaster":
+                    this.byId("rateMasterView").setVisible(true);
+                    break;
+                case "priceCalculation":
+                    this.byId("priceCalculationView").setVisible(true);
+                    break;
             }
         },
 
@@ -2091,64 +2346,64 @@ sap.ui.define([
             });
         },
         onBookShipment: function () {
-    var oView = this.getView();
+            var oView = this.getView();
 
-    // Selected Order (from Analyze dialog)
-    var oSelectedOrder = oView.getModel("selectedOrder")?.getData();
+            // Selected Order (from Analyze dialog)
+            var oSelectedOrder = oView.getModel("selectedOrder")?.getData();
 
-    // Selected Vehicle / Carrier (from selection logic)
-    var oSelectedVehicle = oView.getModel("selectionModel").getData();
+            // Selected Vehicle / Carrier (from selection logic)
+            var oSelectedVehicle = oView.getModel("selectionModel").getData();
 
-    if (!oSelectedOrder) {
-        sap.m.MessageBox.error("No order selected for booking.");
-        return;
-    }
-    if (!oSelectedVehicle) {
-        sap.m.MessageBox.error("No Carrier is Selected for booking.");
-        return;
-    }
-
-
-    // Extract order details
-    var sCustomer = oSelectedOrder.customer;
-    var sOrigin = oSelectedOrder.from;
-    var sDestination = oSelectedOrder.to;
-    var sDeliveryDate = oSelectedOrder.deliveryDate;
-    var sCargoInfo = oSelectedOrder.cargoInfo;
-    var sOrderId = oSelectedOrder.orderId;
-
-    // Vehicle / Carrier details
-    var sVehicleName = oSelectedVehicle.text
-    // Confirmation message
-    var sMessage =
-        "Confirm booking for the following shipment?\n\n" +
-        "Order ID: " + sOrderId + "\n" +
-        "Customer: " + sCustomer + "\n" +
-        "Route: " + sOrigin + " → " + sDestination + "\n" +
-        "Cargo: " + sCargoInfo + "\n" +
-        "Delivery Date: " + sDeliveryDate + "\n\n" +
-        "Assigned: " + sVehicleName
-
-    sap.m.MessageBox.confirm(sMessage, {
-        title: "Confirm Shipment Booking",
-        actions: [sap.m.MessageBox.Action.OK, sap.m.MessageBox.Action.CANCEL],
-        onClose: function (oAction) {
-            if (oAction === sap.m.MessageBox.Action.OK) {
-                this._createNewBooking(oSelectedOrder, oSelectedVehicle);
+            if (!oSelectedOrder) {
+                sap.m.MessageBox.error("No order selected for booking.");
+                return;
             }
-        }.bind(this)
-    });
-},
-_createNewBooking: function (oOrder, oVehicle) {
-    console.log("Booking Created", {
-        order: oOrder,
-        vehicle: oVehicle
-    });
+            if (!oSelectedVehicle) {
+                sap.m.MessageBox.error("No Carrier is Selected for booking.");
+                return;
+            }
 
-    sap.m.MessageToast.show(
-        "Shipment " + oOrder.orderId + " booked successfully"
-    );
-},
+
+            // Extract order details
+            var sCustomer = oSelectedOrder.customer;
+            var sOrigin = oSelectedOrder.from;
+            var sDestination = oSelectedOrder.to;
+            var sDeliveryDate = oSelectedOrder.deliveryDate;
+            var sCargoInfo = oSelectedOrder.cargoInfo;
+            var sOrderId = oSelectedOrder.orderId;
+
+            // Vehicle / Carrier details
+            var sVehicleName = oSelectedVehicle.text
+            // Confirmation message
+            var sMessage =
+                "Confirm booking for the following shipment?\n\n" +
+                "Order ID: " + sOrderId + "\n" +
+                "Customer: " + sCustomer + "\n" +
+                "Route: " + sOrigin + " → " + sDestination + "\n" +
+                "Cargo: " + sCargoInfo + "\n" +
+                "Delivery Date: " + sDeliveryDate + "\n\n" +
+                "Assigned: " + sVehicleName
+
+            sap.m.MessageBox.confirm(sMessage, {
+                title: "Confirm Shipment Booking",
+                actions: [sap.m.MessageBox.Action.OK, sap.m.MessageBox.Action.CANCEL],
+                onClose: function (oAction) {
+                    if (oAction === sap.m.MessageBox.Action.OK) {
+                        this._createNewBooking(oSelectedOrder, oSelectedVehicle);
+                    }
+                }.bind(this)
+            });
+        },
+        _createNewBooking: function (oOrder, oVehicle) {
+            console.log("Booking Created", {
+                order: oOrder,
+                vehicle: oVehicle
+            });
+
+            sap.m.MessageToast.show(
+                "Shipment " + oOrder.orderId + " booked successfully"
+            );
+        },
 
         onCloseFleetCockpit: function () {
 
@@ -2156,7 +2411,7 @@ _createNewBooking: function (oOrder, oVehicle) {
                 oDialog.close();
             });
         },
-        onConformpres:function(){
+        onConformpres: function () {
             this.onCloseFleetCockpit();
             this.onBookShipment();
         },
@@ -2176,32 +2431,445 @@ _createNewBooking: function (oOrder, oVehicle) {
             this.onItemSelect(oFakeEvent);
         },
         onCarrierListSelected: function (oEvent) {
-    var oItem = oEvent.getParameter("listItem");
-    if (!oItem) {
-        return;
-    }
+            var oItem = oEvent.getParameter("listItem");
+            if (!oItem) {
+                return;
+            }
 
-    var oVBox = oItem.getContent()[0]; // VBox inside CustomListItem
-    var aItems = oVBox.getItems();
+            var oVBox = oItem.getContent()[0]; // VBox inside CustomListItem
+            var aItems = oVBox.getItems();
 
-    // Title (first Text)
-    var sTitle = aItems[0].getText();
+            // Title (first Text)
+            var sTitle = aItems[0].getText();
 
-    // Find price (Text with sapUiPositiveText)
-    var sPrice = "";
-    aItems.forEach(function (oCtrl) {
-        if (oCtrl.hasStyleClass && oCtrl.hasStyleClass("sapUiPositiveText")) {
-            sPrice = oCtrl.getText();
-        }
-    });
+            // Find price (Text with sapUiPositiveText)
+            var sPrice = "";
+            aItems.forEach(function (oCtrl) {
+                if (oCtrl.hasStyleClass && oCtrl.hasStyleClass("sapUiPositiveText")) {
+                    sPrice = oCtrl.getText();
+                }
+            });
 
-    // Update model
-    var oModel = this.getView().getModel("selectionModel");
-    oModel.setProperty("/visible", true);
-    oModel.setProperty("/text", sTitle);
-    oModel.setProperty("/price", sPrice);
-}
+            // Update model
+            var oModel = this.getView().getModel("selectionModel");
+            oModel.setProperty("/visible", true);
+            oModel.setProperty("/text", sTitle);
+            oModel.setProperty("/price", sPrice);
+        },
 
+
+
+
+        //===============Chandan's code
+
+        _openPreviewDialog: function (sType, oData, sTitle) {
+            var oView = this.getView();
+
+            // Create preview model
+            var oPreviewModel = new JSONModel({
+                type: sType,
+                title: sTitle,
+                data: oData
+            });
+
+            oView.setModel(oPreviewModel, "previewModel");
+
+            // Load dialog if not already loaded
+            if (!this._oPreviewDialog) {
+                Fragment.load({
+                    id: oView.getId(),
+                    name: "intellicarrier.view.DocumentPreview",
+                    controller: this
+                }).then(function (oDialog) {
+                    this._oPreviewDialog = oDialog;
+                    oView.addDependent(oDialog);
+                    oDialog.open();
+                }.bind(this));
+            } else {
+                this._oPreviewDialog.open();
+            }
+        },
+
+        onClosePreview: function () {
+            if (this._oPreviewDialog) {
+                this._oPreviewDialog.close();
+            }
+        },
+
+        onPreviewLabel: function (oEvent) {
+            var oContext = oEvent.getSource().getBindingContext("logistics");
+            var oShipment = oContext.getObject();
+
+            this._openPreviewDialog("label", oShipment, "Shipping Label - " + oShipment.id);
+        },
+
+        onPrintLabel: function (oEvent) {
+            var oContext = oEvent.getSource().getBindingContext("logistics");
+            var oShipment = oContext.getObject();
+            // MessageToast.show("Printing label for " + oShipment.id);
+            // Update status to 'printed'
+            var oModel = this.getView().getModel();
+            var sPath = oContext.getPath();
+            oModel.setProperty(sPath + "/status", "printed");
+            this._openPreviewDialog("label", oShipment, "Shipping Label - " + oShipment.id);
+        },
+
+        onBOLPress: function (oEvent) {
+            var oContext = oEvent.getSource().getBindingContext("logistics");
+            var oBOL = oContext.getObject();
+
+            MessageBox.information("BOL Details:\n\n" +
+                "BOL No: " + oBOL.id + "\n" +
+                "Shipment: " + oBOL.shipmentId + "\n" +
+                "Shipper: " + oBOL.shipper + "\n" +
+                "Consignee: " + oBOL.consignee
+            );
+        },
+
+        onPreviewBOL: function (oEvent) {
+            var oContext = oEvent.getSource().getBindingContext("logistics");
+            var oBOL = oContext.getObject();
+
+            this._openPreviewDialog("bol", oBOL, "Bill of Lading - " + oBOL.id);
+        },
+
+        onPrintBOL: function (oEvent) {
+            var oContext = oEvent.getSource().getBindingContext("logistics");
+            var oBOL = oContext.getObject();
+
+            MessageToast.show("Printing BOL: " + oBOL.id);
+        },
+
+        onEditBOL: function (oEvent) {
+            var oContext = oEvent.getSource().getBindingContext("logistics");
+            var oBOL = oContext.getObject();
+
+            MessageToast.show("Editing BOL: " + oBOL.id);
+        },
+
+
+
+        /**
+         * Handler for selecting rate type
+         */
+        onSelectRateType: function (oEvent) {
+            const rateType = oEvent.getSource().data("rateType");
+            const model = this.getView().getModel();
+            const newRate = model.getProperty("/newRate");
+
+            // Update rate type
+            newRate.type = rateType;
+            model.setProperty("/newRate", newRate);
+
+            // Generate appropriate ID
+            const prefixes = {
+                customer: "RA",
+                route: "RR",
+                carrier: "CR",
+                surcharge: "SR"
+            };
+            newRate.id = this._generateRateId(prefixes[rateType]);
+            model.setProperty("/newRate/id", newRate.id);
+
+            // Show/hide sections based on rate type
+            const basicInfoSection = sap.ui.core.Fragment.byId("intellicarrier.view.AddRateDialog", "basicInfoSection");
+            const routeSection = sap.ui.core.Fragment.byId("intellicarrier.view.AddRateDialog", "routeSection");
+            const pricingSection = sap.ui.core.Fragment.byId("intellicarrier.view.AddRateDialog", "pricingSection");
+            const surchargesSection = sap.ui.core.Fragment.byId("intellicarrier.view.AddRateDialog", "surchargesSection");
+            const serviceTypesSection = sap.ui.core.Fragment.byId("intellicarrier.view.AddRateDialog", "serviceTypesSection");
+            const notesSection = sap.ui.core.Fragment.byId("intellicarrier.view.AddRateDialog", "notesSection");
+
+            const customerLabel = sap.ui.core.Fragment.byId("intellicarrier.view.AddRateDialog", "customerLabel");
+            const customerSelect = sap.ui.core.Fragment.byId("intellicarrier.view.AddRateDialog", "customerSelect");
+            const carrierLabel = sap.ui.core.Fragment.byId("intellicarrier.view.AddRateDialog", "carrierLabel");
+            const carrierSelect = sap.ui.core.Fragment.byId("intellicarrier.view.AddRateDialog", "carrierSelect");
+
+            // Show all relevant sections
+            basicInfoSection.setVisible(true);
+            pricingSection.setVisible(rateType !== "surcharge");
+            surchargesSection.setVisible(true);
+            serviceTypesSection.setVisible(true);
+            notesSection.setVisible(true);
+
+            // Show/hide customer vs carrier fields
+            if (rateType === "customer") {
+                customerLabel.setVisible(true);
+                customerSelect.setVisible(true);
+                carrierLabel.setVisible(false);
+                carrierSelect.setVisible(false);
+                routeSection.setVisible(false);
+            } else if (rateType === "carrier") {
+                customerLabel.setVisible(false);
+                customerSelect.setVisible(false);
+                carrierLabel.setVisible(true);
+                carrierSelect.setVisible(true);
+                routeSection.setVisible(false);
+            } else if (rateType === "route") {
+                customerLabel.setVisible(false);
+                customerSelect.setVisible(false);
+                carrierLabel.setVisible(false);
+                carrierSelect.setVisible(false);
+                routeSection.setVisible(true);
+            } else {
+                customerLabel.setVisible(false);
+                customerSelect.setVisible(false);
+                carrierLabel.setVisible(false);
+                carrierSelect.setVisible(false);
+                routeSection.setVisible(false);
+            }
+        },
+
+        /**
+         * Generate unique rate ID
+         */
+        _generateRateId: function (prefix) {
+            const year = new Date().getFullYear();
+            const random = Math.floor(Math.random() * 1000).toString().padStart(3, '0');
+            return `${prefix}-NEW-${year}-${random}`;
+        },
+
+
+        _validateRate: function (rate) {
+            if (!rate.name) {
+                sap.m.MessageBox.error("Please enter an agreement name");
+                return false;
+            }
+
+            if (rate.type === "customer" && !rate.customerId) {
+                sap.m.MessageBox.error("Please select a customer");
+                return false;
+            }
+
+            if (rate.type === "carrier" && !rate.carrierId) {
+                sap.m.MessageBox.error("Please select a carrier");
+                return false;
+            }
+
+            if (rate.type === "route" && (!rate.originZone || !rate.destZone)) {
+                sap.m.MessageBox.error("Please select origin and destination zones");
+                return false;
+            }
+
+            if (!rate.validFrom || !rate.validTo) {
+                sap.m.MessageBox.error("Please specify validity period");
+                return false;
+            }
+
+            return true;
+        },
+
+
+
+
+        onAddRatePress: function () {
+
+             // Load dialog if not already loaded
+            if (!this._oPreviewDialog) {
+                Fragment.load({
+                    id: this.getView().getId(),
+                    name: "intellicarrier.view.AddRateDialog",
+                    controller: this
+                }).then(function (oDialog) {
+                    this._oPreviewDialog = oDialog;
+                    oView.addDependent(oDialog);
+                    oDialog.open();
+                }.bind(this));
+            } else {
+                this._oPreviewDialog.open();
+            }
+
+            if (!this._addRateDialog) {
+                sap.ui.core.Fragment.load({
+                    id: this.getView().getId(),
+                    name: "intellicarrier.view.AddRateDialog",
+                    controller: this
+                }).then(function (oDialog) {
+                    this._addRateDialog = oDialog;
+                    this.getView().addDependent(oDialog);
+                    oDialog.open();
+                }.bind(this));
+            } else {
+                this._addRateDialog.open();
+            }
+
+            const newRateModel = new sap.ui.model.json.JSONModel({
+                newRate: {
+                    id: this._generateRateId("RA"),
+                    type: "",
+                    name: "",
+                    customerId: "",
+                    carrierId: "",
+                    baseKm: 18.5,
+                    weightKg: 2.0,
+                    fuel: 8.5,
+                    discount: 5.0,
+                    markup: 0,
+                    minCharge: 500,
+                    validFrom: new Date().toISOString().split("T")[0],
+                    validTo: new Date(
+                        new Date().setFullYear(new Date().getFullYear() + 1)
+                    ).toISOString().split("T")[0],
+                    status: "ACTIVE",
+                    currency: "THB",
+                    notes: "",
+                    termsRef: "",
+                    serviceTypes: []
+                }
+            });
+
+            this.getView().setModel(newRateModel);
+        },
+        onCloseAddDialog: function () {
+            if (this._addRateDialog) {
+                this._addRateDialog.close();
+            }
+        },
+        // onViewRatePress: function (oEvent) {
+        //     const bindingContext = oEvent.getSource().getBindingContext("RateMasterData");
+        //     const rateData = bindingContext.getObject();
+
+        //     sap.m.MessageBox.information(
+        //         `Rate ID: ${rateData.id}\nName: ${rateData.name}\nBase Rate: ฿${rateData.baseKm}/km\nWeight Rate: ฿${rateData.weightKg}/kg\nStatus: ${rateData.status}`,
+        //         {
+        //             title: "Rate Details"
+        //         }
+        //     );
+        // },
+        onViewRatePress: function (oEvent) {
+            var oSource = oEvent.getSource();
+            var oContext = oSource.getBindingContext("RateMasterData");
+
+            if (!this._oRateDialog) {
+                this._oRateDialog = sap.ui.xmlfragment(
+                    "intellicarrier.view.RateDetailsDialog",
+                    this
+                );
+                this.getView().addDependent(this._oRateDialog);
+            }
+
+            this._oRateDialog.setBindingContext(oContext, "RateMasterData");
+            this._oRateDialog.open();
+        },
+
+
+        onCloseRateDialog: function () {
+            if (this._oRateDialog) {
+                this._oRateDialog.close();
+            }
+        },
+
+        /**
+         * Handler for editing rate
+         */
+        onEditRatePress: function (oEvent) {
+            sap.m.MessageToast.show("Edit functionality to be implemented");
+        },
+
+        /**
+         * Handler for duplicating rate
+         */
+        onDuplicateRatePress: function (oEvent) {
+            sap.m.MessageToast.show("Duplicate functionality to be implemented");
+        },
+
+        /**
+         * Handler for rate selection
+         */
+        onRateSelect: function (oEvent) {
+            const selectedItem = oEvent.getParameter("listItem");
+            if (selectedItem) {
+                const bindingContext = selectedItem.getBindingContext("RateMasterData");
+                const rateData = bindingContext.getObject();
+                console.log("Selected rate:", rateData);
+            }
+        },
+
+
+
+
+
+
+
+
+
+
+        formatter: {
+            // Rate Type Formatters
+            getRateTypeIcon: function (type) {
+                const icons = {
+                    customer: "sap-icon://customer",
+                    route: "sap-icon://map-2",
+                    carrier: "sap-icon://supplier",
+                    surcharge: "sap-icon://money-bills"
+                };
+                return icons[type] || "sap-icon://document";
+            },
+
+            getRateTypeColor: function (type) {
+                const colors = {
+                    customer: "#2e7d32",
+                    route: "#e65100",
+                    carrier: "#1565c0",
+                    surcharge: "#c2185b"
+                };
+                return colors[type] || "#6a6d70";
+            },
+
+            getRateTypeText: function (type) {
+                const texts = {
+                    customer: "Customer",
+                    route: "Route",
+                    carrier: "Carrier",
+                    surcharge: "Surcharge"
+                };
+                return texts[type] || type;
+            },
+
+            getRateTypeState: function (type) {
+                const states = {
+                    customer: "Success",
+                    route: "Warning",
+                    carrier: "Information",
+                    surcharge: "Error"
+                };
+                return states[type] || "None";
+            },  // Status Formatters
+            getStatusText: function (status) {
+                const texts = {
+                    ACTIVE: "✅ Active",
+                    EXPIRING: "⚠️ Expiring",
+                    EXPIRED: "❌ Expired",
+                    DRAFT: "📝 Draft",
+                    PENDING_APPROVAL: "⏳ Pending"
+                };
+                return texts[status] || status;
+            },
+
+            getStatusState: function (status) {
+                const states = {
+                    ACTIVE: "Success",
+                    EXPIRING: "Warning",
+                    EXPIRED: "Error",
+                    DRAFT: "Information",
+                    PENDING_APPROVAL: "None"
+                };
+                return states[status] || "None";
+            },
+
+            // Format Currency
+            formatCurrency: function (value) {
+                if (!value || value === 0) return "-";
+                return parseFloat(value).toFixed(2);
+            },
+
+            // Format Date
+            formatDate: function (date) {
+                if (!date) return "";
+                const d = new Date(date);
+                const options = { year: 'numeric', month: 'short', day: 'numeric' };
+                return d.toLocaleDateString('en-US', options);
+            }
+        },
 
 
 
