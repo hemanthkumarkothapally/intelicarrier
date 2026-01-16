@@ -1,0 +1,106 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:l="sap.ui.layout"
+    xmlns:f="sap.ui.layout.form">
+
+    <Dialog
+        id="newCashAdvanceDialog"
+        contentWidth="520px"
+        title="New Cash Advance Request"
+        draggable="true"
+        resizable="false"
+        class="sapUiResponsivePadding--content">
+
+
+        <!-- ================= CONTENT ================= -->
+        <content>
+            <VBox class="sapUiSmallMargin">
+
+                
+
+                <f:SimpleForm
+                
+                    layout="ResponsiveGridLayout"
+                    editable="true"
+                    labelSpanXL="4"
+                    labelSpanL="4"
+                    labelSpanM="4"
+                    labelSpanS="12"
+                    columnsXL="2"
+                    columnsL="2"
+                    columnsM="2">
+                    <Title text="👤 Employee Information"></Title>
+                    <Label text="Employee / Driver" required="true"/>
+                    <ComboBox items="{/Drivers}">
+                    <items>
+                    <core:Item key="{name}" text="{name}"></core:Item>
+                    </items>
+                    </ComboBox>
+
+                    <Label text="Department"/>
+                    <Input
+                        value="Logistics - Delivery"
+                        editable="false"/>
+
+                </f:SimpleForm>
+
+                <f:SimpleForm
+                    layout="ResponsiveGridLayout"
+                    editable="true"
+                    labelSpanXL="4"
+                    labelSpanL="4"
+                    labelSpanM="4"
+                    labelSpanS="12"
+                    columnsXL="2"
+                    columnsL="2"
+                    columnsM="2">
+                    <Title text="💰 Advance Details"></Title>
+                    <Label text="Amount (THB)" required="true"/>
+                    <Input
+                        type="Number"
+                        placeholder="0.00"
+                        description="Max: ฿15,000"/>
+
+                    <Label text="Purpose" required="true"/>
+                    <Select >
+                        <items>
+                            <core:Item key="" text="Select..."/>
+                            <core:Item key="Trip Expenses" text="Trip Expenses"/>
+                            <core:Item key="Fuel" text="Fuel"/>
+                            <core:Item key="Toll" text="Toll"/>
+                        </items>
+                    </Select>
+
+                    <Label text="Trip Reference"/>
+                    <Input
+                        placeholder="e.g., BKK-CNX Route"/>
+
+                    <Label text="Disbursement Method"/>
+                    <Select >
+                        <items>
+                            <core:Item key="Bank Transfer" text="Bank Transfer"/>
+                            <core:Item key="PromptPay" text="PromptPay"/>
+                            <core:Item key="Cash" text="Cash"/>
+                        </items>
+                    </Select>
+
+                </f:SimpleForm>
+
+            </VBox>
+        </content>
+
+        <!-- ================= FOOTER ================= -->
+        <buttons>
+            <Button
+                text="Cancel"
+                press=".onCloseNewAdvanceDialog"/>
+            <Button
+                text="Submit for Approval"
+                type="Emphasized"
+                icon="sap-icon://paper-plane"
+                press=".onSubmitAdvanceRequest"/>
+        </buttons>
+
+    </Dialog>
+</core:FragmentDefinition>

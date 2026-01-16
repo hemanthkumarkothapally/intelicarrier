@@ -1,0 +1,59 @@
+<core:FragmentDefinition xmlns:form="sap.ui.layout.form"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core">
+
+    <Dialog id="advanceApprovalDialog" title="Advance Approval" draggable="true" resizable="false" class="sapUiResponsivePadding--content">
+
+        <!-- Content -->
+        <content>
+            <VBox class="sapUiSmallMargin">
+
+                <!-- Driver -->
+                <HBox class="sapUiSmallMarginBottom">
+                    <Avatar initials="{reviewModel>/initials}" backgroundColor="Accent6"/>
+                    <VBox class="sapUiSmallMarginBegin">
+                        <Text text="{reviewModel>/driver}" class="sapUiBoldText"/>
+                        <Text text="{reviewModel>/driverId} | Logistics"/>
+                    </VBox>
+                </HBox>
+
+                <!-- Details Card -->
+                <form:SimpleForm editable="false" layout="ColumnLayout" columnsXL="2" columnsL="2" columnsM="2">
+
+                    <Label text="Amount"/>
+                    <Text text="{reviewModel>/amount}" class="sapUiBoldText amountcss"/>
+
+                    <Label text="Purpose"/>
+                    <Text text="{reviewModel>/purpose}"/>
+
+                    <Label text="Trip"/>
+                    <Text text="{reviewModel>/trip}"/>
+
+                    <Label text="Dates"/>
+                    <Text text="{reviewModel>/dates}"/>
+
+                </form:SimpleForm>
+
+                <!-- History -->
+                <HBox class="sapUiSmallMarginTop sapUiSmallMarginEnd selectedCarrierBox" alignItems="Center" height="40px" backgroundDesign="Transparent" >
+                    <Text class="sapUiSmallMarginBegin" text="📊 History: {reviewModel>/history}"/>
+                </HBox>
+
+                <!-- Comments -->
+                <VBox class="sapUiSmallMarginTop" width="100%">
+                    <Text text="Comments"/>
+                    <TextArea placeholder="Add comments..." growing="true" rows="3" width="100%" class="sapUiSmallMarginEnd"/>
+                </VBox>
+
+            </VBox>
+        </content>
+
+        <!-- Footer -->
+        <buttons>
+            <Button text="Cancel" press=".onCloseAdvanceApproval"/>
+            <Button text="Reject" type="Reject" icon="sap-icon://decline" press=".onRejectAdvance"/>
+            <Button text="Approve" type="Accept" icon="sap-icon://accept" press=".onApproveAdvance"/>
+        </buttons>
+
+    </Dialog>
+</core:FragmentDefinition>
