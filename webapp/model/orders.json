@@ -25,7 +25,7 @@
       "statusText": "Pending Review",
       "statusState": "Warning",
       "statusIcon": "sap-icon-pending",
-      "actionButtonText": "Review",
+      "actionButtonText": "Validate",
       "actionButtonType": "Emphasized"
     },
     {
@@ -43,7 +43,7 @@
       "statusText": "Pending Review",
       "statusState": "Warning",
       "statusIcon": "sap-icon-pending",
-      "actionButtonText": "Review",
+      "actionButtonText": "Validate",
       "actionButtonType": "Emphasized"
     },
     

@@ -643,7 +643,7 @@ sap.ui.define([
                         s4Icon: "sap-icon://pending", // ⏳
                         sentAt: "2026-01-14 11:15"
                     }
-                ]
+                ],
 
 
                 cashAdvanceRequests: [
@@ -2789,7 +2789,23 @@ sap.ui.define([
 },
 
 
-
+    onBookShipment: function () {
+            var oView = this.getView();
+ 
+            // Selected Order (from Analyze dialog)
+            var oSelectedOrder = oView.getModel("selectedOrder")?.getData();
+ 
+            // Selected Vehicle / Carrier (from selection logic)
+            var oSelectedVehicle = oView.getModel("selectionModel").getData();
+ 
+            if (!oSelectedOrder) {
+                sap.m.MessageBox.error("No order selected for booking.");
+                return;
+            }
+            if (!oSelectedVehicle) {
+                sap.m.MessageBox.error("No Carrier is Selected for booking.");
+                return;
+            }
             // Extract order details
             var sCustomer = oSelectedOrder.customer;
             var sOrigin = oSelectedOrder.from;
@@ -3297,23 +3313,23 @@ sap.ui.define([
             }
         },
 
-            // Title (first Text)
-            var sTitle = aItems[0].getText();
+            // // Title (first Text)
+            // var sTitle = aItems[0].getText();
 
-            // Find price (Text with sapUiPositiveText)
-            var sPrice = "";
-            aItems.forEach(function (oCtrl) {
-                if (oCtrl.hasStyleClass && oCtrl.hasStyleClass("sapUiPositiveText")) {
-                    sPrice = oCtrl.getText();
-                }
-            });
+            // // Find price (Text with sapUiPositiveText)
+            // var sPrice = "";
+            // aItems.forEach(function (oCtrl) {
+            //     if (oCtrl.hasStyleClass && oCtrl.hasStyleClass("sapUiPositiveText")) {
+            //         sPrice = oCtrl.getText();
+            //     }
+            // });
 
-            // Update model
-            var oModel = this.getView().getModel("selectionModel");
-            oModel.setProperty("/visible", true);
-            oModel.setProperty("/text", sTitle);
-            oModel.setProperty("/price", sPrice);
-        },
+            // // Update model
+            // var oModel = this.getView().getModel("selectionModel");
+            // oModel.setProperty("/visible", true);
+            // oModel.setProperty("/text", sTitle);
+            // oModel.setProperty("/price", sPrice);
+        // },
         onReviewRequest: function (oEvent) {
             var oRowData = oEvent.getSource()
                 .getBindingContext()
