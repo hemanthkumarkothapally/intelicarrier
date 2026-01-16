@@ -1,0 +1,63 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:form="sap.ui.layout.form" xmlns:l="sap.ui.layout">
+    <Dialog title="🏢 Validate Carrier Invoice" contentWidth="700px">
+        <content>
+            <VBox class="sapUiSmallMargin">
+                
+                <form:SimpleForm editable="false" layout="ResponsiveGridLayout" title="🏢 Invoice Details" labelSpanL="4" labelSpanM="4" columnsL="2" columnsM="2">
+                    <form:content>
+                        <Label text="Carrier" /> <Text text="DHL Express Thailand" />
+                        <Label text="Invoice #" /> <Text text="DHL-TH-2026-45678" />
+                        <Label text="Invoice Date" /> <Text text="2026-01-13" />
+                        <Label text="Invoice Amount" /> <ObjectStatus text="฿15,450.00" state="Information" />
+                    </form:content>
+                </form:SimpleForm>
+
+                <Panel headerText="🤖 OCR Extracted Data" class="sapUiSmallMarginBottom" backgroundDesign="Translucent">
+                    <VBox>
+                        <HBox justifyContent="SpaceBetween"><Text text="invoice_number: 'DHL-TH-2026-45678'" /><ObjectStatus text="99%" state="Success"/></HBox>
+                        <HBox justifyContent="SpaceBetween"><Text text="total_amount: 15450.00" /><ObjectStatus text="97%" state="Success"/></HBox>
+                        <HBox justifyContent="SpaceBetween"><Text text="weight_kg: 890" /><ObjectStatus text="96%" state="Success"/></HBox>
+                    </VBox>
+                </Panel>
+
+                <VBox class="sapUiSmallMarginBottom">
+                    <Title text="✅ Validation vs Contract" level="H5" class="sapUiTinyMarginBottom"/>
+                    <VBox backgroundDesign="Solid" class="sapUiContentPadding" >
+                        <HBox justifyContent="SpaceBetween" alignItems="Center">
+                            <Label text="✓ All Checks Passed" design="Bold" class="sapUiPositiveText"/>
+                            <ObjectStatus text="Ready to Approve" state="Success" inverted="true" />
+                        </HBox>
+                        <List showSeparators="None" backgroundDesign="Transparent">
+                            <StandardListItem title="Invoice Amount vs Contract" info="✓ ฿15,450 matches" infoState="Success" />
+                            <StandardListItem title="Weight Check" info="✓ 890 kg (within tolerance)" infoState="Success" />
+                        </List>
+                    </VBox>
+                </VBox>
+
+                <HBox justifyContent="SpaceBetween" alignItems="Center" class="sapUiMediumMarginTop">
+                    <VBox>
+                        <Label text="Carrier Cost" />
+                        <Text text="฿15,450.00" />
+                    </VBox>
+                    <core:Icon src="sap-icon://add" />
+                    <VBox>
+                        <Label text="Markup (12%)" />
+                        <Text text="฿1,854.00" />
+                    </VBox>
+                    <core:Icon src="sap-icon://sys-enter-2" />
+                    <VBox>
+                        <Label text="CHARGE TO CUSTOMER" design="Bold" />
+                        <ObjectStatus text="฿17,304.00" state="Information" class="sapUiMediumFont" />
+                    </VBox>
+                </HBox>
+
+            </VBox>
+        </content>
+        <beginButton>
+            <Button text="✅ Approve &amp; Send to S/4" type="Accept" press=".onApproveExternal" />
+        </beginButton>
+        <endButton>
+            <Button text="⚠️ Flag Discrepancy" type="Attention" press=".onFlagDiscrepancy" />
+        </endButton>
+    </Dialog>
+</core:FragmentDefinition>

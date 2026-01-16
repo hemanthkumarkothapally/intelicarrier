@@ -1,4 +1,115 @@
 {
+  "newRate": {
+    "id": "RA-2023-8842",
+    "name": "Tech Solutions Premium Rate",
+    "customerId": "C-TECH-001",
+    "carrierId": "DHL",
+    "validFrom": "2023-01-01",
+    "validTo": "2023-12-31",
+    "currency": "THB",
+    "status": "DRAFT",
+    "rateType": "customer",
+    
+    "baseKm": 18.50,
+    "weightKg": 1.80,
+    "minCharge": 500.00,
+    
+    "fuel": 8.5,
+    "discount": 5.0,
+    "markup": 0.0,
+    
+    "serviceTypes": {
+      "standard": true,
+      "express": true,
+      "sameday": false,
+      "coldchain": false,
+      "dangerous": false,
+      "whiteglove": false
+    },
+    
+    "notes": "Standard agreement for Q1-Q4. Includes special weekend delivery rates.",
+    "termsRef": "CT-2023-TECH-001"
+  },
+
+  "tiers": [
+    {
+      "minWeight": 0,
+      "maxWeight": 100,
+      "cost": 5.00
+    },
+    {
+      "minWeight": 101,
+      "maxWeight": 500,
+      "cost": 3.50
+    },
+    {
+      "minWeight": 501,
+      "maxWeight": 1000,
+      "cost": 2.50
+    }
+  ],
+
+  "surcharges": [
+    {
+      "type": "PEAK",
+      "value": 15.00,
+      "unit": "PCT"
+    },
+    {
+      "type": "INSURANCE",
+      "value": 500.00,
+      "unit": "FIXED"
+    }
+  ],
+
+  "preview": {
+    "dist": 500,
+    "wgt": 1500,
+    "distCost": "9250.00",
+    "wgtCost": "3000.00",
+    "subtotal": "12250.00",
+    "fuelCost": "1041.25",
+    "discCost": "664.563",
+    "total": "12626.688"
+  },
+
+  "masterData": {
+    "customers": [
+      { "key": "C-TECH-001", "text": "Tech Solutions Inc (C-TECH-001)" },
+      { "key": "C-GLOBAL-001", "text": "Global Corp (C-GLOBAL-001)" },
+      { "key": "C-METRO-001", "text": "Metro Retail (C-METRO-001)" },
+      { "key": "C-SMART-001", "text": "Smart Logistics (C-SMART-001)" },
+      { "key": "C-INNO-001", "text": "Innovation Labs (C-INNO-001)" }
+    ],
+    "carriers": [
+      { "key": "DHL", "text": "DHL Express" },
+      { "key": "KERRY", "text": "Kerry Logistics" },
+      { "key": "FLASH", "text": "Flash Express" }
+    ],
+    "currencies": [
+      { "key": "THB", "text": "THB - Thai Baht" },
+      { "key": "USD", "text": "USD - US Dollar" },
+      { "key": "EUR", "text": "EUR - Euro" }
+    ],
+    "statuses": [
+      { "key": "DRAFT", "text": "📝 Draft" },
+      { "key": "ACTIVE", "text": "✅ Active" },
+      { "key": "PENDING", "text": "⏳ Pending Approval" }
+    ],
+    "surchargeTypes": [
+      { "key": "PEAK", "text": "Peak Season" },
+      { "key": "SPECIAL", "text": "Special Handling" },
+      { "key": "RESIDENTIAL", "text": "Residential Delivery" },
+      { "key": "WEEKEND", "text": "Weekend Delivery" },
+      { "key": "OVERSIZE", "text": "Oversize Package" },
+      { "key": "HAZMAT", "text": "Hazardous Material" },
+      { "key": "INSURANCE", "text": "Insurance" }
+    ],
+    "units": [
+      { "key": "PCT", "text": "%" },
+      { "key": "FIXED", "text": "Fixed ฿" }
+    ]
+  },
   "rates": [
     {
       "id": "RA-TECH-2026-001",
