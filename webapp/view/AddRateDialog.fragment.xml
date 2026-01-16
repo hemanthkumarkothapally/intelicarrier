@@ -16,11 +16,11 @@
         <customHeader>
             <Bar design="Header">
                 <contentLeft>
-                    <VBox>
-                        <Title text="Add New Rate Agreement" level="H3"/>
-                        <Text text="Configure pricing rules for shipment settlement"/>
-                    </VBox>
+                    <Title text="+ Add New Rate Agreement" level="H2"/>
                 </contentLeft>
+                <contentMiddle>
+                    <Text text="-Configure pricing rules for shipment settlement"/>
+                </contentMiddle>
                 <contentRight>
                     <Button icon="sap-icon://decline" press="onCloseAddDialog"/>
                 </contentRight>
@@ -28,338 +28,260 @@
         </customHeader>
 
         <content>
-            <ScrollContainer height="100%" width="100%" vertical="true">
+            <ScrollContainer height="100%" vertical="true">
                 <VBox class="sapUiSmallMargin">
 
-                    <!-- Step 1: Rate Type Selection -->
-                    <VBox class="sapUiMediumMarginBottom">
+                   <VBox class="sapUiMediumMarginBottom">
                         <Title text="1️⃣ Select Rate Type" level="H4" class="sapUiSmallMarginBottom"/>
-                        
-                        <FlexBox wrap="Wrap" justifyContent="SpaceBetween">
-                            <layout:HorizontalLayout 
-                                class="rateTypeCard sapUiTinyMarginEnd sapUiTinyMarginBottom"
-                                allowWrapping="false">
-                                <Button
-                                    icon="sap-icon://customer"
-                                    text="Customer Rate"
-                                    width="200px"
-                                    press="onSelectRateType"
-                                    customData>
-                                    <core:CustomData key="rateType" value="customer"/>
-                                </Button>
-                                <VBox class="sapUiTinyMarginTop">
-                                    <Text text="Special pricing for specific customers" class="sapUiSmallText"/>
-                                </VBox>
-                            </layout:HorizontalLayout>
-
-                            <layout:HorizontalLayout 
-                                class="rateTypeCard sapUiTinyMarginEnd sapUiTinyMarginBottom"
-                                allowWrapping="false">
-                                <Button
-                                    icon="sap-icon://map-2"
-                                    text="Route Rate"
-                                    width="200px"
-                                    press="onSelectRateType"
-                                    customData>
-                                    <core:CustomData key="rateType" value="route"/>
-                                </Button>
-                                <VBox class="sapUiTinyMarginTop">
-                                    <Text text="Origin-destination based pricing" class="sapUiSmallText"/>
-                                </VBox>
-                            </layout:HorizontalLayout>
-
-                            <layout:HorizontalLayout 
-                                class="rateTypeCard sapUiTinyMarginEnd sapUiTinyMarginBottom"
-                                allowWrapping="false">
-                                <Button
-                                    icon="sap-icon://supplier"
-                                    text="Carrier Contract"
-                                    width="200px"
-                                    press="onSelectRateType"
-                                    customData>
-                                    <core:CustomData key="rateType" value="carrier"/>
-                                </Button>
-                                <VBox class="sapUiTinyMarginTop">
-                                    <Text text="External carrier rate agreements" class="sapUiSmallText"/>
-                                </VBox>
-                            </layout:HorizontalLayout>
-
-                            <layout:HorizontalLayout 
-                                class="rateTypeCard sapUiTinyMarginEnd sapUiTinyMarginBottom"
-                                allowWrapping="false">
-                                <Button
-                                    icon="sap-icon://money-bills"
-                                    text="Surcharge Rule"
-                                    width="200px"
-                                    press="onSelectRateType"
-                                    customData>
-                                    <core:CustomData key="rateType" value="surcharge"/>
-                                </Button>
-                                <VBox class="sapUiTinyMarginTop">
-                                    <Text text="Fuel, peak season, special handling" class="sapUiSmallText"/>
-                                </VBox>
-                            </layout:HorizontalLayout>
+                        <FlexBox wrap="Wrap" columnGap="0px">
+                             <HBox>
+                                <GenericTile header="Customer Rate" subheader="Special pricing" press="onSelectRateType" class="sapUiTinyMarginEnd sapUiTinyMarginBottom">
+                                    <tileContent><TileContent><content><ImageContent src="sap-icon://customer"/></content></TileContent></tileContent>
+                                    <customData><core:CustomData key="rateType" value="customer"/></customData>
+                                </GenericTile>
+                                <GenericTile header="Route Rate" subheader="Origin-destination" press="onSelectRateType" class="sapUiTinyMarginEnd sapUiTinyMarginBottom">
+                                    <tileContent><TileContent><content><ImageContent src="sap-icon://map-2"/></content></TileContent></tileContent>
+                                    <customData><core:CustomData key="rateType" value="route"/></customData>
+                                </GenericTile>
+                                <GenericTile header="Carrier Contract" subheader="External carrier" press="onSelectRateType" class="sapUiTinyMarginEnd sapUiTinyMarginBottom">
+                                    <tileContent><TileContent><content><ImageContent src="sap-icon://supplier"/></content></TileContent></tileContent>
+                                    <customData><core:CustomData key="rateType" value="carrier"/></customData>
+                                </GenericTile>
+                                <GenericTile header="Surcharge Rule" subheader="Fuel, peak season" press="onSelectRateType" class="sapUiTinyMarginBottom">
+                                    <tileContent><TileContent><content><ImageContent src="sap-icon://money-bills"/></content></TileContent></tileContent>
+                                    <customData><core:CustomData key="rateType" value="surcharge"/></customData>
+                                </GenericTile>
+                             </HBox>
                         </FlexBox>
                     </VBox>
 
-                    <!-- Step 2: Basic Information -->
                     <VBox id="basicInfoSection" visible="false" class="sapUiMediumMarginBottom">
                         <Title text="2️⃣ Basic Information" level="H4" class="sapUiSmallMarginBottom"/>
                         
-                        <form:SimpleForm
-                            editable="true"
-                            layout="ResponsiveGridLayout"
-                            labelSpanXL="3"
-                            labelSpanL="3"
-                            labelSpanM="3"
-                            labelSpanS="12"
-                            adjustLabelSpan="false"
-                            emptySpanXL="4"
-                            emptySpanL="4"
-                            emptySpanM="4"
-                            emptySpanS="0"
-                            columnsXL="2"
-                            columnsL="2"
-                            columnsM="1"
-                            singleContainerFullSize="false">
+                        <form:SimpleForm editable="true" layout="ResponsiveGridLayout" labelSpanXL="3" labelSpanL="3" labelSpanM="3" labelSpanS="12" columnsXL="2" columnsL="2" columnsM="1">
                             <form:content>
                                 <Label text="Rate Agreement ID" required="true"/>
-                                <Input 
-                                    id="rateIdInput"
-                                    value="{/newRate/id}"
-                                    enabled="false"
-                                    placeholder="Auto-generated"/>
+                                <Input value="{RateMasterData>/newRate/id}" enabled="false" placeholder="Auto-generated"/>
 
                                 <Label text="Agreement Name" required="true"/>
-                                <Input 
-                                    id="rateNameInput"
-                                    value="{/newRate/name}"
-                                    placeholder="e.g., Tech Solutions Premium Rate"/>
+                                <Input value="{RateMasterData>/newRate/name}" placeholder="e.g., Tech Solutions Premium Rate"/>
 
-                                <Label text="Customer" required="true" id="customerLabel"/>
-                                <ComboBox 
-                                    id="customerSelect"
-                                    selectedKey="{/newRate/customerId}"
-                                    placeholder="Select Customer...">
-                                    <core:Item key="C-TECH-001" text="Tech Solutions Inc (C-TECH-001)"/>
-                                    <core:Item key="C-GLOBAL-001" text="Global Corp (C-GLOBAL-001)"/>
-                                    <core:Item key="C-METRO-001" text="Metro Retail (C-METRO-001)"/>
-                                    <core:Item key="C-SMART-001" text="Smart Logistics (C-SMART-001)"/>
-                                    <core:Item key="C-INNO-001" text="Innovation Labs (C-INNO-001)"/>
+                                <Label id="customerLabel" text="Customer" required="true" visible="true"/>
+                                <ComboBox id="customerSelect" selectedKey="{RateMasterData>/newRate/customerId}" placeholder="Select Customer..." visible="true">
+                                    <core:Item key="C-TECH-001" text="Tech Solutions Inc"/>
+                                    <core:Item key="C-GLOBAL-001" text="Global Corp"/>
                                 </ComboBox>
 
-                                <Label text="Carrier" required="true" id="carrierLabel" visible="false"/>
-                                <ComboBox 
-                                    id="carrierSelect"
-                                    selectedKey="{/newRate/carrierId}"
-                                    visible="false"
-                                    placeholder="Select Carrier...">
-                                    <core:Item key="DHL" text="DHL Express Thailand"/>
-                                    <core:Item key="FEDEX" text="FedEx Thailand"/>
+                                <Label id="carrierLabel" text="Carrier" required="true" visible="false"/>
+                                <ComboBox id="carrierSelect" selectedKey="{RateMasterData>/newRate/carrierId}" visible="false" placeholder="Select Carrier...">
+                                    <core:Item key="DHL" text="DHL Express"/>
                                     <core:Item key="KERRY" text="Kerry Logistics"/>
-                                    <core:Item key="TNT" text="TNT Express"/>
-                                    <core:Item key="FLASH" text="Flash Express"/>
                                 </ComboBox>
 
                                 <Label text="Valid From" required="true"/>
-                                <DatePicker 
-                                    id="validFromDate"
-                                    value="{/newRate/validFrom}"
-                                    displayFormat="yyyy-MM-dd"/>
+                                <DatePicker value="{RateMasterData>/newRate/validFrom}" displayFormat="yyyy-MM-dd" valueFormat="yyyy-MM-dd"/>
 
                                 <Label text="Valid To" required="true"/>
-                                <DatePicker 
-                                    id="validToDate"
-                                    value="{/newRate/validTo}"
-                                    displayFormat="yyyy-MM-dd"/>
+                                <DatePicker value="{RateMasterData>/newRate/validTo}" displayFormat="yyyy-MM-dd" valueFormat="yyyy-MM-dd"/>
 
                                 <Label text="Currency"/>
-                                <ComboBox 
-                                    selectedKey="{/newRate/currency}">
-                                    <core:Item key="THB" text="THB - Thai Baht"/>
-                                    <core:Item key="USD" text="USD - US Dollar"/>
-                                    <core:Item key="EUR" text="EUR - Euro"/>
+                                <ComboBox selectedKey="{RateMasterData>/newRate/currency}">
+                                    <core:Item key="THB" text="THB"/>
+                                    <core:Item key="USD" text="USD"/>
                                 </ComboBox>
 
                                 <Label text="Status"/>
-                                <ComboBox 
-                                    selectedKey="{/newRate/status}">
-                                    <core:Item key="DRAFT" text="📝 Draft"/>
-                                    <core:Item key="ACTIVE" text="✅ Active"/>
-                                    <core:Item key="PENDING_APPROVAL" text="⏳ Pending Approval"/>
+                                <ComboBox selectedKey="{RateMasterData>/newRate/status}">
+                                    <core:Item key="ACTIVE" text="Active"/>
+                                    <core:Item key="DRAFT" text="Draft"/>
                                 </ComboBox>
                             </form:content>
                         </form:SimpleForm>
                     </VBox>
 
-                    <!-- Step 2B: Route Configuration -->
-                    <VBox id="routeSection" visible="false" class="sapUiMediumMarginBottom">
-                        <Title text="🛣️ Route Configuration" level="H4" class="sapUiSmallMarginBottom"/>
-                        
-                        <form:SimpleForm
-                            editable="true"
-                            layout="ResponsiveGridLayout"
-                            labelSpanXL="3"
-                            labelSpanL="3"
-                            labelSpanM="3"
-                            labelSpanS="12"
-                            columnsXL="2"
-                            columnsL="2"
-                            columnsM="1">
-                            <form:content>
-                                <Label text="Origin Zone / Location" required="true"/>
-                                <ComboBox 
-                                    selectedKey="{/newRate/originZone}"
-                                    placeholder="Select Origin...">
-                                    <core:Item key="BKK" text="Bangkok Metro"/>
-                                    <core:Item key="CNX" text="Chiang Mai"/>
-                                    <core:Item key="HKT" text="Phuket"/>
-                                    <core:Item key="KKN" text="Khon Kaen"/>
-                                    <core:Item key="RYG" text="Rayong"/>
-                                    <core:Item key="CENTRAL" text="Central Region"/>
-                                    <core:Item key="NORTH" text="Northern Region"/>
-                                    <core:Item key="SOUTH" text="Southern Region"/>
-                                    <core:Item key="NORTHEAST" text="Northeastern Region"/>
-                                </ComboBox>
-
-                                <Label text="Destination Zone / Location" required="true"/>
-                                <ComboBox 
-                                    selectedKey="{/newRate/destZone}"
-                                    placeholder="Select Destination...">
-                                    <core:Item key="BKK" text="Bangkok Metro"/>
-                                    <core:Item key="CNX" text="Chiang Mai"/>
-                                    <core:Item key="HKT" text="Phuket"/>
-                                    <core:Item key="KKN" text="Khon Kaen"/>
-                                    <core:Item key="RYG" text="Rayong"/>
-                                    <core:Item key="CENTRAL" text="Central Region"/>
-                                    <core:Item key="NORTH" text="Northern Region"/>
-                                    <core:Item key="SOUTH" text="Southern Region"/>
-                                    <core:Item key="NORTHEAST" text="Northeastern Region"/>
-                                </ComboBox>
-
-                                <Label text="Route Description"/>
-                                <Input 
-                                    value="{/newRate/routeDescription}"
-                                    placeholder="e.g., Bangkok to Chiang Mai - Main Highway Route"/>
-                            </form:content>
-                        </form:SimpleForm>
-                    </VBox>
-
-                    <!-- Step 3: Base Pricing -->
                     <VBox id="pricingSection" visible="false" class="sapUiMediumMarginBottom">
                         <Title text="3️⃣ Base Pricing Configuration" level="H4" class="sapUiSmallMarginBottom"/>
+                        <MessageStrip text="Pricing Formula: Total = (Distance × Rate/km) + (Weight × Rate/kg) + Surcharges - Discounts" type="Information" showIcon="true" class="sapUiSmallMarginBottom"/>
                         
-                        <MessageStrip 
-                            text="Pricing Formula: Total = (Distance × Rate/km) + (Weight × Rate/kg) + Surcharges - Discounts"
-                            type="Information"
-                            showIcon="true"
-                            class="sapUiSmallMarginBottom"/>
-                        
-                        <form:SimpleForm
-                            editable="true"
-                            layout="ResponsiveGridLayout"
-                            labelSpanXL="3"
-                            labelSpanL="3"
-                            labelSpanM="3"
-                            labelSpanS="12"
-                            columnsXL="3"
-                            columnsL="3"
-                            columnsM="2">
+                        <form:SimpleForm editable="true" layout="ResponsiveGridLayout" labelSpanXL="4" labelSpanL="4" labelSpanM="4" labelSpanS="12" columnsXL="3" columnsL="3" columnsM="2">
                             <form:content>
                                 <Label text="Base Rate per KM" required="true"/>
-                                <Input 
-                                    value="{/newRate/baseKm}"
-                                    type="Number"
-                                    placeholder="0.00"
-                                    description="฿/km"/>
+                                <Input value="{RateMasterData>/newRate/baseKm}" type="Number" placeholder="0.00" description="฿/km" liveChange="onCalculatePreview"/>
 
                                 <Label text="Weight Rate per KG" required="true"/>
-                                <Input 
-                                    value="{/newRate/weightKg}"
-                                    type="Number"
-                                    placeholder="0.00"
-                                    description="฿/kg"/>
+                                <Input value="{RateMasterData>/newRate/weightKg}" type="Number" placeholder="0.00" description="฿/kg" liveChange="onCalculatePreview"/>
 
                                 <Label text="Minimum Charge"/>
-                                <Input 
-                                    value="{/newRate/minCharge}"
-                                    type="Number"
-                                    placeholder="0.00"
-                                    description="฿"/>
+                                <Input value="{RateMasterData>/newRate/minCharge}" type="Number" placeholder="500.00" description="฿" liveChange="onCalculatePreview"/>
                             </form:content>
                         </form:SimpleForm>
-                    </VBox>
 
-                    <!-- Step 4: Surcharges & Discounts -->
+                        <Table id="tierTable" items="{RateMasterData>/tiers}" mode="None" backgroundDesign="Solid" class="sapUiSmallMarginTop">
+                            <headerToolbar>
+                                <Toolbar>
+                                    <Title text="Weight-Based Tier Pricing (Optional)" level="H5"/>
+                                    <ToolbarSpacer/>
+                                    <Button icon="sap-icon://add" text="Add Tier" press="onAddTier" type="Ghost"/>
+                                </Toolbar>
+                            </headerToolbar>
+                            <columns>
+                                <Column hAlign="Center"><Text text="From (kg)"/></Column>
+                                <Column hAlign="Center"><Text text="To (kg)"/></Column>
+                                <Column hAlign="Center"><Text text="Rate per kg"/></Column>
+                                <Column width="3rem" hAlign="Center"></Column>
+                            </columns>
+                            <items>
+                                <ColumnListItem>
+                                    <cells>
+                                        <Input value="{RateMasterData>minWeight}" type="Number"/>
+                                        <Input value="{RateMasterData>maxWeight}" type="Number"/>
+                                        <Input value="{RateMasterData>cost}" type="Number"/>
+                                        <Button icon="sap-icon://delete" type="Transparent" press="onRemoveTier"/>
+                                    </cells>
+                                </ColumnListItem>
+                            </items>
+                        </Table>
+                    </VBox>
+                                            
                     <VBox id="surchargesSection" visible="false" class="sapUiMediumMarginBottom">
-                        <Title text="4️⃣ Surcharges & Discounts" level="H4" class="sapUiSmallMarginBottom"/>
-                        
-                        <form:SimpleForm
-                            editable="true"
-                            layout="ResponsiveGridLayout"
-                            labelSpanXL="3"
-                            labelSpanL="3"
-                            labelSpanM="3"
-                            labelSpanS="12"
-                            columnsXL="3"
-                            columnsL="3"
-                            columnsM="2">
+                        <Title text="4️⃣ Surcharges &amp; Discounts" level="H4" class="sapUiSmallMarginBottom"/>
+                        <form:SimpleForm editable="true" layout="ResponsiveGridLayout" labelSpanXL="4" labelSpanL="4" labelSpanM="4" labelSpanS="12" columnsXL="3" columnsL="3" columnsM="1">
                             <form:content>
                                 <Label text="Fuel Surcharge %"/>
-                                <Input 
-                                    value="{/newRate/fuel}"
-                                    type="Number"
-                                    placeholder="0.00"
-                                    description="%"/>
+                                <Input value="{RateMasterData>/newRate/fuel}" type="Number" placeholder="0.00" description="Applied to subtotal" liveChange="onCalculatePreview"/>
 
                                 <Label text="Customer Discount %"/>
-                                <Input 
-                                    value="{/newRate/discount}"
-                                    type="Number"
-                                    placeholder="0.00"
-                                    description="%"/>
+                                <Input value="{RateMasterData>/newRate/discount}" type="Number" placeholder="0.00" description="Deducted from total" liveChange="onCalculatePreview"/>
 
                                 <Label text="Markup % (for External)"/>
-                                <Input 
-                                    value="{/newRate/markup}"
-                                    type="Number"
-                                    placeholder="0.00"
-                                    description="%"/>
+                                <Input value="{RateMasterData>/newRate/markup}" type="Number" placeholder="0.00" description="Added for customer charge"/>
                             </form:content>
                         </form:SimpleForm>
+
+                        <Table items="{RateMasterData>/surcharges}" mode="None" backgroundDesign="Solid" class="sapUiSmallMarginTop">
+                            <headerToolbar>
+                                <Toolbar>
+                                    <Title text="Additional Surcharges (Optional)" level="H5"/>
+                                    <ToolbarSpacer/>
+                                    <Button icon="sap-icon://add" text="Add Surcharge" press="onAddSurcharge" type="Ghost"/>
+                                </Toolbar>
+                            </headerToolbar>
+                            <columns>
+                                <Column width="40%"><Text text="Surcharge Type"/></Column>
+                                <Column width="30%"><Text text="Value"/></Column>
+                                <Column width="20%"><Text text="Unit"/></Column>
+                                <Column width="10%" hAlign="Center"></Column>
+                            </columns>
+                            <items>
+                                <ColumnListItem>
+                                    <cells>
+                                        <ComboBox selectedKey="{RateMasterData>type}" placeholder="Select Surcharge Type..." width="100%">
+                                            <core:Item key="PEAK" text="Peak Season"/>
+                                            <core:Item key="SPECIAL" text="Special Handling"/>
+                                        </ComboBox>
+                                        <Input value="{RateMasterData>value}" type="Number"/>
+                                        <ComboBox selectedKey="{RateMasterData>unit}" width="100%">
+                                            <core:Item key="PCT" text="%"/>
+                                            <core:Item key="FIXED" text="Fixed ฿"/>
+                                        </ComboBox>
+                                        <Button icon="sap-icon://delete" type="Transparent" press="onRemoveSurcharge"/>
+                                    </cells>
+                                </ColumnListItem>
+                            </items>
+                        </Table>
                     </VBox>
 
-                    <!-- Step 5: Service Types -->
                     <VBox id="serviceTypesSection" visible="false" class="sapUiMediumMarginBottom">
                         <Title text="5️⃣ Applicable Service Types" level="H4" class="sapUiSmallMarginBottom"/>
-                        
-                        <FlexBox wrap="Wrap">
-                            <CheckBox text="Standard Freight" selected="true" class="sapUiTinyMarginEnd sapUiTinyMarginBottom"/>
-                            <CheckBox text="Express Delivery" selected="true" class="sapUiTinyMarginEnd sapUiTinyMarginBottom"/>
-                            <CheckBox text="Same Day" class="sapUiTinyMarginEnd sapUiTinyMarginBottom"/>
-                            <CheckBox text="Cold Chain" class="sapUiTinyMarginEnd sapUiTinyMarginBottom"/>
-                            <CheckBox text="Dangerous Goods" class="sapUiTinyMarginEnd sapUiTinyMarginBottom"/>
-                            <CheckBox text="White Glove" class="sapUiTinyMarginEnd sapUiTinyMarginBottom"/>
+                        <FlexBox wrap="Wrap" alignItems="Center">
+                            <CheckBox text="Standard Freight" selected="{RateMasterData>/newRate/serviceTypes/standard}" class="sapUiMediumMarginEnd sapUiTinyMarginBottom"/>
+                            <CheckBox text="Express Delivery" selected="{RateMasterData>/newRate/serviceTypes/express}" class="sapUiMediumMarginEnd sapUiTinyMarginBottom"/>
+                            <CheckBox text="Same Day" selected="{RateMasterData>/newRate/serviceTypes/sameday}" class="sapUiMediumMarginEnd sapUiTinyMarginBottom"/>
+                            <CheckBox text="Cold Chain" selected="{RateMasterData>/newRate/serviceTypes/coldchain}" class="sapUiMediumMarginEnd sapUiTinyMarginBottom"/>
+                            <CheckBox text="Dangerous Goods" selected="{RateMasterData>/newRate/serviceTypes/dangerous}" class="sapUiMediumMarginEnd sapUiTinyMarginBottom"/>
+                            <CheckBox text="White Glove" selected="{RateMasterData>/newRate/serviceTypes/whiteglove}" class="sapUiTinyMarginBottom"/>
                         </FlexBox>
                     </VBox>
 
-                    <!-- Step 6: Notes -->
-                    <VBox id="notesSection" visible="false" class="sapUiMediumMarginBottom">
-                        <Title text="📝 Notes & Terms" level="H4" class="sapUiSmallMarginBottom"/>
-                        
-                        <VBox>
-                            <Label text="Internal Notes"/>
-                            <TextArea 
-                                value="{/newRate/notes}"
-                                rows="4"
-                                placeholder="Add any internal notes about this rate agreement..."/>
-                        </VBox>
+                    <VBox id="ratePreview" visible="false" class="sapUiMediumMarginBottom">
 
-                        <VBox class="sapUiSmallMarginTop">
-                            <Label text="Terms & Conditions Reference"/>
+                        <Title text="6️⃣ Rate Preview — Sample Calculation" level="H4" class="sapUiSmallMarginBottom"/>
+                        
+                        <HBox class="sapUiSmallMarginBottom" alignItems="Center">
+                            <Label text="Sample Distance (km):" design="Bold" class="sapUiSmallMarginEnd"/>
                             <Input 
-                                value="{/newRate/termsRef}"
-                                placeholder="e.g., Contract Ref: CT-2026-001234"/>
+                                value="{RateMasterData>/preview/dist}" 
+                                type="Number" 
+                                width="120px" 
+                                liveChange="onCalculatePreview" 
+                                class="sapUiMediumMarginEnd"/>
+                            
+                            <Label text="Sample Weight (kg):" design="Bold" class="sapUiSmallMarginEnd"/>
+                            <Input 
+                                value="{RateMasterData>/preview/wgt}" 
+                                type="Number" 
+                                width="120px" 
+                                liveChange="onCalculatePreview"/>
+                        </HBox>
+
+                        <Panel width="100%" backgroundDesign="Transparent">
+                            
+                            <headerToolbar>
+                                <Toolbar>
+                                    <core:Icon src="sap-icon://money-bills" class="sapUiTinyMarginEnd"/>
+                                    <Title text="Estimated Charge" level="H3"/>
+                                    <ToolbarSpacer/>
+                                    <ObjectStatus text="Preview" state="Information" inverted="true" />
+                                </Toolbar>
+                            </headerToolbar>
+
+                            <content>
+                                <VBox class="sapUiSmallMargin">
+                                    <HBox justifyContent="SpaceBetween" class="sapUiTinyMarginBottom">
+                                        <Text text="Distance ({RateMasterData>/preview/dist} km × ฿{RateMasterData>/newRate/baseKm})"/>
+                                        <Text text="฿{RateMasterData>/preview/distCost}"/>
+                                    </HBox>
+
+                                    <HBox justifyContent="SpaceBetween" class="sapUiTinyMarginBottom">
+                                        <Text text="Weight ({RateMasterData>/preview/wgt} kg × ฿{RateMasterData>/newRate/weightKg})"/>
+                                        <Text text="฿{RateMasterData>/preview/wgtCost}"/>
+                                    </HBox>
+
+                                    <HBox justifyContent="SpaceBetween" class="sapUiSmallMarginBottom">
+                                        <Text text="Subtotal"/>
+                                        <Label text="฿{RateMasterData>/preview/subtotal}" design="Bold"/>
+                                    </HBox>
+
+                                    <HBox justifyContent="SpaceBetween" class="sapUiTinyMarginBottom">
+                                        <Text text="Fuel Surcharge (+{RateMasterData>/newRate/fuel}%)"/>
+                                        <Text text="฿{RateMasterData>/preview/fuelCost}"/>
+                                    </HBox>
+
+                                    <HBox justifyContent="SpaceBetween" class="sapUiMediumMarginBottom">
+                                        <Text text="Customer Discount (-{RateMasterData>/newRate/discount}%)"/>
+                                        <ObjectStatus text="-฿{RateMasterData>/preview/discCost}" state="Success"/>
+                                    </HBox>
+
+                                    <core:HTML content="&lt;hr/&gt;"/>
+
+                                    <HBox justifyContent="SpaceBetween" alignItems="Center" class="sapUiSmallMarginTop">
+                                        <Title text="TOTAL" level="H4"/>
+                                        <ObjectStatus text="฿{RateMasterData>/preview/total}" state="Information" title="Total" active="true"/>
+                                    </HBox>
+                                </VBox>
+                            </content>
+                        </Panel>
+                    </VBox>
+
+                    <VBox id="notesSection" visible="false" class="sapUiMediumMarginBottom">
+                        <Title text="📝 Notes &amp; Terms" level="H4" class="sapUiSmallMarginBottom"/>
+                        <VBox>
+                            <Label text="Internal Notes" design="Bold"/>
+                            <TextArea value="{RateMasterData>/newRate/notes}" rows="4" width="100%"/>
+                        </VBox>
+                        <VBox class="sapUiSmallMarginTop">
+                            <Label text="Terms &amp; Conditions Reference" design="Bold"/>
+                            <Input value="{RateMasterData>/newRate/termsRef}" width="100%"/>
                         </VBox>
                     </VBox>
 
@@ -371,8 +293,7 @@
             <Button text="Save as Draft" icon="sap-icon://save" press="onSaveAsDraft"/>
         </beginButton>
         <endButton>
-            <Button text="Save & Activate" type="Emphasized" icon="sap-icon://accept" press="onSaveAndActivate"/>
+            <Button text="Save &amp; Activate" type="Emphasized" icon="sap-icon://accept" press="onSaveAndActivate"/>
         </endButton>
     </Dialog>
-
 </core:FragmentDefinition>

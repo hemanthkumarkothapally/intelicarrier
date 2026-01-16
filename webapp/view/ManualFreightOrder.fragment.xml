@@ -98,6 +98,8 @@
 
                             <Label text="Volume (m³)"/>
                             <Input value="{manualOrder>/volume}" type="Number" placeholder="0"/>
+                                                        <Label text="Priority"/>
+                            <Input value="{manualOrder>/priority}" placeholder="0"/>
                         </f:content>
                     </f:SimpleForm>
 

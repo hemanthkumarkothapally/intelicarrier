@@ -54,70 +54,90 @@
                 </HBox>
 
                 <!-- ============ Document Cards Grid ============ -->
-                <FlexBox wrap="Wrap" width="100%" class="sapUiSmallMarginBottom">
+          <FlexBox wrap="Wrap" width="100%" class="sapUiSmallMarginBottom">
 
-                    <!-- BOL -->
-                    <VBox class="docCard selected sapUiSmallMarginEnd sapUiSmallMarginBottom">
+    <!-- Bill of Lading -->
+    <GenericTile
+        width="20rem"
+        class="docTile selected sapUiSmallMargin"
+        press=".onDocSelect"
+        header="Bill of Lading (BOL)"
+        subheader="Legal transport document">
 
-                        <HBox justifyContent="End">
-                            <core:Icon src="sap-icon://accept" class="docCheck"/>
-                        </HBox>
+        <TileContent>
+            <VBox alignItems="Center" class="sapUiSmallMarginTop">
+                <core:Icon src="sap-icon://clipboard" size="2.2rem" />
+                <Text text="✓ Required" class="docMetaRequired sapUiSmallMarginTop"/>
+            </VBox>
+        </TileContent>
+    </GenericTile>
 
-                        <VBox alignItems="Center" class="sapUiSmallMarginTop ">
-                            <core:Icon src="sap-icon://clipboard" size="2.2rem" />
-                            <Title text="Bill of Lading (BOL)" level="H6" class="sapUiTinyMarginTop"/>
-                            <Text text="Legal transport document" class="sapUiContentLabel"/>
-                            <Text text="✓ Required" class="docMetaRequired sapUiSmallMarginTop "/>
-                        </VBox>
-                    </VBox>
-<GenericTile header="Bill of Lading (BOL)" subheader="Legal transport document" class="sapUiSmallMarginEnd sapUiSmallMarginBottom">
-                                
-                                </GenericTile>
-                    <!-- Shipping Labels -->
-                    <VBox class="docCard selected sapUiSmallMarginEnd sapUiSmallMarginBottom">
-                        <HBox justifyContent="End">
-                            <core:Icon src="sap-icon://accept" class="docCheck"/>
-                        </HBox>
+    <!-- Shipping Labels -->
+    <GenericTile
+        width="20rem"
+        class="docTile selected sapUiSmallMargin"
+        press=".onDocSelect"
+        header="Shipping Labels"
+        subheader="Package identification">
 
-                        <VBox alignItems="Center" class="sapUiSmallMarginTop">
-                            <core:Icon src="sap-icon://tag" size="2.2rem"/>
-                            <Title text="Shipping Labels" level="H6" class="sapUiTinyMarginTop"/>
-                            <Text text="Package identification" class="sapUiContentLabel"/>
-                            <Text text="3 labels" class="docMetaRequired sapUiSmallMarginTop sapUiSmallMarginBottom"/>
-                        </VBox>
-                    </VBox>
+        <TileContent>
+            <VBox alignItems="Center" class="sapUiSmallMarginTop">
+                <core:Icon src="sap-icon://tag" size="2.2rem"/>
+                <Text text="3 labels" class="docMetaRequired sapUiSmallMarginTop"/>
+            </VBox>
+        </TileContent>
+    </GenericTile>
 
-                    <!-- Delivery Order -->
-                    <VBox class="docCard sapUiSmallMarginEnd sapUiSmallMarginBottom">
-                        <VBox alignItems="Center" class="sapUiSmallMarginTop">
-                            <core:Icon src="sap-icon://shipping-status" size="2.2rem"/>
-                            <Title text="Delivery Order (DO)" level="H6" class="sapUiTinyMarginTop"/>
-                            <Text text="Proof of delivery" class="sapUiContentLabel"/>
-                            <Text text="1 copy" class="docMeta sapUiSmallMarginTop"/>
-                        </VBox>
-                    </VBox>
+    <!-- Delivery Order -->
+    <GenericTile
+        width="20rem"
+        class="docTile sapUiSmallMargin"
+        press=".onDocSelect"
+        header="Delivery Order (DO)"
+        subheader="Proof of delivery">
 
-                    <!-- Packing List -->
-                    <VBox class="docCard sapUiSmallMarginEnd sapUiSmallMarginBottom">
-                        <VBox alignItems="Center" class="sapUiSmallMarginTop">
-                            <core:Icon src="sap-icon://edit" size="2.2rem"/>
-                            <Title text="Packing List" level="H6" class="sapUiTinyMarginTop"/>
-                            <Text text="Contents detail" class="sapUiContentLabel"/>
-                            <Text text="1 copy" class="docMeta sapUiSmallMarginTop"/>
-                        </VBox>
-                    </VBox>
+        <TileContent>
+            <VBox alignItems="Center" class="sapUiSmallMarginTop">
+                <core:Icon src="sap-icon://shipping-status" size="2.2rem"/>
+                <Text text="1 copy" class="docMeta sapUiSmallMarginTop"/>
+            </VBox>
+        </TileContent>
+    </GenericTile>
 
-                    <!-- Driver Checklist -->
-                    <VBox class="docCard sapUiSmallMarginEnd sapUiSmallMarginBottom">
-                        <VBox alignItems="Center" class="sapUiSmallMarginTop">
-                            <core:Icon src="sap-icon://complete" size="2.2rem"/>
-                            <Title text="Driver Checklist" level="H6" class="sapUiTinyMarginTop"/>
-                            <Text text="Handover verification" class="sapUiContentLabel"/>
-                            <Text text="1 copy" class="docMeta sapUiSmallMarginTop"/>
-                        </VBox>
-                    </VBox>
+    <!-- Packing List -->
+    <GenericTile
+        width="20rem"
+        class="docTile sapUiSmallMargin"
+        press=".onDocSelect"
+        header="Packing List"
+        subheader="Contents detail">
 
-                </FlexBox>
+        <TileContent>
+            <VBox alignItems="Center" class="sapUiSmallMarginTop">
+                <core:Icon src="sap-icon://edit" size="2.2rem"/>
+                <Text text="1 copy" class="docMeta sapUiSmallMarginTop"/>
+            </VBox>
+        </TileContent>
+    </GenericTile>
+
+    <!-- Driver Checklist -->
+    <GenericTile
+        width="20rem"
+        class="docTile sapUiSmallMargin"
+        press=".onDocSelect"
+        header="Driver Checklist"
+        subheader="Handover verification">
+
+        <TileContent>
+            <VBox alignItems="Center" class="sapUiSmallMarginTop">
+                <core:Icon src="sap-icon://complete" size="2.2rem"/>
+                <Text text="1 copy" class="docMeta sapUiSmallMarginTop"/>
+            </VBox>
+        </TileContent>
+    </GenericTile>
+
+</FlexBox>
+
 
                 <!-- ============ Print Options ============ -->
                 <VBox class="printOptionsCard sapUiSmallMarginBottom">

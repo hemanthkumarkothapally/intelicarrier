@@ -2537,7 +2537,6 @@ color: #0066cc !important;
 
 /* ===== Document Cards ===== */
 .docCard {
-    width: 100px;
     height: 160px;
     border: 1px solid #e5e5e5;
     border-radius: 12px;
