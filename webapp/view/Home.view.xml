@@ -55,9 +55,10 @@
                     <!-- Side Navigation -->
                     <tnt:SideNavigation id="sideNavigation" selectedKey="dashboard" expanded="true" itemSelect=".onItemSelect">
                         <tnt:NavigationList>
-                            <tnt:NavigationListItem text="Smart Rate Shopping" icon="sap-icon://sales-quote" key="rateshopping"/>
                             <tnt:NavigationListGroup text="Operations" key="Operations">
                             <tnt:NavigationListItem text="Dashboard" icon="sap-icon://home" key="dashboard"/>
+                            <tnt:NavigationListItem text="Freight Orders Creation" icon="sap-icon://shipping-status" key="freightOrders" />
+                            <tnt:NavigationListItem text="Shipment Execution" icon="sap-icon://create" key="shipmentexecution"/>
                             <tnt:NavigationListItem text="Freight Orders" icon="sap-icon://shipping-status" key="freightOrders" />
                             <tnt:NavigationListItem text="Freight Execution" icon="sap-icon://create" key="shipmentexecution"/>
                             <tnt:NavigationListItem text="Fleet Overview" icon="sap-icon://create" key="shipmentExecutionViewsub2"/>
@@ -67,19 +68,21 @@
                             <tnt:NavigationListItem text="Price Determination &amp; Settlement" icon="sap-icon://sales-order" key="priceCalculation"/>
                             <tnt:NavigationListItem text="Tracking &amp; Visibility" icon="sap-icon://locate-me" key="tracking"/>
 
-                            <tnt:NavigationListItem text="Cash Advance &amp; Reimbursement" icon="sap-icon://locate-me" key="CashAdvanceandReimbursement"/>
+                            <tnt:NavigationListItem text="Cash Advance &amp; Reimbursement" icon="sap-icon://wallet" key="CashAdvanceandReimbursement"/>
                             
                             </tnt:NavigationListGroup>
-                            <tnt:NavigationListGroup text="Reports" key="Reports" >
+                            <tnt:NavigationListGroup text="Reports" key="Reports" expanded="false">
                             <tnt:NavigationListItem text="Fleet Overview" icon="sap-icon://create" key="shipmentExecutionViewsub2"/>
-                            <tnt:NavigationListItem text="Operational &amp; Financial Reports" icon="sap-icon://home" key="OperationalandFinancialReports"/>
+                            <tnt:NavigationListItem text="Operational &amp; Financial Reports" icon="sap-icon://create" key="OperationalandFinancialReports"/>
 
-                            </tnt:NavigationListGroup>
-                            <tnt:NavigationListGroup text="Masters" key="Masters" >
+                            </tnt:NavigationListGroup >
+                            <tnt:NavigationListGroup text="Masters" key="Masters" expanded="false">
                             <tnt:NavigationListItem text="Rate Master" icon="sap-icon://home" key="RateMaster"/>
                             <tnt:NavigationListItem text="Reference Data" icon="sap-icon://home" key="ReferenceData"/>
 
                             </tnt:NavigationListGroup>
+                            <tnt:NavigationListItem text="Smart Rate Shopping" icon="sap-icon://sales-quote" key="rateshopping"/>
+
                         </tnt:NavigationList>
 
                         <tnt:fixedItem>
@@ -288,7 +291,7 @@
                                 </items>
                             </SegmentedButton> -->
                             <VBox id="shipmentExecutionViewsub" visible="true" width="100%" class="intellicarrier-content-padding sapUiMediumMarginBottom">
-                                <Title text="Dynamic Fleet Management Cockpit" level="H2" class="sapUiMediumMarginBottom"/>
+                                <Title text="Shipment Execution" level="H2" class="sapUiMediumMarginBottom"/>
                                 <FlexBox wrap="NoWrap" alignItems="Start" class="sapUiMediumMarginBottom">
 
                                     <!-- Pending Assignment -->
@@ -462,8 +465,12 @@
                                                 <!-- Action -->
                                                 <HBox justifyContent="Center">
                                                     <Button text="Track" type="Neutral" tooltip="Track Order" visible="{= ${status} === 'Completed' }" press=".onTrackOrder"/>
-                                                    <Button text="Analyze" type="Emphasized" visible="{= ${status} !== 'Completed' }" press=".onAnalyzeOrder"/>
-                                                    <Button text="Print Docs" type="Emphasized" visible="{= ${status} !== 'Completed' }" press=".onOpenDocPrintDialog"/>
+                                                    <Button text="Analyze" type="Emphasized" visible="{= ${status} === 'Pending Assignment' }" press=".onAnalyzeOrder"/>
+<Button
+    text="Print Docs"
+    type="Emphasized"
+    visible="{= ${status} === 'Internal Fleet' || ${status} === 'External Carrier' }"
+    press=".onOpenDocPrintDialog"/>
 
                                                 </HBox>
 
@@ -1313,7 +1320,7 @@
                                             <items>
                                                 <ColumnListItem press=".onViewShipmentDetails">
                                                     <cells>
-                                                        <Link text="SHP-2026-001234" press=".onViewShipmentDetails"/>
+                                                        <Link text="8062225001" press=".onViewShipmentDetails"/>
                                                         <Text text="Global Tech Inc"/>
                                                         <Text text="San Francisco, CA"/>
                                                         <Text text="New York, NY"/>
@@ -1326,7 +1333,7 @@
                                                 </ColumnListItem>
                                                 <ColumnListItem press=".onViewShipmentDetails">
                                                     <cells>
-                                                        <Link text="SHP-2026-001235" press=".onViewShipmentDetails"/>
+                                                        <Link text="8062225002" press=".onViewShipmentDetails"/>
                                                         <Text text="Acme Corporation"/>
                                                         <Text text="Los Angeles, CA"/>
                                                         <Text text="Chicago, IL"/>
@@ -1339,7 +1346,7 @@
                                                 </ColumnListItem>
                                                 <ColumnListItem press=".onViewShipmentDetails">
                                                     <cells>
-                                                        <Link text="SHP-2026-001236" press=".onViewShipmentDetails"/>
+                                                        <Link text="8062225001" press=".onViewShipmentDetails"/>
                                                         <Text text="Tech Solutions Ltd"/>
                                                         <Text text="Seattle, WA"/>
                                                         <Text text="Miami, FL"/>
@@ -1352,7 +1359,7 @@
                                                 </ColumnListItem>
                                                 <ColumnListItem press=".onViewShipmentDetails">
                                                     <cells>
-                                                        <Link text="SHP-2026-001237" press=".onViewShipmentDetails"/>
+                                                        <Link text="8062225003" press=".onViewShipmentDetails"/>
                                                         <Text text="Innovation Corp"/>
                                                         <Text text="Boston, MA"/>
                                                         <Text text="Denver, CO"/>
@@ -1397,7 +1404,7 @@
                                                 <!-- Shipment Info Section -->
                                                 <HBox width="100%" class="shipmentInfoContainer">
                                                     <VBox class="shipmentInfoSection" width="100%">
-                                                        <ObjectHeader title="SHP-2026-001234" number="46.30" numberUnit="USD" intro="Express Service" titleActive="true" icon="sap-icon://shipping-status" iconDensityAware="false" class="compactObjectHeader">
+                                                        <ObjectHeader title="8062225001" number="46.30" numberUnit="USD" intro="Express Service" titleActive="true" icon="sap-icon://shipping-status" iconDensityAware="false" class="compactObjectHeader">
                                                             <attributes>
                                                                 <ObjectAttribute title="Origin" text="San Francisco, CA"/>
                                                                 <ObjectAttribute title="Destination" text="New York, NY"/>
@@ -1618,7 +1625,7 @@
                                 <HBox>
                                     <unified:FileUploader buttonOnly="true" buttonText="Upload PDF" fileType="pdf"></unified:FileUploader>
                                     <!-- <Button icon="sap-icon://upload" text="Upload PDF" press=".onUploadFreight" class="sapUiTinyMarginEnd"/> -->
-                                    <Button icon="sap-icon://edit" text="Create Freight Order " press=".onManualEntryFreight"/>
+                                    <Button icon="sap-icon://edit" class="sapUiSmallMarginBegin" text="Create Manual Freight Order " press=".onManualEntryFreight"/>
                                 </HBox>
                             </HBox>
 
@@ -1641,7 +1648,7 @@
                                 </GenericTile>
 
                                 <!-- Reviewed -->
-                                <GenericTile class=" sapUiSmallMarginBottom" frameType="TwoByHalf" width="8rem" header="Reviewed" subheader="Ready to submit" press=".onCardPressFreight">
+                                <GenericTile class=" sapUiSmallMarginBottom" visible="false" frameType="TwoByHalf" width="8rem" header="Reviewed" subheader="Ready to submit" press=".onCardPressFreight">
                                     <TileContent>
                                         <NumericContent value="{orders>/summary/reviewed}" icon="sap-icon://accept" valueColor="Good" withMargin="false"/>
                                     </TileContent>
@@ -1671,12 +1678,12 @@
                                 <!-- Rejected -->
                                 <GenericTile class="sapUiTinyMarginEnd sapUiSmallMarginBottom" frameType="TwoByHalf" width="8rem" header="Rejected" subheader="Cannot process" press=".onCardPressFreight">
                                     <TileContent>
-                                        <NumericContent value="{orders>/summary/rejected}" icon="sap-icon://decline" valueColor="Error" withMargin="false"/>
+                                        <NumericContent value="0" icon="sap-icon://decline" valueColor="Error" withMargin="false"/>
                                     </TileContent>
                                 </GenericTile>
 
                                 <!-- Confirmed -->
-                                <GenericTile class="sapUiSmallMarginBottom" frameType="TwoByHalf" width="8rem" header="Confirmed" subheader="Fleet assigned" press=".onCardPressFreight">
+                                <GenericTile class="sapUiSmallMarginBottom" visible="false" frameType="TwoByHalf" width="8rem" header="Confirmed" subheader="Fleet assigned" press=".onCardPressFreight">
                                     <TileContent>
                                         <NumericContent value="{orders>/summary/confirmed}" icon="sap-icon://shipping-status" valueColor="Good" withMargin="false"/>
                                     </TileContent>
@@ -1732,7 +1739,7 @@
                                                     <!-- Order ID with OCR -->
                                                     <VBox>
                                                         <Link text="{orders>orderId}" press=".onViewDetailsFreight"/>
-                                                        <Text text="OCR: {orders>ocrConfidence}" class="sapUiTinyText"/>
+                                                        <Link text="FO-2026-0006" visible="{= ${orders>statusText} === 'Approved' }" />
                                                     </VBox>
 
                                                     <!-- Source -->
@@ -1776,6 +1783,8 @@
                                                     <HBox>
                                                         <Button text="{orders>actionButtonText}" type="{orders>actionButtonType}" press=".onActionPressFreight" class="sapUiTinyMarginEnd"/>
                                                         <!-- <Button text="View" type="Transparent" press=".onViewDetailsFreight"/> -->
+
+                                                    
                                                     </HBox>
                                                 </cells>
                                             </ColumnListItem>
