@@ -270,7 +270,7 @@
                             <items>
                                 <Panel headerText="Orders Trend (Last 7 Days)" width="100%" class="sapUiMediumMarginBottom">
                                     <content>
-                                        <viz:VizFrame  id="ordersTrendViz" vizType="line" width="100%" height="360px">
+                                        <viz:VizFrame id="ordersTrendViz" vizType="line" width="100%" height="360px">
                                             <viz:dataset>
                                                 <viz.data:FlattenedDataset data="{dashboard>/ordersTrend}">
                                                     <viz.data:dimensions>
