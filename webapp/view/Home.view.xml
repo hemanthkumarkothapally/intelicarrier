@@ -2669,17 +2669,13 @@
                                                 <NumericContent value="{gateLogModel>/summary/departed}" scale="Visits"/>
                                             </TileContent>
                                         </tileContent>
-
                                     </GenericTile>
-
                                     <GenericTile header="Arrivals" subheader="Gate IN" frameType="TwoByHalf" width="10rem">
-
                                         <tileContent>
                                             <TileContent>
                                                 <NumericContent value="{gateLogModel>/summary/arrivals}" valueColor="Good" scale="IN"/>
                                             </TileContent>
                                         </tileContent>
-
                                     </GenericTile>
 
                                     <GenericTile header="Departures" subheader="Gate OUT" frameType="TwoByHalf" width="10rem">
