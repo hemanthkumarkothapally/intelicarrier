@@ -1,0 +1,235 @@
+
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:l="sap.ui.layout"
+    xmlns:f="sap.ui.layout.form">
+
+    <Dialog
+        id="docPrintDialog"
+        contentWidth="900px"
+        contentHeight="650px"
+        draggable="true"
+        resizable="true"
+        verticalScrolling="true"
+        horizontalScrolling="false"
+        class="sapUiResponsivePadding--content">
+
+        <!-- ================= HEADER ================= -->
+        <customHeader>
+            <Bar>
+                <contentLeft>
+                    <VBox>
+                        <Title text="📄 Print Shipping Documents"/>
+                        <Text text="Select documents to print for driver handover"/>
+                    </VBox>
+                </contentLeft>
+
+                <contentRight>
+                    <Button icon="sap-icon://decline" press=".onCloseDocPrintDialog"/>
+                </contentRight>
+            </Bar>
+        </customHeader>
+
+        <!-- ================= CONTENT ================= -->
+        <content>
+            <VBox class="sapUiSmallMargin">
+
+                <!-- ============ Shipment Summary ============ -->
+                <Panel class="sapUiSmallMarginBottom" backgroundDesign="Solid">
+                    <VBox class="sapUiSmallMargin">
+
+                        <HBox justifyContent="SpaceBetween" alignItems="Center">
+                            <VBox>
+                                <Title text="{docModel>/shipmentId}" level="H5"/>
+                                <Text text="{docModel>/customer}" class="sapUiContentLabel"/>
+                            </VBox>
+
+                            <ObjectStatus
+                                text="{docModel>/fleetType}"
+                                state="Success"/>
+                        </HBox>
+
+                        <HBox class="sapUiSmallMarginTop" justifyContent="SpaceBetween">
+                            <VBox>
+                                <Text text="Origin" class="sapUiContentLabel"/>
+                                <Text text="{docModel>/origin}" class="sapUiBoldText"/>
+                            </VBox>
+                            <VBox>
+                                <Text text="Destination" class="sapUiContentLabel"/>
+                                <Text text="{docModel>/destination}" class="sapUiBoldText"/>
+                            </VBox>
+                            <VBox>
+                                <Text text="Vehicle / Carrier" class="sapUiContentLabel"/>
+                                <Text text="{docModel>/vehicle}" class="sapUiBoldText"/>
+                            </VBox>
+                            <VBox>
+                                <Text text="Driver" class="sapUiContentLabel"/>
+                                <Text text="{docModel>/driver}" class="sapUiBoldText"/>
+                            </VBox>
+                        </HBox>
+
+                    </VBox>
+                </Panel>
+
+                <!-- ============ Document Selection ============ -->
+                <Title text="📑 Select Documents to Print" level="H5" class="sapUiSmallMarginBottom"/>
+
+                <FlexBox wrap="Wrap" justifyContent="Start" class="sapUiSmallMarginBottom">
+
+                    <GenericTile
+                        header="Bill of Lading (BOL)"
+                        subheader="Legal transport document"
+                        class="sapUiSmallMarginEnd sapUiSmallMarginBottom"
+                        press=".onDocCardPress">
+                        <customData>
+                            <core:CustomData key="docKey" value="bol"/>
+                        </customData>
+                        <TileContent>
+                            <NumericContent value="✓ Required" valueColor="Good"/>
+                        </TileContent>
+                    </GenericTile>
+
+                    <GenericTile
+                        header="Shipping Labels"
+                        subheader="Package identification"
+                        class="sapUiSmallMarginEnd sapUiSmallMarginBottom"
+                        press=".onDocCardPress">
+                        <customData>
+                            <core:CustomData key="docKey" value="labels"/>
+                        </customData>
+                        <TileContent>
+                            <NumericContent value="3 labels" valueColor="Neutral"/>
+                        </TileContent>
+                    </GenericTile>
+
+                    <GenericTile
+                        header="Delivery Order (DO)"
+                        subheader="Proof of delivery"
+                        class="sapUiSmallMarginEnd sapUiSmallMarginBottom"
+                        press=".onDocCardPress">
+                        <customData>
+                            <core:CustomData key="docKey" value="do"/>
+                        </customData>
+                        <TileContent>
+                            <NumericContent value="1 copy" valueColor="Neutral"/>
+                        </TileContent>
+                    </GenericTile>
+
+                    <GenericTile
+                        header="Packing List"
+                        subheader="Contents detail"
+                        class="sapUiSmallMarginEnd sapUiSmallMarginBottom"
+                        press=".onDocCardPress">
+                        <customData>
+                            <core:CustomData key="docKey" value="packing"/>
+                        </customData>
+                        <TileContent>
+                            <NumericContent value="1 copy" valueColor="Neutral"/>
+                        </TileContent>
+                    </GenericTile>
+
+                    <GenericTile
+                        header="Driver Checklist"
+                        subheader="Handover verification"
+                        class="sapUiSmallMarginEnd sapUiSmallMarginBottom"
+                        press=".onDocCardPress">
+                        <customData>
+                            <core:CustomData key="docKey" value="checklist"/>
+                        </customData>
+                        <TileContent>
+                            <NumericContent value="1 copy" valueColor="Neutral"/>
+                        </TileContent>
+                    </GenericTile>
+
+                </FlexBox>
+
+                <!-- ============ Print Options ============ -->
+                <Panel headerText="⚙️ Print Options" class="sapUiSmallMarginBottom">
+                    <VBox class="sapUiSmallMargin">
+
+                        <HBox justifyContent="SpaceBetween" alignItems="Center" wrap="Wrap">
+
+                            <VBox width="200px" class="sapUiTinyMarginEnd">
+                                <Label text="Copies"/>
+                                <Select selectedKey="2">
+                                    <items>
+                                        <core:Item key="1" text="1"/>
+                                        <core:Item key="2" text="2"/>
+                                        <core:Item key="3" text="3"/>
+                                    </items>
+                                </Select>
+                            </VBox>
+
+                            <VBox width="250px" class="sapUiTinyMarginEnd">
+                                <Label text="Printer"/>
+                                <Select selectedKey="office-main">
+                                    <items>
+                                        <core:Item key="office-main" text="Office Main Printer"/>
+                                        <core:Item key="warehouse-1" text="Warehouse Printer 1"/>
+                                        <core:Item key="label-printer" text="Label Printer (Zebra)"/>
+                                    </items>
+                                </Select>
+                            </VBox>
+
+                            <VBox class="sapUiTinyMarginEnd">
+                                <CheckBox text="Include Barcodes" selected="true"/>
+                            </VBox>
+
+                            <VBox>
+                                <CheckBox text="Include QR Code" selected="true"/>
+                            </VBox>
+
+                        </HBox>
+
+                    </VBox>
+                </Panel>
+
+                <!-- ============ Preview Section ============ -->
+                <Panel headerText="📄 Preview" class="sapUiSmallMarginBottom">
+
+                    <VBox class="sapUiSmallMargin">
+
+                        <HBox justifyContent="SpaceBetween" alignItems="Center" class="sapUiSmallMarginBottom">
+                            <IconTabBar
+                                expanded="true"
+                                headerMode="Inline"
+                                class="sapUiSmallMarginEnd">
+
+                                <items>
+                                    <IconTabFilter key="bol" text="BOL"/>
+                                    <IconTabFilter key="label" text="Label"/>
+                                    <IconTabFilter key="do" text="Delivery Note"/>
+                                </items>
+                            </IconTabBar>
+
+                            <Button
+                                text="Download PDF"
+                                icon="sap-icon://download"
+                                type="Transparent"
+                                press=".onDownloadPDF"/>
+                        </HBox>
+
+                        <!-- Preview page placeholder -->
+                        <Panel class="previewBox" backgroundDesign="Solid">
+                            <VBox class="sapUiSmallMargin">
+                                <Title text="Bill of Lading Preview" level="H5"/>
+                                <Text text="(Preview content goes here)" class="sapUiContentLabel"/>
+                            </VBox>
+                        </Panel>
+
+                    </VBox>
+                </Panel>
+
+            </VBox>
+        </content>
+
+        <!-- ================= FOOTER ================= -->
+        <buttons>
+            <Button text="Cancel" press=".onCloseDocPrintDialog"/>
+            <Button text="👁️ Preview All" type="Transparent" press=".onPreviewAllDocs"/>
+            <Button text="🖨️ Print Documents" type="Emphasized" press=".onPrintDocuments"/>
+        </buttons>
+
+    </Dialog>
+</core:FragmentDefinition>

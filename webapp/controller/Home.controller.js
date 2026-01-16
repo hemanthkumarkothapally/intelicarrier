@@ -623,6 +623,300 @@ sap.ui.define([
                 ]
 
 
+                cashAdvanceRequests: [
+                    {
+                        requestId: "REQ-2026-0006",
+                        driver: "Somchai Prasert",
+                        driverId: "DRV-001",
+                        amount: "฿5,000",
+                        purpose: "Trip Expenses",
+                        requestDate: "2026-01-13",
+                        status: "Pending",
+                        statusState: "Warning",
+                        disbursement: "-"
+                    },
+                    {
+                        requestId: "REQ-2026-0007",
+                        driver: "Wichai Thongsuk",
+                        driverId: "DRV-002",
+                        amount: "฿8,000",
+                        purpose: "Trip Expenses",
+                        requestDate: "2026-01-13",
+                        status: "Pending",
+                        statusState: "Warning",
+                        disbursement: "-"
+                    },
+                    {
+                        requestId: "REQ-2026-0008",
+                        driver: "Narong Somjai",
+                        driverId: "DRV-003",
+                        amount: "฿3,500",
+                        purpose: "Fuel Only",
+                        requestDate: "2026-01-13",
+                        status: "Pending",
+                        statusState: "Warning",
+                        disbursement: "-"
+                    },
+                    {
+                        requestId: "REQ-2026-0009",
+                        driver: "Prasit Wongchai",
+                        driverId: "DRV-005",
+                        amount: "฿6,000",
+                        purpose: "Trip Expenses",
+                        requestDate: "2026-01-12",
+                        status: "Pending",
+                        statusState: "Warning",
+                        disbursement: "-"
+                    },
+                    {
+                        requestId: "REQ-2026-0010",
+                        driver: "Surachai Pranee",
+                        driverId: "DRV-006",
+                        amount: "฿10,000",
+                        purpose: "Trip Expenses",
+                        requestDate: "2026-01-12",
+                        status: "Pending",
+                        statusState: "Warning",
+                        disbursement: "-"
+                    },
+                    {
+                        requestId: "REQ-2026-0005",
+                        driver: "Somchai Prasert",
+                        driverId: "DRV-001",
+                        amount: "฿8,000",
+                        purpose: "Trip Expenses",
+                        requestDate: "2026-01-10",
+                        status: "Disbursed",
+                        statusState: "Success",
+                        disbursement: "Bank"
+                    },
+                    {
+                        requestId: "REQ-2026-0004",
+                        driver: "Wichai Thongsuk",
+                        driverId: "DRV-002",
+                        amount: "฿5,000",
+                        purpose: "Fuel",
+                        requestDate: "2026-01-09",
+                        status: "Disbursed",
+                        statusState: "Success",
+                        disbursement: "PromptPay"
+                    }
+                ],
+                activeAdvances: [
+                    {
+                        advanceId: "ADV-2026-0001",
+                        driver: "Somchai Prasert",
+                        driverId: "DRV-001",
+                        advance: "฿8,000",
+                        expenses: "฿5,850",
+                        remaining: "฿2,150",
+                        usagePercent: 73,
+                        usageState: "Success",
+                        days: "3d",
+                        status: "Active",
+                        statusState: "Success"
+                    },
+                    {
+                        advanceId: "ADV-2026-0002",
+                        driver: "Wichai Thongsuk",
+                        driverId: "DRV-002",
+                        advance: "฿5,000",
+                        expenses: "฿4,200",
+                        remaining: "฿800",
+                        usagePercent: 84,
+                        usageState: "Warning",
+                        days: "4d",
+                        status: "Active",
+                        statusState: "Success"
+                    },
+                    {
+                        advanceId: "ADV-2026-0003",
+                        driver: "Prasit Wongchai",
+                        driverId: "DRV-005",
+                        advance: "฿6,500",
+                        expenses: "฿6,500",
+                        remaining: "฿0",
+                        usagePercent: 100,
+                        usageState: "Warning",
+                        days: "5d",
+                        status: "Ready",
+                        statusState: "Information"
+                    },
+                    {
+                        advanceId: "ADV-2026-0004",
+                        driver: "Surachai Pranee",
+                        driverId: "DRV-006",
+                        advance: "฿10,000",
+                        expenses: "฿3,200",
+                        remaining: "฿6,800",
+                        usagePercent: 32,
+                        usageState: "Success",
+                        days: "2d",
+                        status: "Active",
+                        statusState: "Success"
+                    },
+                    {
+                        advanceId: "ADV-2026-0005",
+                        driver: "Narong Somjai",
+                        driverId: "DRV-003",
+                        advance: "฿4,500",
+                        expenses: "฿5,100",
+                        remaining: "-฿600",
+                        usagePercent: 113,
+                        usageState: "Error",
+                        days: "6d",
+                        status: "Overspent",
+                        statusState: "Error"
+                    }
+                ],
+                expenseSubmissions: [
+                    {
+                        expenseId: "EXP-0045",
+                        driver: "Somchai Prasert",
+                        driverId: "DRV-001",
+                        category: "Fuel",
+                        categoryIcon: "sap-icon://gas-station",
+                        vendor: "Shell #1234",
+                        amount: "฿2,450",
+                        date: "2026-01-11",
+                        ocrStatus: "Verified",
+                        ocrState: "Success",
+                        validationStatus: "Passed",
+                        validationState: "Success"
+                    },
+                    {
+                        expenseId: "EXP-0046",
+                        driver: "Somchai Prasert",
+                        driverId: "DRV-001",
+                        category: "Toll",
+                        categoryIcon: "sap-icon://road",
+                        vendor: "E-ZPass Toll",
+                        amount: "฿350",
+                        date: "2026-01-11",
+                        ocrStatus: "Verified",
+                        ocrState: "Success",
+                        validationStatus: "Passed",
+                        validationState: "Success"
+                    },
+                    {
+                        expenseId: "EXP-0047",
+                        driver: "Wichai Thongsuk",
+                        driverId: "DRV-002",
+                        category: "Fuel",
+                        categoryIcon: "sap-icon://gas-station",
+                        vendor: "PTT Rangsit",
+                        amount: "฿1,850",
+                        date: "2026-01-12",
+                        ocrStatus: "Verified",
+                        ocrState: "Success",
+                        validationStatus: "Passed",
+                        validationState: "Success"
+                    },
+                    {
+                        expenseId: "EXP-0048",
+                        driver: "Narong Somjai",
+                        driverId: "DRV-003",
+                        category: "Meal",
+                        categoryIcon: "sap-icon://meal",
+                        vendor: "Restaurant",
+                        amount: "฿450",
+                        date: "2026-01-12",
+                        ocrStatus: "Review",
+                        ocrState: "Warning",
+                        validationStatus: "Warning",
+                        validationState: "Warning"
+                    },
+                    {
+                        expenseId: "EXP-0049",
+                        driver: "Prasit Wongchai",
+                        driverId: "DRV-005",
+                        category: "Parking",
+                        categoryIcon: "sap-icon://parking",
+                        vendor: "Central Parking",
+                        amount: "฿280",
+                        date: "2026-01-12",
+                        ocrStatus: "Processing",
+                        ocrState: "Information",
+                        validationStatus: "Pending",
+                        validationState: "Information"
+                    }
+                ],
+                reconciliationQueue: [
+                    {
+                        advanceId: "ADV-0003",
+                        driver: "Prasit Wongchai",
+                        driverId: "DRV-005",
+                        advance: "฿6,500",
+                        expenses: "฿6,500",
+                        balance: "฿0",
+                        settlementType: "Zero",
+                        settlementState: "Information",
+                        issues: "None",
+                        issuesState: "Success"
+                    },
+                    {
+                        advanceId: "ADV-0005",
+                        driver: "Narong Somjai",
+                        driverId: "DRV-003",
+                        advance: "฿4,500",
+                        expenses: "฿5,100",
+                        balance: "-฿600",
+                        settlementType: "Reimburse",
+                        settlementState: "Warning",
+                        issues: "1",
+                        issuesState: "Warning"
+                    },
+                    {
+                        advanceId: "ADV-0006",
+                        driver: "Anuchit Ploykaew",
+                        driverId: "DRV-007",
+                        advance: "฿3,000",
+                        expenses: "฿2,100",
+                        balance: "+฿900",
+                        settlementType: "Refund",
+                        settlementState: "Success",
+                        issues: "None",
+                        issuesState: "Success"
+                    }
+                ],
+                completedSettlements: [
+                    {
+                        settlementId: "STL-0023",
+                        driver: "Somchai Prasert",
+                        advance: "฿6,000",
+                        expenses: "฿5,800",
+                        settlement: "-฿200",
+                        type: "Refund",
+                        typeState: "Success",
+                        date: "2026-01-08",
+                        sapDoc: "FI-00456"
+                    },
+                    {
+                        settlementId: "STL-0022",
+                        driver: "Wichai Thongsuk",
+                        advance: "฿4,000",
+                        expenses: "฿4,350",
+                        settlement: "+฿350",
+                        type: "Reimburse",
+                        typeState: "Warning",
+                        date: "2026-01-07",
+                        sapDoc: "FI-00445"
+                    },
+                    {
+                        settlementId: "STL-0021",
+                        driver: "Narong Somjai",
+                        advance: "฿5,500",
+                        expenses: "฿5,500",
+                        settlement: "฿0",
+                        type: "Zero",
+                        typeState: "Information",
+                        date: "2026-01-06",
+                        sapDoc: "FI-00432"
+                    }
+                ]
+
+
+
             });
             this.getView().setModel(oViewModel);
 
@@ -690,6 +984,7 @@ sap.ui.define([
             this.byId("bolView").setVisible(false);
             this.byId("rateMasterView").setVisible(false);
             this.byId("priceCalculationView").setVisible(false);
+            this.byId("CashAdvanceandReimbursement").setVisible(false);
 
 
 
@@ -722,6 +1017,9 @@ sap.ui.define([
                 case "priceCalculation":
                     this.byId("priceCalculationView").setVisible(true);
                     break;
+                case "CashAdvanceandReimbursement":
+                    this.byId("CashAdvanceandReimbursement").setVisible(true);
+                    break
             }
         },
 
@@ -2400,6 +2698,44 @@ sap.ui.define([
                 vehicle: oVehicle
             });
 
+
+
+            // Extract order details
+            var sCustomer = oSelectedOrder.customer;
+            var sOrigin = oSelectedOrder.from;
+            var sDestination = oSelectedOrder.to;
+            var sDeliveryDate = oSelectedOrder.deliveryDate;
+            var sCargoInfo = oSelectedOrder.cargoInfo;
+            var sOrderId = oSelectedOrder.orderId;
+
+            // Vehicle / Carrier details
+            var sVehicleName = oSelectedVehicle.text
+            // Confirmation message
+            var sMessage =
+                "Confirm booking for the following shipment?\n\n" +
+                "Order ID: " + sOrderId + "\n" +
+                "Customer: " + sCustomer + "\n" +
+                "Route: " + sOrigin + " → " + sDestination + "\n" +
+                "Cargo: " + sCargoInfo + "\n" +
+                "Delivery Date: " + sDeliveryDate + "\n\n" +
+                "Assigned: " + sVehicleName
+
+            sap.m.MessageBox.confirm(sMessage, {
+                title: "Confirm Shipment Booking",
+                actions: [sap.m.MessageBox.Action.OK, sap.m.MessageBox.Action.CANCEL],
+                onClose: function (oAction) {
+                    if (oAction === sap.m.MessageBox.Action.OK) {
+                        this._createNewBooking(oSelectedOrder, oSelectedVehicle);
+                    }
+                }.bind(this)
+            });
+        },
+        _createNewBooking: function (oOrder, oVehicle) {
+            console.log("Booking Created", {
+                order: oOrder,
+                vehicle: oVehicle
+            });
+
             sap.m.MessageToast.show(
                 "Shipment " + oOrder.orderId + " booked successfully"
             );
@@ -2871,7 +3207,110 @@ sap.ui.define([
             }
         },
 
+            // Title (first Text)
+            var sTitle = aItems[0].getText();
 
+            // Find price (Text with sapUiPositiveText)
+            var sPrice = "";
+            aItems.forEach(function (oCtrl) {
+                if (oCtrl.hasStyleClass && oCtrl.hasStyleClass("sapUiPositiveText")) {
+                    sPrice = oCtrl.getText();
+                }
+            });
+
+            // Update model
+            var oModel = this.getView().getModel("selectionModel");
+            oModel.setProperty("/visible", true);
+            oModel.setProperty("/text", sTitle);
+            oModel.setProperty("/price", sPrice);
+        },
+        onReviewRequest: function (oEvent) {
+            var oRowData = oEvent.getSource()
+                .getBindingContext()
+                .getObject();
+
+            // Build review model (map row → dialog)
+            var oReviewData = {
+                requestId: oRowData.requestId,
+                driver: oRowData.driver,
+                driverId: oRowData.driverId,
+                initials: oRowData.driver.split(" ").map(w => w[0]).join(""),
+                amount: oRowData.amount,
+                purpose: oRowData.purpose,
+                trip: "BKK-HKT",
+                dates: "Jan 15–17, 2026",
+                history: "2 advances this month (฿13,000) | Outstanding: ฿0 | 100% on-time"
+            };
+             if (!this._oAdvanceApprovalDialog) {
+                this._oAdvanceApprovalDialog = this.loadFragment("intellicarrier.view.AdvanceApproval");
+            }
+            var oModel = new sap.ui.model.json.JSONModel(oReviewData);
+            this.getView().setModel(oModel, "reviewModel");
+            this._oAdvanceApprovalDialog.then(function (oDialog) {
+                oDialog.open();
+            });
+
+        },
+        onCloseAdvanceApproval: function () {
+            this._oAdvanceApprovalDialog.then(function (oDialog) {
+                oDialog.close();
+            });
+        },
+
+        onApproveAdvance: function () {
+            sap.m.MessageToast.show("Advance Approved");
+            this.onCloseAdvanceApproval();
+        },
+
+        onRejectAdvance: function () {
+            sap.m.MessageToast.show("Advance Rejected");
+            this.onCloseAdvanceApproval();
+        },
+        onOpenNewAdvanceDialog: function () {
+    
+if (!this._oNewAdvanceDialog) {
+                this._oNewAdvanceDialog = this.loadFragment("intellicarrier.view.NewCashAdvanceRequest");
+            }
+            this._oNewAdvanceDialog.then(function (oDialog) {
+                oDialog.open();
+            });
+},
+
+onCloseNewAdvanceDialog: function () {
+this._oNewAdvanceDialog.then(function (oDialog) {
+                oDialog.close();
+            });},
+
+onSubmitAdvanceRequest: function () {
+    sap.m.MessageToast.show("Advance Request Submitted for Approval");
+    this.onCloseNewAdvanceDialog();
+},
+onOpenDocPrintDialog: function () {
+    
+
+if (!this._oDocPrintDialog) {
+                this._oDocPrintDialog = this.loadFragment("intellicarrier.view.DocPrintDialog");
+            }
+    var oModel = new sap.ui.model.json.JSONModel({
+        shipmentId: "FO-2026-00001",
+        customer: "Customer Name",
+        fleetType: "🚛 Internal Fleet",
+        origin: "Bangkok",
+        destination: "Chiang Mai",
+        vehicle: "TK-001",
+        driver: "Somchai P."
+    });
+
+    this.getView().setModel(oModel, "docModel");
+    this._oDocPrintDialog.then(function (oDialog) {
+                oDialog.open();
+            });
+},
+
+onCloseDocPrintDialog: function () {
+this._oDocPrintDialog.then(function (oDialog) {
+                oDialog.close();
+            });}
 
 
     });
