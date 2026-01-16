@@ -81,6 +81,10 @@
         "type": "sap.ui.model.json.JSONModel",
         "uri": "model/subdistricts.json"
       },
+      "vehicleDataModel": {
+        "type": "sap.ui.model.json.JSONModel",
+        "uri": "model/vehicleData.json"
+      },
       "orders": {
         "type": "sap.ui.model.json.JSONModel",
         "uri": "model/orders.json",

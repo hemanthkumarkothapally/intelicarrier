@@ -969,6 +969,7 @@ sap.ui.define([
             });
 
             this.getView().setModel(oSelectionModel, "selectionModel");
+            //  this._loadVehicleData();
         },
         onAfterRendering: function () {
             this.onFleetCockpitTabSelect({
@@ -977,6 +978,7 @@ sap.ui.define([
                 }
             });
         },
+
 
         // Global fragment load function
         loadFragment: function (sPath) {
@@ -1025,6 +1027,7 @@ sap.ui.define([
             this.byId("rateMasterView").setVisible(false);
             this.byId("priceCalculationView").setVisible(false);
             this.byId("CashAdvanceandReimbursement").setVisible(false);
+            this.byId("vehicleChecklist").setVisible(false);
 
 
 
@@ -1059,6 +1062,9 @@ sap.ui.define([
                     break;
                 case "CashAdvanceandReimbursement":
                     this.byId("CashAdvanceandReimbursement").setVisible(true);
+                    break
+                case "vehicleChecklist":
+                    this.byId("vehicleChecklist").setVisible(true);
                     break
             }
         },
@@ -3973,6 +3979,110 @@ sap.ui.define([
         onCloseDocPrintDialog: function () {
             this._oDocPrintDialog.then(function (oDialog) {
                 oDialog.close();
+            });
+        },
+
+onViewMaintenance: function (oEvent) {
+    var oContext = oEvent.getSource()
+        .getParent()
+        .getBindingContext("vehicleDataModel");
+
+    this._openWorkOrderDetailsDialog(oContext);
+},
+
+onCreateMaintenance: function(){
+var oView = this.getView();
+
+    if (!this.CreateMaintenanceDialog) {
+        this.CreateMaintenanceDialog = Fragment.load({
+            id: oView.getId(),
+            name: "intellicarrier.view.CreateWorkOrder",
+            controller: this
+        }).then(function (oDialog) {
+            oView.addDependent(oDialog);
+            return oDialog;
+        });
+    }
+
+    this.CreateMaintenanceDialog.then(function (oDialog) {
+        // oDialog.setBindingContext(oContext, "vehicleDataModel");
+        oDialog.open();
+    });
+},
+_openWorkOrderDetailsDialog: function (oContext) {
+    var oView = this.getView();
+
+    if (!this._pWorkOrderDetailsDialog) {
+        this._pWorkOrderDetailsDialog = Fragment.load({
+            id: oView.getId(),
+            name: "intellicarrier.view.WorkOrderDetails",
+            controller: this
+        }).then(function (oDialog) {
+            oView.addDependent(oDialog);
+            return oDialog;
+        });
+    }
+
+    this._pWorkOrderDetailsDialog.then(function (oDialog) {
+        oDialog.setBindingContext(oContext, "vehicleDataModel");
+        oDialog.open();
+    });
+},
+
+onCreateTemplate: function(){
+var oView = this.getView();
+
+    if (!this.onCreateTemplateDialog) {
+        this.onCreateTemplateDialog = Fragment.load({
+            id: oView.getId(),
+            name: "intellicarrier.view.CreateChecklistTemplate",
+            controller: this
+        }).then(function (oDialog) {
+            oView.addDependent(oDialog);
+            return oDialog;
+        });
+    }
+
+    this.onCreateTemplateDialog.then(function (oDialog) {
+        // oDialog.setBindingContext(oContext, "vehicleDataModel");
+        oDialog.open();
+    });
+},
+
+
+
+onMarkComplete: function () {
+    var oDialog = this.byId("workOrderDetailsDialog");
+    var oContext = oDialog.getBindingContext("vehicleDataModel");
+    var oModel = oContext.getModel();
+    var sPath = oContext.getPath();
+
+    oModel.setProperty(sPath + "/maintStatus", "Completed");
+    oModel.setProperty(sPath + "/maintStatusState", "Success");
+
+    sap.m.MessageToast.show("Work order marked as complete");
+    this.onCloseDialog();
+},
+
+ onCloseDialog: function () {
+            // Close all dialogs
+            if (this._pWorkOrderDetailsDialog) {
+                this._pWorkOrderDetailsDialog.then(function (oDialog) {
+                    oDialog.close();
+                });
+            }
+            if (this.CreateMaintenanceDialog) {
+                this.CreateMaintenanceDialog.then(function (oDialog) {
+                    oDialog.close();
+                });
+            }
+            if (this.onCreateTemplateDialog) {
+                this.onCreateTemplateDialog.then(function (oDialog) {
+                    oDialog.close();
+                });
+            }
+        },
+
             });},
             onProductOrRouteChange: function () {
             var oModel = this.getView().getModel("formModel");

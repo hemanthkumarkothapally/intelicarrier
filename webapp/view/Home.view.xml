@@ -2026,16 +2026,16 @@
                                     </IconTabFilter>
                                     <IconTabFilter key="ExpenseTracking" text="📝 Expense Tracking" class="shipment-tab-item">
                                         <Panel>
-                                        <headerToolbar>
-                                        <OverflowToolbar >
-                                        <Title text="Upload Expencse Receipts" />
-                                        <ToolbarSpacer ></ToolbarSpacer>
-                                        <Button type="Emphasized" text="Scan Receipt(OCR)"></Button>
-                                        </OverflowToolbar>
-                                        </headerToolbar>
-                                        <HBox>
-                                        
-                                        </HBox>
+                                            <headerToolbar>
+                                                <OverflowToolbar >
+                                                    <Title text="Upload Expencse Receipts" />
+                                                    <ToolbarSpacer ></ToolbarSpacer>
+                                                    <Button type="Emphasized" text="Scan Receipt(OCR)"></Button>
+                                                </OverflowToolbar>
+                                            </headerToolbar>
+                                            <HBox>
+
+                                            </HBox>
                                         </Panel>
                                         <Table id="expenseOcrTable" items="{/expenseSubmissions}" growing="true" growingScrollToLoad="true">
 
@@ -2137,39 +2137,39 @@
                                     </IconTabFilter>
                                     <IconTabFilter key="Reconciliation" text="⚖️ Reconciliation" class="shipment-tab-item">
                                         <Panel headerText="Settlement Summary - ADV-2026-0245" width="100%">
-                                        <VBox width="85%">
-                                        <HBox  justifyContent="SpaceBetween">
-                                        <Label text="Advance Approved"></Label>
-                                        <Text text="10000"/>
-                                        </HBox>
-                                        <HBox justifyContent="SpaceBetween">
-                                        <Label text="Total Expenses Submitted" />
-                                        <Text text="8,700" />
-                                        </HBox>
-                                        <HBox justifyContent="SpaceBetween">
-                                        <Label text="Policy Voilations" />
-                                        <Text text="0" />
-                                        </HBox>
-                                       <ToolbarSeparator ></ToolbarSeparator>
-                                        <HBox justifyContent="SpaceBetween">
-                                        <Title text="Net Settlement Amount" />
-                                        <Text text="18,700" />
-                                        </HBox>
-                                        </VBox>
-                                        <HBox justifyContent="SpaceBetween" class="sapUiSmallMarginTop" width="98%">
-                                        <VBox >
-                                        <Label text="SETTLEMENT TYPE" />
-                                        <GenericTag text="Refund to Company" status="Success"></GenericTag>
-                                        </VBox>
-                                        <VBox >
-                                        <Label text="SETTLEMENT METHOD" />
-                                        <Text text="Payroll Deduction"></Text>
-                                        </VBox>
-                                        <VBox >
-                                        <Label text="STATUS" />
-                                        <GenericTag text="Pending Approval" status="Warning"></GenericTag>
-                                        </VBox>
-                                        </HBox>
+                                            <VBox width="85%">
+                                                <HBox justifyContent="SpaceBetween">
+                                                    <Label text="Advance Approved"></Label>
+                                                    <Text text="10000"/>
+                                                </HBox>
+                                                <HBox justifyContent="SpaceBetween">
+                                                    <Label text="Total Expenses Submitted" />
+                                                    <Text text="8,700" />
+                                                </HBox>
+                                                <HBox justifyContent="SpaceBetween">
+                                                    <Label text="Policy Voilations" />
+                                                    <Text text="0" />
+                                                </HBox>
+                                                <ToolbarSeparator ></ToolbarSeparator>
+                                                <HBox justifyContent="SpaceBetween">
+                                                    <Title text="Net Settlement Amount" />
+                                                    <Text text="18,700" />
+                                                </HBox>
+                                            </VBox>
+                                            <HBox justifyContent="SpaceBetween" class="sapUiSmallMarginTop" width="98%">
+                                                <VBox >
+                                                    <Label text="SETTLEMENT TYPE" />
+                                                    <GenericTag text="Refund to Company" status="Success"></GenericTag>
+                                                </VBox>
+                                                <VBox >
+                                                    <Label text="SETTLEMENT METHOD" />
+                                                    <Text text="Payroll Deduction"></Text>
+                                                </VBox>
+                                                <VBox >
+                                                    <Label text="STATUS" />
+                                                    <GenericTag text="Pending Approval" status="Warning"></GenericTag>
+                                                </VBox>
+                                            </HBox>
                                         </Panel>
                                         <Table id="reconciliationQueueTable" items="{/reconciliationQueue}" growing="true" growingScrollToLoad="true">
 
@@ -2336,9 +2336,320 @@
 
                                 </items>
                             </IconTabBar>
+                        </VBox>
+                        <!-- Detailed Tracking View -->
+                        <VBox width="100%" id ="vehicleChecklist" visible="false">
+
+                            <HBox justifyContent="SpaceBetween" alignItems="Center" class="sapUiSmallMarginButtom">
+                                <Title text="Vehicle Checklist Maintenance" level="H2"/>
+                                <HBox>
+                                    <Button text="Export" icon="sap-icon://download" class="sapUiTinyMarginEnd"/>
+                                    <Button text="Refresh" icon="sap-icon://refresh" type="Emphasized" class="sapUiTinyMarginEnd"/>
+                                </HBox>
+                            </HBox>
+
+                            <IconTabBar class="sapUiMediumMarginTop">
+                                <items>
+                                    <!-- CHECKLIST TAB -->
+                                    <IconTabFilter id="Checklists" text="Checklists">
+
+                                        <FlexBox wrap="Wrap">
+
+                                            <GenericTile frameType="TwoByHalf" width="10rem" header="SCHEDULED" class="sapUiSmallMarginEnd">
+
+                                                <TileContent>
+                                                    <NumericContent value="{vehicleDataModel>/kpi/scheduled}" valueColor="Good"/>
+                                                </TileContent>
+                                            </GenericTile>
+
+                                            <GenericTile frameType="TwoByHalf" width="10rem" header="IN PROGRESS" class="sapUiSmallMarginEnd">
+
+                                                <TileContent>
+                                                    <NumericContent value="{vehicleDataModel>/kpi/inProgress}" valueColor="Critical"/>
+                                                </TileContent>
+                                            </GenericTile>
+
+                                            <GenericTile frameType="TwoByHalf" width="10rem" header="COMPLETED" class="sapUiSmallMarginEnd">
+
+                                                <TileContent>
+                                                    <NumericContent value="{vehicleDataModel>/kpi/completed}" valueColor="Good"/>
+                                                </TileContent>
+                                            </GenericTile>
+
+                                            <GenericTile frameType="TwoByHalf" width="10rem" header="OVERDUE">
+
+                                                <TileContent>
+                                                    <NumericContent value="{vehicleDataModel>/kpi/overdue}" valueColor="Error"/>
+                                                </TileContent>
+                                            </GenericTile>
+
+                                        </FlexBox>
+
+                                        <Panel >
+                                            <headerToolbar>
+                                                <OverflowToolbar>
+                                                    <Title text="All Customer Orders" level="H3"/>
+                                                    <Text text="({vehicleDataModel>/checklists/length} items)" class="sapUiTinyMarginBegin"/>
+                                                    <ToolbarSpacer/>
+                                                    <SearchField width="300px" placeholder="Search checklists..." />
+                                                    <!-- <Button icon="sap-icon://filter" text="Filter" press=".onFilterFreight"/> -->
+                                                </OverflowToolbar>
+                                            </headerToolbar>
+
+                                            <content>
+                                                <Table items="{vehicleDataModel>/checklists}" growing="true" mode="SingleSelectMaster">
+
+                                                    <columns>
+                                                        <Column>
+                                                            <Text text="Date"/>
+                                                        </Column>
+                                                        <Column>
+                                                            <Text text="Shipment"/>
+                                                        </Column>
+                                                        <Column>
+                                                            <Text text="Driver"/>
+                                                        </Column>
+                                                        <Column>
+                                                            <Text text="Vehicle"/>
+                                                        </Column>
+                                                        <Column>
+                                                            <Text text="Score"/>
+                                                        </Column>
+                                                        <Column>
+                                                            <Text text="Status"/>
+                                                        </Column>
+                                                        <Column>
+                                                            <Text text="Actions"/>
+                                                        </Column>
+                                                    </columns>
+
+                                                    <items>
+                                                        <ColumnListItem>
+                                                            <cells>
+
+                                                                <VBox>
+                                                                    <Text text="{vehicleDataModel>submissionDate}"/>
+                                                                    <Text text="{vehicleDataModel>submissionTime}" class="sapUiTinyText"/>
+                                                                </VBox>
+
+                                                                <ObjectIdentifier title="{vehicleDataModel>shipmentId}"/>
+
+                                                                <VBox>
+                                                                    <Text text="{vehicleDataModel>driverName}"/>
+                                                                    <Text text="{vehicleDataModel>driverId}" class="sapUiTinyText"/>
+                                                                </VBox>
+
+                                                                <VBox>
+                                                                    <Text text="{vehicleDataModel>vehicleNumber}"/>
+                                                                    <Text text="{vehicleDataModel>vehicleType}" class="sapUiTinyText"/>
+                                                                </VBox>
+
+                                                                <ProgressIndicator percentValue="{vehicleDataModel>checkPercentage}" state="{vehicleDataModel>checkState}" width="80px"/>
+
+                                                                <ObjectStatus text="{vehicleDataModel>status}" state="{vehicleDataModel>statusState}"/>
+
+                                                                <HBox>
+                                                                    <Button icon="sap-icon://show" type="Transparent" press=".onViewMaintenance"/>
+                                                                    <Button icon="sap-icon://accept" type="Accept" visible="{= ${vehicleDataModel>status} === 'Pending' }" class="sapUiTinyMarginEnd"/>
+                                                                    <Button icon="sap-icon://decline" type="Reject" visible="{= ${vehicleDataModel>status} === 'Pending' }"/>
+                                                                </HBox>
+
+                                                            </cells>
+                                                        </ColumnListItem>
+                                                    </items>
+                                                </Table>
+                                            </content>
+                                        </Panel >
+                                    </IconTabFilter>
+
+                                    <!-- MAINTENANCE TAB -->
+                                    <IconTabFilter id="Maintenance" text="Maintenance">
+                                        <HBox justifyContent="SpaceBetween" alignItems="Center" class="sapUiSmallMarginEnd">
+                                            <VBox>
+                                                <Title text="Maintenance" level="H3"/>
+
+                                            </VBox>
+                                            <Button text="Create New Maintenance" type="Emphasized" press="onCreateMaintenance" class="sapUiTinyMarginEnd"/>
+                                        </HBox>
+                                        <FlexBox wrap="Wrap">
+
+                                            <GenericTile frameType="TwoByHalf" width="10rem" header="SCHEDULED" subheader="Upcoming maintenance" class="sapUiSmallMarginEnd">
+
+                                                <TileContent>
+                                                    <NumericContent value="{vehicleDataModel>/kpi/scheduled}" valueColor="Good"/>
+                                                </TileContent>
+                                            </GenericTile>
+
+                                            <GenericTile frameType="TwoByHalf" width="10rem" header="IN PROGRESS" subheader="Currently in service" class="sapUiSmallMarginEnd">
+
+                                                <TileContent>
+                                                    <NumericContent value="{vehicleDataModel>/kpi/inProgress}" valueColor="Critical"/>
+                                                </TileContent>
+                                            </GenericTile>
+
+                                            <GenericTile frameType="TwoByHalf" width="10rem" header="COMPLETED" subheader="This year" class="sapUiSmallMarginEnd">
+
+                                                <TileContent>
+                                                    <NumericContent value="{vehicleDataModel>/kpi/completed}" valueColor="Good"/>
+                                                </TileContent>
+                                            </GenericTile>
+
+                                            <GenericTile frameType="TwoByHalf" width="10rem" header="OVERDUE" subheader="Requires attention">
+
+                                                <TileContent>
+                                                    <NumericContent value="{vehicleDataModel>/kpi/overdue}" valueColor="Error"/>
+                                                </TileContent>
+                                            </GenericTile>
+
+                                        </FlexBox>
 
 
+                                        <Panel >
+                                            <headerToolbar>
+                                                <OverflowToolbar>
+                                                    <Title text="All maintenance" level="H3"/>
+                                                    <Text text="({vehicleDataModel>/maintenance/length} items)" class="sapUiTinyMarginBegin"/>
+                                                    <ToolbarSpacer/>
+                                                    <SearchField width="300px" placeholder="Search checklists..." />
+                                                    <!-- <Button icon="sap-icon://filter" text="Filter" press=".onFilterFreight"/> -->
+                                                </OverflowToolbar>
+                                            </headerToolbar>
 
+                                            <content>
+                                                <Table items="{vehicleDataModel>/maintenance}" growing="true">
+
+                                                    <columns>
+                                                        <Column>
+                                                            <Text text="Work Order"/>
+                                                        </Column>
+                                                        <Column>
+                                                            <Text text="Vehicle"/>
+                                                        </Column>
+                                                        <Column>
+                                                            <Text text="Type"/>
+                                                        </Column>
+                                                        <Column>
+                                                            <Text text="Priority"/>
+                                                        </Column>
+                                                        <Column>
+                                                            <Text text="Cost"/>
+                                                        </Column>
+                                                        <Column>
+                                                            <Text text="Status"/>
+                                                        </Column>
+                                                    </columns>
+
+                                                    <items>
+                                                        <ColumnListItem type="{= ${vehicleDataModel>maintStatus} === 'Overdue' ? 'Active' : 'Inactive' }">
+
+                                                            <cells>
+                                                                <ObjectIdentifier title="{vehicleDataModel>workOrderId}"/>
+
+                                                                <VBox>
+                                                                    <Text text="{vehicleDataModel>vehicleNumber}"/>
+                                                                    <Text text="{vehicleDataModel>vehicleType}" class="sapUiTinyText"/>
+                                                                </VBox>
+
+                                                                <ObjectStatus text="{vehicleDataModel>maintType}" state="{vehicleDataModel>maintTypeState}"/>
+
+                                                                <ObjectStatus text="{vehicleDataModel>priority}" state="{vehicleDataModel>priorityState}"/>
+
+                                                                <ObjectNumber number="{vehicleDataModel>cost}" unit="THB"/>
+
+                                                                <ObjectStatus text="{vehicleDataModel>maintStatus}" state="{vehicleDataModel>maintStatusState}"/>
+                                                            </cells>
+                                                        </ColumnListItem>
+                                                    </items>
+                                                </Table>
+                                            </content>
+                                        </Panel>
+                                    </IconTabFilter>
+                                    <IconTabFilter text="Templates" key="templates">
+                                        <VBox width="100%">
+
+                                            <!-- Header -->
+                                            <HBox justifyContent="SpaceBetween" alignItems="Center" class="sapUiSmallMarginEnd">
+                                                <VBox>
+                                                    <Title text="Checklist Templates" level="H3"/>
+                                                    <Text text="Manage pre-trip inspection templates for different vehicle types"/>
+                                                </VBox>
+                                                <Button text="Create New Template" type="Emphasized" icon="sap-icon://add" press="onCreateTemplate" class="sapUiSmallMarginEnd"/>
+                                            </HBox>
+
+                                            <!-- Tiles Container -->
+                                            <FlexBox wrap="Wrap" justifyContent="Start">
+
+                                                <!-- LPG Tanker -->
+                                                <GenericTile header="LPG Tanker Checklist" subheader="CHK-LPG-001" frameType="TwoByOne" press="onViewTemplate" class="sapUiSmallMargin">
+
+                                                    <TileContent>
+                                                        <NumericContent value="25" valueColor="Good" scale="Items"/>
+                                                    </TileContent>
+
+                                                    <TileContent>
+                                                        <NumericContent value="5" scale="Categories"/>
+                                                    </TileContent>
+
+                                                    <TileContent>
+                                                        <NumericContent value="142" scale="Uses"/>
+                                                    </TileContent>
+                                                </GenericTile>
+
+                                                <!-- Fuel Tanker -->
+                                                <GenericTile header="Fuel Tanker Checklist" subheader="CHK-FUEL-001" frameType="TwoByOne" press="onViewTemplate" class="sapUiSmallMargin">
+
+                                                    <TileContent>
+                                                        <NumericContent value="25" scale="Items"/>
+                                                    </TileContent>
+
+                                                    <TileContent>
+                                                        <NumericContent value="5" scale="Categories"/>
+                                                    </TileContent>
+
+                                                    <TileContent>
+                                                        <NumericContent value="89" scale="Uses"/>
+                                                    </TileContent>
+                                                </GenericTile>
+
+                                                <!-- NGV Trailer -->
+                                                <GenericTile header="NGV Trailer Checklist" subheader="CHK-NGV-001" frameType="TwoByOne" press="onViewTemplate" class="sapUiSmallMargin">
+
+                                                    <TileContent>
+                                                        <NumericContent value="26" scale="Items"/>
+                                                    </TileContent>
+
+                                                    <TileContent>
+                                                        <NumericContent value="5" scale="Categories"/>
+                                                    </TileContent>
+
+                                                    <TileContent>
+                                                        <NumericContent value="45" scale="Uses"/>
+                                                    </TileContent>
+
+                                                </GenericTile>
+
+                                                <!-- Create New Template -->
+                                                <GenericTile header="Create New Template" frameType="TwoByOne" press="onCreateTemplate" class="sapUiSmallMargin">
+
+                                                    <TileContent>
+                                                        <VBox justifyContent="Center" alignItems="Center" height="100%">
+
+                                                            <core:Icon src="sap-icon://add" size="2.5rem" class="createIcon"/>
+
+                                                            <Text text="Create New Template" class="sapUiSmallMarginTop"/>
+                                                        </VBox>
+                                                    </TileContent>
+                                                </GenericTile>
+
+                                            </FlexBox>
+
+                                        </VBox>
+
+                                    </IconTabFilter>
+
+
+                                </items>
+                            </IconTabBar>
                         </VBox>
                     </ScrollContainer>
                 </FlexBox>
