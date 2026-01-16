@@ -459,7 +459,6 @@
                                                 <HBox justifyContent="Center">
                                                     <Button text="Track" type="Neutral" tooltip="Track Order" visible="{= ${status} === 'Completed' }" press=".onTrackOrder"/>
                                                     <Button text="Analyze" type="Emphasized" visible="{= ${status} !== 'Completed' }" press=".onAnalyzeOrder"/>
-                                                    <Button text="Print Docs" type="Emphasized" visible="{= ${status} !== 'Completed' }" press=".onOpenDocPrintDialog"/>
 
                                                 </HBox>
 
@@ -1757,6 +1756,8 @@
                                                     <HBox>
                                                         <Button text="{orders>actionButtonText}" type="{orders>actionButtonType}" press=".onActionPressFreight" class="sapUiTinyMarginEnd"/>
                                                         <!-- <Button text="View" type="Transparent" press=".onViewDetailsFreight"/> -->
+                                                    <Button text="Print Docs" type="Emphasized" visible="{= ${orders>statusText} !== 'Approved' }" press=".onOpenDocPrintDialog"/>
+                                                    
                                                     </HBox>
                                                 </cells>
                                             </ColumnListItem>
