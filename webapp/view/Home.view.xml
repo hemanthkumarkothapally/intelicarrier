@@ -62,6 +62,7 @@
                                 <tnt:NavigationListItem text="Freight Execution" icon="sap-icon://create" key="shipmentexecution"/>
                                 <tnt:NavigationListItem text="Tracking &amp; Visibility" icon="sap-icon://locate-me" key="tracking"/>
                                 <tnt:NavigationListItem text="Vehicle Checklist" icon="sap-icon://locate-me" key="vehicleChecklist"/>
+                                <tnt:NavigationListItem text="Gate Logs" icon="sap-icon://locate-me" key="gateLogs"/>
 
                                 <tnt:NavigationListItem text="Cash Advance &amp; Reimbursement" icon="sap-icon://locate-me" key="CashAdvanceandReimbursement"/>
 
@@ -2312,7 +2313,7 @@
                             </IconTabBar>
                         </VBox>
                         <!-- Detailed Tracking View -->
-                        <VBox width="100%" id ="vehicleChecklist" visible="false">
+                        <VBox width="100%" id ="vehicleChecklist" visible="false" class="intellicarrier-content-padding">
 
                             <HBox justifyContent="SpaceBetween" alignItems="Center" class="sapUiSmallMarginButtom">
                                 <Title text="Vehicle Checklist Maintenance" level="H2"/>
@@ -2359,7 +2360,7 @@
 
                                         </FlexBox>
 
-                                        <Panel >
+                                        <Panel expandable="false" class="sapUiSmallMarginEnd">
                                             <headerToolbar>
                                                 <OverflowToolbar>
                                                     <Title text="All Customer Orders" level="H3"/>
@@ -2478,7 +2479,7 @@
                                         </FlexBox>
 
 
-                                        <Panel >
+                                        <Panel expandable="false" class="sapUiSmallMarginEnd">
                                             <headerToolbar>
                                                 <OverflowToolbar>
                                                     <Title text="All maintenance" level="H3"/>
@@ -2624,6 +2625,154 @@
 
                                 </items>
                             </IconTabBar>
+                        </VBox>
+
+                        <VBox width="100%" id ="gateLogs" visible="false" class="intellicarrier-content-padding">
+
+                            <HBox justifyContent="SpaceBetween" alignItems="Center" class="sapUiSmallMarginButtom">
+                                <Title text="Gate Logs" level="H2"/>
+                                <HBox>
+                                    <Button text="Manage shipping point" icon="sap-icon://settings" class="sapUiTinyMarginEnd" press=".onOpenShippingPointDialog"/>
+                                    <Button text="Export" icon="sap-icon://download" class="sapUiTinyMarginEnd"/>
+                                    <Button text="Refresh" icon="sap-icon://refresh" type="Emphasized" class="sapUiTinyMarginEnd"/>
+                                </HBox>
+                            </HBox>
+                            <VBox width="100%">
+
+                                <!-- KPI TILES -->
+                                <FlexBox wrap="Wrap" class="sapUiSmallMarginBottom">
+
+                                    <GenericTile header="Total Scans" subheader="All Gates" frameType="TwoByHalf" width="10rem">
+
+                                        <tileContent>
+                                            <TileContent>
+                                                <NumericContent value="{gateLogModel>/summary/totalScans}" valueColor="Good" scale="Scans"/>
+                                            </TileContent>
+                                        </tileContent>
+
+                                    </GenericTile>
+
+                                    <GenericTile header="Drivers Inside" subheader="Currently At Location" frameType="TwoByHalf" width="10rem">
+
+                                        <tileContent>
+                                            <TileContent>
+                                                <NumericContent value="{gateLogModel>/summary/currentlyAtLocation}" valueColor="Critical" scale="Drivers"/>
+                                            </TileContent>
+                                        </tileContent>
+
+                                    </GenericTile>
+
+                                    <GenericTile header="Delivered Today" subheader="Completed" frameType="TwoByHalf" width="10rem">
+
+                                        <tileContent>
+                                            <TileContent>
+                                                <NumericContent value="{gateLogModel>/summary/departed}" scale="Visits"/>
+                                            </TileContent>
+                                        </tileContent>
+
+                                    </GenericTile>
+
+                                    <GenericTile header="Arrivals" subheader="Gate IN" frameType="TwoByHalf" width="10rem">
+
+                                        <tileContent>
+                                            <TileContent>
+                                                <NumericContent value="{gateLogModel>/summary/arrivals}" valueColor="Good" scale="IN"/>
+                                            </TileContent>
+                                        </tileContent>
+
+                                    </GenericTile>
+
+                                    <GenericTile header="Departures" subheader="Gate OUT" frameType="TwoByHalf" width="10rem">
+
+                                        <tileContent>
+                                            <TileContent>
+                                                <NumericContent value="{gateLogModel>/summary/departures}" valueColor="Error" scale="OUT"/>
+                                            </TileContent>
+                                        </tileContent>
+
+                                    </GenericTile>
+
+                                </FlexBox>
+
+
+                                <!-- PANEL -->
+                                <Panel headerText="Gate Scan Log Details" expandable="false" class="sapUiSmallMarginEnd">
+
+                                    <content>
+
+                                        <!-- TABLE -->
+                                        <Table items="{gateLogModel>/records}" growing="true" growingScrollToLoad="true">
+
+                                            <columns>
+                                                <Column>
+                                                    <Text text="Scan Time"/>
+                                                </Column>
+                                                <Column>
+                                                    <Text text="Driver"/>
+                                                </Column>
+                                                <Column>
+                                                    <Text text="Vehicle"/>
+                                                </Column>
+                                                <Column>
+                                                    <Text text="Shipping Point"/>
+                                                </Column>
+                                                <Column>
+                                                    <Text text="Product"/>
+                                                </Column>
+                                                <Column>
+                                                    <Text text="Scan Type"/>
+                                                </Column>
+                                                <Column>
+                                                    <Text text="Status"/>
+                                                </Column>
+                                                <Column>
+                                                    <Text text="Duration"/>
+                                                </Column>
+                                                <Column>
+                                                    <Text text="Actions"/>
+                                                </Column>
+                                            </columns>
+
+                                            <items>
+                                                <ColumnListItem>
+                                                    <cells>
+
+                                                        <VBox>
+                                                            <Text text="{gateLogModel>scanDate}"/>
+                                                            <Text text="{gateLogModel>scanTime}" class="sapUiTinyText"/>
+                                                        </VBox>
+
+                                                        <VBox>
+                                                            <Text text="{gateLogModel>driverName}"/>
+                                                            <Text text="{gateLogModel>driverId}" class="sapUiTinyText"/>
+                                                        </VBox>
+
+                                                        <VBox>
+                                                            <Text text="{gateLogModel>vehicleNo}"/>
+                                                            <Text text="{gateLogModel>vehicleType}" class="sapUiTinyText"/>
+                                                        </VBox>
+
+                                                        <Text text="{gateLogModel>shippingPoint}"/>
+
+                                                        <ObjectStatus text="{gateLogModel>product}" state="Success"/>
+
+                                                        <ObjectStatus text="{gateLogModel>scanType}" state="Information"/>
+
+                                                        <ObjectStatus text="{gateLogModel>status}" state="{gateLogModel>statusState}"/>
+
+                                                        <Text text="{gateLogModel>duration}"/>
+
+                                                        <Button text="History" icon="sap-icon://history" type="Transparent" press=".onOpenDriverHistoryDialog"/>
+
+                                                    </cells>
+                                                </ColumnListItem>
+                                            </items>
+
+                                        </Table>
+
+                                    </content>
+                                </Panel>
+                            </VBox>
                         </VBox>
                     </ScrollContainer>
                 </FlexBox>

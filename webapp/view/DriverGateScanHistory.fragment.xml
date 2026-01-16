@@ -1,0 +1,78 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core">
+
+    <Dialog
+        id="driverHistoryDialog"
+        title="Driver Gate Scan History"
+        contentWidth="60rem"
+        contentHeight="30rem"
+        draggable="true"
+        resizable="true">
+
+        <VBox>
+
+            <!-- DRIVER NAME -->
+            <Text
+                text="{gateLogModel>/driverHistory/driverName}"
+                class="sapUiSmallMarginBottom"/>
+
+            <!-- KPI ROW -->
+            <HBox justifyContent="SpaceBetween" class="sapUiSmallMarginBottom">
+
+                <ObjectStatus
+                    text="Total Visits: {gateLogModel>/driverHistory/summary/totalVisits}"/>
+
+                <ObjectStatus
+                    text="Avg Duration: {gateLogModel>/driverHistory/summary/avgDuration}"
+                    state="Success"/>
+
+                <ObjectStatus
+                    text="Current Status: {gateLogModel>/driverHistory/summary/currentStatus}"
+                    state="Information"/>
+
+            </HBox>
+
+            <!-- HISTORY TABLE -->
+            <Table
+                items="{gateLogModel>/driverHistory/history}"
+                growing="true">
+
+                <columns>
+                    <Column><Text text="Date"/></Column>
+                    <Column><Text text="Shipping Point"/></Column>
+                    <Column><Text text="Gate In"/></Column>
+                    <Column><Text text="Gate Out"/></Column>
+                    <Column><Text text="Duration"/></Column>
+                </columns>
+
+                <items>
+                    <ColumnListItem>
+                        <cells>
+                            <Text text="{gateLogModel>date}"/>
+
+                            <ObjectStatus
+                                text="{gateLogModel>shippingPoint}"
+                                state="Warning"/>
+
+                            <Text text="{gateLogModel>gateIn}"/>
+                            <Text text="{gateLogModel>gateOut}"/>
+                            <Text text="{gateLogModel>duration}"/>
+                        </cells>
+                    </ColumnListItem>
+                </items>
+
+            </Table>
+
+        </VBox>
+
+        <buttons>
+            <Button text="Close" press="onCloseDriverHistoryDialog"/>
+            <Button
+                text="Export History"
+                icon="sap-icon://download"
+                type="Emphasized"/>
+        </buttons>
+
+    </Dialog>
+</core:FragmentDefinition>

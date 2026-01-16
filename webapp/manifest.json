@@ -77,6 +77,10 @@
         "type": "sap.ui.model.json.JSONModel",
         "uri": "model/vehicleData.json"
       },
+      "gateLogModel": {
+        "type": "sap.ui.model.json.JSONModel",
+        "uri": "model/gateLogData.json"
+      },
       "orders": {
         "type": "sap.ui.model.json.JSONModel",
         "uri": "model/orders.json",

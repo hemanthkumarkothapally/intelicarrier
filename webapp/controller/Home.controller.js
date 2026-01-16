@@ -741,7 +741,7 @@ sap.ui.define([
             this.byId("shipmentExecutionViewsub2").setVisible(false);
             this.byId("CashAdvanceandReimbursement").setVisible(false);
             this.byId("vehicleChecklist").setVisible(false);
-
+ this.byId("gateLogs").setVisible(false);
 
 
             // Show selected view
@@ -769,6 +769,9 @@ sap.ui.define([
                     break
                 case "vehicleChecklist":
                     this.byId("vehicleChecklist").setVisible(true);
+                    break
+                    case "gateLogs":
+                    this.byId("gateLogs").setVisible(true);
                     break
             }
         },
@@ -2695,6 +2698,37 @@ onMarkComplete: function () {
             }
         },
 
+onOpenShippingPointDialog: function () {
+    if (!this._oShippingPointDialog) {
+        this._oShippingPointDialog = sap.ui.xmlfragment(
+            this.getView().getId(),
+            "intellicarrier.view.ShippingPointMaster",
+            this
+        );
+        this.getView().addDependent(this._oShippingPointDialog);
+    }
+    this._oShippingPointDialog.open();
+},
+
+onCloseShippingPointDialog: function () {
+    this._oShippingPointDialog.close();
+},
+
+onOpenDriverHistoryDialog: function () {
+    if (!this._oDriverHistoryDialog) {
+        this._oDriverHistoryDialog = sap.ui.xmlfragment(
+            this.getView().getId(),
+            "intellicarrier.view.DriverGateScanHistory",
+            this
+        );
+        this.getView().addDependent(this._oDriverHistoryDialog);
+    }
+    this._oDriverHistoryDialog.open();
+},
+
+onCloseDriverHistoryDialog: function () {
+    this._oDriverHistoryDialog.close();
+}
 
 
     });
