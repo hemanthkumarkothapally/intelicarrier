@@ -1,0 +1,223 @@
+{
+  "shipments": [
+    {
+      "id": "SHP-2026-0001",
+      "customer": "Global Tech Inc",
+      "origin": "Bangkok Hub",
+      "destination": "Chiang Mai DC",
+      "items": 5,
+      "weight": "250 kg",
+      "status": "ready",
+      "type": "Express",
+      "vehicle": "TH-4521",
+      "driver": "Somchai P."
+    },
+    {
+      "id": "SHP-2026-0002",
+      "customer": "Thai Logistics Co",
+      "origin": "Laem Chabang Port",
+      "destination": "Bangkok Warehouse",
+      "items": 12,
+      "weight": "1500 kg",
+      "status": "draft",
+      "type": "Standard",
+      "vehicle": "TH-3892",
+      "driver": "Wichai K."
+    },
+    {
+      "id": "SHP-2026-0003",
+      "customer": "Metro Shipping Ltd",
+      "origin": "Surat Thani",
+      "destination": "Phuket Terminal",
+      "items": 8,
+      "weight": "780 kg",
+      "status": "printed",
+      "type": "Express",
+      "vehicle": "TH-2847",
+      "driver": "Prasert S."
+    },
+    {
+      "id": "SHP-2026-0004",
+      "customer": "Innovation Corp",
+      "origin": "Rayong Plant",
+      "destination": "Map Ta Phut",
+      "items": 3,
+      "weight": "2200 kg",
+      "status": "ready",
+      "type": "Hazmat",
+      "vehicle": "TH-6734",
+      "driver": "Anon T."
+    },
+    {
+      "id": "SHP-2026-0005",
+      "customer": "Express Solutions",
+      "origin": "Don Muang",
+      "destination": "Khon Kaen",
+      "items": 15,
+      "weight": "450 kg",
+      "status": "sent",
+      "type": "Standard",
+      "vehicle": "TH-5621",
+      "driver": "Chai M."
+    }
+  ],
+
+  "bolDocuments": [
+    {
+      "id": "BOL-2026-0001",
+      "shipmentId": "SHP-2026-0001",
+      "shipper": "SC Group Co., Ltd.",
+      "consignee": "Global Tech Inc",
+      "vessel": "N/A (Road)",
+      "portLoading": "Bangkok Hub",
+      "portDischarge": "Chiang Mai DC",
+      "goods": "Electronics Parts",
+      "status": "ready",
+      "date": "2026-01-14"
+    },
+    {
+      "id": "BOL-2026-0002",
+      "shipmentId": "SHP-2026-0002",
+      "shipper": "SC Carrier Co., Ltd.",
+      "consignee": "Thai Logistics Co",
+      "vessel": "MV Thai Spirit",
+      "portLoading": "Laem Chabang",
+      "portDischarge": "Bangkok",
+      "goods": "General Cargo",
+      "status": "draft",
+      "date": "2026-01-14"
+    },
+    {
+      "id": "BOL-2026-0003",
+      "shipmentId": "SHP-2026-0004",
+      "shipper": "SC Group Co., Ltd.",
+      "consignee": "Innovation Corp",
+      "vessel": "N/A (Tank Truck)",
+      "portLoading": "Rayong",
+      "portDischarge": "Map Ta Phut",
+      "goods": "Chemical - LPG",
+      "status": "printed",
+      "date": "2026-01-13"
+    }
+  ],
+
+  "deliveryOrders": [
+    {
+      "doId": "DO-2026-0001",
+      "shipmentId": "SHP-2026-0001",
+      "customer": "Global Tech Inc",
+      "origin": "Bangkok Hub",
+      "destination": "Chiang Mai DC",
+      "items": 5,
+      "weight": "250 kg",
+      "status": "ready",
+      "vehicle": "TH-4521",
+      "driver": "Somchai P."
+    },
+    {
+      "doId": "DO-2026-0002",
+      "shipmentId": "SHP-2026-0002",
+      "customer": "Thai Logistics Co",
+      "origin": "Laem Chabang Port",
+      "destination": "Bangkok Warehouse",
+      "items": 12,
+      "weight": "1500 kg",
+      "status": "draft",
+      "vehicle": "TH-3892",
+      "driver": "Wichai K."
+    },
+    {
+      "doId": "DO-2026-0003",
+      "shipmentId": "SHP-2026-0003",
+      "customer": "Metro Shipping Ltd",
+      "origin": "Surat Thani",
+      "destination": "Phuket Terminal",
+      "items": 8,
+      "weight": "780 kg",
+      "status": "printed",
+      "vehicle": "TH-2847",
+      "driver": "Prasert S."
+    },
+    {
+      "doId": "DO-2026-0004",
+      "shipmentId": "SHP-2026-0004",
+      "customer": "Innovation Corp",
+      "origin": "Rayong Plant",
+      "destination": "Map Ta Phut",
+      "items": 3,
+      "weight": "2200 kg",
+      "status": "ready",
+      "vehicle": "TH-6734",
+      "driver": "Anon T."
+    }
+  ],
+
+  "eirDocuments": [
+    {
+      "id": "EIR-2026-0001",
+      "containerNo": "MSKU1234567",
+      "size": "40ft",
+      "type": "HC",
+      "condition": "Good",
+      "gateType": "Gate-In",
+      "location": "Laem Chabang",
+      "status": "ready",
+      "date": "2026-01-14",
+      "time": "08:30"
+    },
+    {
+      "id": "EIR-2026-0002",
+      "containerNo": "TCLU7654321",
+      "size": "20ft",
+      "type": "GP",
+      "condition": "Minor Damage",
+      "gateType": "Gate-Out",
+      "location": "Bangkok ICD",
+      "status": "printed",
+      "date": "2026-01-14",
+      "time": "10:15"
+    },
+    {
+      "id": "EIR-2026-0003",
+      "containerNo": "HLXU9876543",
+      "size": "40ft",
+      "type": "RF",
+      "condition": "Good",
+      "gateType": "Gate-In",
+      "location": "Laem Chabang",
+      "status": "draft",
+      "date": "2026-01-14",
+      "time": "14:00"
+    }
+  ],
+
+  "customsDocuments": [
+    {
+      "docId": "CI-2026-0001",
+      "docType": "Commercial Invoice",
+      "shipmentId": "SHP-2026-0001",
+      "destination": "Singapore",
+      "value": "45000",
+      "currency": "USD",
+      "status": "ready"
+    },
+    {
+      "docId": "PL-2026-0001",
+      "docType": "Packing List",
+      "shipmentId": "SHP-2026-0001",
+      "destination": "Singapore",
+      "value": "",
+      "currency": "",
+      "status": "printed"
+    },
+    {
+      "docId": "CO-2026-0001",
+      "docType": "Certificate of Origin",
+      "shipmentId": "SHP-2026-0002",
+      "destination": "Japan",
+      "value": "",
+      "currency": "",
+      "status": "draft"
+    }
+  ]
+}

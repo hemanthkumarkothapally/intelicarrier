@@ -1,0 +1,488 @@
+<core:FragmentDefinition xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:layout="sap.ui.layout"
+    xmlns:f="sap.ui.layout.form">
+
+    <VBox width="100%" class=" sapUiTinyMarginTop">
+        <HBox justifyContent="SpaceBetween">
+            <HBox >
+                <Title text="Price Determination
+and Settlement" level="H1" class="sapUiSmallMarginBegin
+sapUiSmallMarginBottom"/>
+                <Text text="-Calculate freight
+charges for completed shipments and trigger S/4HANA Sales Orders" class="sapUiTinyMarginBegin sapUiContentLabel" />
+            </HBox>
+            <HBox >
+                <Button text="📋 Rate Master" press=".onRateMasterPress"/>
+                <Button text="🔄 Refresh"/>
+            </HBox>
+        </HBox>
+        <MessageStrip text="Integration: IntelliCarrier
+calculates prices and triggers Sales Order creation. All financial
+documents are created within S/4HANA." type="Information" showIcon="true" class="sapUiMediumMarginHorizontal
+sapUiSmallMarginBottom"/>
+        <ScrollContainer height="100%" width="100%" horizontal="true" vertical="false" class="sapUiMediumMarginTopBottom">
+
+            <Panel width="auto">
+                <content>
+
+                    <HBox alignItems="Center" justifyContent="Center" class="sapUiSmallMargin">
+
+                        <VBox alignItems="Center" justifyContent="Center" width="140px" height="110px" class="bgGreen
+sapUiSmallMarginEnd sapUiTinyMarginBottom">
+                            <Avatar fallbackIcon="sap-icon://shipping-status" displayShape="Circle" backgroundColor="Accent8" initials="1" displaySize="S" class="sapUiTinyMarginBottom"/>
+                            <Text text="Shipment&#xa;Delivered" textAlign="Center"/>
+                        </VBox>
+
+                        <core:Icon src="sap-icon://arrow-right" size="1.5rem" color="#9e9e9e" class="sapUiSmallMarginEnd sapUiTinyMarginBottom"/>
+
+                        <VBox alignItems="Center" justifyContent="Center" width="140px" height="110px" class="bgBlue
+sapUiSmallMarginEnd sapUiTinyMarginBottom">
+                            <Avatar fallbackIcon="sap-icon://money-bills" displayShape="Circle" backgroundColor="Accent1" displaySize="S" class="sapUiTinyMarginBottom"/>
+                            <Text text="Calculate&#xa;Price" textAlign="Center"/>
+                        </VBox>
+
+                        <core:Icon src="sap-icon://arrow-right" size="1.5rem" color="#9e9e9e" class="sapUiSmallMarginEnd sapUiTinyMarginBottom"/>
+
+                        <VBox alignItems="Center" justifyContent="Center" class="sapUiSmallMarginEnd
+sapUiTinyMarginBottom">
+                            <Text text="Based on
+Fleet Type" class="sapUiTinyMarginBottom" />
+                            <HBox>
+                                <ObjectStatus text="Rate Master" icon="sap-icon://shipping-status" state="Success" inverted="true" class="sapUiTinyMarginEnd"/>
+                                <ObjectStatus text="Invoice Validation" icon="sap-icon://building" state="Information" inverted="true"/>
+                            </HBox>
+                        </VBox>
+
+                        <core:Icon src="sap-icon://arrow-right" size="1.5rem" color="#9e9e9e" class="sapUiSmallMarginEnd sapUiTinyMarginBottom"/>
+
+                        <VBox alignItems="Center" justifyContent="Center" width="140px" height="110px" class="bgPurple
+sapUiSmallMarginEnd sapUiTinyMarginBottom">
+                            <Avatar displayShape="Circle" backgroundColor="Accent3" fallbackIcon="sap-icon://hr-approval" displaySize="S" class="sapUiTinyMarginBottom"/>
+                            <Text text="Review
+&amp; Approve" textAlign="Center"/>
+                        </VBox>
+
+                        <core:Icon src="sap-icon://arrow-right" size="1.5rem" color="#9e9e9e" class="sapUiSmallMarginEnd sapUiTinyMarginBottom"/>
+
+                        <VBox alignItems="Center" justifyContent="Center" width="140px" height="110px" class="bgGreen
+sapUiTinyMarginBottom">
+                            <Avatar displayShape="Circle" backgroundColor="Accent8" fallbackIcon="sap-icon://s4hana" displaySize="S" class="sapUiTinyMarginBottom"/>
+                            <Text text="Send
+to&#xa;S/4HANA" textAlign="Center"/>
+                        </VBox>
+
+                    </HBox>
+                </content>
+            </Panel>
+        </ScrollContainer>
+
+        <FlexBox wrap="Wrap" alignItems="Start" class="sapUiMediumMarginHorizontal sapUiMediumMarginBottom">
+
+            <GenericTile header="Awaiting
+Calculation" subheader="Completed shipments" frameType="TwoByHalf" press="onFilterPending" class="sapUiTinyMarginEnd
+sapUiTinyMarginBottom" width="11rem">
+                <TileContent>
+                    <NumericContent value="12" valueColor="Critical" icon="sap-icon://product"/>
+                </TileContent>
+            </GenericTile>
+
+            <GenericTile header="Internal Pending" subheader="Price calculated" frameType="TwoByHalf" press="onFilterInternal" class="sapUiTinyMarginEnd
+sapUiTinyMarginBottom" width="11rem">
+                <TileContent>
+                    <NumericContent value="8" valueColor="Good" icon="sap-icon://shipping-status"/>
+                </TileContent>
+            </GenericTile>
+
+            <GenericTile header="External
+Validation" subheader="Invoices received" frameType="TwoByHalf" press="onFilterExternal" class="sapUiTinyMarginEnd
+sapUiTinyMarginBottom" width="11rem">
+                <TileContent>
+                    <NumericContent value="5" valueColor="Good" icon="sap-icon://factory"/>
+                </TileContent>
+            </GenericTile>
+
+            <GenericTile header="Discrepancies" subheader="Manual review needed" frameType="TwoByHalf" press="onFilterDiscrepancy" class="sapUiTinyMarginEnd
+sapUiTinyMarginBottom" width="11rem">
+                <TileContent>
+                    <NumericContent value="3" valueColor="Error" icon="sap-icon://alert"/>
+                </TileContent>
+            </GenericTile>
+
+            <GenericTile header="Sent to S/4HANA" subheader="Today" frameType="TwoByHalf" press="onFilterSent" class="sapUiTinyMarginEnd sapUiTinyMarginBottom" width="11rem">
+                <TileContent>
+                    <NumericContent value="24" valueColor="Good" icon="sap-icon://accept"/>
+                </TileContent>
+            </GenericTile>
+
+            <GenericTile header="Today's Revenue" subheader="Customer charges" frameType="TwoByHalf" class="sapUiTinyMarginEnd sapUiTinyMarginBottom" width="11rem">
+                <TileContent>
+                    <NumericContent value="847K" scale="THB" valueColor="Good" icon="sap-icon://money-bills"/>
+                </TileContent>
+            </GenericTile>
+        </FlexBox>
+
+        <IconTabBar id="priceTabBar" expandable="false" headerMode="Inline" selectedKey="Pending" class="sapUiMediumMarginHorizontal">
+            <items>
+                <IconTabFilter key="Pending" text="📦 Awaiting Calculation (12)">
+                    <Table id="pendingCalcTable" items="{/PendingShipments}" growing="true">
+                        <headerToolbar>
+                            <OverflowToolbar>
+                                <Title text="📦
+Shipments Awaiting Price Calculation" />
+                                <Text text="-Completed shipments that need pricing" class="sapUiTinyMarginBegin sapUiContentLabel" />
+                                <Button text="⚡
+Auto-Calculate All" type="Emphasized" press=".onAutoCalculateAllPress" />
+                                <ToolbarSpacer />
+                                <SearchField placeholder="Search by Shipment ID..." liveChange=".onSearchOrders" width="20rem" />
+                                <Select forceSelection="false" selectedKey="All">
+                                    <core:Item key="All" text="All Fleet Types" />
+                                    <core:Item key="Internal" text="🚛 Internal" />
+                                    <core:Item key="External" text="🏢 External" />
+                                </Select>
+                                <Select forceSelection="false" selectedKey="All">
+                                    <core:Item key="All" text="All Customers" />
+                                    <core:Item key="Maintenance" text="Tech Solutions" />
+                                    <core:Item key="Available" text="Global Corp" />
+                                    <core:Item key="InUse" text="Metro Retail" />
+                                    <core:Item key="InUse1" text="Smart Logistics" />
+                                </Select>
+                            </OverflowToolbar>
+                        </headerToolbar>
+                        <columns>
+                            <Column>
+                                <Text text="Shipment ID" />
+                            </Column>
+                            <Column>
+                                <Text text="Fleet Type" />
+                            </Column>
+                            <Column>
+                                <Text text="Customer" />
+                            </Column>
+                            <Column>
+                                <Text text="Route" />
+                            </Column>
+                            <Column>
+                                <Text text="Weight" />
+                            </Column>
+                            <Column>
+                                <Text text="Delivered At" />
+                            </Column>
+                            <Column>
+                                <Text text="Rate Applied" />
+                            </Column>
+                            <Column hAlign="Center">
+                                <Text text="Action" />
+                            </Column>
+                        </columns>
+                        <items>
+                            <ColumnListItem>
+                                <cells>
+
+                                    <ObjectIdentifier title="{id}" />
+                                    <ObjectStatus text="{fleetType}" state="{fleetState}" inverted="true" icon="{fleetIcon}" />
+                                    <Text text="{customer}" />
+                                    <Text text="{origin} → {destination}" />
+                                    <Text text="{weight} kg" />
+                                    <Text text="{deliveredAt}" />
+                                    <ObjectStatus text="{rateId}" state="Information" inverted="true" />
+                                    <Button text="💰 Calculate" type="Ghost" press=".onOpenCalculateModal" />
+                                </cells>
+                            </ColumnListItem>
+                        </items>
+                    </Table>
+                </IconTabFilter>
+
+                <IconTabFilter key="Internal" text="🚛 Internal Fleet (8)">
+                    <Table id="internalApprovalTable" items="{/InternalPending}">
+                        <headerToolbar>
+                            <OverflowToolbar>
+                                <Title text="Internal Fleet — Pending Approval" />
+                                <Text text="-Price
+calculated, awaiting review before sending to S/4HANA" class="sapUiTinyMarginBegin sapUiContentLabel" />
+                                <ToolbarSpacer />
+                                <Button text="✅
+Approve &amp; Send All" type="Accept" press=".onApproveAllInternal" />
+                            </OverflowToolbar>
+                        </headerToolbar>
+                        <columns>
+                            <Column>
+                                <Text text="Shipment ID" />
+                            </Column>
+
+                            <Column>
+                                <Text text="Customer" />
+                            </Column>
+
+                            <Column>
+                                <Text text="Driver" />
+                            </Column>
+
+                            <Column>
+                                <Text text="Route" />
+                            </Column>
+
+                            <Column>
+                                <Text text="Rate Applied" />
+                            </Column>
+
+                            <Column hAlign="End">
+                                <Text text="Base Charge" />
+                            </Column>
+
+                            <Column hAlign="End">
+                                <Text text="Surcharges" />
+                            </Column>
+
+                            <Column hAlign="End">
+                                <Text text="Total Charge" />
+                            </Column>
+
+                            <Column>
+                                <Text text="Calculated" />
+                            </Column>
+
+                            <Column hAlign="Center">
+                                <Text text="Actions" />
+                            </Column>
+                        </columns>
+
+                        <items>
+                            <ColumnListItem>
+                                <cells>
+
+                                    <ObjectIdentifier title="{id}" />
+
+                                    <Text text="{customer}" />
+
+                                    <Text text="{driver}" />
+
+                                    <Text text="{route}" />
+
+                                    <ObjectStatus text="{rateId}" state="Information" inverted="true" />
+
+                                    <ObjectStatus text="฿ {baseCharge}" />
+
+                                    <ObjectStatus text="+ ฿ {surcharges}" state="Warning" />
+
+                                    <ObjectStatus text="฿ {total}" state="Information" class="sapUiBoldText" />
+
+                                    <Text text="{calculatedAt}" />
+
+                                    <HBox justifyContent="Center">
+                                        <Button icon="sap-icon://show" type="Transparent" tooltip="View Details" press=".onApproveInternal"/>
+                                        <Button text="✅ Approve" type="Accept" press=".onApproveInternal" />
+                                    </HBox>
+                                </cells>
+                            </ColumnListItem>
+                        </items>
+                    </Table>
+                </IconTabFilter>
+
+                <IconTabFilter key="External" text="🏢 External Carriers (5)">
+                    <Table id="invoiceValidationTable" items="{/ExternalValidation}" growing="true" growingScrollToLoad="true">
+                        <headerToolbar>
+                            <OverflowToolbar>
+                                <Title text="🏢
+External Carriers — Invoice Validation" level="H2"/>
+                                <Text text="(Validate carrier invoices against contract rates)" class="sapUiTinyMarginBegin sapUiContentLabel" />
+
+                                <ToolbarSpacer />
+
+                                <Button text="📥
+Upload Invoice" type="Emphasized" press=".onUploadInvoice" />
+                            </OverflowToolbar>
+                        </headerToolbar>
+
+                        <columns>
+                            <Column>
+                                <Text text="Shipment ID" />
+                            </Column>
+
+                            <Column>
+                                <Text text="Carrier" />
+                            </Column>
+
+                            <Column>
+                                <Text text="Invoice #" />
+                            </Column>
+
+                            <Column>
+                                <Text text="Invoice Date" />
+                            </Column>
+
+                            <Column hAlign="End">
+                                <Text text="Invoice Amount" />
+                            </Column>
+
+                            <Column hAlign="End">
+                                <Text text="Contract Rate" />
+                            </Column>
+
+                            <Column hAlign="End">
+                                <Text text="Variance" />
+                            </Column>
+
+                            <Column>
+                                <Text text="OCR Status" />
+                            </Column>
+
+                            <Column>
+                                <Text text="Validation" />
+                            </Column>
+
+                            <Column hAlign="Center">
+                                <Text text="Actions" />
+                            </Column>
+                        </columns>
+
+                        <items>
+                            <ColumnListItem>
+                                <cells>
+
+                                    <ObjectIdentifier title="{id}" />
+
+                                    <Text text="{carrier}" />
+
+                                    <Text text="{invoiceNo}" />
+
+                                    <Text text="{invoiceDate}" />
+
+                                    <ObjectStatus text="฿ {invoiceAmt}" />
+
+                                    <ObjectStatus text="฿ {contractRate}" />
+
+                                    <ObjectStatus text="฿ {variance}" state="{=
+${variance} === '0' ? 'Success' : 'Error' }" />
+
+                                    <ObjectStatus text="{ocrText}" state="{ocrState}" icon="{ocrIcon}" inverted="true" />
+
+                                    <ObjectStatus text="{valText}" state="{valState}" icon="{valIcon}" inverted="true" />
+
+                                    <HBox justifyContent="Center">
+                                        <Button icon="sap-icon://show" type="Transparent" tooltip="View Details" press=".onOpenValidateModal" />
+
+                                        <Button text="✅ Approve" type="Accept" visible="{showApprove}" press=".onOpenValidateModal" class="sapUiTinyMarginBegin"/>
+                                    </HBox>
+                                </cells>
+                            </ColumnListItem>
+                        </items>
+                    </Table>
+                </IconTabFilter>
+
+                <IconTabFilter key="Discrepancy" text="⚠️ Discrepancies (3)">
+                    <Table id="discrepancyTable" items="{/Discrepancies}">
+                        <headerToolbar>
+                            <OverflowToolbar>
+                                <Title text="⚠️
+Invoice Discrepancies - Manual Review Required" />
+                                <Text text="—
+Requires manual review and resolution" class="sapUiTinyMarginBegin
+sapUiContentLabel" />
+                            </OverflowToolbar>
+                        </headerToolbar>
+                        <columns>
+                            <Column>
+                                <Text text="Shipment ID" />
+                            </Column>
+                            <Column>
+                                <Text text="Carrier" />
+                            </Column>
+                            <Column>
+                                <Text text="Issue Type" />
+                            </Column>
+                            <Column hAlign="End">
+                                <Text text="Contract" />
+                            </Column>
+                            <Column hAlign="End">
+                                <Text text="Invoiced" />
+                            </Column>
+                            <Column hAlign="End">
+                                <Text text="Diff" />
+                            </Column>
+                            <Column>
+                                <Text text="Details" />
+                            </Column>
+                            <Column hAlign="Center">
+                                <Text text="Action" />
+                            </Column>
+                        </columns>
+                        <items>
+                            <ColumnListItem>
+                                <cells>
+
+                                    <ObjectIdentifier title="{id}" />
+                                    <Text text="{carrier}" />
+                                    <ObjectStatus text="{issueType}" state="Error" inverted="true" />
+                                    <Text text="฿
+{contractRate}" />
+                                    <Text text="฿
+{invoiced}" />
+                                    <ObjectStatus text="+฿ {difference}" state="Error" />
+                                    <Text text="{details}" />
+                                    <Button text="⚠️ Review" type="Attention" press=".onResolveDiscrepancy" />
+                                </cells>
+                            </ColumnListItem>
+                        </items>
+                    </Table>
+                </IconTabFilter>
+
+                <IconTabFilter key="Sent" text="✅
+Sent to S/4 (24)">
+                    <Table id="s4Table" items="{/SentToS4}">
+                        <headerToolbar>
+                            <OverflowToolbar>
+                                <Title text="✅
+Sent to S/4HANA Sales Orders" />
+                                <Text text="—
+Sales Order created, monitoring S/4 status" class="sapUiTinyMarginBegin sapUiContentLabel" />
+                                <ToolbarSpacer />
+                                <Button icon="sap-icon://excel-attachment" tooltip="Export Report" />
+                            </OverflowToolbar>
+                        </headerToolbar>
+                        <columns>
+                            <Column>
+                                <Text text="Shipment ID" />
+                            </Column>
+                            <Column>
+                                <Text text="Fleet Type" />
+                            </Column>
+                            <Column>
+                                <Text text="Customer" />
+                            </Column>
+                            <Column hAlign="End">
+                                <Text text="Charge Amount" />
+                            </Column>
+                            <Column>
+                                <Text text="S/4 Sales Order" />
+                            </Column>
+                            <Column>
+                                <Text text="S/4 Status" />
+                            </Column>
+                            <Column>
+                                <Text text="Sent At" />
+                            </Column>
+                        </columns>
+                        <items>
+                            <ColumnListItem>
+                                <cells>
+
+                                    <ObjectIdentifier title="{id}" />
+                                    <ObjectStatus text="{fleetType}" state="{fleetState}" inverted="true" />
+                                    <Text text="{customer}" />
+                                    <Text text="{chargeAmount}" class="sapUiBoldText sapUiPositiveText" />
+                                    <Link text="{salesOrder}" />
+                                    <ObjectStatus text="{s4Status}" state="{s4State}" icon="{s4Icon}" />
+                                    <Text text="{sentAt}" />
+                                </cells>
+                            </ColumnListItem>
+                        </items>
+                    </Table>
+                </IconTabFilter>
+
+            </items>
+        </IconTabBar>
+        
+    </VBox>
+    
+</core:FragmentDefinition>

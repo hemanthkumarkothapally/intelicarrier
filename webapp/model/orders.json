@@ -25,7 +25,7 @@
       "statusText": "Pending Review",
       "statusState": "Warning",
       "statusIcon": "sap-icon-pending",
-      "actionButtonText": "Review",
+      "actionButtonText": "Validate",
       "actionButtonType": "Emphasized"
     },
     {
@@ -43,27 +43,10 @@
       "statusText": "Pending Review",
       "statusState": "Warning",
       "statusIcon": "sap-icon-pending",
-      "actionButtonText": "Review",
+      "actionButtonText": "Validate",
       "actionButtonType": "Emphasized"
     },
-    {
-      "orderId": "CO-2026-0003",
-      "ocrConfidence": "N/A",
-      "sourceIcon": "sap-icon-edit",
-      "sourceText": "Manual Entry",
-      "customerName": "Metro Shipping Ltd",
-      "customerEmail": "orders@metroshipping.com",
-      "deliveryAddress": "789 Beach Road, Pattaya, Chonburi 20150",
-      "productsCount": "1 item(s)",
-      "weight": "600 kg",
-      "deliveryDate": "2026-01-15",
-      "value": "฿18,750",
-      "statusText": "Reviewed",
-      "statusState": "Success",
-      "statusIcon": "sap-icon-accept",
-      "actionButtonText": "Submit",
-      "actionButtonType": "Accept"
-    },
+    
     {
       "orderId": "CO-2026-0004",
       "ocrConfidence": "96.8%",

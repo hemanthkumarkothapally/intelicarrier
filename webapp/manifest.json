@@ -69,6 +69,14 @@
         "type": "sap.ui.model.json.JSONModel",
         "uri": "model/localmodel.json"
       },
+      "logistics": {
+        "type": "sap.ui.model.json.JSONModel",
+        "uri": "model/LogisticsMasterData.json"
+      },
+      "RateMasterData":{
+        "type": "sap.ui.model.json.JSONModel",
+        "uri": "model/RateMaster.json"
+      },
       "SubDistrictModel": {
         "type": "sap.ui.model.json.JSONModel",
         "uri": "model/subdistricts.json"

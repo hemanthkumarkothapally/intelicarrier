@@ -2559,3 +2559,99 @@ color: #0066cc !important;
     font-size: 30px;
     font-weight: bold;
 }
+/* ===== Dialog ===== */
+.docPrintDialog .sapMDialogSection {
+    background: #ffffff;
+}
+
+/* ===== Shipment Summary Card ===== */
+.shipmentSummaryCard {
+    background: #f5f7f9;
+    border-radius: 12px;
+    padding: 16px;
+}
+
+/* Mini info cards (Origin, Destination etc.) */
+.miniInfoCard {
+    background: #ffffff;
+    border-radius: 10px;
+    padding: 10px 14px;
+    width: 22%;
+    text-align: center;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+
+.miniLabel {
+    font-size: 0.7rem;
+    color: #6a6d70;
+    font-weight: 600;
+}
+
+.miniValue {
+    font-size: 0.9rem;
+    font-weight: 700;
+    margin-top: 4px;
+}
+
+/* ===== Document Cards ===== */
+.docCard {
+    width: 100px;
+    height: 160px;
+    border: 1px solid #e5e5e5;
+    border-radius: 12px;
+    background: #ffffff;
+    padding: 10px;
+    cursor: pointer;
+    position: relative;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+
+.docCard.selected {
+    border: 2px solid #1b8e3e;
+    background: #eaf7ee;
+}
+
+.docCheck {
+    color: #1b8e3e;
+    font-size: 1rem;
+}
+
+.docMeta {
+    color: #0a6ed1;
+    font-weight: 600;
+}
+
+.docMetaRequired {
+    color: #0a6ed1;
+    font-weight: 700;
+}
+
+/* ===== Print Options Card ===== */
+.printOptionsCard {
+    background: #f5f7f9;
+    border-radius: 12px;
+    padding: 14px;
+}
+
+/* ===== Preview Panel ===== */
+.previewPanel {
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.previewBox {
+    min-height: 280px;
+    background: #f2f2f2;
+    border-radius: 10px;
+    border: 1px solid #e5e5e5;
+}
+.routeInfoBox {
+    background: #f5f7f9;
+    border-radius: 10px;
+    padding: 12px;
+}
+.costBox {
+    background: #f5f7f9;
+    border-radius: 10px;
+    padding: 14px;
+}

@@ -59,7 +59,142 @@
 
                     </HBox>
                 </Panel>
-                
+                <Panel >
+                    <content>
+
+                        <VBox >
+
+                            <!-- Row 1 : Customer + Contact -->
+                            <HBox width="100%" class="sapUiSmallMarginBottom">
+                                <VBox width="50%" class="sapUiSmallMarginEnd">
+                                    <Label text="CUSTOMER NAME" design="Bold"/>
+                                    <Input value="Atlas-LPG Corp"/>
+                                </VBox>
+
+                                <VBox width="50%">
+                                    <Label text="CONTACT PERSON" design="Bold"/>
+                                    <Input value="Mr. Somchai"/>
+                                </VBox>
+                            </HBox>
+
+                            <!-- Row 2 : Origin + Destination -->
+                            <HBox width="100%" class="sapUiSmallMarginBottom">
+                                <VBox width="50%" class="sapUiSmallMarginEnd">
+                                    <Label text="ORIGIN" design="Bold"/>
+                                    <Input value="Bangkok (Bangchak Depot)"/>
+                                </VBox>
+
+                                <VBox width="50%">
+                                    <Label text="DESTINATION" design="Bold"/>
+                                    <Input value="Chiang Mai (LPG Station)"/>
+                                </VBox>
+                            </HBox>
+
+                            <!-- Row 3 : Cargo + Weight + Volume + Delivery -->
+                            <HBox width="100%">
+                                <VBox width="25%" class="sapUiSmallMarginEnd">
+                                    <Label text="CARGO DESCRIPTION" design="Bold"/>
+                                    <Input value="LPG Gas"/>
+                                </VBox>
+
+                                <VBox width="25%" class="sapUiSmallMarginEnd">
+                                    <Label text="WEIGHT (KG)" design="Bold"/>
+                                    <Input value="6030" valueState="Warning"/>
+                                </VBox>
+
+                                <VBox width="25%" class="sapUiSmallMarginEnd">
+                                    <Label text="VOLUME (M³)" design="Bold"/>
+                                    <Input value="13" valueState="Warning"/>
+                                </VBox>
+
+                                <VBox width="25%">
+                                    <Label text="DELIVERY DATE" design="Bold"/>
+                                    <DatePicker value="16-01-2026" displayFormat="dd-MM-yyyy" valueFormat="dd-MM-yyyy"/>
+                                </VBox>
+                            </HBox>
+
+                        </VBox>
+
+                    </content>
+                </Panel>
+                <Panel >
+   <!-- Row 1 (Dropdowns) -->
+            <HBox width="100%" justifyContent="SpaceBetween">
+
+                <!-- Product Type -->
+                <VBox width="48%">
+                    <Label text="PRODUCT TYPE *" design="Bold"/>
+
+                    <Select
+                        width="98%"
+                        selectedKey="{formModel>/productType}"
+                        change=".onProductOrRouteChange">
+
+                        <items>
+                            <core:Item key="" text="-- Select Product Type --"/>
+                            <core:Item key="LPG" text="LPG (Liquefied Petroleum Gas)" />
+                            <core:Item key="FUEL_WO" text="Fuel WO (Fuel Work Order)" />
+                            <core:Item key="NGV" text="NGV (Natural Gas Vehicle)" />
+                            <core:Item key="CHEM" text="Chemical" />
+                            <core:Item key="CONT" text="Container" />
+                        </items>
+                    </Select>
+                </VBox>
+
+                <!-- Route Code -->
+                <VBox width="48%">
+                    <Label text="ROUTE CODE *" design="Bold"/>
+
+                    <Select
+                        width="98%"
+                        selectedKey="{formModel>/routeCode}"
+                        change=".onProductOrRouteChange">
+
+                        <items>
+                            <core:Item key="" text="-- Select Route --"/>
+                            <core:Item key="RT-CONT-001" text="RT-CONT-001 - LCB-BKK ICD"/>
+                            <core:Item key="RT-CONT-002" text="RT-CONT-002 - BKK-CNX"/>
+                            <core:Item key="RT-LPG-001" text="RT-LPG-001 - BKK-HKT"/>
+                        </items>
+                    </Select>
+                </VBox>
+
+            </HBox>
+            <!-- Row 2 (Info box) Visible only when both selected -->
+            <VBox
+                class="sapUiSmallMarginTop routeInfoBox"
+                visible="{= ${formModel>/distance} !== ''}"
+                >
+
+                <HBox justifyContent="SpaceBetween" class="sapUiSmallMargin">
+
+                    <VBox width="25%">
+                        <Text text="DISTANCE" class="sapUiContentLabel"/>
+                        <Text text="{formModel>/distance}" class="sapUiBoldText"/>
+                    </VBox>
+
+                    <VBox width="25%">
+                        <Text text="EST. DURATION" class="sapUiContentLabel"/>
+                        <Text text="{formModel>/duration}" class="sapUiBoldText"/>
+                    </VBox>
+
+                    <VBox width="25%">
+                        <Text text="BASE RATE" class="sapUiContentLabel"/>
+                        <Text text="{formModel>/baseRate}" class="sapUiBoldText"/>
+                    </VBox>
+
+                    <VBox width="25%">
+                        <Text text="ZLSDE SCREEN" class="sapUiContentLabel"/>
+                        <Link text="{formModel>/zlsdeScreen}" press=".onOpenZlsdeScreen"/>
+                    </VBox>
+
+                </HBox>
+
+            </VBox>
+
+                </Panel>
+
+
                 <!-- <HBox width="100%" class="sapUiMediumMarginTop" alignItems="Stretch" justifyContent="SpaceAround"> -->
                 <FlexBox width="100%" wrap="NoWrap" alignItems="Stretch" class="sapUiMediumMarginBottom">
                     <List headerText="🚛 Internal Fleet Options" selectionChange="onCarrierListSelected" class=" ab12345 sapUiTinyMarginEnd" mode="SingleSelectMaster">
@@ -184,7 +319,7 @@
 
                 </FlexBox>
                 <!-- </HBox> -->
-                <Panel class="sapUiMediumMarginTop recomendation" backgroundDesign="Solid">
+                <!-- <Panel class="sapUiMediumMarginTop recomendation" backgroundDesign="Solid">
 
                     <HBox justifyContent="SpaceBetween" alignItems="Center" class="sapUiSmallMargin">
 
@@ -206,7 +341,7 @@
 
                         <Button text="External Carrier" type="Emphasized" icon="sap-icon://accept"/>
                     </HBox>
-                </Panel>
+                </Panel> -->
                 <HBox id="selectedCarrierBox" visible="{= ${selectionModel>/visible} }" class="sapUiSmallMarginTop sapUiSmallMarginBottom selectedCarrierBox" alignItems="Center" justifyContent="Start">
 
                     <HBox class="sapUiSmallMargin">
@@ -216,6 +351,78 @@
                     </HBox>
 
                 </HBox>
+                <Panel >
+                
+                <HBox width="100%" justifyContent="SpaceBetween">
+
+                <!-- Product Type -->
+                <VBox width="48%">
+                        <Label text="SELECT DRIVER *" design="Bold"/>
+                    <Select
+                        width="100%"
+                        selectedKey="{driverModel>/selectedDriverId}"
+                        change=".onDriverChange">
+
+                        <items>
+                            <core:Item key="" text="-- Select Driver --"/>
+                            <core:Item key="DRV-003" text="Narong Somjai (Class 2 + Fuel)"/>
+                            <core:Item key="DRV-001" text="Somchai Prasert (Class 1)"/>
+                            <core:Item key="DRV-002" text="Wichai Thongsuk (Class 2)"/>
+                        </items>
+                    </Select>
+                
+                </VBox>
+
+                <!-- Route Code -->
+                <VBox width="48%">
+                    <Label text="DRIVER DETAILS" design="Bold"/>
+
+                    <Text
+                        text="{driverModel>/driverDetails}"
+                        class="sapUiTinyMarginTop"/>
+        
+
+                </VBox>
+
+            </HBox>
+                </Panel>
+                
+                <Panel
+    backgroundDesign="Solid"
+    visible="{= ${driverModel>/selectedDriverId} !== '' }">
+        <VBox class=" costBox">
+
+            <HBox justifyContent="SpaceBetween" class="sapUiTinyMarginBottom">
+                <Text text="Base Transport Cost"/>
+                <Text text="{driverModel>/cost/base}" class="sapUiBoldText"/>
+            </HBox>
+
+            <HBox justifyContent="SpaceBetween" class="sapUiTinyMarginBottom">
+                <Text text="Fuel Cost (Est.)"/>
+                <Text text="{driverModel>/cost/fuel}" class="sapUiBoldText sapUiCriticalText"/>
+            </HBox>
+
+            <HBox justifyContent="SpaceBetween" class="sapUiTinyMarginBottom">
+                <Text text="Distance Surcharge"/>
+                <Text text="{driverModel>/cost/surcharge}" class="sapUiBoldText"/>
+            </HBox>
+
+            <HBox justifyContent="SpaceBetween" class="sapUiTinyMarginBottom">
+                <Text text="Service Fee"/>
+                <Text text="{driverModel>/cost/serviceFee}" class="sapUiBoldText"/>
+            </HBox>
+
+            <Toolbar class="sapUiSmallMarginTop">
+                <ToolbarSpacer/>
+                <VBox alignItems="End" height="60px">
+                    <Text text="Total Estimated Cost" class="sapUiBoldText"/>
+                    <Text text="{driverModel>/cost/total}" class="sapUiBoldText sapUiPositiveText"/>
+                </VBox>
+            </Toolbar>
+
+        </VBox>
+    
+                </Panel>
 
 
             </VBox>

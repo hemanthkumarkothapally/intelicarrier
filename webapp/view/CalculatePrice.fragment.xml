@@ -1,0 +1,103 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:form="sap.ui.layout.form" xmlns:l="sap.ui.layout">
+    <Dialog  contentWidth="600px">
+        <customHeader>
+            <Bar design="Header">
+                <contentLeft>
+                    <Title text="💰 Calculate Price — Internal Fleet" level="H2"/>
+                </contentLeft>
+                
+                <contentRight>
+                    <Button icon="sap-icon://decline" press="onCloseCalculatePrice"/>
+                </contentRight>
+            </Bar>
+        </customHeader>
+        <content>
+            <VBox class="sapUiSmallMargin">
+                
+                <HBox justifyContent="SpaceBetween" alignItems="Center" class="sapUiSmallMarginBottom">
+                    <Title text="{id}" level="H3" />
+                    <ObjectStatus text="Ready to Calculate" state="Information" inverted="true" />
+                </HBox>
+
+                <Panel headerText="📦 Shipment Information" expandable="false" expanded="true" width="auto" class="sapUiSmallMarginBottom">
+                    <form:SimpleForm editable="false" layout="ResponsiveGridLayout" labelSpanL="4" labelSpanM="4" columnsL="2" columnsM="2">
+                        <form:content>
+                            <Label text="Customer" design="Bold"/> <Text text="{customer}" />
+                            <Label text="Driver" design="Bold"/> <Text text="Somchai P. (DRV-001)" />
+                            <Label text="Origin" design="Bold"/> <Text text="{origin}" />
+                            <Label text="Destination" design="Bold"/> <Text text="{destination}" />
+                            <Label text="Distance" design="Bold"/> <Text text="{distance} km" />
+                            <Label text="Weight" design="Bold"/> <Text text="{weight} kg" />
+                            <Label text="Delivered At" design="Bold"/> <Text text="{deliveredAt}" />
+                            <Label text="Service Type" design="Bold"/> <Text text="Standard Freight" />
+                        </form:content>
+                    </form:SimpleForm>
+                </Panel>
+
+                <Panel headerText="📋 Rate Master Applied" expandable="false" expanded="true" width="auto" class="sapUiSmallMarginBottom">
+                    <VBox class="sapUiSmallMargin">
+                        <HBox justifyContent="SpaceBetween">
+                            <Label text="Rate Agreement:" design="Bold" />
+                            <Text text="{rateId}" />
+                        </HBox>
+                        <HBox justifyContent="SpaceBetween" class="sapUiTinyMarginBottom">
+                            <Label text="Type:" design="Bold" />
+                            <Text text="Customer Rate - {customer}" />
+                        </HBox>
+                        
+                        <core:HTML content="&lt;hr&gt;" />
+                        
+                        <HBox justifyContent="SpaceBetween" class="sapUiTinyMarginTop">
+                            <Text text="Base Rate: ฿18.50 / km" />
+                            <Text text="Weight Rate: ฿2.00 / kg" />
+                        </HBox>
+                        <HBox justifyContent="SpaceBetween">
+                            <Text text="Fuel Surcharge: 8.5%" />
+                            <Text text="Discount: 5%" />
+                        </HBox>
+                    </VBox>
+                </Panel>
+
+                <Panel headerText="💰 Price Calculation" expandable="false" expanded="true" width="auto">
+                    <VBox class="sapUiSmallMargin">
+                        <HBox justifyContent="SpaceBetween" class="sapUiTinyMarginBottom">
+                            <Text text="Distance Charge ({distance} km × ฿18.50)" />
+                            <Text text="฿12,672.50" />
+                        </HBox>
+                        <HBox justifyContent="SpaceBetween" class="sapUiTinyMarginBottom">
+                            <Text text="Weight Charge ({weight} kg × ฿2.00)" />
+                            <Text text="฿4,900.00" />
+                        </HBox>
+                        <HBox justifyContent="SpaceBetween" class="sapUiSmallMarginBottom">
+                            <Text text="Subtotal" />
+                            <Label text="฿17,572.50" design="Bold"/>
+                        </HBox>
+                        <HBox justifyContent="SpaceBetween" class="sapUiTinyMarginBottom">
+                            <Text text="Fuel Surcharge (+8.5%)" />
+                            <Text text="฿1,493.66" />
+                        </HBox>
+                        <HBox justifyContent="SpaceBetween" class="sapUiMediumMarginBottom">
+                            <Text text="Customer Discount (-5%)" />
+                            <ObjectStatus text="-฿953.31" state="Success" />
+                        </HBox>
+                        <core:HTML content="&lt;hr&gt;" />
+                        <HBox justifyContent="SpaceBetween" alignItems="Center" class="sapUiSmallMarginTop">
+                            <Title text="TOTAL CUSTOMER CHARGE" level="H4" />
+                            <ObjectStatus text="฿18,112.85" state="Information" title="Total" active="true" />
+                        </HBox>
+                    </VBox>
+                </Panel>
+
+                <MessageStrip text="Next Step: Move to Approval Queue." type="Information" showIcon="true" class="sapUiSmallMarginTop"/>
+            </VBox>
+        </content>
+        
+        
+        
+        <buttons>
+            <Button text="✏️ Override Price" type="Attention" press=".onOverridePrice" />
+            <Button text="✅ Confirm &amp; Move to Approval" type="Emphasized" press=".onConfirmCalculation" />
+        </buttons>
+
+    </Dialog>
+</core:FragmentDefinition>

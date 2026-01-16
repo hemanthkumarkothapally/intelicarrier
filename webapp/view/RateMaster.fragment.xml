@@ -1,0 +1,237 @@
+<core:FragmentDefinition xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:layout="sap.ui.layout"
+    xmlns:f="sap.f"
+    xmlns:grid="sap.ui.layout.cssgrid">
+
+    <VBox width="100%">
+
+        <!-- Page Header -->
+        <Bar class="sapUiMediumMarginBottom">
+            <contentLeft>
+
+                <Title text="Rate Master" level="H4"/>
+
+            </contentLeft>
+            <contentRight>
+                <Button text="Import Rates" icon="sap-icon://download"/>
+                <Button text="Export" icon="sap-icon://upload"/>
+                <Button text="Add Rate Agreement" icon="sap-icon://add" type="Emphasized" press="onAddRatePress"/>
+            </contentRight>
+        </Bar>
+
+        <!-- Stats Tiles -->
+        <MessageStrip text="Configure pricing rules for internal fleet and external carrier contracts" type="Information" showIcon="true" class="sapUiMediumMarginBottom"/>
+
+        <FlexBox wrap="Wrap" columnGap="0px">
+
+            <!-- Total Orders -->
+            <GenericTile class=" sapUiSmallMarginBottom" frameType="TwoByHalf" width="8rem" header="Active Agreements" subheader="Special Pricing" press=".onCardPressFreight">
+                <TileContent>
+                    <NumericContent value="{orders>/summary/total}" valueColor="Neutral" withMargin="false"/>
+                </TileContent>
+            </GenericTile>
+
+            <!-- Pending Review -->
+            <GenericTile class=" sapUiSmallMarginBottom" frameType="TwoByHalf" width="8rem" header="Customer Rates" subheader="Special Pricing" press=".onCardPressFreight">
+                <TileContent>
+                    <NumericContent value="{orders>/summary/pendingReview}" icon="sap-icon://pending" valueColor="Critical" withMargin="false"/>
+                </TileContent>
+            </GenericTile>
+
+            <!-- Reviewed -->
+            <GenericTile class=" sapUiSmallMarginBottom" frameType="TwoByHalf" width="8rem" header="Route Rates" subheader="Location Based" press=".onCardPressFreight">
+                <TileContent>
+                    <NumericContent value="{orders>/summary/reviewed}" icon="sap-icon://accept" valueColor="Good" withMargin="false"/>
+                </TileContent>
+            </GenericTile>
+
+            <!-- Submitted -->
+            <GenericTile class=" sapUiSmallMarginBottom" frameType="TwoByHalf" width="8rem" header="Carrier Contracts" subheader="External Partners" press=".onCardPressFreight">
+                <TileContent>
+                    <NumericContent value="{orders>/summary/submitted}" icon="sap-icon://upload-to-cloud" valueColor="Neutral" withMargin="false"/>
+                </TileContent>
+            </GenericTile>
+
+            <!-- Approved -->
+            <GenericTile class=" sapUiSmallMarginBottom" frameType="TwoByHalf" width="8rem" header="Approved" subheader="Ready to confirm" press=".onCardPressFreight">
+                <TileContent>
+                    <NumericContent value="{orders>/summary/approved}" icon="sap-icon://supplier" valueColor="Good" withMargin="false"/>
+                </TileContent>
+            </GenericTile>
+
+
+
+            <!-- Confirmed -->
+            <GenericTile class="sapUiSmallMarginBottom" frameType="TwoByHalf" width="8rem" header="Expiring Soon" subheader="Action Required" press=".onCardPressFreight">
+                <TileContent>
+                    <NumericContent value="{orders>/summary/confirmed}" icon="sap-icon://warning" valueColor="Good" withMargin="false"/>
+                </TileContent>
+            </GenericTile>
+
+        </FlexBox>
+
+
+
+        <!-- Icon Tab Bar for filtering -->
+        <IconTabBar id="rateTabBar" select="onTabSelect" selectedKey="all" class="sapUiResponsiveContentPadding">
+
+            <items>
+                <IconTabFilter text="All Rates" key="all" count="45" icon="sap-icon://list"/>
+                <IconTabSeparator />
+                <IconTabFilter text="Customer Rates" key="customer" count="18" icon="sap-icon://customer"/>
+                <IconTabSeparator />
+                <IconTabFilter text="Route Rates" key="route" count="12" icon="sap-icon://map-2"/>
+                <IconTabSeparator />
+                <IconTabFilter text="Carrier Contracts" key="carrier" count="15" icon="sap-icon://supplier"/>
+                <IconTabSeparator />
+                <IconTabFilter text="Surcharges" key="surcharge" count="8" icon="sap-icon://money-bills"/>
+                <IconTabSeparator />
+                <IconTabFilter text="Expiring" key="expiring" count="3" icon="sap-icon://warning" iconColor="Critical"/>
+            </items>
+
+            <content>
+                <!-- Table Panel -->
+                <Panel headerText="Rate Agreements" class="sapUiNoContentPadding">
+                    <headerToolbar>
+                        <OverflowToolbar>
+                            <SearchField width="300px" placeholder="Search by ID, name, customer..." search="onSearch"/>
+                            <ToolbarSpacer/>
+                            <ComboBox placeholder="All Types" width="150px" selectionChange="onTypeFilterChange">
+                                <items>
+                                    <core:Item key="" text="All Types"/>
+                                    <core:Item key="customer" text="Customer Rates"/>
+                                    <core:Item key="route" text="Route Rates"/>
+                                    <core:Item key="carrier" text="Carrier Contracts"/>
+                                    <core:Item key="surcharge" text="Surcharge"/>
+                                </items>
+                            </ComboBox>
+                            <ComboBox placeholder="All Status" width="150px" selectionChange="onStatusFilterChange">
+                                <items>
+                                    <core:Item key="" text="All Status"/>
+                                    <core:Item key="ACTIVE" text="Active"/>
+                                    <core:Item key="EXPIRING" text="Expiring Soon"/>
+                                    <core:Item key="EXPIRED" text="Expired"/>
+                                    <core:Item key="DRAFT" text="Draft"/>
+                                </items>
+                            </ComboBox>
+                            <Button icon="sap-icon://refresh" press="onRefreshPress"/>
+                        </OverflowToolbar>
+                    </headerToolbar>
+
+                    <content>
+                        <Table mode="None"  fixedLayout="false" id="ratesTables" items="{
+                                   path: 'RateMasterData>/rates',
+                                   sorter: {
+                                       path: 'id'
+                                   }
+                               }" selectionChange="onRateSelect">
+                            <columns>
+                                <Column >
+                                    <Text text="Rate ID"/>
+                                </Column>
+                                <Column >
+                                    <Text text="Type"/>
+                                </Column>
+                                <Column >
+                                    <Text  text="Name / Description"/>
+                                </Column>
+                                <Column>
+                                    <Text text="Base Rate"/>
+                                </Column>
+                                <Column>
+                                    <Text text="Weight Rate"/>
+                                </Column>
+                                <Column>
+                                    <Text text="Fuel %"/>
+                                </Column>
+                                <Column >
+                                    <Text text="Discount"/>
+                                </Column>
+                                <Column>
+                                    <Text text="Valid From"/>
+                                </Column>
+                                <Column>
+                                    <Text text="Valid To"/>
+                                </Column>
+                                <Column>
+                                    <Text text="Status"/>
+                                </Column>
+                                <Column>
+                                    <Text text="Actions"/>
+                                </Column>
+                            </columns>
+
+                            <items>
+                                <ColumnListItem type="Active" press="onViewRatePress">
+                                    <cells>
+                                        <ObjectIdentifier title="{RateMasterData>id}"/>
+
+                                        <HBox alignItems="Center">
+                                            <core:Icon src="{
+                                                    path: 'RateMasterData>type',
+                                                    formatter: '.formatter.getRateTypeIcon'
+                                                }" color="{
+                                                    path: 'RateMasterData>type',
+                                                    formatter: '.formatter.getRateTypeColor'
+                                                }" class="sapUiTinyMarginEnd"/>
+                                            <ObjectStatus text="{
+                                                    path: 'RateMasterData>type',
+                                                    formatter: '.formatter.getRateTypeText'
+                                                }" state="{
+                                                    path: 'RateMasterData>type',
+                                                    formatter: '.formatter.getRateTypeState'
+                                                }"/>
+                                        </HBox>
+
+                                        <Text text="{RateMasterData>name}" wrapping="false"/>
+
+                                        <ObjectNumber number="{
+                                                parts: ['RateMasterData>baseKm'],
+                                                formatter: '.formatter.formatCurrency'
+                                            }" unit="฿/km" emphasized="true"/>
+
+                                        <ObjectNumber number="{
+                                                parts: ['RateMasterData>weightKg'],
+                                                formatter: '.formatter.formatCurrency'
+                                            }" unit="฿/kg" emphasized="true"/>
+
+                                        <ObjectNumber number="{RateMasterData>fuel}" unit="%" state="Warning"/>
+
+                                        <ObjectNumber number="{RateMasterData>discount}" unit="%" state="Success"/>
+
+                                        <Text text="{
+                                            path: 'RateMasterData>validFrom',
+                                            formatter: '.formatter.formatDate'
+                                        }"/>
+
+                                        <Text text="{
+                                            path: 'RateMasterData>validTo',
+                                            formatter: '.formatter.formatDate'
+                                        }"/>
+
+                                        <ObjectStatus text="{
+                                                path: 'RateMasterData>status',
+                                                formatter: '.formatter.getStatusText'
+                                            }" state="{
+                                                path: 'RateMasterData>status',
+                                                formatter: '.formatter.getStatusState'
+                                            }"/>
+
+                                        <HBox justifyContent="Center">
+                                            <Button icon="sap-icon://display" type="Transparent" tooltip="View Details" press="onViewRatePress"/>
+                                            <Button icon="sap-icon://edit" type="Transparent" tooltip="Edit" press="onEditRatePress"/>
+                                            <Button icon="sap-icon://duplicate" type="Transparent" tooltip="Duplicate" press="onDuplicateRatePress"/>
+                                        </HBox>
+                                    </cells>
+                                </ColumnListItem>
+                            </items>
+                        </Table>
+                    </content>
+                </Panel>
+            </content>
+        </IconTabBar>
+
+    </VBox>
+
+</core:FragmentDefinition>
