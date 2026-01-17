@@ -77,9 +77,17 @@
         "type": "sap.ui.model.json.JSONModel",
         "uri": "model/RateMaster.json"
       },
+      "gateLogModel": {
+        "type": "sap.ui.model.json.JSONModel",
+        "uri": "model/gateLogData.json"
+      },
       "SubDistrictModel": {
         "type": "sap.ui.model.json.JSONModel",
         "uri": "model/subdistricts.json"
+      },
+      "vehicleDataModel": {
+        "type": "sap.ui.model.json.JSONModel",
+        "uri": "model/vehicleData.json"
       },
       "orders": {
         "type": "sap.ui.model.json.JSONModel",
