@@ -2501,6 +2501,20 @@ color: #0066cc !important;
     font-size: 30px;
     font-weight: bold;
 }
+
+
+/* ========================================
+   DASHBOARD STYLES
+   ======================================== */
+
+
+   /* .kpiTileBlue{
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%) !important;
+    color: white !important;
+    
+    border-radius: 12px !important;
+    box-shadow: 0 8px 30px rgba(59, 130, 246, 0.3) !important;
+   } */
 /* ===== Dialog ===== */
 .docPrintDialog .sapMDialogSection {
     background: #ffffff;

@@ -1,0 +1,33 @@
+{
+  "kpis": [
+    {"id":"totalOrders","label":"Total Orders","value":263,"trend":"12% vs yesterday","badge":"Today","color":"#1e88e5"},
+    {"id":"inTransit","label":"In Transit","value":95,"sub":"42 vehicles on road","badge":"Active","color":"#0f9d58"},
+    {"id":"awaiting","label":"Awaiting Action","value":25,"sub":"8 need review","badge":"Pending","color":"#f57c00"},
+    {"id":"revenue","label":"Revenue","value":"฿4.2M","sub":"8% vs last month","badge":"MTD","color":"#8e24aa"},
+    {"id":"otd","label":"On-Time Delivery","value":"96.5%","sub":"2.3% improvement","badge":"Rate","color":"#00acc1"},
+    {"id":"exceptions","label":"Exceptions","value":2,"sub":"2 critical","badge":"Alert","color":"#e53935"}
+  ],
+  "ordersTrend": [
+    {"Day":"Mon","Orders":180,"Completed":170},
+    {"Day":"Tue","Orders":210,"Completed":200},
+    {"Day":"Wed","Orders":190,"Completed":180},
+    {"Day":"Thu","Orders":230,"Completed":220},
+    {"Day":"Fri","Orders":250,"Completed":240},
+    {"Day":"Sat","Orders":170,"Completed":160},
+    {"Day":"Sun","Orders":160,"Completed":155}
+  ],
+  "revenueByService":[
+    {"service":"Internal Fleet","value":4200000,"color":"#1565c0"},
+    {"service":"External Carriers","value":1200000,"color":"#2e7d32"},
+    {"service":"Express","value":1000000,"color":"#ef6c00"},
+    {"service":"Standard","value":600000,"color":"#7b1fa2"}
+  ],
+  "fleetStatus":[
+    {"label":"On Road","value":42,"color":"#2e7d32"},
+    {"label":"Available","value":8,"color":"#1e88e5"},
+    {"label":"Loading","value":3,"color":"#ffb74d"},
+    {"label":"Unloading","value":5,"color":"#ce93d8"},
+    {"label":"Maintenance","value":2,"color":"#90a4ae"},
+    {"label":"Breakdown","value":0,"color":"#ef9a9a"}
+  ]
+}

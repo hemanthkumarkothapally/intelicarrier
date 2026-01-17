@@ -51,7 +51,8 @@
       "minUI5Version": "1.138.1",
       "libs": {
         "sap.m": {},
-        "sap.ui.core": {}
+        "sap.ui.core": {},
+        "sap.viz": {}
       }
     },
     "contentDensities": {
@@ -92,6 +93,13 @@
       "orders": {
         "type": "sap.ui.model.json.JSONModel",
         "uri": "model/orders.json",
+        "settings": {
+          "defaultBindingMode": "TwoWay"
+        }
+      },
+      "dashboard": {
+        "type": "sap.ui.model.json.JSONModel",
+        "uri": "model/dashboard.json",
         "settings": {
           "defaultBindingMode": "TwoWay"
         }
