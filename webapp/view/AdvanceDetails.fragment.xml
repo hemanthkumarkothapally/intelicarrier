@@ -1,7 +1,7 @@
 <core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
 
     <Dialog id="advanceDetailsDialog"
-            contentWidth="1000px"
+            contentWidth="1100px"
             contentHeight="380px"
             title="Advance Details - {advDetails>/advanceId}"
             draggable="true"
@@ -10,9 +10,9 @@
 
         
         <content>
-            <VBox width="86%" class="sapUiMediumMargin advSummaryCard">
+            <VBox class="sapUiMediumMargin">
 
-                <HBox justifyContent="SpaceBetween" alignItems="Center">
+                <HBox  alignItems="Center">
                     <VBox>
                         <Text text="Current Balance" class="advLabelLight"/>
                         <Title text="{advDetails>/remaining}" level="H1" class="advBalanceBig"/>
@@ -23,11 +23,11 @@
                                   inverted="true"/>
                 </HBox>
 
-                <Toolbar class="sapUiMediumMarginTop advDividerLine">
+                <Toolbar class="sapUiMediumMarginTop ">
                     <ToolbarSpacer/>
                 </Toolbar>
 
-                <HBox justifyContent="SpaceBetween" class="sapUiMediumMarginTop">
+                <HBox  class="sapUiMediumMarginTop">
                     <VBox  alignItems="Center">
                         <Text text="Advance" class="advLabelLight"/>
                         <Title text="{advDetails>/advance}" level="H3" class="advValueSmall"/>
@@ -46,7 +46,7 @@
 
             </VBox>
             
-                <HBox width="98%">
+                <HBox width="990px">
                 <Image src="model/imageadv.png"></Image>
                 </HBox>
         </content>

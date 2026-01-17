@@ -4225,10 +4225,10 @@ onProcessSettlement: function () {
     this.onCloseReconcileDialog();
 
     // Example generated Settlement ID
-    var sSettlementId = "8062225001";
+    var sSettlementId = "806222";
 
     // Get values from model
-    var oRecData = this._oReconcileDialog.getModel("recModel").getData();
+    var oRecData = this.getView().getModel("recModel").getData();
     var sRefundAmount = oRecData.toReturn || "฿0";
 
     sap.m.MessageBox.information(
