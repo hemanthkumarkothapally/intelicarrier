@@ -1,0 +1,453 @@
+<core:FragmentDefinition xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:f="sap.ui.layout.form"
+    xmlns:l="sap.ui.layout">
+
+    <Dialog title="📋 Create Checklist Template" contentWidth="900px" contentHeight="750px" resizable="true" draggable="true">
+
+        <customHeader>
+            <Bar>
+                <contentLeft>
+                    <VBox>
+                        <Title text="📋 Create Checklist Template" level="H2"/>
+                        <!-- <Text text="Define inspection items for pre-trip vehicle checks" class="sapUiTinyText"/> -->
+                    </VBox>
+                </contentLeft>
+                <contentRight>
+                    <Button icon="sap-icon://decline" press="onCloseDialog"/>
+                </contentRight>
+            </Bar>
+        </customHeader>
+
+        <content>
+            <ScrollContainer height="100%" width="100%" vertical="true">
+                <VBox class="sapUiSmallMargin">
+
+                    <!-- Template Basic Info -->
+                    <l:Grid defaultSpan="L6 M12 S12" class="sapUiSmallMarginBottom">
+                        <VBox class="sapUiTinyMargin">
+                            <Label text="Template Name" required="true" class="sapUiTinyMarginBottom"/>
+                            <Input value="{templateModel>/templateName}" placeholder="e.g., LPG Tanker Pre-Trip Checklist"/>
+                        </VBox>
+
+                        <VBox class="sapUiTinyMargin">
+                            <Label text="Template Code" required="true" class="sapUiTinyMarginBottom"/>
+                            <Input value="{templateModel>/templateCode}" placeholder="e.g., CHK-LPG-001" class="sapUiSmallMarginEnd"/>
+                        </VBox>
+                    </l:Grid>
+
+                    <!-- Assign to Product Types -->
+                    <VBox class="sapUiSmallMarginBottom sapUiSmallMarginEnd">
+                        <Label text="Assign to Product Types" required="true" class="sapUiTinyMarginBottom"/>
+                        <l:Grid defaultSpan="L4 M6 S12">
+                            <SegmentedButton selectedKey="{templateModel>/productType}">
+                                <items>
+                                    <SegmentedButtonItem key="lpg" icon="sap-icon://energy-saving-lightbulb" text="🔥 LPG"/>
+                                    <SegmentedButtonItem key="fuel" icon="sap-icon://heating-cooling" text="⛽ Fuel"/>
+                                    <SegmentedButtonItem key="ngv" icon="sap-icon://cart" text="🌿 NGV"/>
+                                    <SegmentedButtonItem key="chemical" icon="sap-icon://nutrition-activity" text="🧪 Chemical"/>
+                                    <SegmentedButtonItem key="container" icon="sap-icon://cargo-train" text="📦 Container"/>
+                                </items>
+                            </SegmentedButton>
+                        </l:Grid>
+                    </VBox>
+
+                    <!-- Checklist Items by Category -->
+                    <VBox class="sapUiMediumMarginTop sapUiSmallMarginEnd">
+                        <HBox alignItems="Center" class="sapUiSmallMarginBottom">
+                            <core:Icon src="sap-icon://checklist-item" class="sapUiSmallMarginEnd"/>
+                            <Title text="Checklist Items by Category" level="H4"/>
+                        </HBox>
+
+                        <!-- Exterior Inspection Category -->
+                        <Panel headerText="🚗 Exterior Inspection" expandable="true" expanded="true" class="sapUiSmallMarginBottom">
+                            <headerToolbar>
+                                <OverflowToolbar>
+                                    <Title text="🚗 Exterior Inspection"/>
+                                    <ToolbarSpacer/>
+                                    <Label text="6" design="Bold"/>
+                                </OverflowToolbar>
+                            </headerToolbar>
+                            <content>
+                                <VBox class="sapUiSmallMarginEnd">
+                                    <!-- Check Items -->
+                                    <HBox justifyContent="SpaceBetween" alignItems="Center" class="sapUiTinyMarginBottom sapUiTinyMarginTop">
+                                        <HBox alignItems="Center" width="40%">
+                                            <core:Icon src="sap-icon://menu2" class="sapUiSmallMarginEnd" color="#6A6D70"/>
+                                            <Text text="Tire condition &amp; pressure"/>
+                                        </HBox>
+                                        <HBox>
+                                            <Button text="Yes/No" type="Transparent" class="sapUiSmallMarginEnd"/>
+                                            <Button text="Required" type="Reject" class="sapUiSmallMarginEnd"/>
+                                            <Button icon="sap-icon://camera" type="Transparent" tooltip="Photo required" class="sapUiSmallMarginEnd"/>
+                                            <Button icon="sap-icon://edit" type="Transparent" press="onEditCheckItem" class="sapUiSmallMarginEnd"/>
+                                            <Button icon="sap-icon://delete" type="Transparent" press="onDeleteCheckItem"/>
+                                        </HBox>
+                                    </HBox>
+
+                                    <HBox justifyContent="SpaceBetween" alignItems="Center" class="sapUiTinyMarginBottom">
+                                        <HBox alignItems="Center" width="40%">
+                                            <core:Icon src="sap-icon://menu2" class="sapUiSmallMarginEnd" color="#6A6D70"/>
+                                            <Text text="Headlights &amp; tail lights"/>
+                                        </HBox>
+                                        <HBox>
+                                            <Button text="Yes/No" type="Transparent" class="sapUiSmallMarginEnd"/>
+                                            <Button text="Required" type="Reject" class="sapUiSmallMarginEnd"/>
+                                            <Button icon="sap-icon://edit" type="Transparent" press="onEditCheckItem" class="sapUiSmallMarginEnd"/>
+                                            <Button icon="sap-icon://delete" type="Transparent" press="onDeleteCheckItem"/>
+                                        </HBox>
+                                    </HBox>
+
+                                    <HBox justifyContent="SpaceBetween" alignItems="Center" class="sapUiTinyMarginBottom">
+                                        <HBox alignItems="Center" width="40%">
+                                            <core:Icon src="sap-icon://menu2" class="sapUiSmallMarginEnd" color="#6A6D70"/>
+                                            <Text text="Turn signals &amp; hazard lights"/>
+                                        </HBox>
+                                        <HBox>
+                                            <Button text="Yes/No" type="Transparent" class="sapUiSmallMarginEnd"/>
+                                            <Button text="Required" type="Reject" class="sapUiSmallMarginEnd"/>
+                                            <Button icon="sap-icon://edit" type="Transparent" press="onEditCheckItem" class="sapUiSmallMarginEnd"/>
+                                            <Button icon="sap-icon://delete" type="Transparent" press="onDeleteCheckItem"/>
+                                        </HBox>
+                                    </HBox>
+
+                                    <HBox justifyContent="SpaceBetween" alignItems="Center" class="sapUiTinyMarginBottom">
+                                        <HBox alignItems="Center" width="40%">
+                                            <core:Icon src="sap-icon://menu2" class="sapUiSmallMarginEnd" color="#6A6D70"/>
+                                            <Text text="Windshield &amp; wipers"/>
+                                        </HBox>
+                                        <HBox>
+                                            <Button text="Yes/No" type="Transparent" class="sapUiSmallMarginEnd"/>
+                                            <Button icon="sap-icon://edit" type="Transparent" press="onEditCheckItem" class="sapUiSmallMarginEnd"/>
+                                            <Button icon="sap-icon://delete" type="Transparent" press="onDeleteCheckItem"/>
+                                        </HBox>
+                                    </HBox>
+
+                                    <Button text="+ Add Check Item" type="Transparent" press="onAddCheckItem" class="sapUiSmallMarginTop"/>
+                                </VBox>
+                            </content>
+                        </Panel>
+
+                        <!-- Engine & Mechanical Category -->
+                        <Panel headerText="🔧 Engine &amp; Mechanical" expandable="true" expanded="true" class="sapUiSmallMarginBottom">
+                            <headerToolbar>
+                                <OverflowToolbar>
+                                    <Title text="🔧 Engine &amp; Mechanical"/>
+                                    <ToolbarSpacer/>
+                                    <Label text="5" design="Bold"/>
+                                </OverflowToolbar>
+                            </headerToolbar>
+                            <content>
+                                <VBox class="sapUiSmallMarginEnd">
+                                    <HBox justifyContent="SpaceBetween" alignItems="Center" class="sapUiTinyMarginBottom sapUiTinyMarginTop">
+                                        <HBox alignItems="Center" width="40%">
+                                            <core:Icon src="sap-icon://menu2" class="sapUiSmallMarginEnd" color="#6A6D70"/>
+                                            <Text text="Engine oil level"/>
+                                        </HBox>
+                                        <HBox>
+                                            <Button text="Select" type="Transparent" class="sapUiSmallMarginEnd"/>
+                                            <Button text="Required" type="Reject" class="sapUiSmallMarginEnd"/>
+
+                                            <Button icon="sap-icon://delete" type="Transparent" press="onDeleteCheckItem"/>
+                                        </HBox>
+                                    </HBox>
+
+                                    <HBox justifyContent="SpaceBetween" alignItems="Center" class="sapUiTinyMarginBottom">
+                                        <HBox alignItems="Center" width="40%">
+                                            <core:Icon src="sap-icon://menu2" class="sapUiSmallMarginEnd" color="#6A6D70"/>
+                                            <Text text="Coolant level"/>
+                                        </HBox>
+                                        <HBox>
+                                            <Button text="Select" type="Transparent" class="sapUiSmallMarginEnd"/>
+                                            <Button text="Required" type="Reject" class="sapUiSmallMarginEnd"/>
+
+                                            <Button icon="sap-icon://delete" type="Transparent" press="onDeleteCheckItem"/>
+                                        </HBox>
+                                    </HBox>
+
+                                    <HBox justifyContent="SpaceBetween" alignItems="Center" class="sapUiTinyMarginBottom">
+                                        <HBox alignItems="Center" width="40%">
+                                            <core:Icon src="sap-icon://menu2" class="sapUiSmallMarginEnd" color="#6A6D70"/>
+                                            <Text text="Brake fluid level"/>
+                                        </HBox>
+                                        <HBox>
+                                            <Button text="Select" type="Transparent" class="sapUiSmallMarginEnd"/>
+                                            <Button text="Required" type="Reject" class="sapUiSmallMarginEnd"/>
+
+                                            <Button icon="sap-icon://delete" type="Transparent" press="onDeleteCheckItem"/>
+                                        </HBox>
+                                    </HBox>
+
+                                    <HBox justifyContent="SpaceBetween" alignItems="Center" class="sapUiTinyMarginBottom">
+                                        <HBox alignItems="Center" width="40%">
+                                            <core:Icon src="sap-icon://menu2" class="sapUiSmallMarginEnd" color="#6A6D70"/>
+                                            <Text text="Battery condition"/>
+                                        </HBox>
+                                        <HBox>
+                                            <Button text="Yes/No" type="Transparent" class="sapUiSmallMarginEnd"/>
+
+                                            <Button icon="sap-icon://delete" type="Transparent" press="onDeleteCheckItem"/>
+                                        </HBox>
+                                    </HBox>
+
+                                    <HBox justifyContent="SpaceBetween" alignItems="Center" class="sapUiTinyMarginBottom">
+                                        <HBox alignItems="Center" width="40%">
+                                            <core:Icon src="sap-icon://menu2" class="sapUiSmallMarginEnd" color="#6A6D70"/>
+                                            <Text text="Odometer reading"/>
+                                        </HBox>
+                                        <HBox>
+                                            <Button text="Number" type="Transparent" class="sapUiSmallMarginEnd"/>
+                                            <Button text="Required" type="Reject" class="sapUiSmallMarginEnd"/>
+
+                                            <Button icon="sap-icon://delete" type="Transparent" press="onDeleteCheckItem"/>
+                                        </HBox>
+                                    </HBox>
+
+                                    <Button text="+ Add Check Item" type="Transparent" press="onAddCheckItem" class="sapUiSmallMarginTop"/>
+                                </VBox>
+                            </content>
+                        </Panel>
+
+                        <!-- Safety Equipment Category -->
+                        <Panel headerText="🚨 Safety Equipment" expandable="true" expanded="true" class="sapUiSmallMarginBottom">
+                            <headerToolbar>
+                                <OverflowToolbar>
+                                    <Title text="🚨 Safety Equipment"/>
+                                    <ToolbarSpacer/>
+                                    <Label text="6" design="Bold"/>
+                                </OverflowToolbar>
+                            </headerToolbar>
+                            <content>
+                                <VBox class="sapUiSmallMarginEnd">
+                                    <HBox justifyContent="SpaceBetween" alignItems="Center" class="sapUiTinyMarginBottom sapUiTinyMarginTop">
+                                        <HBox alignItems="Center" width="40%">
+                                            <core:Icon src="sap-icon://menu2" class="sapUiSmallMarginEnd" color="#6A6D70"/>
+                                            <Text text="Fire extinguisher (valid)"/>
+                                        </HBox>
+                                        <HBox>
+                                            <Button text="Yes/No" type="Transparent" class="sapUiSmallMarginEnd"/>
+                                            <Button text="Required" type="Reject" class="sapUiSmallMarginEnd"/>
+                                            <Button icon="sap-icon://camera" type="Transparent" tooltip="Photo required" class="sapUiSmallMarginEnd"/>
+
+                                            <Button icon="sap-icon://delete" type="Transparent" press="onDeleteCheckItem"/>
+                                        </HBox>
+                                    </HBox>
+
+                                    <HBox justifyContent="SpaceBetween" alignItems="Center" class="sapUiTinyMarginBottom">
+                                        <HBox alignItems="Center" width="40%">
+                                            <core:Icon src="sap-icon://menu2" class="sapUiSmallMarginEnd" color="#6A6D70"/>
+                                            <Text text="First aid kit"/>
+                                        </HBox>
+                                        <HBox>
+                                            <Button text="Yes/No" type="Transparent" class="sapUiSmallMarginEnd"/>
+                                            <Button text="Required" type="Reject" class="sapUiSmallMarginEnd"/>
+
+                                            <Button icon="sap-icon://delete" type="Transparent" press="onDeleteCheckItem"/>
+                                        </HBox>
+                                    </HBox>
+
+                                    <HBox justifyContent="SpaceBetween" alignItems="Center" class="sapUiTinyMarginBottom">
+                                        <HBox alignItems="Center" width="40%">
+                                            <core:Icon src="sap-icon://menu2" class="sapUiSmallMarginEnd" color="#6A6D70"/>
+                                            <Text text="Reflective triangles"/>
+                                        </HBox>
+                                        <HBox>
+                                            <Button text="Yes/No" type="Transparent" class="sapUiSmallMarginEnd"/>
+                                            <Button text="Required" type="Reject" class="sapUiSmallMarginEnd"/>
+
+                                            <Button icon="sap-icon://delete" type="Transparent" press="onDeleteCheckItem"/>
+                                        </HBox>
+                                    </HBox>
+
+                                    <HBox justifyContent="SpaceBetween" alignItems="Center" class="sapUiTinyMarginBottom">
+                                        <HBox alignItems="Center" width="40%">
+                                            <core:Icon src="sap-icon://menu2" class="sapUiSmallMarginEnd" color="#6A6D70"/>
+                                            <Text text="Safety vest"/>
+                                        </HBox>
+                                        <HBox>
+                                            <Button text="Yes/No" type="Transparent" class="sapUiSmallMarginEnd"/>
+
+                                            <Button icon="sap-icon://delete" type="Transparent" press="onDeleteCheckItem"/>
+                                        </HBox>
+                                    </HBox>
+
+                                    <HBox justifyContent="SpaceBetween" alignItems="Center" class="sapUiTinyMarginBottom">
+                                        <HBox alignItems="Center" width="40%">
+                                            <core:Icon src="sap-icon://menu2" class="sapUiSmallMarginEnd" color="#6A6D70"/>
+                                            <Text text="Safety gloves"/>
+                                        </HBox>
+                                        <HBox>
+                                            <Button text="Yes/No" type="Transparent" class="sapUiSmallMarginEnd"/>
+
+                                            <Button icon="sap-icon://delete" type="Transparent" press="onDeleteCheckItem"/>
+                                        </HBox>
+                                    </HBox>
+
+                                    <HBox justifyContent="SpaceBetween" alignItems="Center" class="sapUiTinyMarginBottom">
+                                        <HBox alignItems="Center" width="40%">
+                                            <core:Icon src="sap-icon://menu2" class="sapUiSmallMarginEnd" color="#6A6D70"/>
+                                            <Text text="Emergency contact list"/>
+                                        </HBox>
+                                        <HBox>
+                                            <Button text="Yes/No" type="Transparent" class="sapUiSmallMarginEnd"/>
+
+                                            <Button icon="sap-icon://delete" type="Transparent" press="onDeleteCheckItem"/>
+                                        </HBox>
+                                    </HBox>
+
+                                    <Button text="+ Add Check Item" type="Transparent" press="onAddCheckItem" class="sapUiSmallMarginTop"/>
+                                </VBox>
+                            </content>
+                        </Panel>
+
+                        <!-- Documents Category -->
+                        <Panel headerText="📄 Documents" expandable="true" expanded="false" class="sapUiSmallMarginBottom">
+                            <headerToolbar>
+                                <OverflowToolbar>
+                                    <Title text="📄 Documents"/>
+                                    <ToolbarSpacer/>
+                                    <Label text="4" design="Bold"/>
+                                </OverflowToolbar>
+                            </headerToolbar>
+                            <content>
+                                <VBox class="sapUiSmallMarginEnd" >
+                                    <HBox justifyContent="SpaceBetween" alignItems="Center" class="sapUiTinyMarginBottom sapUiTinyMarginTop">
+                                        <HBox alignItems="Center" width="40%">
+                                            <core:Icon src="sap-icon://menu2" class="sapUiSmallMarginEnd" color="#6A6D70"/>
+                                            <Text text="Driver's license"/>
+                                        </HBox>
+                                        <HBox>
+                                            <Button text="Yes/No" type="Transparent" class="sapUiSmallMarginEnd"/>
+                                            <Button text="Required" type="Reject" class="sapUiSmallMarginEnd"/>
+
+                                            <Button icon="sap-icon://delete" type="Transparent" press="onDeleteCheckItem"/>
+                                        </HBox>
+                                    </HBox>
+
+                                    <HBox justifyContent="SpaceBetween" alignItems="Center" class="sapUiTinyMarginBottom">
+                                        <HBox alignItems="Center" width="40%">
+                                            <core:Icon src="sap-icon://menu2" class="sapUiSmallMarginEnd" color="#6A6D70"/>
+                                            <Text text="Vehicle registration"/>
+                                        </HBox>
+                                        <HBox>
+                                            <Button text="Yes/No" type="Transparent" class="sapUiSmallMarginEnd"/>
+                                            <Button text="Required" type="Reject" class="sapUiSmallMarginEnd"/>
+
+                                            <Button icon="sap-icon://delete" type="Transparent" press="onDeleteCheckItem"/>
+                                        </HBox>
+                                    </HBox>
+
+                                    <HBox justifyContent="SpaceBetween" alignItems="Center" class="sapUiTinyMarginBottom">
+                                        <HBox alignItems="Center" width="40%">
+                                            <core:Icon src="sap-icon://menu2" class="sapUiSmallMarginEnd" color="#6A6D70"/>
+                                            <Text text="Insurance certificate"/>
+                                        </HBox>
+                                        <HBox>
+                                            <Button text="Yes/No" type="Transparent" class="sapUiSmallMarginEnd"/>
+                                            <Button text="Required" type="Reject" class="sapUiSmallMarginEnd"/>
+
+                                            <Button icon="sap-icon://delete" type="Transparent" press="onDeleteCheckItem"/>
+                                        </HBox>
+                                    </HBox>
+
+                                    <HBox justifyContent="SpaceBetween" alignItems="Center" class="sapUiTinyMarginBottom">
+                                        <HBox alignItems="Center" width="40%">
+                                            <core:Icon src="sap-icon://menu2" class="sapUiSmallMarginEnd" color="#6A6D70"/>
+                                            <Text text="Hazmat permit"/>
+                                        </HBox>
+                                        <HBox>
+                                            <Button text="Yes/No" type="Transparent" class="sapUiSmallMarginEnd"/>
+
+                                            <Button icon="sap-icon://delete" type="Transparent" press="onDeleteCheckItem"/>
+                                        </HBox>
+                                    </HBox>
+
+                                    <Button text="+ Add Check Item" type="Transparent" press="onAddCheckItem" class="sapUiSmallMarginTop"/>
+                                </VBox>
+                            </content>
+                        </Panel>
+
+                        <!-- Cargo/Tank Area Category -->
+                        <Panel headerText="🚛 Cargo/Tank Area" expandable="true" expanded="false" class="sapUiSmallMarginBottom sapUiSmallMarginEnd">
+                            <headerToolbar>
+                                <OverflowToolbar>
+                                    <Title text="🚛 Cargo/Tank Area"/>
+                                    <ToolbarSpacer/>
+                                    <Label text="4" design="Bold"/>
+                                </OverflowToolbar>
+                            </headerToolbar>
+                            <content>
+                                <VBox>
+                                    <HBox justifyContent="SpaceBetween" alignItems="Center" class="sapUiTinyMarginBottom sapUiTinyMarginTop">
+                                        <HBox alignItems="Center" width="40%">
+                                            <core:Icon src="sap-icon://menu2" class="sapUiSmallMarginEnd" color="#6A6D70"/>
+                                            <Text text="Tank/cargo area clean"/>
+                                        </HBox>
+                                        <HBox>
+                                            <Button text="Yes/No" type="Transparent" class="sapUiSmallMarginEnd"/>
+                                            <Button text="Required" type="Reject" class="sapUiSmallMarginEnd"/>
+                                            <Button icon="sap-icon://camera" type="Transparent" tooltip="Photo required" class="sapUiSmallMarginEnd"/>
+
+                                            <Button icon="sap-icon://delete" type="Transparent" press="onDeleteCheckItem"/>
+                                        </HBox>
+                                    </HBox>
+
+                                    <HBox justifyContent="SpaceBetween" alignItems="Center" class="sapUiTinyMarginBottom">
+                                        <HBox alignItems="Center" width="40%">
+                                            <core:Icon src="sap-icon://menu2" class="sapUiSmallMarginEnd" color="#6A6D70"/>
+                                            <Text text="Valves &amp; fittings secure"/>
+                                        </HBox>
+                                        <HBox>
+                                            <Button text="Yes/No" type="Transparent" class="sapUiSmallMarginEnd"/>
+                                            <Button text="Required" type="Reject" class="sapUiSmallMarginEnd"/>
+
+                                            <Button icon="sap-icon://delete" type="Transparent" press="onDeleteCheckItem"/>
+                                        </HBox>
+                                    </HBox>
+
+                                    <HBox justifyContent="SpaceBetween" alignItems="Center" class="sapUiTinyMarginBottom">
+                                        <HBox alignItems="Center" width="40%">
+                                            <core:Icon src="sap-icon://menu2" class="sapUiSmallMarginEnd" color="#6A6D70"/>
+                                            <Text text="Hoses condition"/>
+                                        </HBox>
+                                        <HBox>
+                                            <Button text="Yes/No" type="Transparent" class="sapUiSmallMarginEnd"/>
+
+                                            <Button icon="sap-icon://delete" type="Transparent" press="onDeleteCheckItem"/>
+                                        </HBox>
+                                    </HBox>
+
+                                    <HBox justifyContent="SpaceBetween" alignItems="Center" class="sapUiTinyMarginBottom">
+                                        <HBox alignItems="Center" width="40%">
+                                            <core:Icon src="sap-icon://menu2" class="sapUiSmallMarginEnd" color="#6A6D70"/>
+                                            <Text text="No leaks detected"/>
+                                        </HBox>
+                                        <HBox>
+                                            <Button text="Yes/No" type="Transparent" class="sapUiSmallMarginEnd"/>
+                                            <Button text="Required" type="Reject" class="sapUiSmallMarginEnd"/>
+                                            <Button icon="sap-icon://camera" type="Transparent" tooltip="Photo required" class="sapUiSmallMarginEnd"/>
+
+                                            <Button icon="sap-icon://delete" type="Transparent" press="onDeleteCheckItem"/>
+                                        </HBox>
+                                    </HBox>
+
+                                    <Button text="+ Add Check Item" type="Transparent" press="onAddCheckItem" class="sapUiSmallMarginTop"/>
+                                </VBox>
+                            </content>
+                        </Panel>
+
+                    </VBox>
+
+                </VBox>
+            </ScrollContainer>
+        </content>
+
+        <beginButton>
+            <Button text="Cancel" press="onCloseDialog"/>
+        </beginButton>
+        <endButton>
+            <Button text="Save Template" icon="sap-icon://save" type="Emphasized" press="onSaveTemplate"/>
+        </endButton>
+    </Dialog>
+
+</core:FragmentDefinition>

@@ -1,0 +1,91 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:form="sap.ui.layout.form">
+
+    <Dialog
+        id="shippingPointDialog"
+        title="Shipping Point Master"
+        contentWidth="70rem"
+        contentHeight="35rem"
+        draggable="true"
+        resizable="true">
+
+        <VBox>
+
+            <Text
+                text="Manage shipping point locations for gate scanning"
+                class="sapUiSmallMarginBottom sapUiSmallMarginBegin"/>
+
+            <!-- TABLE -->
+            <Table
+                items="{gateLogModel>/shippingPoints}"
+                growing="true">
+
+                <columns>
+                    <Column><Text text="Code"/></Column>
+                    <Column><Text text="Name"/></Column>
+                    <Column><Text text="Location"/></Column>
+                    <Column><Text text="Product Type"/></Column>
+                    <Column><Text text="Status"/></Column>
+                </columns>
+
+                <items>
+                    <ColumnListItem>
+                        <cells>
+                            <Text text="{gateLogModel>code}"/>
+                            <Text text="{gateLogModel>name}"/>
+                            <Text text="{gateLogModel>location}"/>
+
+                            <ObjectStatus
+                                text="{gateLogModel>productType}"
+                                state="Information"/>
+
+                            <ObjectStatus
+                                text="{gateLogModel>status}"
+                                state="Success"/>
+                        </cells>
+                    </ColumnListItem>
+                </items>
+            </Table>
+
+            <!-- ADD NEW FORM -->
+            <form:SimpleForm
+                layout="ResponsiveGridLayout"
+                editable="true"
+                class="sapUiMediumMarginTop">
+
+                <Label text="Shipping Point Code"/>
+                <Input placeholder="e.g., PTT-SRB"/>
+
+                <Label text="Name"/>
+                <Input placeholder="e.g., PTT Saraburi"/>
+
+                <Label text="Location"/>
+                <Input placeholder="e.g., Saraburi Province"/>
+
+                <Label text="Product Type"/>
+                <Select>
+                    <items>
+                        <core:Item text="LPG"/>
+                        <core:Item text="Fuel"/>
+                        <core:Item text="NGV"/>
+                        <core:Item text="Chemical"/>
+                        <core:Item text="Container"/>
+                    </items>
+                </Select>
+
+            </form:SimpleForm>
+
+        </VBox>
+
+        <buttons>
+            <Button text="Close" press="onCloseShippingPointDialog"/>
+            <Button
+                text="Add Shipping Point"
+                icon="sap-icon://add"
+                type="Emphasized"/>
+        </buttons>
+
+    </Dialog>
+</core:FragmentDefinition>

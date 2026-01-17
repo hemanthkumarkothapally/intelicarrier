@@ -1,0 +1,52 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:form="sap.ui.layout.form">
+    <Dialog title="⚠️ Resolve Invoice Discrepancy" contentWidth="500px" state="Warning">
+        <content>
+            <VBox class="sapUiSmallMargin">
+                
+                <VBox class="sapUiContentPadding sapUiSmallMarginBottom" >
+                    <HBox justifyContent="SpaceBetween" alignItems="Center" class="sapUiTinyMarginBottom">
+                        <Label text="Price Variance Detected" design="Bold" class="sapUiNegativeText"/>
+                        <ObjectStatus text="Manual Review" state="Error" inverted="true" />
+                    </HBox>
+                    <HBox justifyContent="SpaceBetween">
+                        <Label text="Contract Rate" /> <Text text="฿12,500.00" />
+                    </HBox>
+                    <HBox justifyContent="SpaceBetween">
+                        <Label text="Invoice Amount" /> <Text text="฿14,750.00" />
+                    </HBox>
+                    <HBox justifyContent="SpaceBetween" class="sapUiTinyMarginTop">
+                        <Label text="Variance" design="Bold" /> 
+                        <ObjectStatus text="+฿2,250.00 (+18%)" state="Error" />
+                    </HBox>
+                </VBox>
+
+                <form:SimpleForm editable="false" layout="ResponsiveGridLayout" labelSpanL="4" columnsL="1">
+                    <form:content>
+                        <Label text="Issue" /> <Text text="Peak Season Surcharge not in contract" />
+                        <Label text="Carrier Reason" /> <Text text="Volume exceeded during holiday period" />
+                    </form:content>
+                </form:SimpleForm>
+
+                <VBox class="sapUiSmallMarginTop">
+                    <Label text="Resolution Action" required="true" />
+                    <Select width="100%">
+                        <core:Item key="0" text="Select resolution..." />
+                        <core:Item key="1" text="Accept Invoice As-Is (Document Reason)" />
+                        <core:Item key="2" text="Accept Contract Rate Only (฿12,500)" />
+                        <core:Item key="3" text="Reject &amp; Request Credit Note" />
+                    </Select>
+
+                    <Label text="Resolution Notes" required="true" class="sapUiSmallMarginTop" />
+                    <TextArea rows="4" placeholder="Document the resolution decision for audit trail..." width="100%" />
+                </VBox>
+
+            </VBox>
+        </content>
+        <beginButton>
+            <Button text="✅ Resolve &amp; Process" type="Success" press=".onResolveDiscrepancyAction" />
+        </beginButton>
+        <endButton>
+            <Button text="❌ Reject Invoice" type="Reject" press=".onRejectInvoice" />
+        </endButton>
+    </Dialog>
+</core:FragmentDefinition>

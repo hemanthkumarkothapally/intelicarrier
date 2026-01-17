@@ -78,10 +78,15 @@
 
             <items>
                 <IconTabFilter text="All Rates" key="all" count="45" icon="sap-icon://list"/>
+                <IconTabSeparator />
                 <IconTabFilter text="Customer Rates" key="customer" count="18" icon="sap-icon://customer"/>
+                <IconTabSeparator />
                 <IconTabFilter text="Route Rates" key="route" count="12" icon="sap-icon://map-2"/>
+                <IconTabSeparator />
                 <IconTabFilter text="Carrier Contracts" key="carrier" count="15" icon="sap-icon://supplier"/>
+                <IconTabSeparator />
                 <IconTabFilter text="Surcharges" key="surcharge" count="8" icon="sap-icon://money-bills"/>
+                <IconTabSeparator />
                 <IconTabFilter text="Expiring" key="expiring" count="3" icon="sap-icon://warning" iconColor="Critical"/>
             </items>
 

@@ -1,0 +1,93 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core">
+
+    <Dialog
+        id="ocrReceiptDialog"
+        contentWidth="1000px"
+        contentHeight="720px"
+        title="OCR Receipt Processing"
+        draggable="true"
+        resizable="false"
+        verticalScrolling="false"
+        class="sapUiResponsivePadding--content">
+
+        
+        <!-- Content -->
+        <content>
+            <HBox class="sapUiMediumMargin" justifyContent="SpaceBetween" width="100%">
+
+                <!-- Left: Receipt -->
+                <VBox width="48%">
+                    <HBox alignItems="Center" class="sapUiSmallMarginBottom">
+                        <core:Icon src="sap-icon://document-text" class="sapUiTinyMarginEnd"/>
+                        <Title text="Receipt" level="H5"/>
+                    </HBox>
+
+                    <VBox class="ocrReceiptPreviewBox" alignItems="Center" justifyContent="Center">
+                        <core:Icon src="sap-icon://document" size="3rem"/>
+                        <Text text="Receipt Preview" class="sapUiContentLabel"/>
+                    </VBox>
+                </VBox>
+
+                <!-- Right: Extracted Data -->
+                <VBox width="48%">
+                    <HBox alignItems="Center" class="sapUiSmallMarginBottom">
+                        <core:Icon src="sap-icon://inspection" class="sapUiTinyMarginEnd"/>
+                        <Title text="Extracted Data" level="H5"/>
+                    </HBox>
+
+                    <VBox class="ocrExtractBox">
+                        <HBox justifyContent="SpaceBetween">
+                            <Text text="vendor:" class="ocrLabel"/>
+                            <Text text='"{ocrModel>/vendor}"' class="ocrValue"/>
+                            <Text text="{ocrModel>/vendorConf}" class="ocrConf"/>
+                        </HBox>
+
+                        <HBox justifyContent="SpaceBetween">
+                            <Text text="amount:" class="ocrLabel"/>
+                            <Text text="{ocrModel>/amount}" class="ocrValue"/>
+                            <Text text="{ocrModel>/amountConf}" class="ocrConf"/>
+                        </HBox>
+
+                        <HBox justifyContent="SpaceBetween">
+                            <Text text="date:" class="ocrLabel"/>
+                            <Text text='"{ocrModel>/date}"' class="ocrValue"/>
+                            <Text text="{ocrModel>/dateConf}" class="ocrConf"/>
+                        </HBox>
+
+                        <HBox justifyContent="SpaceBetween">
+                            <Text text="category:" class="ocrLabel"/>
+                            <Text text='"{ocrModel>/category}"' class="ocrValue"/>
+                            <Text text="{ocrModel>/categoryConf}" class="ocrConf"/>
+                        </HBox>
+
+                        <HBox justifyContent="SpaceBetween">
+                            <Text text="gallons:" class="ocrLabel"/>
+                            <Text text="{ocrModel>/gallons}" class="ocrValue"/>
+                            <Text text="{ocrModel>/gallonsConf}" class="ocrConf"/>
+                        </HBox>
+                    </VBox>
+
+                    <!-- Validation -->
+                    <VBox class="ocrValidationBox sapUiSmallMarginTop">
+                        <HBox alignItems="Center">
+                            <core:Icon src="sap-icon://accept" color="green" class="sapUiTinyMarginEnd"/>
+                            <Title text="Validation Passed" level="H5"/>
+                        </HBox>
+                        <Text text="Within policy • Date valid • Category auto-detected"/>
+                    </VBox>
+
+                </VBox>
+
+            </HBox>
+        </content>
+
+        <!-- Footer Buttons -->
+        <buttons>
+            <Button text="Close" press=".onCloseOCRReceiptDialog"/>
+            <Button text="Confirm" type="Accept" icon="sap-icon://accept" press=".onConfirmOCRReceipt"/>
+        </buttons>
+
+    </Dialog>
+</core:FragmentDefinition>

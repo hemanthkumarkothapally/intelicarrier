@@ -13,7 +13,7 @@ sapUiSmallMarginBottom"/>
 charges for completed shipments and trigger S/4HANA Sales Orders" class="sapUiTinyMarginBegin sapUiContentLabel" />
             </HBox>
             <HBox >
-                <Button text="📋 Rate Master"/>
+                <Button text="📋 Rate Master" press=".onRateMasterPress"/>
                 <Button text="🔄 Refresh"/>
             </HBox>
         </HBox>
@@ -132,7 +132,7 @@ sapUiTinyMarginBottom" width="11rem">
 Shipments Awaiting Price Calculation" />
                                 <Text text="-Completed shipments that need pricing" class="sapUiTinyMarginBegin sapUiContentLabel" />
                                 <Button text="⚡
-Auto-Calculate All" type="Emphasized" press=".onAutoCalculateAll" />
+Auto-Calculate All" type="Emphasized" press=".onAutoCalculateAllPress" />
                                 <ToolbarSpacer />
                                 <SearchField placeholder="Search by Shipment ID..." liveChange=".onSearchOrders" width="20rem" />
                                 <Select forceSelection="false" selectedKey="All">
@@ -270,7 +270,7 @@ Approve &amp; Send All" type="Accept" press=".onApproveAllInternal" />
                                     <Text text="{calculatedAt}" />
 
                                     <HBox justifyContent="Center">
-                                        <Button icon="sap-icon://show" type="Transparent" tooltip="View Details" />
+                                        <Button icon="sap-icon://show" type="Transparent" tooltip="View Details" press=".onApproveInternal"/>
                                         <Button text="✅ Approve" type="Accept" press=".onApproveInternal" />
                                     </HBox>
                                 </cells>
@@ -360,9 +360,9 @@ ${variance} === '0' ? 'Success' : 'Error' }" />
                                     <ObjectStatus text="{valText}" state="{valState}" icon="{valIcon}" inverted="true" />
 
                                     <HBox justifyContent="Center">
-                                        <Button icon="sap-icon://show" type="Transparent" tooltip="View Details" />
+                                        <Button icon="sap-icon://show" type="Transparent" tooltip="View Details" press=".onOpenValidateModal" />
 
-                                        <Button text="✅ Approve" type="Accept" visible="{showApprove}" press=".onApproveInvoice" class="sapUiTinyMarginBegin"/>
+                                        <Button text="✅ Approve" type="Accept" visible="{showApprove}" press=".onOpenValidateModal" class="sapUiTinyMarginBegin"/>
                                     </HBox>
                                 </cells>
                             </ColumnListItem>
@@ -482,5 +482,7 @@ Sales Order created, monitoring S/4 status" class="sapUiTinyMarginBegin sapUiCon
 
             </items>
         </IconTabBar>
+        
     </VBox>
+    
 </core:FragmentDefinition>

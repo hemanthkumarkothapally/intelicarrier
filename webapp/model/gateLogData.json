@@ -1,0 +1,216 @@
+{
+  "summary": {
+    "totalScans": 156,
+    "currentlyAtLocation": 24,
+    "departed": 89,
+    "arrivals": 78,
+    "departures": 78
+  },
+
+  "records": [
+    {
+      "scanDate": "Jan 15, 2026",
+      "scanTime": "10:55 AM",
+      "driverName": "Chaiwat Pongsri",
+      "driverId": "DRV-002",
+      "vehicleNo": "TH-LPG-002",
+      "vehicleType": "LPG Tanker 12T",
+      "shippingPoint": "BPK",
+      "product": "LPG",
+      "scanType": "OUT",
+      "status": "Departed",
+      "statusState": "Warning",
+      "duration": "3h 20m"
+    },
+    {
+      "scanDate": "Jan 15, 2026",
+      "scanTime": "10:50 AM",
+      "driverName": "Kittipong Meesuk",
+      "driverId": "DRV-015",
+      "vehicleNo": "TH-NGV-001",
+      "vehicleType": "NGV Trailer",
+      "shippingPoint": "NGV-BPU",
+      "product": "NGV",
+      "scanType": "IN",
+      "status": "At Location",
+      "statusState": "Success",
+      "duration": "10m"
+    },
+    {
+      "scanDate": "Jan 15, 2026",
+      "scanTime": "10:35 AM",
+      "driverName": "Somchai Prasert",
+      "driverId": "DRV-001",
+      "vehicleNo": "TH-FUEL-009",
+      "vehicleType": "Fuel Tanker 20T",
+      "shippingPoint": "BGC-REF",
+      "product": "Fuel",
+      "scanType": "OUT",
+      "status": "Departed",
+      "statusState": "Warning",
+      "duration": "2h 45m"
+    },
+    {
+      "scanDate": "Jan 15, 2026",
+      "scanTime": "10:10 AM",
+      "driverName": "Anan Kittisak",
+      "driverId": "DRV-021",
+      "vehicleNo": "TH-CHEM-003",
+      "vehicleType": "Chemical Tanker",
+      "shippingPoint": "IRPC-RYG",
+      "product": "Chemical",
+      "scanType": "IN",
+      "status": "At Location",
+      "statusState": "Information",
+      "duration": "1h 5m"
+    },
+    {
+      "scanDate": "Jan 15, 2026",
+      "scanTime": "09:55 AM",
+      "driverName": "Preecha Wong",
+      "driverId": "DRV-030",
+      "vehicleNo": "TH-LPG-011",
+      "vehicleType": "LPG Tanker 16T",
+      "shippingPoint": "PTT-RYG",
+      "product": "LPG",
+      "scanType": "OUT",
+      "status": "Departed",
+      "statusState": "Warning",
+      "duration": "4h 10m"
+    },
+    {
+      "scanDate": "Jan 15, 2026",
+      "scanTime": "09:30 AM",
+      "driverName": "Nattapong S.",
+      "driverId": "DRV-018",
+      "vehicleNo": "TH-NGV-004",
+      "vehicleType": "NGV Trailer",
+      "shippingPoint": "NGV-BPU",
+      "product": "NGV",
+      "scanType": "OUT",
+      "status": "Departed",
+      "statusState": "Warning",
+      "duration": "3h 5m"
+    },
+    {
+      "scanDate": "Jan 15, 2026",
+      "scanTime": "09:10 AM",
+      "driverName": "Thanawat R.",
+      "driverId": "DRV-027",
+      "vehicleNo": "TH-FUEL-012",
+      "vehicleType": "Fuel Tanker",
+      "shippingPoint": "BGC-REF",
+      "product": "Fuel",
+      "scanType": "IN",
+      "status": "At Location",
+      "statusState": "Success",
+      "duration": "35m"
+    },
+    {
+      "scanDate": "Jan 15, 2026",
+      "scanTime": "08:50 AM",
+      "driverName": "Worawut P.",
+      "driverId": "DRV-011",
+      "vehicleNo": "TH-CONT-006",
+      "vehicleType": "Container Truck",
+      "shippingPoint": "BPK",
+      "product": "Container",
+      "scanType": "IN",
+      "status": "At Location",
+      "statusState": "Success",
+      "duration": "50m"
+    },
+    {
+      "scanDate": "Jan 15, 2026",
+      "scanTime": "08:25 AM",
+      "driverName": "Surasak T.",
+      "driverId": "DRV-019",
+      "vehicleNo": "TH-LPG-020",
+      "vehicleType": "LPG Tanker",
+      "shippingPoint": "PTT-RYG",
+      "product": "LPG",
+      "scanType": "IN",
+      "status": "At Location",
+      "statusState": "Information",
+      "duration": "1h 20m"
+    },
+    {
+      "scanDate": "Jan 15, 2026",
+      "scanTime": "08:00 AM",
+      "driverName": "Kornchai P.",
+      "driverId": "DRV-025",
+      "vehicleNo": "TH-CHEM-010",
+      "vehicleType": "Chemical Tanker",
+      "shippingPoint": "IRPC-RYG",
+      "product": "Chemical",
+      "scanType": "OUT",
+      "status": "Departed",
+      "statusState": "Warning",
+      "duration": "3h 55m"
+    }
+  ],
+
+  "shippingPoints": [
+    {
+      "code": "BPK",
+      "name": "คลังน้ำมันบางปะกง",
+      "location": "Bangpakong, Chachoengsao",
+      "productType": "LPG",
+      "status": "Active"
+    },
+    {
+      "code": "PTT-RYG",
+      "name": "PTT Tank Terminal ระยอง",
+      "location": "Map Ta Phut, Rayong",
+      "productType": "LPG",
+      "status": "Active"
+    },
+    {
+      "code": "BGC-REF",
+      "name": "โรงกลั่นบางจาก",
+      "location": "Phra Khanong, Bangkok",
+      "productType": "Fuel",
+      "status": "Active"
+    },
+    {
+      "code": "NGV-BPU",
+      "name": "โรงงาน NGV บางปู",
+      "location": "Bang Pu, Samut Prakan",
+      "productType": "NGV",
+      "status": "Active"
+    },
+    {
+      "code": "IRPC-RYG",
+      "name": "IRPC ระยอง",
+      "location": "Map Ta Phut, Rayong",
+      "productType": "Chemical",
+      "status": "Active"
+    }
+  ],
+
+  "driverHistory": {
+    "driverId": "DRV-001",
+    "driverName": "Somchai Prasert",
+    "summary": {
+      "totalVisits": 47,
+      "avgDuration": "2h 30m",
+      "currentStatus": "At BPK"
+    },
+    "history": [
+      {
+        "date": "Jan 15, 2026",
+        "shippingPoint": "BPK",
+        "gateIn": "08:45 AM",
+        "gateOut": "",
+        "duration": "2h 15m (ongoing)"
+      },
+      {
+        "date": "Jan 14, 2026",
+        "shippingPoint": "PTT-RYG",
+        "gateIn": "01:00 PM",
+        "gateOut": "02:30 PM",
+        "duration": "1h 30m"
+      }
+    ]
+  }
+}

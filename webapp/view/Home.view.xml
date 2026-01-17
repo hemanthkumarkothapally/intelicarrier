@@ -55,31 +55,33 @@
                     <!-- Side Navigation -->
                     <tnt:SideNavigation id="sideNavigation" selectedKey="dashboard" expanded="true" itemSelect=".onItemSelect">
                         <tnt:NavigationList>
-                            <tnt:NavigationListItem text="Smart Rate Shopping" icon="sap-icon://sales-quote" key="rateshopping"/>
                             <tnt:NavigationListGroup text="Operations" key="Operations">
                             <tnt:NavigationListItem text="Dashboard" icon="sap-icon://home" key="dashboard"/>
-                            <tnt:NavigationListItem text="Freight Orders" icon="sap-icon://shipping-status" key="freightOrders" />
-                            <tnt:NavigationListItem text="Freight Execution" icon="sap-icon://create" key="shipmentexecution"/>
-                            <tnt:NavigationListItem text="Fleet Overview" icon="sap-icon://create" key="shipmentExecutionViewsub2"/>
-                            <tnt:NavigationListItem text="Tracking &amp; Visibility" icon="sap-icon://map" key="tracking"/>
+                            <tnt:NavigationListItem text="Create Freight Order" icon="sap-icon://shipping-status" key="freightOrders" />
+                            <tnt:NavigationListItem text="Fleet Planning and Assignment" icon="sap-icon://create" key="shipmentexecution"/>
                             <tnt:NavigationListItem text="BOL &amp; Document Management" icon="sap-icon://document" key="bol"/>
-                            <tnt:NavigationListItem text="Rate Master" icon="sap-icon://money-bills" key="rateMaster"/>
                             <tnt:NavigationListItem text="Price Determination &amp; Settlement" icon="sap-icon://sales-order" key="priceCalculation"/>
-                            <tnt:NavigationListItem text="Tracking &amp; Visibility" icon="sap-icon://locate-me" key="tracking"/>
 
-                            <tnt:NavigationListItem text="Cash Advance &amp; Reimbursement" icon="sap-icon://locate-me" key="CashAdvanceandReimbursement"/>
+                            <tnt:NavigationListItem text="Vehicle Checklist" icon="sap-icon://bus-public-transport" key="vehicleChecklist"/>
+                            <tnt:NavigationListItem text="Gate Logs" icon="sap-icon://building" key="gateLogs"/>
+
+                            <tnt:NavigationListItem text="Cash Advance &amp; Reimbursement" icon="sap-icon://wallet" key="CashAdvanceandReimbursement"/>
                             
                             </tnt:NavigationListGroup>
-                            <tnt:NavigationListGroup text="Reports" key="Reports" >
+                            <tnt:NavigationListGroup text="Reports" key="Reports" expanded="false">
                             <tnt:NavigationListItem text="Fleet Overview" icon="sap-icon://create" key="shipmentExecutionViewsub2"/>
-                            <tnt:NavigationListItem text="Operational &amp; Financial Reports" icon="sap-icon://home" key="OperationalandFinancialReports"/>
-
-                            </tnt:NavigationListGroup>
-                            <tnt:NavigationListGroup text="Masters" key="Masters" >
-                            <tnt:NavigationListItem text="Rate Master" icon="sap-icon://home" key="RateMaster"/>
+                            <tnt:NavigationListItem text="Shipment Execution" icon="sap-icon://map" key="tracking"/>
+                            
+                            <tnt:NavigationListItem text="Operational &amp; Financial Reports" icon="sap-icon://create" key="OperationalandFinancialReports"/>
+     <tnt:NavigationListItem text="Vehicle Checklist" icon="sap-icon://locate-me" key="vehicleChecklist"/>
+                            </tnt:NavigationListGroup >
+                            <tnt:NavigationListGroup text="Masters" key="Masters" expanded="false">
+                            <tnt:NavigationListItem text="Rate Master" icon="sap-icon://money-bills" key="rateMaster"/>
                             <tnt:NavigationListItem text="Reference Data" icon="sap-icon://home" key="ReferenceData"/>
 
                             </tnt:NavigationListGroup>
+                            <tnt:NavigationListItem text="Smart Rate Shopping" icon="sap-icon://sales-quote" key="rateshopping"/>
+
                         </tnt:NavigationList>
 
                         <tnt:fixedItem>
@@ -200,7 +202,7 @@
                                 </items>
                             </SegmentedButton> -->
                             <VBox id="shipmentExecutionViewsub" visible="true" width="100%" class="intellicarrier-content-padding sapUiMediumMarginBottom">
-                                <Title text="Dynamic Fleet Management Cockpit" level="H2" class="sapUiMediumMarginBottom"/>
+                                <Title text="Fleet Planning and Assignment" level="H2" class="sapUiMediumMarginBottom"/>
                                 <FlexBox wrap="NoWrap" alignItems="Start" class="sapUiMediumMarginBottom">
 
                                     <!-- Pending Assignment -->
@@ -374,8 +376,12 @@
                                                 <!-- Action -->
                                                 <HBox justifyContent="Center">
                                                     <Button text="Track" type="Neutral" tooltip="Track Order" visible="{= ${status} === 'Completed' }" press=".onTrackOrder"/>
-                                                    <Button text="Analyze" type="Emphasized" visible="{= ${status} !== 'Completed' }" press=".onAnalyzeOrder"/>
-                                                    <Button text="Print Docs" type="Emphasized" visible="{= ${status} !== 'Completed' }" press=".onOpenDocPrintDialog"/>
+                                                    <Button text="Plan &amp; Assign" type="Emphasized" visible="{= ${status} === 'Pending Assignment' }" press=".onAnalyzeOrder"/>
+<Button
+    text="Print Docs"
+    type="Emphasized"
+    visible="{= ${status} === 'Internal Fleet' || ${status} === 'External Carrier' }"
+    press=".onOpenDocPrintDialog"/>
 
                                                 </HBox>
 
@@ -1121,7 +1127,7 @@
 
                             <!-- Shipments List View (Default) -->
                             <VBox id="shipmentsListView" visible="true" width="100%">
-                                <Title text="Tracking &amp; Visibility" level="H2" class="sapUiMediumMarginBottom"/>
+                                <Title text="Shipment Execution" level="H2" class="sapUiMediumMarginBottom"/>
 
                                 <!-- Quick Track Panel -->
                                 <Panel headerText="Quick Track" class="sapUiMediumMarginBottom intellicarrier-full-width-panel" width="100%">
@@ -1225,7 +1231,7 @@
                                             <items>
                                                 <ColumnListItem press=".onViewShipmentDetails">
                                                     <cells>
-                                                        <Link text="SHP-2026-001234" press=".onViewShipmentDetails"/>
+                                                        <Link text="8062225001" press=".onViewShipmentDetails"/>
                                                         <Text text="Global Tech Inc"/>
                                                         <Text text="San Francisco, CA"/>
                                                         <Text text="New York, NY"/>
@@ -1238,7 +1244,7 @@
                                                 </ColumnListItem>
                                                 <ColumnListItem press=".onViewShipmentDetails">
                                                     <cells>
-                                                        <Link text="SHP-2026-001235" press=".onViewShipmentDetails"/>
+                                                        <Link text="8062225002" press=".onViewShipmentDetails"/>
                                                         <Text text="Acme Corporation"/>
                                                         <Text text="Los Angeles, CA"/>
                                                         <Text text="Chicago, IL"/>
@@ -1251,7 +1257,7 @@
                                                 </ColumnListItem>
                                                 <ColumnListItem press=".onViewShipmentDetails">
                                                     <cells>
-                                                        <Link text="SHP-2026-001236" press=".onViewShipmentDetails"/>
+                                                        <Link text="8062225001" press=".onViewShipmentDetails"/>
                                                         <Text text="Tech Solutions Ltd"/>
                                                         <Text text="Seattle, WA"/>
                                                         <Text text="Miami, FL"/>
@@ -1264,7 +1270,7 @@
                                                 </ColumnListItem>
                                                 <ColumnListItem press=".onViewShipmentDetails">
                                                     <cells>
-                                                        <Link text="SHP-2026-001237" press=".onViewShipmentDetails"/>
+                                                        <Link text="8062225003" press=".onViewShipmentDetails"/>
                                                         <Text text="Innovation Corp"/>
                                                         <Text text="Boston, MA"/>
                                                         <Text text="Denver, CO"/>
@@ -1309,7 +1315,7 @@
                                                 <!-- Shipment Info Section -->
                                                 <HBox width="100%" class="shipmentInfoContainer">
                                                     <VBox class="shipmentInfoSection" width="100%">
-                                                        <ObjectHeader title="SHP-2026-001234" number="46.30" numberUnit="USD" intro="Express Service" titleActive="true" icon="sap-icon://shipping-status" iconDensityAware="false" class="compactObjectHeader">
+                                                        <ObjectHeader title="8062225001" number="46.30" numberUnit="USD" intro="Express Service" titleActive="true" icon="sap-icon://shipping-status" iconDensityAware="false" class="compactObjectHeader">
                                                             <attributes>
                                                                 <ObjectAttribute title="Origin" text="San Francisco, CA"/>
                                                                 <ObjectAttribute title="Destination" text="New York, NY"/>
@@ -1521,6 +1527,321 @@
                              
                         </VBox>
 
+
+                        <VBox width="100%" id ="vehicleChecklist" visible="false">
+
+                            <HBox justifyContent="SpaceBetween" alignItems="Center" class="sapUiSmallMarginButtom">
+                                <Title text="Vehicle Checklist Maintenance" level="H2"/>
+                                <HBox>
+                                    <Button text="Export" icon="sap-icon://download" class="sapUiTinyMarginEnd"/>
+                                    <Button text="Refresh" icon="sap-icon://refresh" type="Emphasized" class="sapUiTinyMarginEnd"/>
+                                </HBox>
+                            </HBox>
+
+                            <IconTabBar class="sapUiMediumMarginTop">
+                                <items>
+                                    <!-- CHECKLIST TAB -->
+                                    <IconTabFilter id="Checklists" text="Checklists">
+
+                                        <FlexBox wrap="Wrap">
+
+                                            <GenericTile frameType="TwoByHalf" width="10rem" header="SCHEDULED" class="sapUiSmallMarginEnd">
+
+                                                <TileContent>
+                                                    <NumericContent value="{vehicleDataModel>/kpi/scheduled}" valueColor="Good"/>
+                                                </TileContent>
+                                            </GenericTile>
+
+                                            <GenericTile frameType="TwoByHalf" width="10rem" header="IN PROGRESS" class="sapUiSmallMarginEnd">
+
+                                                <TileContent>
+                                                    <NumericContent value="{vehicleDataModel>/kpi/inProgress}" valueColor="Critical"/>
+                                                </TileContent>
+                                            </GenericTile>
+
+                                            <GenericTile frameType="TwoByHalf" width="10rem" header="COMPLETED" class="sapUiSmallMarginEnd">
+
+                                                <TileContent>
+                                                    <NumericContent value="{vehicleDataModel>/kpi/completed}" valueColor="Good"/>
+                                                </TileContent>
+                                            </GenericTile>
+
+                                            <GenericTile frameType="TwoByHalf" width="10rem" header="OVERDUE">
+
+                                                <TileContent>
+                                                    <NumericContent value="{vehicleDataModel>/kpi/overdue}" valueColor="Error"/>
+                                                </TileContent>
+                                            </GenericTile>
+
+                                        </FlexBox>
+
+                                        <Panel >
+                                            <headerToolbar>
+                                                <OverflowToolbar>
+                                                    <Title text="All Customer Orders" level="H3"/>
+                                                    <Text text="({vehicleDataModel>/checklists/length} items)" class="sapUiTinyMarginBegin"/>
+                                                    <ToolbarSpacer/>
+                                                    <SearchField width="300px" placeholder="Search checklists..." />
+                                                    <!-- <Button icon="sap-icon://filter" text="Filter" press=".onFilterFreight"/> -->
+                                                </OverflowToolbar>
+                                            </headerToolbar>
+
+                                            <content>
+                                                <Table items="{vehicleDataModel>/checklists}" growing="true" mode="SingleSelectMaster">
+
+                                                    <columns>
+                                                        <Column>
+                                                            <Text text="Date"/>
+                                                        </Column>
+                                                        <Column>
+                                                            <Text text="Shipment"/>
+                                                        </Column>
+                                                        <Column>
+                                                            <Text text="Driver"/>
+                                                        </Column>
+                                                        <Column>
+                                                            <Text text="Vehicle"/>
+                                                        </Column>
+                                                        <Column>
+                                                            <Text text="Score"/>
+                                                        </Column>
+                                                        <Column>
+                                                            <Text text="Status"/>
+                                                        </Column>
+                                                        <Column>
+                                                            <Text text="Actions"/>
+                                                        </Column>
+                                                    </columns>
+
+                                                    <items>
+                                                        <ColumnListItem>
+                                                            <cells>
+
+                                                                <VBox>
+                                                                    <Text text="{vehicleDataModel>submissionDate}"/>
+                                                                    <Text text="{vehicleDataModel>submissionTime}" class="sapUiTinyText"/>
+                                                                </VBox>
+
+                                                                <ObjectIdentifier title="{vehicleDataModel>shipmentId}"/>
+
+                                                                <VBox>
+                                                                    <Text text="{vehicleDataModel>driverName}"/>
+                                                                    <Text text="{vehicleDataModel>driverId}" class="sapUiTinyText"/>
+                                                                </VBox>
+
+                                                                <VBox>
+                                                                    <Text text="{vehicleDataModel>vehicleNumber}"/>
+                                                                    <Text text="{vehicleDataModel>vehicleType}" class="sapUiTinyText"/>
+                                                                </VBox>
+
+                                                                <ProgressIndicator percentValue="{vehicleDataModel>checkPercentage}" state="{vehicleDataModel>checkState}" width="80px"/>
+
+                                                                <ObjectStatus text="{vehicleDataModel>status}" state="{vehicleDataModel>statusState}"/>
+
+                                                                <HBox>
+                                                                    <Button icon="sap-icon://show" type="Transparent" press=".onViewMaintenance"/>
+                                                                    <Button icon="sap-icon://accept" type="Accept" visible="{= ${vehicleDataModel>status} === 'Pending' }" class="sapUiTinyMarginEnd"/>
+                                                                    <Button icon="sap-icon://decline" type="Reject" visible="{= ${vehicleDataModel>status} === 'Pending' }"/>
+                                                                </HBox>
+
+                                                            </cells>
+                                                        </ColumnListItem>
+                                                    </items>
+                                                </Table>
+                                            </content>
+                                        </Panel >
+                                    </IconTabFilter>
+
+                                    <!-- MAINTENANCE TAB -->
+                                    <IconTabFilter id="Maintenance" text="Maintenance">
+                                        <HBox justifyContent="SpaceBetween" alignItems="Center" class="sapUiSmallMarginEnd">
+                                            <VBox>
+                                                <Title text="Maintenance" level="H3"/>
+
+                                            </VBox>
+                                            <Button text="Create New Maintenance" type="Emphasized" press="onCreateMaintenance" class="sapUiTinyMarginEnd"/>
+                                        </HBox>
+                                        <FlexBox wrap="Wrap">
+
+                                            <GenericTile frameType="TwoByHalf" width="10rem" header="SCHEDULED" subheader="Upcoming maintenance" class="sapUiSmallMarginEnd">
+
+                                                <TileContent>
+                                                    <NumericContent value="{vehicleDataModel>/kpi/scheduled}" valueColor="Good"/>
+                                                </TileContent>
+                                            </GenericTile>
+
+                                            <GenericTile frameType="TwoByHalf" width="10rem" header="IN PROGRESS" subheader="Currently in service" class="sapUiSmallMarginEnd">
+
+                                                <TileContent>
+                                                    <NumericContent value="{vehicleDataModel>/kpi/inProgress}" valueColor="Critical"/>
+                                                </TileContent>
+                                            </GenericTile>
+
+                                            <GenericTile frameType="TwoByHalf" width="10rem" header="COMPLETED" subheader="This year" class="sapUiSmallMarginEnd">
+
+                                                <TileContent>
+                                                    <NumericContent value="{vehicleDataModel>/kpi/completed}" valueColor="Good"/>
+                                                </TileContent>
+                                            </GenericTile>
+
+                                            <GenericTile frameType="TwoByHalf" width="10rem" header="OVERDUE" subheader="Requires attention">
+
+                                                <TileContent>
+                                                    <NumericContent value="{vehicleDataModel>/kpi/overdue}" valueColor="Error"/>
+                                                </TileContent>
+                                            </GenericTile>
+
+                                        </FlexBox>
+
+
+                                        <Panel >
+                                            <headerToolbar>
+                                                <OverflowToolbar>
+                                                    <Title text="All maintenance" level="H3"/>
+                                                    <Text text="({vehicleDataModel>/maintenance/length} items)" class="sapUiTinyMarginBegin"/>
+                                                    <ToolbarSpacer/>
+                                                    <SearchField width="300px" placeholder="Search checklists..." />
+                                                    <!-- <Button icon="sap-icon://filter" text="Filter" press=".onFilterFreight"/> -->
+                                                </OverflowToolbar>
+                                            </headerToolbar>
+
+                                            <content>
+                                                <Table items="{vehicleDataModel>/maintenance}" growing="true">
+
+                                                    <columns>
+                                                        <Column>
+                                                            <Text text="Work Order"/>
+                                                        </Column>
+                                                        <Column>
+                                                            <Text text="Vehicle"/>
+                                                        </Column>
+                                                        <Column>
+                                                            <Text text="Type"/>
+                                                        </Column>
+                                                        <Column>
+                                                            <Text text="Priority"/>
+                                                        </Column>
+                                                        <Column>
+                                                            <Text text="Cost"/>
+                                                        </Column>
+                                                        <Column>
+                                                            <Text text="Status"/>
+                                                        </Column>
+                                                    </columns>
+
+                                                    <items>
+                                                        <ColumnListItem type="{= ${vehicleDataModel>maintStatus} === 'Overdue' ? 'Active' : 'Inactive' }">
+
+                                                            <cells>
+                                                                <ObjectIdentifier title="{vehicleDataModel>workOrderId}"/>
+
+                                                                <VBox>
+                                                                    <Text text="{vehicleDataModel>vehicleNumber}"/>
+                                                                    <Text text="{vehicleDataModel>vehicleType}" class="sapUiTinyText"/>
+                                                                </VBox>
+
+                                                                <ObjectStatus text="{vehicleDataModel>maintType}" state="{vehicleDataModel>maintTypeState}"/>
+
+                                                                <ObjectStatus text="{vehicleDataModel>priority}" state="{vehicleDataModel>priorityState}"/>
+
+                                                                <ObjectNumber number="{vehicleDataModel>cost}" unit="THB"/>
+
+                                                                <ObjectStatus text="{vehicleDataModel>maintStatus}" state="{vehicleDataModel>maintStatusState}"/>
+                                                            </cells>
+                                                        </ColumnListItem>
+                                                    </items>
+                                                </Table>
+                                            </content>
+                                        </Panel>
+                                    </IconTabFilter>
+                                    <IconTabFilter text="Templates" key="templates">
+                                        <VBox width="100%">
+
+                                            <!-- Header -->
+                                            <HBox justifyContent="SpaceBetween" alignItems="Center" class="sapUiSmallMarginEnd">
+                                                <VBox>
+                                                    <Title text="Checklist Templates" level="H3"/>
+                                                    <Text text="Manage pre-trip inspection templates for different vehicle types"/>
+                                                </VBox>
+                                                <Button text="Create New Template" type="Emphasized" icon="sap-icon://add" press="onCreateTemplate" class="sapUiSmallMarginEnd"/>
+                                            </HBox>
+
+                                            <!-- Tiles Container -->
+                                            <FlexBox wrap="Wrap" justifyContent="Start">
+
+                                                <!-- LPG Tanker -->
+                                                <GenericTile header="LPG Tanker Checklist" subheader="CHK-LPG-001" frameType="TwoByOne" press="onViewTemplate" class="sapUiSmallMargin">
+
+                                                    <TileContent>
+                                                        <NumericContent value="25" valueColor="Good" scale="Items"/>
+                                                    </TileContent>
+
+                                                    <TileContent>
+                                                        <NumericContent value="5" scale="Categories"/>
+                                                    </TileContent>
+
+                                                    <TileContent>
+                                                        <NumericContent value="142" scale="Uses"/>
+                                                    </TileContent>
+                                                </GenericTile>
+
+                                                <!-- Fuel Tanker -->
+                                                <GenericTile header="Fuel Tanker Checklist" subheader="CHK-FUEL-001" frameType="TwoByOne" press="onViewTemplate" class="sapUiSmallMargin">
+
+                                                    <TileContent>
+                                                        <NumericContent value="25" scale="Items"/>
+                                                    </TileContent>
+
+                                                    <TileContent>
+                                                        <NumericContent value="5" scale="Categories"/>
+                                                    </TileContent>
+
+                                                    <TileContent>
+                                                        <NumericContent value="89" scale="Uses"/>
+                                                    </TileContent>
+                                                </GenericTile>
+
+                                                <!-- NGV Trailer -->
+                                                <GenericTile header="NGV Trailer Checklist" subheader="CHK-NGV-001" frameType="TwoByOne" press="onViewTemplate" class="sapUiSmallMargin">
+
+                                                    <TileContent>
+                                                        <NumericContent value="26" scale="Items"/>
+                                                    </TileContent>
+
+                                                    <TileContent>
+                                                        <NumericContent value="5" scale="Categories"/>
+                                                    </TileContent>
+
+                                                    <TileContent>
+                                                        <NumericContent value="45" scale="Uses"/>
+                                                    </TileContent>
+
+                                                </GenericTile>
+
+                                                <!-- Create New Template -->
+                                                <GenericTile header="Create New Template" frameType="TwoByOne" press="onCreateTemplate" class="sapUiSmallMargin">
+
+                                                    <TileContent>
+                                                        <VBox justifyContent="Center" alignItems="Center" height="100%">
+
+                                                            <core:Icon src="sap-icon://add" size="2.5rem" class="createIcon"/>
+
+                                                            <Text text="Create New Template" class="sapUiSmallMarginTop"/>
+                                                        </VBox>
+                                                    </TileContent>
+                                                </GenericTile>
+
+                                            </FlexBox>
+
+                                        </VBox>
+
+                                    </IconTabFilter>
+
+
+                                </items>
+                            </IconTabBar>
+                        </VBox>
+
                         
 
                         <VBox id="freightOrdersView" visible="false" width="100%" class="intellicarrier-content-padding">
@@ -1530,7 +1851,7 @@
                                 <HBox>
                                     <unified:FileUploader buttonOnly="true" buttonText="Upload PDF" fileType="pdf"></unified:FileUploader>
                                     <!-- <Button icon="sap-icon://upload" text="Upload PDF" press=".onUploadFreight" class="sapUiTinyMarginEnd"/> -->
-                                    <Button icon="sap-icon://edit" text="Create Freight Order " press=".onManualEntryFreight"/>
+                                    <Button icon="sap-icon://edit" class="sapUiSmallMarginBegin" text="Create Manual Freight Order " press=".onManualEntryFreight"/>
                                 </HBox>
                             </HBox>
 
@@ -1553,7 +1874,7 @@
                                 </GenericTile>
 
                                 <!-- Reviewed -->
-                                <GenericTile class=" sapUiSmallMarginBottom" frameType="TwoByHalf" width="8rem" header="Reviewed" subheader="Ready to submit" press=".onCardPressFreight">
+                                <GenericTile class=" sapUiSmallMarginBottom" visible="false" frameType="TwoByHalf" width="8rem" header="Reviewed" subheader="Ready to submit" press=".onCardPressFreight">
                                     <TileContent>
                                         <NumericContent value="{orders>/summary/reviewed}" icon="sap-icon://accept" valueColor="Good" withMargin="false"/>
                                     </TileContent>
@@ -1583,12 +1904,12 @@
                                 <!-- Rejected -->
                                 <GenericTile class="sapUiTinyMarginEnd sapUiSmallMarginBottom" frameType="TwoByHalf" width="8rem" header="Rejected" subheader="Cannot process" press=".onCardPressFreight">
                                     <TileContent>
-                                        <NumericContent value="{orders>/summary/rejected}" icon="sap-icon://decline" valueColor="Error" withMargin="false"/>
+                                        <NumericContent value="0" icon="sap-icon://decline" valueColor="Error" withMargin="false"/>
                                     </TileContent>
                                 </GenericTile>
 
                                 <!-- Confirmed -->
-                                <GenericTile class="sapUiSmallMarginBottom" frameType="TwoByHalf" width="8rem" header="Confirmed" subheader="Fleet assigned" press=".onCardPressFreight">
+                                <GenericTile class="sapUiSmallMarginBottom" visible="false" frameType="TwoByHalf" width="8rem" header="Confirmed" subheader="Fleet assigned" press=".onCardPressFreight">
                                     <TileContent>
                                         <NumericContent value="{orders>/summary/confirmed}" icon="sap-icon://shipping-status" valueColor="Good" withMargin="false"/>
                                     </TileContent>
@@ -1644,7 +1965,7 @@
                                                     <!-- Order ID with OCR -->
                                                     <VBox>
                                                         <Link text="{orders>orderId}" press=".onViewDetailsFreight"/>
-                                                        <Text text="OCR: {orders>ocrConfidence}" class="sapUiTinyText"/>
+                                                        <Link text="FO-2026-0006" visible="{= ${orders>statusText} === 'Approved' }" />
                                                     </VBox>
 
                                                     <!-- Source -->
@@ -1688,6 +2009,8 @@
                                                     <HBox>
                                                         <Button text="{orders>actionButtonText}" type="{orders>actionButtonType}" press=".onActionPressFreight" class="sapUiTinyMarginEnd"/>
                                                         <!-- <Button text="View" type="Transparent" press=".onViewDetailsFreight"/> -->
+
+                                                    
                                                     </HBox>
                                                 </cells>
                                             </ColumnListItem>
@@ -1696,6 +2019,157 @@
                                 </content>
                             </Panel>
                         </VBox>
+
+
+<VBox width="100%" id ="gateLogs" visible="false" class="intellicarrier-content-padding">
+
+                            <HBox justifyContent="SpaceBetween" alignItems="Center" class="sapUiSmallMarginButtom">
+                                <Title text="Gate Logs" level="H2"/>
+                                <HBox>
+                                    <Button text="Manage shipping point" icon="sap-icon://settings" class="sapUiTinyMarginEnd" press=".onOpenShippingPointDialog"/>
+                                    <Button text="Export" icon="sap-icon://download" class="sapUiTinyMarginEnd"/>
+                                    <Button text="Refresh" icon="sap-icon://refresh" type="Emphasized" class="sapUiTinyMarginEnd"/>
+                                </HBox>
+                            </HBox>
+                            <VBox width="100%">
+
+                                <!-- KPI TILES -->
+                                <FlexBox wrap="Wrap" class="sapUiSmallMarginBottom">
+
+                                    <GenericTile header="Total Scans" subheader="All Gates" frameType="TwoByHalf" width="10rem">
+
+                                        <tileContent>
+                                            <TileContent>
+                                                <NumericContent value="{gateLogModel>/summary/totalScans}" valueColor="Good" scale="Scans"/>
+                                            </TileContent>
+                                        </tileContent>
+
+                                    </GenericTile>
+
+                                    <GenericTile header="Drivers Inside" subheader="Currently At Location" frameType="TwoByHalf" width="10rem">
+
+                                        <tileContent>
+                                            <TileContent>
+                                                <NumericContent value="{gateLogModel>/summary/currentlyAtLocation}" valueColor="Critical" scale="Drivers"/>
+                                            </TileContent>
+                                        </tileContent>
+
+                                    </GenericTile>
+
+                                    <GenericTile header="Delivered Today" subheader="Completed" frameType="TwoByHalf" width="10rem">
+
+                                        <tileContent>
+                                            <TileContent>
+                                                <NumericContent value="{gateLogModel>/summary/departed}" scale="Visits"/>
+                                            </TileContent>
+                                        </tileContent>
+
+                                    </GenericTile>
+
+                                    <GenericTile header="Arrivals" subheader="Gate IN" frameType="TwoByHalf" width="10rem">
+
+                                        <tileContent>
+                                            <TileContent>
+                                                <NumericContent value="{gateLogModel>/summary/arrivals}" valueColor="Good" scale="IN"/>
+                                            </TileContent>
+                                        </tileContent>
+
+                                    </GenericTile>
+
+                                    <GenericTile header="Departures" subheader="Gate OUT" frameType="TwoByHalf" width="10rem">
+
+                                        <tileContent>
+                                            <TileContent>
+                                                <NumericContent value="{gateLogModel>/summary/departures}" valueColor="Error" scale="OUT"/>
+                                            </TileContent>
+                                        </tileContent>
+
+                                    </GenericTile>
+
+                                </FlexBox>
+
+
+                                <!-- PANEL -->
+                                <Panel headerText="Gate Scan Log Details" expandable="false" class="sapUiSmallMarginEnd">
+
+                                    <content>
+
+                                        <!-- TABLE -->
+                                        <Table items="{gateLogModel>/records}" growing="true" growingScrollToLoad="true">
+
+                                            <columns>
+                                                <Column>
+                                                    <Text text="Scan Time"/>
+                                                </Column>
+                                                <Column>
+                                                    <Text text="Driver"/>
+                                                </Column>
+                                                <Column>
+                                                    <Text text="Vehicle"/>
+                                                </Column>
+                                                <Column>
+                                                    <Text text="Shipping Point"/>
+                                                </Column>
+                                                <Column>
+                                                    <Text text="Product"/>
+                                                </Column>
+                                                <Column>
+                                                    <Text text="Scan Type"/>
+                                                </Column>
+                                                <Column>
+                                                    <Text text="Status"/>
+                                                </Column>
+                                                <Column>
+                                                    <Text text="Duration"/>
+                                                </Column>
+                                                <Column>
+                                                    <Text text="Actions"/>
+                                                </Column>
+                                            </columns>
+
+                                            <items>
+                                                <ColumnListItem>
+                                                    <cells>
+
+                                                        <VBox>
+                                                            <Text text="{gateLogModel>scanDate}"/>
+                                                            <Text text="{gateLogModel>scanTime}" class="sapUiTinyText"/>
+                                                        </VBox>
+
+                                                        <VBox>
+                                                            <Text text="{gateLogModel>driverName}"/>
+                                                            <Text text="{gateLogModel>driverId}" class="sapUiTinyText"/>
+                                                        </VBox>
+
+                                                        <VBox>
+                                                            <Text text="{gateLogModel>vehicleNo}"/>
+                                                            <Text text="{gateLogModel>vehicleType}" class="sapUiTinyText"/>
+                                                        </VBox>
+
+                                                        <Text text="{gateLogModel>shippingPoint}"/>
+
+                                                        <ObjectStatus text="{gateLogModel>product}" state="Success"/>
+
+                                                        <ObjectStatus text="{gateLogModel>scanType}" state="Information"/>
+
+                                                        <ObjectStatus text="{gateLogModel>status}" state="{gateLogModel>statusState}"/>
+
+                                                        <Text text="{gateLogModel>duration}"/>
+
+                                                        <Button text="History" icon="sap-icon://history" type="Transparent" press=".onOpenDriverHistoryDialog"/>
+
+                                                    </cells>
+                                                </ColumnListItem>
+                                            </items>
+
+                                        </Table>
+
+                                    </content>
+                                </Panel>
+                            </VBox>
+                        </VBox>
+
+
                         <VBox id="CashAdvanceandReimbursement" visible="false" width="100%" class="intellicarrier-content-padding">
                             <!-- Header Section -->
                             <HBox justifyContent="SpaceBetween" alignItems="Center" class="sapUiMediumMarginBottom">
@@ -1832,7 +2306,7 @@
                                                         <!-- Actions -->
                                                         <HBox justifyContent="Center">
                                                             <Button text="Review" type="Accept" visible="{= ${status} === 'Pending' }" press=".onReviewRequest"/>
-                                                            <Button text="View" type="Transparent" visible="{= ${status} === 'Disbursed' }" press=".onViewRequest"/>
+                                                            <Button text="View" type="Emphasized" visible="{= ${status} === 'Disbursed' }" press=".onViewRequest"/>
                                                         </HBox>
 
                                                     </cells>
@@ -1918,8 +2392,8 @@
 
                                                         <!-- Actions -->
                                                         <HBox justifyContent="Center">
-                                                            <Button icon="sap-icon://show" type="Transparent" tooltip="View"/>
-                                                            <Button icon="sap-icon://money-bills" type="Emphasized" visible="{= ${status} !== 'Active' }" tooltip="Settle"/>
+                                                            <Button  text="View" type="Emphasized" tooltip="View"/>
+                                                            <Button icon="sap-icon://money-bills" type="Critical" visible="{= ${status} !== 'Active' }" tooltip="Settle"/>
                                                         </HBox>
 
                                                     </cells>
@@ -1930,7 +2404,7 @@
 
                                     </IconTabFilter>
                                     <IconTabFilter key="ExpenseTracking" text="📝 Expense Tracking" class="shipment-tab-item">
-                                        <Panel>
+                                        <!-- <Panel>
                                         <headerToolbar>
                                         <OverflowToolbar >
                                         <Title text="Upload Expencse Receipts" />
@@ -1941,7 +2415,7 @@
                                         <HBox>
                                         
                                         </HBox>
-                                        </Panel>
+                                        </Panel> -->
                                         <Table id="expenseOcrTable" items="{/expenseSubmissions}" growing="true" growingScrollToLoad="true">
 
                                             <!-- Header -->
@@ -2030,7 +2504,7 @@
 
                                                         <!-- Actions -->
                                                         <HBox justifyContent="Center">
-                                                            <Button icon="sap-icon://show" type="Transparent" tooltip="View Receipt" press=".onViewExpense"/>
+                                                            <Button icon="sap-icon://show" type="Emphasized" tooltip="View Receipt" press=".onViewExpense"/>
                                                         </HBox>
 
                                                     </cells>
@@ -2083,7 +2557,7 @@
                                                 <Toolbar>
                                                     <Title text="Reconciliation Queue"/>
                                                     <ToolbarSpacer/>
-                                                    <Button text="Auto-Reconcile" icon="sap-icon://synchronize" type="Emphasized" press=".onAutoReconcile"/>
+                                                    <!-- <Button text="Auto-Reconcile" icon="sap-icon://synchronize" type="Emphasized" press=".onAutoReconcile"/> -->
                                                 </Toolbar>
                                             </headerToolbar>
 
@@ -2146,7 +2620,7 @@
 
                                                         <!-- Actions -->
                                                         <HBox justifyContent="Center">
-                                                            <Button text="Reconcile" icon="sap-icon://balance" type="Emphasized" press=".onReconcile"/>
+                                                            <Button text="Reconcile" type="Emphasized" press=".onReconcile"/>
                                                         </HBox>
 
                                                     </cells>
