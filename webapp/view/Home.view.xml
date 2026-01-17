@@ -57,12 +57,9 @@
                         <tnt:NavigationList>
                             <tnt:NavigationListGroup text="Operations" key="Operations">
                             <tnt:NavigationListItem text="Dashboard" icon="sap-icon://home" key="dashboard"/>
-                            <tnt:NavigationListItem text="Freight Orders Creation" icon="sap-icon://shipping-status" key="freightOrders" />
+                            <tnt:NavigationListItem text="Create Freight Order" icon="sap-icon://shipping-status" key="freightOrders" />
                             <tnt:NavigationListItem text="Fleet Planning and Assignment" icon="sap-icon://create" key="shipmentexecution"/>
-                            <tnt:NavigationListItem text="Fleet Overview" icon="sap-icon://create" key="shipmentExecutionViewsub2"/>
-                            <tnt:NavigationListItem text="Tracking &amp; Visibility" icon="sap-icon://map" key="tracking"/>
                             <tnt:NavigationListItem text="BOL &amp; Document Management" icon="sap-icon://document" key="bol"/>
-                            <tnt:NavigationListItem text="Rate Master" icon="sap-icon://money-bills" key="rateMaster"/>
                             <tnt:NavigationListItem text="Price Determination &amp; Settlement" icon="sap-icon://sales-order" key="priceCalculation"/>
 
                             <tnt:NavigationListItem text="Cash Advance &amp; Reimbursement" icon="sap-icon://wallet" key="CashAdvanceandReimbursement"/>
@@ -70,13 +67,13 @@
                             </tnt:NavigationListGroup>
                             <tnt:NavigationListGroup text="Reports" key="Reports" expanded="false">
                             <tnt:NavigationListItem text="Fleet Overview" icon="sap-icon://create" key="shipmentExecutionViewsub2"/>
-                            <tnt:NavigationListItem text="Tracking &amp; Visibility" icon="sap-icon://locate-me" key="tracking"/>
+                            <tnt:NavigationListItem text="Shipment Execution" icon="sap-icon://map" key="tracking"/>
                             
                             <tnt:NavigationListItem text="Operational &amp; Financial Reports" icon="sap-icon://create" key="OperationalandFinancialReports"/>
-
+     <tnt:NavigationListItem text="Vehicle Checklist" icon="sap-icon://locate-me" key="vehicleChecklist"/>
                             </tnt:NavigationListGroup >
                             <tnt:NavigationListGroup text="Masters" key="Masters" expanded="false">
-                            <tnt:NavigationListItem text="Rate Master" icon="sap-icon://home" key="RateMaster"/>
+                            <tnt:NavigationListItem text="Rate Master" icon="sap-icon://money-bills" key="rateMaster"/>
                             <tnt:NavigationListItem text="Reference Data" icon="sap-icon://home" key="ReferenceData"/>
 
                             </tnt:NavigationListGroup>
@@ -290,7 +287,7 @@
                                 </items>
                             </SegmentedButton> -->
                             <VBox id="shipmentExecutionViewsub" visible="true" width="100%" class="intellicarrier-content-padding sapUiMediumMarginBottom">
-                                <Title text="Shipment Execution" level="H2" class="sapUiMediumMarginBottom"/>
+                                <Title text="Fleet Planning and Assignment" level="H2" class="sapUiMediumMarginBottom"/>
                                 <FlexBox wrap="NoWrap" alignItems="Start" class="sapUiMediumMarginBottom">
 
                                     <!-- Pending Assignment -->
@@ -1215,7 +1212,7 @@
 
                             <!-- Shipments List View (Default) -->
                             <VBox id="shipmentsListView" visible="true" width="100%">
-                                <Title text="Tracking &amp; Visibility" level="H2" class="sapUiMediumMarginBottom"/>
+                                <Title text="Shipment Execution" level="H2" class="sapUiMediumMarginBottom"/>
 
                                 <!-- Quick Track Panel -->
                                 <Panel headerText="Quick Track" class="sapUiMediumMarginBottom intellicarrier-full-width-panel" width="100%">
@@ -1928,7 +1925,7 @@
                                                         <!-- Actions -->
                                                         <HBox justifyContent="Center">
                                                             <Button text="Review" type="Accept" visible="{= ${status} === 'Pending' }" press=".onReviewRequest"/>
-                                                            <Button text="View" type="Transparent" visible="{= ${status} === 'Disbursed' }" press=".onViewRequest"/>
+                                                            <Button text="View" type="Emphasized" visible="{= ${status} === 'Disbursed' }" press=".onViewRequest"/>
                                                         </HBox>
 
                                                     </cells>
@@ -2014,8 +2011,8 @@
 
                                                         <!-- Actions -->
                                                         <HBox justifyContent="Center">
-                                                            <Button icon="sap-icon://show" type="Transparent" tooltip="View"/>
-                                                            <Button icon="sap-icon://money-bills" type="Emphasized" visible="{= ${status} !== 'Active' }" tooltip="Settle"/>
+                                                            <Button  text="View" type="Emphasized" tooltip="View"/>
+                                                            <Button icon="sap-icon://money-bills" type="Critical" visible="{= ${status} !== 'Active' }" tooltip="Settle"/>
                                                         </HBox>
 
                                                     </cells>
@@ -2026,7 +2023,7 @@
 
                                     </IconTabFilter>
                                     <IconTabFilter key="ExpenseTracking" text="📝 Expense Tracking" class="shipment-tab-item">
-                                        <Panel>
+                                        <!-- <Panel>
                                         <headerToolbar>
                                         <OverflowToolbar >
                                         <Title text="Upload Expencse Receipts" />
@@ -2037,7 +2034,7 @@
                                         <HBox>
                                         
                                         </HBox>
-                                        </Panel>
+                                        </Panel> -->
                                         <Table id="expenseOcrTable" items="{/expenseSubmissions}" growing="true" growingScrollToLoad="true">
 
                                             <!-- Header -->
@@ -2126,7 +2123,7 @@
 
                                                         <!-- Actions -->
                                                         <HBox justifyContent="Center">
-                                                            <Button icon="sap-icon://show" type="Transparent" tooltip="View Receipt" press=".onViewExpense"/>
+                                                            <Button icon="sap-icon://show" type="Emphasized" tooltip="View Receipt" press=".onViewExpense"/>
                                                         </HBox>
 
                                                     </cells>
@@ -2179,7 +2176,7 @@
                                                 <Toolbar>
                                                     <Title text="Reconciliation Queue"/>
                                                     <ToolbarSpacer/>
-                                                    <Button text="Auto-Reconcile" icon="sap-icon://synchronize" type="Emphasized" press=".onAutoReconcile"/>
+                                                    <!-- <Button text="Auto-Reconcile" icon="sap-icon://synchronize" type="Emphasized" press=".onAutoReconcile"/> -->
                                                 </Toolbar>
                                             </headerToolbar>
 
@@ -2242,7 +2239,7 @@
 
                                                         <!-- Actions -->
                                                         <HBox justifyContent="Center">
-                                                            <Button text="Reconcile" icon="sap-icon://balance" type="Emphasized" press=".onReconcile"/>
+                                                            <Button text="Reconcile" type="Emphasized" press=".onReconcile"/>
                                                         </HBox>
 
                                                     </cells>

@@ -2596,3 +2596,53 @@ color: #0066cc !important;
     border-radius: 10px;
     padding: 14px;
 }
+.infoCard {
+    border-radius: 10px;
+}
+
+.highlightBox {
+    background: #e9f7ef !important;
+    border-radius: 10px;
+    border-left: 4px solid #1b8e3e;
+    padding: 15px;
+    
+}
+.ocrReceiptPreviewBox {
+    height: 180px;
+    border: 2px dashed #d1d9e0;
+    border-radius: 12px;
+    background: #f9f9f9;
+}
+
+.ocrExtractBox {
+    background: #1c1c1c;
+    border-radius: 12px;
+    padding: 14px;
+}
+
+.ocrLabel {
+    color: #6cd4ff;
+    font-family: monospace;
+    width: 25%;
+}
+
+.ocrValue {
+    color: white;
+    font-family: monospace;
+    width: 55%;
+    text-align: left;
+}
+
+.ocrConf {
+    color: #78e060;
+    font-family: monospace;
+    width: 20%;
+    text-align: right;
+}
+
+.ocrValidationBox {
+    background: #eaf7ee;
+    border-radius: 10px;
+    padding: 12px;
+    border-left: 4px solid #1b8e3e;
+}

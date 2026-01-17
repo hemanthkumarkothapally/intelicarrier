@@ -1,0 +1,140 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:l="sap.ui.layout">
+
+    <Dialog
+        id="orderDetailsDialog"
+        contentWidth="700px"
+        contentHeight="560px"
+        title="Order Details - {orderDetails>/orderId}"
+        draggable="true"
+        resizable="true"
+        verticalScrolling="true"
+        class="sapUiResponsivePadding--content">
+
+        
+        <!-- ================= CONTENT ================= -->
+        <content>
+            <VBox class="sapUiSmallMargin">
+
+                <!-- Top Cards -->
+                <HBox width="100%" justifyContent="SpaceBetween" class="sapUiSmallMarginBottom" wrap="Wrap">
+
+                    <!-- Order Information -->
+                    <!-- <Panel width="32%" class="sapUiTinyMarginEnd infoCard" backgroundDesign="Solid"> -->
+                        <VBox class="sapUiSmallMargin infoCard">
+                            <Title text="Order Information" level="H5"/>
+
+                            <HBox justifyContent="SpaceBetween">
+                                <Text text="Order ID:" class="sapUiContentLabel"/>
+                                <Text text="{orderDetails>/orderId}" class="sapUiBoldText"/>
+                            </HBox>
+
+                            <HBox justifyContent="SpaceBetween">
+                                <Text text="Source:" class="sapUiContentLabel"/>
+                                <Text text="{orderDetails>/sourceText}"/>
+                            </HBox>
+
+                            <HBox justifyContent="SpaceBetween">
+                                <Text text="Created:" class="sapUiContentLabel"/>
+                                <Text text="{orderDetails>/createdOn}"/>
+                            </HBox>
+
+                            <HBox justifyContent="SpaceBetween">
+                                <Text text="Created By:" class="sapUiContentLabel"/>
+                                <Text text="{orderDetails>/createdBy}"/>
+                            </HBox>
+
+                            <HBox justifyContent="SpaceBetween">
+                                <Text text="OCR Confidence:" class="sapUiContentLabel"/>
+                                <Text text="{orderDetails>/ocrConfidence}"/>
+                            </HBox>
+                        </VBox>
+                    
+
+                    <!-- Customer Details -->
+                    <!-- <Panel width="32%" class="sapUiTinyMarginEnd infoCard" backgroundDesign="Solid"> -->
+                        <VBox class="sapUiSmallMargin infoCard">
+                            <Title text="Customer Details" level="H5"/>
+
+                            <HBox justifyContent="SpaceBetween">
+                                <Text text="Name:" class="sapUiContentLabel"/>
+                                <Text text="{orderDetails>/customerName}" class="sapUiBoldText"/>
+                            </HBox>
+
+                            <HBox justifyContent="SpaceBetween">
+                                <Text text="Email:" class="sapUiContentLabel"/>
+                                <Text text="{orderDetails>/customerEmail}"/>
+                            </HBox>
+
+                            <HBox justifyContent="SpaceBetween">
+                                <Text text="Phone:" class="sapUiContentLabel"/>
+                                <Text text="{orderDetails>/customerPhone}"/>
+                            </HBox>
+                        </VBox>
+                    <!-- </Panel> -->
+
+                    <!-- Delivery Schedule -->
+                    <!-- <Panel width="32%" class="infoCard" backgroundDesign="Solid"> -->
+                        <VBox class="sapUiSmallMargin infoCard">
+                            <Title text="Delivery Schedule" level="H5"/>
+
+                            <HBox justifyContent="SpaceBetween">
+                                <Text text="Pickup:" class="sapUiContentLabel"/>
+                                <Text text="{orderDetails>/pickupDate}"/>
+                            </HBox>
+
+                            <HBox justifyContent="SpaceBetween">
+                                <Text text="Delivery:" class="sapUiContentLabel"/>
+                                <Text text="{orderDetails>/deliveryDate}" class="sapUiBoldText"/>
+                            </HBox>
+
+                            <HBox justifyContent="SpaceBetween">
+                                <Text text="Weight:" class="sapUiContentLabel"/>
+                                <Text text="{orderDetails>/weight}"/>
+                            </HBox>
+
+                            <HBox justifyContent="SpaceBetween">
+                                <Text text="Value:" class="sapUiContentLabel"/>
+                                <Text text="{orderDetails>/value}" class="sapUiBoldText"/>
+                            </HBox>
+                        </VBox>
+                    <!-- </Panel> -->
+
+                </HBox>
+
+                <!-- Manager Comments -->
+                <!-- <Panel class="highlightBox sapUiSmallMarginBottom" backgroundDesign="Solid"> -->
+                    <VBox class="sapUiSmallMargin highlightBox" height="5rem">
+                        <HBox alignItems="Center">
+                            <core:Icon src="sap-icon://comment" class="sapUiTinyMarginEnd"/>
+                            <Title text="Manager Comments" level="H5"/>
+                        </HBox>
+                        <Text text="{orderDetails>/managerComments}"/>
+                    </VBox>
+                <!-- </Panel> -->
+
+                <!-- Fleet Assignment -->
+                <!-- <Panel class="highlightBox" backgroundDesign="Solid"> -->
+                    <VBox class="sapUiSmallMargin highlightBox" height="8rem">
+                        <HBox alignItems="Center">
+                            <core:Icon src="sap-icon://shipping-status" class="sapUiTinyMarginEnd"/>
+                            <Title text="Fleet Assignment" level="H5"/>
+                        </HBox>
+
+                        <Text text="Freight Order: {orderDetails>/orderId}" class="sapUiSmallMarginTop"/>
+                        <Text text="Priority: {orderDetails>/priority}"/>
+                    </VBox>
+                <!-- </Panel> -->
+
+            </VBox>
+        </content>
+
+        <!-- Footer -->
+        <buttons>
+            <Button text="Close" press=".onCloseOrderDetails"/>
+        </buttons>
+
+    </Dialog>
+</core:FragmentDefinition>
