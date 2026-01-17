@@ -1,0 +1,250 @@
+{
+  "kpi": {
+    "scheduled": 15,
+    "inProgress": 8,
+    "completed": 142,
+    "overdue": 3
+  },
+  "checklists": [
+    {
+      "submissionDate": "2026-01-15",
+      "submissionTime": "08:30 AM",
+      "shipmentId": "SHP-2024-1001",
+      "driverName": "John Doe",
+      "driverId": "DRV-001",
+      "vehicleNumber": "BKK-1234",
+      "vehicleType": "10-Wheeler Fuel Tanker",
+      "checkScore": "18/20",
+      "checkPercentage": 90,
+      "checkState": "Success",
+      "status": "Approved",
+      "statusState": "Success"
+    },
+    {
+      "submissionDate": "2026-01-15",
+      "submissionTime": "09:15 AM",
+      "shipmentId": "SHP-2024-1002",
+      "driverName": "Sarah Anderson",
+      "driverId": "DRV-002",
+      "vehicleNumber": "BKK-5678",
+      "vehicleType": "6-Wheeler Chemical Tanker",
+      "checkScore": "15/20",
+      "checkPercentage": 75,
+      "checkState": "Warning",
+      "status": "Pending",
+      "statusState": "Warning"
+    },
+    {
+      "submissionDate": "2026-01-14",
+      "submissionTime": "07:45 AM",
+      "shipmentId": "SHP-2024-1003",
+      "driverName": "Michael Peterson",
+      "driverId": "DRV-003",
+      "vehicleNumber": "BKK-9012",
+      "vehicleType": "18-Wheeler Container",
+      "checkScore": "20/20",
+      "checkPercentage": 100,
+      "checkState": "Success",
+      "status": "Approved",
+      "statusState": "Success"
+    },
+    {
+      "submissionDate": "2026-01-14",
+      "submissionTime": "10:30 AM",
+      "shipmentId": "SHP-2024-1004",
+      "driverName": "Lisa Wong",
+      "driverId": "DRV-004",
+      "vehicleNumber": "BKK-3456",
+      "vehicleType": "10-Wheeler LPG Tanker",
+      "checkScore": "12/20",
+      "checkPercentage": 60,
+      "checkState": "Error",
+      "status": "Rejected",
+      "statusState": "Error"
+    },
+    {
+      "submissionDate": "2026-01-13",
+      "submissionTime": "06:00 AM",
+      "shipmentId": "SHP-2024-1005",
+      "driverName": "David Chen",
+      "driverId": "DRV-005",
+      "vehicleNumber": "BKK-7890",
+      "vehicleType": "6-Wheeler NGV Tanker",
+      "checkScore": "17/20",
+      "checkPercentage": 85,
+      "checkState": "Success",
+      "status": "Approved",
+      "statusState": "Success"
+    },
+    {
+      "submissionDate": "2026-01-13",
+      "submissionTime": "11:20 AM",
+      "shipmentId": "SHP-2024-1006",
+      "driverName": "Emily Brown",
+      "driverId": "DRV-006",
+      "vehicleNumber": "BKK-2468",
+      "vehicleType": "10-Wheeler Fuel Tanker",
+      "checkScore": "14/20",
+      "checkPercentage": 70,
+      "checkState": "Warning",
+      "status": "Pending",
+      "statusState": "Warning"
+    }
+  ],
+  "maintenance": [
+    {
+      "workOrderId": "WO-2024-001",
+      "vehicleNumber": "BKK-1234",
+      "vehicleType": "10-Wheeler Fuel Tanker",
+      "maintType": "Preventive",
+      "maintTypeState": "Information",
+      "description": "Regular oil change and filter replacement",
+      "priority": "Medium",
+      "priorityState": "Warning",
+      "cost": "3,500",
+      "maintStatus": "Scheduled",
+      "maintStatusState": "Information"
+    },
+    {
+      "workOrderId": "WO-2024-002",
+      "vehicleNumber": "BKK-5678",
+      "vehicleType": "6-Wheeler Chemical Tanker",
+      "maintType": "Corrective",
+      "maintTypeState": "Error",
+      "description": "Brake pad replacement - urgent repair needed",
+      "priority": "High",
+      "priorityState": "Error",
+      "cost": "8,200",
+      "maintStatus": "In Progress",
+      "maintStatusState": "Warning"
+    },
+    {
+      "workOrderId": "WO-2024-003",
+      "vehicleNumber": "BKK-9012",
+      "vehicleType": "18-Wheeler Container",
+      "maintType": "Inspection",
+      "maintTypeState": "Success",
+      "description": "Annual safety inspection and certification",
+      "priority": "Low",
+      "priorityState": "Success",
+      "cost": "1,500",
+      "maintStatus": "Completed",
+      "maintStatusState": "Success"
+    },
+    {
+      "workOrderId": "WO-2024-004",
+      "vehicleNumber": "BKK-3456",
+      "vehicleType": "10-Wheeler LPG Tanker",
+      "maintType": "Corrective",
+      "maintTypeState": "Error",
+      "description": "Engine diagnostic and major repair required",
+      "priority": "Critical",
+      "priorityState": "Error",
+      "cost": "15,600",
+      "maintStatus": "Overdue",
+      "maintStatusState": "Error"
+    },
+    {
+      "workOrderId": "WO-2024-005",
+      "vehicleNumber": "BKK-7890",
+      "vehicleType": "6-Wheeler NGV Tanker",
+      "maintType": "Preventive",
+      "maintTypeState": "Information",
+      "description": "Tire rotation and wheel alignment service",
+      "priority": "Low",
+      "priorityState": "Success",
+      "cost": "2,800",
+      "maintStatus": "Scheduled",
+      "maintStatusState": "Information"
+    },
+    {
+      "workOrderId": "WO-2024-006",
+      "vehicleNumber": "BKK-2468",
+      "vehicleType": "10-Wheeler Fuel Tanker",
+      "maintType": "Preventive",
+      "maintTypeState": "Information",
+      "description": "Coolant system flush and replacement",
+      "priority": "Medium",
+      "priorityState": "Warning",
+      "cost": "4,200",
+      "maintStatus": "Scheduled",
+      "maintStatusState": "Information"
+    },
+    {
+      "workOrderId": "WO-2024-007",
+      "vehicleNumber": "BKK-1357",
+      "vehicleType": "18-Wheeler Container",
+      "maintType": "Corrective",
+      "maintTypeState": "Error",
+      "description": "Transmission repair and fluid change",
+      "priority": "High",
+      "priorityState": "Error",
+      "cost": "12,500",
+      "maintStatus": "In Progress",
+      "maintStatusState": "Warning"
+    },
+    {
+      "workOrderId": "WO-2024-008",
+      "vehicleNumber": "BKK-9753",
+      "vehicleType": "6-Wheeler Chemical Tanker",
+      "maintType": "Inspection",
+      "maintTypeState": "Success",
+      "description": "Monthly safety and compliance check",
+      "priority": "Low",
+      "priorityState": "Success",
+      "cost": "800",
+      "maintStatus": "Completed",
+      "maintStatusState": "Success"
+    }
+  ],
+  "templates": [
+    {
+      "templateName": "LPG Tanker Pre-Trip Checklist",
+      "templateCode": "CHK-LPG-001",
+      "productType": "LPG",
+      "itemCount": 25,
+      "categoryCount": 5,
+      "usageCount": 145
+    },
+    {
+      "templateName": "Fuel Tanker Pre-Trip Checklist",
+      "templateCode": "CHK-FUEL-001",
+      "productType": "Fuel",
+      "itemCount": 28,
+      "categoryCount": 6,
+      "usageCount": 203
+    },
+    {
+      "templateName": "Chemical Tanker Pre-Trip Checklist",
+      "templateCode": "CHK-CHEM-001",
+      "productType": "Chemical",
+      "itemCount": 32,
+      "categoryCount": 7,
+      "usageCount": 87
+    },
+    {
+      "templateName": "NGV Tanker Pre-Trip Checklist",
+      "templateCode": "CHK-NGV-001",
+      "productType": "NGV",
+      "itemCount": 24,
+      "categoryCount": 5,
+      "usageCount": 56
+    },
+    {
+      "templateName": "Container Truck Pre-Trip Checklist",
+      "templateCode": "CHK-CONT-001",
+      "productType": "Container",
+      "itemCount": 22,
+      "categoryCount": 5,
+      "usageCount": 178
+    },
+    {
+      "templateName": "Heavy Equipment Transport Checklist",
+      "templateCode": "CHK-HEAVY-001",
+      "productType": "Heavy Equipment",
+      "itemCount": 30,
+      "categoryCount": 6,
+      "usageCount": 42
+    }
+  ]
+}
