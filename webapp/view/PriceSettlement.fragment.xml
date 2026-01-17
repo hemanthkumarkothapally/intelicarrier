@@ -22,7 +22,7 @@ documents are created within S/4HANA." type="Information" showIcon="true" class=
 sapUiSmallMarginBottom"/>
         <ScrollContainer height="100%" width="100%" horizontal="true" vertical="false" class="sapUiMediumMarginTopBottom">
 
-            <Panel width="auto">
+            <Panel width="auto" visible="false">
                 <content>
 
                     <HBox alignItems="Center" justifyContent="Center" class="sapUiSmallMargin">
@@ -108,7 +108,7 @@ sapUiTinyMarginBottom" width="11rem">
                 </TileContent>
             </GenericTile>
 
-            <GenericTile header="Sent to S/4HANA" subheader="Today" frameType="TwoByHalf" press="onFilterSent" class="sapUiTinyMarginEnd sapUiTinyMarginBottom" width="11rem">
+            <GenericTile header="Sales order created" subheader="Today" frameType="TwoByHalf" press="onFilterSent" class="sapUiTinyMarginEnd sapUiTinyMarginBottom" width="11rem">
                 <TileContent>
                     <NumericContent value="24" valueColor="Good" icon="sap-icon://accept"/>
                 </TileContent>
@@ -427,12 +427,12 @@ sapUiContentLabel" />
                 </IconTabFilter>
 
                 <IconTabFilter key="Sent" text="✅
-Sent to S/4 (24)">
+Sales order created (24)">
                     <Table id="s4Table" items="{/SentToS4}">
                         <headerToolbar>
                             <OverflowToolbar>
                                 <Title text="✅
-Sent to S/4HANA Sales Orders" />
+Sales order created" />
                                 <Text text="—
 Sales Order created, monitoring S/4 status" class="sapUiTinyMarginBegin sapUiContentLabel" />
                                 <ToolbarSpacer />
