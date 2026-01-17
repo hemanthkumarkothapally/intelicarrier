@@ -1022,7 +1022,7 @@ sap.ui.define([
             this.byId("rateShoppingView").setVisible(false);
             this.byId("shipmentExecutionView").setVisible(false);
             this.byId("trackingView").setVisible(false);
-            this.byId("freightOrdersView").setVisible(false);
+            this.byId("freightOrdersView").setVisible(false);   
             this.byId("shipmentExecutionViewsub2").setVisible(false);
             this.byId("bolView").setVisible(false);
             this.byId("rateMasterView").setVisible(false);
@@ -2392,9 +2392,11 @@ sap.ui.define([
         },
 
         onContactCustomer: function () {
-            MessageToast.show("Connecting to customer care...");
+            this.byId("contactCustomerDialog").open();
         },
-
+        onContactCloseDialog:function(){
+            this.byId("contactCustomerDialog").close();
+        },
         // Quick Actions
         onQuickShipment: function () {
             this._showView("shipmentexecution");

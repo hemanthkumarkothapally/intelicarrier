@@ -6,10 +6,10 @@
     xmlns:viz.data="sap.viz.ui5.data"
     xmlns:viz.feeds="sap.viz.ui5.controls.common.feeds">
 
-    <VBox width="100%" renderType="Bare" class="intellicarrier-dashboard">
+    <VBox width="95%" renderType="Bare" class="intellicarrier-dashboard">
 
         <!-- Hero / Title -->
-        <Panel class="intellicarrier-hero sapUiSmallMarginBottom" width="100%" backgroundDesign="Solid" stickyHeader="true">
+        <Panel class="intellicarrier-hero sapUiSmallMarginBottom" width="100%" backgroundDesign="Solid" >
             <content>
                 <HBox>
                     <VBox>

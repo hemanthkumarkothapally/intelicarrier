@@ -29,5 +29,55 @@
     {"label":"Unloading","value":5,"color":"#ce93d8"},
     {"label":"Maintenance","value":2,"color":"#90a4ae"},
     {"label":"Breakdown","value":0,"color":"#ef9a9a"}
+  ],
+
+
+
+  
+  "expenses": [
+    {
+      "type": "Fuel",
+      "icon": "sap-icon://mileage",
+      "description": "Diesel refuel - PTT",
+      "amount": "฿4,500",
+      "receipt": true,
+      "statusText": "Approved",
+      "statusState": "Success"
+    },
+    {
+      "type": "Toll",
+      "icon": "sap-icon://subway-train",
+      "description": "Highway tolls (multiple)",
+      "amount": "฿420",
+      "receipt": true,
+      "statusText": "Approved",
+      "statusState": "Success"
+    },
+    {
+      "type": "Meals",
+      "icon": "sap-icon://meal",
+      "description": "Breakfast & Lunch",
+      "amount": "฿300",
+      "receipt": false,
+      "statusText": "Pending",
+      "statusState": "Warning"
+    }
+  ],
+  
+  "summaryCards": [
+    { "title": "Fuel",  "amount": "฿4,500", "icon": "sap-icon://mileage" },
+    { "title": "Tolls", "amount": "฿420",   "icon": "sap-icon://subway-train" },
+    { "title": "Meals", "amount": "฿300",   "icon": "sap-icon://meal" },
+    { "title": "Total", "amount": "฿5,220", "icon": "sap-icon://simple-payment" }
+  ],
+   "summaryCard": [
+    { "title": "Cash Advance",  "amount": "฿8000" },
+    { "title": "Total Spent", "amount": "฿5220" },
+    { "title": "Balance", "amount": "฿2780" },
+    { "title": "Status", "amount": "Pending" }
   ]
+
+
+
+
 }
