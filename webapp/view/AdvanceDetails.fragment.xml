@@ -10,7 +10,7 @@
 
         
         <content>
-            <VBox class="sapUiMediumMargin">
+            <VBox class="sapUiMediumMargin advSummaryCard">
 
                 <HBox  alignItems="Center">
                     <VBox>
@@ -23,7 +23,7 @@
                                   inverted="true"/>
                 </HBox>
 
-                <Toolbar class="sapUiMediumMarginTop ">
+                <Toolbar class="sapUiMediumMarginTop advDividerLine">
                     <ToolbarSpacer/>
                 </Toolbar>
 
