@@ -2637,20 +2637,20 @@ color: #0066cc !important;
 .ocrLabel {
     color: #6cd4ff;
     font-family: monospace;
-    width: 25%;
+    
 }
 
 .ocrValue {
     color: white;
     font-family: monospace;
-    width: 55%;
+    
     text-align: left;
 }
 
 .ocrConf {
     color: #78e060;
     font-family: monospace;
-    width: 20%;
+    
     text-align: right;
 }
 
@@ -2659,4 +2659,106 @@ color: #0066cc !important;
     border-radius: 10px;
     padding: 12px;
     border-left: 4px solid #1b8e3e;
+}
+.reconcileHeaderBar {
+    background: #49647a !important;
+}
+
+.reconcileHeaderBar .sapMTitle,
+.reconcileHeaderBar .sapMText {
+    color: white !important;
+}
+
+.reconcileTile {
+    width: 30%;
+    padding: 18px;
+    border-radius: 14px;
+    background: #ffffff;
+    border: 1px solid #e5e5e5;
+    text-align: center;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+
+.tileLabel {
+    font-size: 0.85rem;
+    color: #6a6d70;
+}
+
+.tileValue {
+    margin-top: 8px;
+    font-weight: 800;
+}
+
+.tileBlue {
+    border-left: 5px solid #0a6ed1;
+}
+
+.tileOrange {
+    border-left: 5px solid #e9730c;
+}
+
+.tileGreen {
+    border-left: 5px solid #1b8e3e;
+}
+
+.reconcileSummaryBox {
+    background: #fff4e5;
+    padding: 14px;
+    border-radius: 12px;
+    border: 1px solid #ffe1b0;
+}
+
+.summaryTitle {
+    font-weight: 800;
+    color: #e9730c;
+    margin-right: 6px;
+}
+
+.summaryText {
+    color: #333;
+}
+/* ===== Dialog Header (Blue Bar) ===== */
+.advanceHeaderBar {
+    background: #49647a !important;
+}
+
+.advanceHeaderBar .sapMTitle,
+.advanceHeaderBar .sapMText {
+    color: #ffffff !important;
+}
+
+/* ===== Blue Summary Card ===== */
+.advSummaryCard {
+    background: linear-gradient(180deg, #1f3f73 0%, #1a3563 100%);
+    border-radius: 16px;
+    padding: 22px;
+    color: #ffffff;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.12);
+}
+
+/* Label style */
+.advLabelLight {
+    color: rgba(255, 255, 255, 0.75);
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+/* Big balance */
+.advBalanceBig {
+    color: #ffffff;
+    font-weight: 800;
+}
+
+/* Small values */
+.advValueSmall {
+    color: #ffffff;
+    font-weight: 700;
+}
+
+/* Divider line */
+.advDividerLine {
+    background: rgba(255, 255, 255, 0.25) !important;
+    height: 1px;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }

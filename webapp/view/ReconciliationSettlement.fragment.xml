@@ -1,0 +1,90 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core">
+
+    <Dialog
+        id="reconcileDialog"
+        contentWidth="820px"
+        contentHeight="420px"
+        title="⚖️ Reconciliation &amp; Settlement"
+        draggable="true"
+        resizable="false"
+        verticalScrolling="false"
+        class="sapUiResponsivePadding--content reconcileDialog">
+
+       
+        <!-- ===== Content ===== -->
+        <content>
+            <VBox class="sapUiMediumMargin" width="96%">
+
+                <!-- ===== Top 3 Amount Tiles ===== -->
+                <HBox justifyContent="SpaceBetween" class="sapUiMediumMarginBottom">
+
+                    <VBox class="reconcileTile tileBlue sapUiMediumMarginEnd">
+                        <Text text="Advance" class="tileLabel"/>
+                        <Title text="{recModel>/advance}" level="H2" class="tileValue"/>
+                    </VBox>
+
+                    <VBox class="reconcileTile tileOrange sapUiMediumMarginEnd">
+                        <Text text="Expenses" class="tileLabel"/>
+                        <Title text="{recModel>/expenses}" level="H2" class="tileValue"/>
+                    </VBox>
+
+                    <VBox class="reconcileTile tileGreen sapUiMediumMarginEnd">
+                        <Text text="To Return" class="tileLabel"/>
+                        <Title text="{recModel>/toReturn}" level="H2" class="tileValue"/>
+                    </VBox>
+
+                </HBox>
+
+                <!-- ===== Settlement Type + Recovery Method ===== -->
+                <HBox justifyContent="SpaceBetween" class="sapUiSmallMarginBottom">
+
+                    <VBox width="48%">
+                        <Label text="Settlement Type"/>
+                        <Select width="100%" selectedKey="{recModel>/settlementType}">
+                            <items>
+                                <core:Item key="EXCESS" text="Excess Recovery (Driver returns ฿2,150)"/>
+                                <core:Item key="REIMBURSE" text="Reimburse Driver (Company pays extra)"/>
+                                <core:Item key="ZERO" text="Zero Balance (Fully settled)"/>
+                            </items>
+                        </Select>
+                    </VBox>
+
+                    <VBox width="48%">
+                        <Label text="Recovery Method"/>
+                        <Select width="100%" selectedKey="{recModel>/recoveryMethod}">
+                            <items>
+                                <core:Item key="PAYROLL" text="Payroll Deduction"/>
+                                <core:Item key="CASH" text="Cash Return"/>
+                                <core:Item key="BANK" text="Bank Transfer"/>
+                            </items>
+                        </Select>
+                    </VBox>
+
+                </HBox>
+
+                <!-- ===== Summary Box ===== -->
+                <VBox class="reconcileSummaryBox">
+                    <HBox alignItems="Center">
+                        <core:Icon src="sap-icon://document-text" class="sapUiTinyMarginEnd"/>
+                        <Text text="Summary:" class="summaryTitle"/>
+                        <Text text="Driver will return {recModel>/toReturn} via {recModel>/recoveryMethodText}."
+                              class="summaryText"/>
+                    </HBox>
+                </VBox>
+
+            </VBox>
+        </content>
+
+        <!-- ===== Footer Buttons ===== -->
+        <buttons>
+            <Button text="Cancel" press=".onCloseReconcileDialog"/>
+            <Button text="Process Settlement"
+                    icon="sap-icon://accept"
+                    type="Accept"
+                    press=".onProcessSettlement"/>
+        </buttons>
+
+    </Dialog>
+</core:FragmentDefinition>
