@@ -5,6 +5,7 @@
     xmlns:mvc="sap.ui.core.mvc"
     xmlns:tnt="sap.tnt"
     xmlns:f="sap.f"
+    xmlns:card="sap.f.cards"
     xmlns:l="sap.ui.layout"
     xmlns:core="sap.ui.core" height="100%">
 
@@ -56,28 +57,33 @@
                     <tnt:SideNavigation id="sideNavigation" selectedKey="dashboard" expanded="true" itemSelect=".onItemSelect">
                         <tnt:NavigationList>
                             <tnt:NavigationListGroup text="Operations" key="Operations">
-                            <tnt:NavigationListItem text="Dashboard" icon="sap-icon://home" key="dashboard"/>
-                            <tnt:NavigationListItem text="Create Freight Order" icon="sap-icon://shipping-status" key="freightOrders" />
-                            <tnt:NavigationListItem text="Fleet Planning and Assignment" icon="sap-icon://create" key="shipmentexecution"/>
-                            <tnt:NavigationListItem text="BOL &amp; Document Management" icon="sap-icon://document" key="bol"/>
-                            <tnt:NavigationListItem text="Price Determination &amp; Settlement" icon="sap-icon://sales-order" key="priceCalculation"/>
+                                <tnt:NavigationListItem text="Dashboard" icon="sap-icon://home" key="dashboard"/>
+                                <tnt:NavigationListItem text="Create Freight Order" icon="sap-icon://shipping-status" key="freightOrders" />
+                                <tnt:NavigationListItem text="Create Shipment" icon="sap-icon://create" key="shipmentexecution"/>
+                                 <tnt:NavigationListItem text="Shipment Execution" icon="sap-icon://map" key="tracking"/>
+                                   <tnt:NavigationListItem text="Cash Advance &amp; Reimbursement" icon="sap-icon://wallet" key="CashAdvanceandReimbursement"/>
+                                   <tnt:NavigationListItem text="Create sales order" icon="sap-icon://sales-order" key="priceCalculation"/>
+                                
+                                
 
-                            <tnt:NavigationListItem text="Vehicle Checklist" icon="sap-icon://bus-public-transport" key="vehicleChecklist"/>
-                            <tnt:NavigationListItem text="Gate Logs" icon="sap-icon://building" key="gateLogs"/>
+                                <!-- <tnt:NavigationListItem text="Vehicle Checklist" icon="sap-icon://bus-public-transport" key="vehicleChecklist"/> -->
+                               
 
-                            <tnt:NavigationListItem text="Cash Advance &amp; Reimbursement" icon="sap-icon://wallet" key="CashAdvanceandReimbursement"/>
-                            
+                              
+
                             </tnt:NavigationListGroup>
                             <tnt:NavigationListGroup text="Reports" key="Reports" expanded="false">
-                            <tnt:NavigationListItem text="Fleet Overview" icon="sap-icon://create" key="shipmentExecutionViewsub2"/>
-                            <tnt:NavigationListItem text="Shipment Execution" icon="sap-icon://map" key="tracking"/>
-                            
-                            <tnt:NavigationListItem text="Operational &amp; Financial Reports" icon="sap-icon://create" key="OperationalandFinancialReports"/>
-     <tnt:NavigationListItem text="Vehicle Checklist" icon="sap-icon://locate-me" key="vehicleChecklist"/>
+                           
+                                <tnt:NavigationListItem text="Fleet Overview" icon="sap-icon://curriculum" key="shipmentExecutionViewsub2"/>
+                                  <tnt:NavigationListItem text="Gate Logs" icon="sap-icon://building" key="gateLogs"/>
+                               <tnt:NavigationListItem text="Document Management" icon="sap-icon://document" key="bol"/>
+
+                                <!-- <tnt:NavigationListItem text="Operational &amp; Financial Reports" icon="sap-icon://create" key="OperationalandFinancialReports"/> -->
+                                <tnt:NavigationListItem text="Vehicle Checklist" icon="sap-icon://locate-me" key="vehicleChecklist"/>
                             </tnt:NavigationListGroup >
                             <tnt:NavigationListGroup text="Masters" key="Masters" expanded="false">
-                            <tnt:NavigationListItem text="Rate Master" icon="sap-icon://money-bills" key="rateMaster"/>
-                            <tnt:NavigationListItem text="Reference Data" icon="sap-icon://home" key="ReferenceData"/>
+                                <tnt:NavigationListItem text="Rate Master" icon="sap-icon://money-bills" key="rateMaster"/>
+                                <tnt:NavigationListItem text="Reference Data" icon="sap-icon://home" key="ReferenceData"/>
 
                             </tnt:NavigationListGroup>
                             <tnt:NavigationListItem text="Smart Rate Shopping" icon="sap-icon://sales-quote" key="rateshopping"/>
@@ -99,8 +105,8 @@
                         </layoutData>
 
                         <!-- Dashboard View (Default) -->
-                        <VBox id="dashboardView" visible="true" width="100%" class="intellicarrier-content-padding">
-                             <core:Fragment fragmentName="intellicarrier.view.Dashboard" type="XML"/>
+                        <VBox id="dashboardView" visible="true" width="95%" class="intellicarrier-content-padding">
+                            <core:Fragment fragmentName="intellicarrier.view.Dashboard" type="XML"/>
                         </VBox>
 
                         <!-- Smart Rate Shopping View -->
@@ -202,7 +208,7 @@
                                 </items>
                             </SegmentedButton> -->
                             <VBox id="shipmentExecutionViewsub" visible="true" width="100%" class="intellicarrier-content-padding sapUiMediumMarginBottom">
-                                <Title text="Fleet Planning and Assignment" level="H2" class="sapUiMediumMarginBottom"/>
+                                <Title text="Create Shipment" level="H2" class="sapUiMediumMarginBottom"/>
                                 <FlexBox wrap="NoWrap" alignItems="Start" class="sapUiMediumMarginBottom">
 
                                     <!-- Pending Assignment -->
@@ -377,11 +383,7 @@
                                                 <HBox justifyContent="Center">
                                                     <Button text="Track" type="Neutral" tooltip="Track Order" visible="{= ${status} === 'Completed' }" press=".onTrackOrder"/>
                                                     <Button text="Plan &amp; Assign" type="Emphasized" visible="{= ${status} === 'Pending Assignment' }" press=".onAnalyzeOrder"/>
-<Button
-    text="Print Docs"
-    type="Emphasized"
-    visible="{= ${status} === 'Internal Fleet' || ${status} === 'External Carrier' }"
-    press=".onOpenDocPrintDialog"/>
+                                                    <Button text="Print Docs" type="Emphasized" visible="{= ${status} === 'Internal Fleet' || ${status} === 'External Carrier' }" press=".onOpenDocPrintDialog"/>
 
                                                 </HBox>
 
@@ -1309,7 +1311,7 @@
                                             <VBox class="shipmentSummaryContainer" width="100%">
                                                 <!-- Customer Care Button at Top Right -->
                                                 <HBox width="100%" justifyContent="End" class="topActionBar">
-                                                    <Button text="Customer Care" icon="sap-icon://phone" type="Transparent" class="customerCareButtonFullScreen" press=".onContactCustomer"/>
+                                                    <Button text="Driver Details" icon="sap-icon://phone" type="Transparent" class="customerCareButtonFullScreen" press=".onContactCustomer"/>
                                                 </HBox>
 
                                                 <!-- Shipment Info Section -->
@@ -1508,6 +1510,225 @@
                                                     </VBox>
                                                 </content>
                                             </Panel>
+                                          
+                                              <HBox width="100%" justifyContent="SpaceBetween" class="sapUiMediumMarginTop">
+
+                                                <!-- ================= LEFT COLUMN ================= -->
+                                                <VBox width="50%">
+                                                
+                                                <Title text="Cash Expenses"/>
+
+                                                    <Panel headerText="Trip Expenses" width="100%" class="trackingTimelinePanel">
+                                                        <!-- ===== SUMMARY CARDS (TOP) ===== -->
+                                                        <HBox justifyContent="SpaceAround" wrap="Wrap" width="100%" items="{dashboard>/summaryCards}">
+
+                                                            <items>
+                                                                <f:Card width="220px" class="sapUiSmallMargin">
+                                                                    <f:header>
+                                                                        <card:Header title="{dashboard>title}" subtitle="{dashboard>amount}" iconSrc="{dashboard>icon}" />
+                                                                    </f:header>
+                                                                </f:Card>
+                                                            </items>
+
+                                                        </HBox>
+
+                                                        <!-- ===== EXPENSE TABLE ===== -->
+                                                        <Table items="{dashboard>/expenses}"  width="100%" class="sapUiMediumMarginEnd">
+
+                                                            <headerToolbar>
+                                                                <OverflowToolbar>
+                                                                    <Title text="Trip Expenses" level="H4"/>
+                                                                    <ToolbarSpacer/>
+                                                                    <Button icon="sap-icon://add" text="Add" type="Emphasized" press="onAddExpense"/>
+                                                                </OverflowToolbar>
+                                                            </headerToolbar>
+
+                                                            <columns>
+                                                                <Column>
+                                                                    <Text text="TYPE"/>
+                                                                </Column>
+                                                                <Column>
+                                                                    <Text text="DESCRIPTION"/>
+                                                                </Column>
+                                                                <Column hAlign="End">
+                                                                    <Text text="AMOUNT"/>
+                                                                </Column>
+                                                                <Column>
+                                                                    <Text text="RECEIPT"/>
+                                                                </Column>
+                                                                <Column>
+                                                                    <Text text="STATUS"/>
+                                                                </Column>
+                                                            </columns>
+
+                                                            <items>
+                                                                <ColumnListItem>
+                                                                    <cells>
+
+                                                                        <!-- TYPE -->
+                                                                        <HBox alignItems="Center">
+                                                                            <core:Icon src="{dashboard>icon}" class="sapUiSmallMarginEnd"/>
+                                                                            <Text text="{dashboard>type}"/>
+                                                                        </HBox>
+
+                                                                        <!-- DESCRIPTION -->
+                                                                        <Text text="{dashboard>description}"/>
+
+                                                                        <!-- AMOUNT -->
+                                                                        <Text text="{dashboard>amount}"/>
+
+                                                                        <!-- RECEIPT (ONE CELL) -->
+                                                                        <HBox>
+                                                                            <Link text="View" visible="{dashboard>receipt}" press="onViewReceipt"/>
+                                                                            <Text text="-" visible="{= !${dashboard>receipt} }"/>
+                                                                        </HBox>
+
+                                                                        <!-- STATUS -->
+                                                                        <ObjectStatus text="{dashboard>statusText}" state="{dashboard>statusState}"/>
+
+                                                                    </cells>
+                                                                </ColumnListItem>
+                                                            </items>
+
+                                                        </Table>
+
+                                                        <!-- ===== SUMMARY CARDS (BOTTOM) ===== -->
+                                                        <HBox justifyContent="SpaceAround" wrap="Wrap" width="100%" class="sapUiMediumMarginTop" items="{dashboard>/summaryCard}">
+
+                                                            <items>
+                                                                <f:Card width="220px" class="sapUiSmallMargin">
+                                                                    <f:header>
+                                                                        <card:Header title="{dashboard>title}" subtitle="{dashboard>amount}" iconSrc="{dashboard>icon}" />
+                                                                    </f:header>
+                                                                </f:Card>
+                                                            </items>
+
+                                                        </HBox>
+
+                                                    </Panel>        
+                                                </VBox>
+
+                                                <!-- ================= RIGHT COLUMN ================= -->
+                                               
+                                                <VBox width="50%" class="sapUiMediumMarginBegin">
+                                                <Title text="Documents and POD"/>
+                                                    <Panel headerText="Shipment Documents" width="100%" class="trackingTimelinePanel">
+
+                                                        <Toolbar design="Transparent">
+                                                            <ToolbarSpacer/>
+                                                            <Link text="Download All →" press=".onDownloadAll"/>
+                                                        </Toolbar>
+                                                        <HBox justifyContent="SpaceAround" wrap="Wrap" class="sapUiMediumMarginBottom" width="100%">
+                                                            <items>
+
+                                                                <GenericTile header="Bill of Lading" subheader="✓ Uploaded" frameType="OneByOne" class="module-tile sapUiSmallMarginEnd" width="100%">
+                                                                    <tileContent>
+                                                                        <TileContent footer="Jan 15, 04:30 AM">
+                                                                            <content>
+                                                                                <core:Icon src="sap-icon://attachment-text-file" size="2.5rem" />
+                                                                            </content>
+                                                                        </TileContent>
+                                                                    </tileContent>
+                                                                </GenericTile>
+                                                                <GenericTile header="Delivery Order" subheader="✓ Uploaded" frameType="OneByOne" class="module-tile sapUiSmallMarginEnd" width="100%">
+                                                                    <tileContent>
+                                                                        <TileContent footer="Jan 15, 04:30 AM">
+                                                                            <content>
+                                                                                <core:Icon src="sap-icon://attachment-zip-file" size="2.5rem" />
+                                                                            </content>
+                                                                        </TileContent>
+                                                                    </tileContent>
+                                                                </GenericTile>
+                                                                <GenericTile header="Cargo Manifest" subheader="✓ Uploaded" frameType="OneByOne" class="module-tile sapUiSmallMarginEnd" width="100%">
+                                                                    <tileContent>
+                                                                        <TileContent footer="Jan 15, 04:30 AM">
+                                                                            <content>
+                                                                                <core:Icon src="sap-icon://doc-attachment" size="2.5rem" />
+                                                                            </content>
+                                                                        </TileContent>
+                                                                    </tileContent>
+                                                                </GenericTile>
+                                                                <GenericTile header="Invoice" subheader="✓ Uploaded" frameType="OneByOne" class="module-tile sapUiSmallMarginEnd" width="100%">
+                                                                    <tileContent>
+                                                                        <TileContent footer="Jan 15, 04:30 AM">
+                                                                            <content>
+                                                                                <core:Icon src="sap-icon://lead" size="2.5rem" />
+                                                                            </content>
+                                                                        </TileContent>
+                                                                    </tileContent>
+                                                                </GenericTile>
+                                                                <GenericTile header="Safety Data Sheet" subheader="✓ Uploaded" frameType="OneByOne" class="module-tile sapUiSmallMarginEnd" width="100%">
+                                                                    <tileContent>
+                                                                        <TileContent footer="Jan 15, 04:30 AM">
+                                                                            <content>
+                                                                                <core:Icon src="sap-icon://alert" size="2.5rem" />
+                                                                            </content>
+                                                                        </TileContent>
+                                                                    </tileContent>
+                                                                </GenericTile>
+                                                                <GenericTile header="POD Document" subheader="⏳ Pending" frameType="OneByOne" class="module-tile sapUiSmallMarginEnd" width="100%">
+                                                                    <tileContent>
+                                                                        <TileContent footer="Required at delivery">
+                                                                            <content>
+                                                                                <core:Icon src="sap-icon://accept" size="2.5rem" />
+                                                                            </content>
+                                                                        </TileContent>
+                                                                    </tileContent>
+                                                                </GenericTile>
+
+                                                            </items>
+                                                        </HBox>
+                                                    </Panel>
+                                                    <Panel headerText="Proof of Delivery (POD)" width="100%" class="trackingMapPanel sapUiMediumMarginTop">
+
+                                                        <VBox width="100%" class="sapUiMediumMargin">
+
+                                                            <!-- Upload / Signature Section -->
+                                                            <HBox justifyContent="SpaceBetween" wrap="Wrap" class="sapUiMediumMarginBottom">
+
+                                                                <!-- Upload Photo -->
+                                                                <VBox width="48%" alignItems="Center" justifyContent="Center" class="podUploadBox" >
+
+                                                                    <core:Icon src="sap-icon://camera" size="2.5rem" class="sapUiSmallMarginBottom"/>
+
+                                                                    <Text text="Click to view delivery photo" textAlign="Center"/>
+                                                                </VBox>
+
+                                                                <!-- Capture Signature -->
+                                                                <VBox width="48%" alignItems="Center" justifyContent="Center" class="podUploadBox">
+
+                                                                    <core:Icon src="sap-icon://signature" size="2.5rem" class="sapUiSmallMarginBottom"/>
+
+                                                                    <Text text="Click to view  signature" textAlign="Center"/>
+                                                                </VBox>
+
+                                                            </HBox>
+
+                                                            <!-- Receiver Details -->
+                                                            <HBox justifyContent="SpaceBetween" wrap="Wrap">
+
+                                                                <VBox width="48%">
+                                                                    <Label text="Receiver Name"/>
+                                                                    <Input placeholder="Enter receiver name"/>
+                                                                </VBox>
+
+                                                                <VBox width="48%">
+                                                                    <Label text="Receiver ID / Contact"/>
+                                                                    <Input placeholder="ID or phone number"/>
+                                                                </VBox>
+
+                                                            </HBox>
+
+                                                        </VBox>
+
+                                                    </Panel>
+                                                </VBox>
+                                                
+                                            </HBox>
+
+
+
+
                                         </VBox>
                                     </content>
                                 </Panel>
@@ -1515,7 +1736,7 @@
                         </VBox>
 
                         <VBox id="bolView" visible="false" width="100%" class="intellicarrier-content-padding">
-                         <core:Fragment fragmentName="intellicarrier.view.BOLManagement" type="XML"/>
+                            <core:Fragment fragmentName="intellicarrier.view.BOLManagement" type="XML"/>
                         </VBox>
 
                         <VBox id="rateMasterView" visible="false" width="100%" class="intellicarrier-content-padding">
@@ -1523,8 +1744,8 @@
                         </VBox>
 
                         <VBox id="priceCalculationView" visible="false" width="100%" class="intellicarrier-content-padding">
-                             <core:Fragment fragmentName="intellicarrier.view.PriceSettlement" type="XML"/>
-                             
+                            <core:Fragment fragmentName="intellicarrier.view.PriceSettlement" type="XML"/>
+
                         </VBox>
 
 
@@ -1842,7 +2063,7 @@
                             </IconTabBar>
                         </VBox>
 
-                        
+
 
                         <VBox id="freightOrdersView" visible="false" width="100%" class="intellicarrier-content-padding">
                             <!-- Header Section -->
@@ -2010,7 +2231,7 @@
                                                         <Button text="{orders>actionButtonText}" type="{orders>actionButtonType}" press=".onActionPressFreight" class="sapUiTinyMarginEnd"/>
                                                         <!-- <Button text="View" type="Transparent" press=".onViewDetailsFreight"/> -->
 
-                                                    
+
                                                     </HBox>
                                                 </cells>
                                             </ColumnListItem>
@@ -2021,7 +2242,7 @@
                         </VBox>
 
 
-<VBox width="100%" id ="gateLogs" visible="false" class="intellicarrier-content-padding">
+                        <VBox width="100%" id ="gateLogs" visible="false" class="intellicarrier-content-padding">
 
                             <HBox justifyContent="SpaceBetween" alignItems="Center" class="sapUiSmallMarginButtom">
                                 <Title text="Gate Logs" level="H2"/>
@@ -2516,39 +2737,39 @@
                                     </IconTabFilter>
                                     <IconTabFilter key="Reconciliation" text="⚖️ Reconciliation" class="shipment-tab-item">
                                         <Panel headerText="Settlement Summary - ADV-2026-0245" width="100%">
-                                        <VBox width="85%">
-                                        <HBox  justifyContent="SpaceBetween">
-                                        <Label text="Advance Approved"></Label>
-                                        <Text text="10000"/>
-                                        </HBox>
-                                        <HBox justifyContent="SpaceBetween">
-                                        <Label text="Total Expenses Submitted" />
-                                        <Text text="8,700" />
-                                        </HBox>
-                                        <HBox justifyContent="SpaceBetween">
-                                        <Label text="Policy Voilations" />
-                                        <Text text="0" />
-                                        </HBox>
-                                       <ToolbarSeparator ></ToolbarSeparator>
-                                        <HBox justifyContent="SpaceBetween">
-                                        <Title text="Net Settlement Amount" />
-                                        <Text text="18,700" />
-                                        </HBox>
-                                        </VBox>
-                                        <HBox justifyContent="SpaceBetween" class="sapUiSmallMarginTop" width="98%">
-                                        <VBox >
-                                        <Label text="SETTLEMENT TYPE" />
-                                        <GenericTag text="Refund to Company" status="Success"></GenericTag>
-                                        </VBox>
-                                        <VBox >
-                                        <Label text="SETTLEMENT METHOD" />
-                                        <Text text="Payroll Deduction"></Text>
-                                        </VBox>
-                                        <VBox >
-                                        <Label text="STATUS" />
-                                        <GenericTag text="Pending Approval" status="Warning"></GenericTag>
-                                        </VBox>
-                                        </HBox>
+                                            <VBox width="85%">
+                                                <HBox justifyContent="SpaceBetween">
+                                                    <Label text="Advance Approved"></Label>
+                                                    <Text text="10000"/>
+                                                </HBox>
+                                                <HBox justifyContent="SpaceBetween">
+                                                    <Label text="Total Expenses Submitted" />
+                                                    <Text text="8,700" />
+                                                </HBox>
+                                                <HBox justifyContent="SpaceBetween">
+                                                    <Label text="Policy Voilations" />
+                                                    <Text text="0" />
+                                                </HBox>
+                                                <ToolbarSeparator ></ToolbarSeparator>
+                                                <HBox justifyContent="SpaceBetween">
+                                                    <Title text="Net Settlement Amount" />
+                                                    <Text text="18,700" />
+                                                </HBox>
+                                            </VBox>
+                                            <HBox justifyContent="SpaceBetween" class="sapUiSmallMarginTop" width="98%">
+                                                <VBox >
+                                                    <Label text="SETTLEMENT TYPE" />
+                                                    <GenericTag text="Refund to Company" status="Success"></GenericTag>
+                                                </VBox>
+                                                <VBox >
+                                                    <Label text="SETTLEMENT METHOD" />
+                                                    <Text text="Payroll Deduction"></Text>
+                                                </VBox>
+                                                <VBox >
+                                                    <Label text="STATUS" />
+                                                    <GenericTag text="Pending Approval" status="Warning"></GenericTag>
+                                                </VBox>
+                                            </HBox>
                                         </Panel>
                                         <Table id="reconciliationQueueTable" items="{/reconciliationQueue}" growing="true" growingScrollToLoad="true">
 
@@ -2724,4 +2945,91 @@
             </content>
         </Page>
     </App>
+   <Dialog
+    id="contactCustomerDialog"
+    title="Driver Information"
+    contentWidth="60%"
+    draggable="true"
+    resizable="true">
+
+    <!-- ================= CONTENT ================= -->
+    <VBox class="sapUiMediumMargin driverInfoCard" width="100%">
+
+        <!-- ===== HEADER ===== -->
+        <HBox
+            justifyContent="SpaceBetween"
+            alignItems="Center"
+            wrap="Wrap"
+            width="95%">
+
+            <!-- LEFT SECTION -->
+            <HBox alignItems="Center">
+                <Avatar
+                    displayShape="Circle"
+                    src="sap-icon://person-placeholder"
+                    class="sapUiSmallMarginEnd"/>
+
+                <VBox>
+                    <Title text="Narong Somjai" level="H4"/>
+                    <Text text="Class 2 + Fuel License | TH-FUEL-001"/>
+                </VBox>
+            </HBox>
+
+            <!-- RIGHT SECTION -->
+            <VBox
+                alignItems="Center"
+                class="sapUiTinyMarginEnd">
+
+                <ObjectStatus
+                    text="On Duty"
+                    state="Success"/>
+
+                <HBox alignItems="Center">
+                    <core:Icon
+                        src="sap-icon://favorite"
+                        class="sapUiTinyMarginEnd"/>
+                    <Text text="4.5 Rating"/>
+                </HBox>
+
+            </VBox>
+
+        </HBox>
+
+        <!-- ===== CONTACT / ACTIONS ===== -->
+        <HBox
+            class="sapUiSmallMarginTop"
+            alignItems="Center"
+            wrap="Wrap">
+
+            <!-- Phone -->
+            <HBox alignItems="Center" class="sapUiTinyMarginEnd">
+                <core:Icon
+                    src="sap-icon://call"
+                    class="sapUiTinyMarginEnd"/>
+                <Link
+                    text="+1 XXXXX45752"
+                    href="tel:+1XXXXX45752"/>
+            </HBox>
+
+            <!-- Track -->
+            <Button
+                text="Track"
+                icon="sap-icon://map"
+                type="Transparent"/>
+        </HBox>
+
+    </VBox>
+
+    <!-- ================= FOOTER ================= -->
+    <endButton>
+        <Button
+            text="Close"
+            type="Emphasized"
+            press=".onContactCloseDialog"/>
+    </endButton>
+
+</Dialog>
+
+
+
 </mvc:View>

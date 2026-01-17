@@ -6,8 +6,7 @@
     <VBox width="100%" class=" sapUiTinyMarginTop">
         <HBox justifyContent="SpaceBetween">
             <HBox >
-                <Title text="Price Determination
-and Settlement" level="H1" class="sapUiSmallMarginBegin
+                <Title text="Create Sales Order" level="H1" class="sapUiSmallMarginBegin
 sapUiSmallMarginBottom"/>
                 <Text text="-Calculate freight
 charges for completed shipments and trigger S/4HANA Sales Orders" class="sapUiTinyMarginBegin sapUiContentLabel" />
