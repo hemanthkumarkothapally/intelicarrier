@@ -12,20 +12,20 @@ sap.ui.define([
     return Controller.extend("intellicarrier.controller.Home", {
 
         onInit: function () {
-             var oDriverModel = new sap.ui.model.json.JSONModel({
-        selectedDriverId: "",
-        driverDetails: "",
-        cost: {
-            base: "",
-            fuel: "",
-            surcharge: "",
-            serviceFee: "",
-            total: ""
-        }
-    });
+            var oDriverModel = new sap.ui.model.json.JSONModel({
+                selectedDriverId: "",
+                driverDetails: "",
+                cost: {
+                    base: "",
+                    fuel: "",
+                    surcharge: "",
+                    serviceFee: "",
+                    total: ""
+                }
+            });
 
-    this.getView().setModel(oDriverModel, "driverModel");
- var oFormModel = new JSONModel({
+            this.getView().setModel(oDriverModel, "driverModel");
+            var oFormModel = new JSONModel({
                 productType: "",
                 routeCode: "",
 
@@ -1330,10 +1330,15 @@ sap.ui.define([
             // Check which action to perform based on button text
             var sButtonText = oEvent.getSource().getText();
 
-            if (sButtonText === "Review") {
+            if (sButtonText === "Validate") {
                 this._openReviewDialog(oOrderData);
             } else if (sButtonText === "View") {
+                // this._openReviewDialog(oOrderData);
+
                 this.onViewDetailsFreight(oEvent);
+            }
+            else {
+                this._openReviewDialog(oOrderData);
             }
         },
 
@@ -2737,87 +2742,87 @@ sap.ui.define([
         },
         _createNewBooking: function (oOrder, oVehicle) {
 
-    // ✅ Generate new Shipment ID
-    var sNewId = new Date().getFullYear() + Math.floor(100000 + Math.random() * 900000);
+            // ✅ Generate new Shipment ID
+            var sNewId = new Date().getFullYear() + Math.floor(100000 + Math.random() * 900000);
 
-    // ✅ Extract order details safely
-    var sCustomer = oOrder.customer || "-";
-    var sOrigin = oOrder.from || "-";
-    var sDestination = oOrder.to || "-";
-    var sDeliveryDate = oOrder.deliveryDate || "-";
-    var sCargoInfo = oOrder.cargoInfo || "-";
-    var sOrderId = oOrder.orderId || "-";
-    var sPriority = oOrder.priority || "-";
+            // ✅ Extract order details safely
+            var sCustomer = oOrder.customer || "-";
+            var sOrigin = oOrder.from || "-";
+            var sDestination = oOrder.to || "-";
+            var sDeliveryDate = oOrder.deliveryDate || "-";
+            var sCargoInfo = oOrder.cargoInfo || "-";
+            var sOrderId = oOrder.orderId || "-";
+            var sPriority = oOrder.priority || "-";
 
-    // ✅ Vehicle/Carrier selected name
-    var sAssignedTo = oVehicle.text || oVehicle.vehicle || oVehicle.name || "Assigned Carrier";
+            // ✅ Vehicle/Carrier selected name
+            var sAssignedTo = oVehicle.text || oVehicle.vehicle || oVehicle.name || "Assigned Carrier";
 
-    // ✅ Decide Status based on selection type
-    // (you can adjust based on your selectionModel structure)
-    var sStatusText = "Assigned";
-    if (sAssignedTo.includes("Express") || sAssignedTo.includes("Carrier")) {
-        sStatusText = "External Carrier";
-    } else {
-        sStatusText = "Internal Fleet";
-    }
-
-    // ✅ Update order status in orders model
-    var oOrdersModel = this.getView().getModel("orders");
-    if (oOrdersModel) {
-        var aOrders = oOrdersModel.getProperty("/orders") || [];
-
-        aOrders.forEach(function (oItem) {
-            if (oItem.orderId === sOrderId) {
-                oItem.status = "Assigned";
-                oItem.statusState = "Success";
-                oItem.statusText = sStatusText;
-                oItem.shipmentId = sNewId;
+            // ✅ Decide Status based on selection type
+            // (you can adjust based on your selectionModel structure)
+            var sStatusText = "Assigned";
+            if (sAssignedTo.includes("Express") || sAssignedTo.includes("Carrier")) {
+                sStatusText = "External Carrier";
+            } else {
+                sStatusText = "Internal Fleet";
             }
-        });
 
-        oOrdersModel.setProperty("/orders", aOrders);
-        oOrdersModel.refresh(true);
-    }
+            // ✅ Update order status in orders model
+            var oOrdersModel = this.getView().getModel("orders");
+            if (oOrdersModel) {
+                var aOrders = oOrdersModel.getProperty("/orders") || [];
 
-    // ✅ Booking created log
-    console.log("✅ Booking Created", {
-        shipmentId: sNewId,
-        order: oOrder,
-        assignedTo: oVehicle
-    });
+                aOrders.forEach(function (oItem) {
+                    if (oItem.orderId === sOrderId) {
+                        oItem.status = "Assigned";
+                        oItem.statusState = "Success";
+                        oItem.statusText = sStatusText;
+                        oItem.shipmentId = sNewId;
+                    }
+                });
 
-    // ✅ Success MessageBox
-    sap.m.MessageBox.success(
-        "🚛 SHIPMENT BOOKED SUCCESSFULLY!\n\n" +
-        "Shipment ID: " + sNewId + "\n" +
-        "Order ID: " + sOrderId + "\n" +
-        "Customer: " + sCustomer + "\n" +
-        "Route: " + sOrigin + " → " + sDestination + "\n" +
-        "Cargo: " + sCargoInfo + "\n" +
-        "Delivery: " + sDeliveryDate + "\n" +
-        "Priority: " + sPriority + "\n\n" +
-        "Assigned: " + sAssignedTo + "\n\n" +
-        "Next Steps:\n" +
-        "• Assignment confirmed\n" +
-        "• Driver/Carrier will be notified\n" +
-        "• Tracking will be activated\n" +
-        "• Documentation will be generated",
-        {
-            title: "✅ Booking Confirmed"
+                oOrdersModel.setProperty("/orders", aOrders);
+                oOrdersModel.refresh(true);
             }
-    );
-},
+
+            // ✅ Booking created log
+            console.log("✅ Booking Created", {
+                shipmentId: sNewId,
+                order: oOrder,
+                assignedTo: oVehicle
+            });
+
+            // ✅ Success MessageBox
+            sap.m.MessageBox.success(
+                "🚛 SHIPMENT BOOKED SUCCESSFULLY!\n\n" +
+                "Shipment ID: " + sNewId + "\n" +
+                "Order ID: " + sOrderId + "\n" +
+                "Customer: " + sCustomer + "\n" +
+                "Route: " + sOrigin + " → " + sDestination + "\n" +
+                "Cargo: " + sCargoInfo + "\n" +
+                "Delivery: " + sDeliveryDate + "\n" +
+                "Priority: " + sPriority + "\n\n" +
+                "Assigned: " + sAssignedTo + "\n\n" +
+                "Next Steps:\n" +
+                "• Assignment confirmed\n" +
+                "• Driver/Carrier will be notified\n" +
+                "• Tracking will be activated\n" +
+                "• Documentation will be generated",
+                {
+                    title: "✅ Booking Confirmed"
+                }
+            );
+        },
 
 
-    onBookShipment: function () {
+        onBookShipment: function () {
             var oView = this.getView();
- 
+
             // Selected Order (from Analyze dialog)
             var oSelectedOrder = oView.getModel("selectedOrder")?.getData();
- 
+
             // Selected Vehicle / Carrier (from selection logic)
             var oSelectedVehicle = oView.getModel("selectionModel").getData();
- 
+
             if (!oSelectedOrder) {
                 sap.m.MessageBox.error("No order selected for booking.");
                 return;
@@ -3189,9 +3194,9 @@ sap.ui.define([
         // Open Calculate Modal with Data Binding
         onOpenCalculateModal: function (oEvent) {
             var oView = this.getView();
-            
+
             // 1. GET THE DATA from the row that was clicked
-            var oContext = oEvent.getSource().getBindingContext(); 
+            var oContext = oEvent.getSource().getBindingContext();
 
             if (!this._oCalcDialog) {
                 Fragment.load({
@@ -3201,7 +3206,7 @@ sap.ui.define([
                 }).then(function (oDialog) {
                     this._oCalcDialog = oDialog;
                     oView.addDependent(oDialog);
-                    
+
                     // 2. Add Data & Open
                     this._bindCalcData(oDialog, oContext);
                     oDialog.open();
@@ -3214,7 +3219,7 @@ sap.ui.define([
         },
 
         // Helper to bind the Row Data + Static Calculation Data
-        _bindCalcData: function(oDialog, oContext) {
+        _bindCalcData: function (oDialog, oContext) {
             // A. Bind the specific shipment data (Customer, Origin, Weight, etc.)
             oDialog.setBindingContext(oContext);
 
@@ -3227,7 +3232,7 @@ sap.ui.define([
                 discCost: "953.31",
                 total: "18,112.85"
             };
-            
+
             // Create a named model "calc" for these specific values
             var oCalcModel = new JSONModel(oStaticData);
             oDialog.setModel(oCalcModel, "calc");
@@ -3235,15 +3240,15 @@ sap.ui.define([
         // Close the Calculate Price Dialog
         onCloseCalculatePrice: function () {
             if (this._oCalcDialog) {
-        this._oCalcDialog.close();
-    }
+                this._oCalcDialog.close();
+            }
         },
         // Handler for "Confirm" button in Calculate Price Dialog
         onConfirmCalculation: function () {
             // 1. Close the Calculation Dialog first
             if (this._oCalcDialog) {
-        this._oCalcDialog.close();
-    }
+                this._oCalcDialog.close();
+            }
 
             // 2. Show Success Message Box (Matches your screenshot)
             sap.m.MessageBox.success(
@@ -3253,7 +3258,7 @@ sap.ui.define([
                     actions: [sap.m.MessageBox.Action.OK],
                     onClose: function (oAction) {
                         // Optional: Auto-switch to the "Internal Fleet" tab
-                        var oTabBar = this.byId("priceTabBar"); 
+                        var oTabBar = this.byId("priceTabBar");
                         if (oTabBar) {
                             oTabBar.setSelectedKey("Internal");
                         }
@@ -3269,7 +3274,7 @@ sap.ui.define([
             var oInput = new sap.m.Input({
                 type: "Number",
                 placeholder: "e.g. 18000",
-                submit: function() { oDialog.getBeginButton().firePress(); } // Submit on Enter key
+                submit: function () { oDialog.getBeginButton().firePress(); } // Submit on Enter key
             });
 
             // 2. Create the Dialog dynamically
@@ -3291,7 +3296,7 @@ sap.ui.define([
                     type: "Emphasized",
                     press: function () {
                         var sValue = oInput.getValue();
-                        
+
                         // Basic Validation
                         if (!sValue) {
                             sap.m.MessageToast.show("Please enter a valid price.");
@@ -3301,14 +3306,14 @@ sap.ui.define([
                         // 3. Update the Calculate Dialog's Model
                         if (that._oCalcDialog) {
                             var oCalcModel = that._oCalcDialog.getModel("calc");
-                            
+
                             // Format the number nicely (e.g. "15,000.00")
                             var fPrice = parseFloat(sValue);
                             var sFormatted = fPrice.toLocaleString('en-TH', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
                             // Update the property that the view is bound to
                             oCalcModel.setProperty("/total", sFormatted);
-                            
+
                             sap.m.MessageToast.show("Price updated to ฿" + sFormatted);
                         }
 
@@ -3346,7 +3351,7 @@ sap.ui.define([
                 }).then(function (oDialog) {
                     this._oApproveDialog = oDialog;
                     oView.addDependent(oDialog);
-                    
+
                     // Bind data and open
                     oDialog.setBindingContext(oContext);
                     oDialog.open();
@@ -3395,7 +3400,7 @@ sap.ui.define([
                     actions: [sap.m.MessageBox.Action.OK],
                     onClose: function (oAction) {
                         // Navigate to the Rate Master View
-                        
+
                     }.bind(this)
                 }
             );
@@ -3464,9 +3469,9 @@ sap.ui.define([
         },
 
         // Helper to bind data and set defaults
-        _bindDiscrepancyData: function(oDialog, oContext) {
+        _bindDiscrepancyData: function (oDialog, oContext) {
             oDialog.setBindingContext(oContext);
-            
+
             // Optional: Create a local model for the "Resolution Reason" input
             var oReasonModel = new sap.ui.model.json.JSONModel({
                 reason: "",
@@ -3484,7 +3489,7 @@ sap.ui.define([
                 "Exception Approved.\n\nReason: " + sReason + "\nInvoice posted for payment.",
                 {
                     title: "Discrepancy Resolved",
-                    onClose: function() {
+                    onClose: function () {
                         this.onCloseResolveDiscrepancy();
                     }.bind(this)
                 }
@@ -3497,7 +3502,7 @@ sap.ui.define([
                 "Invoice Rejected. Notification sent to carrier for correction.",
                 {
                     title: "Invoice Rejected",
-                    onClose: function() {
+                    onClose: function () {
                         this.onCloseResolveDiscrepancy();
                     }.bind(this)
                 }
@@ -3527,7 +3532,7 @@ sap.ui.define([
                 }).then(function (oDialog) {
                     this._oValidateDialog = oDialog;
                     oView.addDependent(oDialog);
-                    
+
                     // Bind data and open
                     oDialog.setBindingContext(oContext);
                     oDialog.open();
@@ -3548,9 +3553,9 @@ sap.ui.define([
         // Action: Flag Discrepancy (Closes this dialog, opens Discrepancy dialog)
         onFlagDiscrepancy: function (oEvent) {
             this.onCloseValidateExternal();
-            
+
             // Pass the event forward to the Discrepancy dialog so it knows which item to flag
-            this.onResolveDiscrepancy(oEvent); 
+            this.onResolveDiscrepancy(oEvent);
         },
 
         // Close Handler
@@ -3872,22 +3877,22 @@ sap.ui.define([
             }
         },
 
-            // // Title (first Text)
-            // var sTitle = aItems[0].getText();
+        // // Title (first Text)
+        // var sTitle = aItems[0].getText();
 
-            // // Find price (Text with sapUiPositiveText)
-            // var sPrice = "";
-            // aItems.forEach(function (oCtrl) {
-            //     if (oCtrl.hasStyleClass && oCtrl.hasStyleClass("sapUiPositiveText")) {
-            //         sPrice = oCtrl.getText();
-            //     }
-            // });
+        // // Find price (Text with sapUiPositiveText)
+        // var sPrice = "";
+        // aItems.forEach(function (oCtrl) {
+        //     if (oCtrl.hasStyleClass && oCtrl.hasStyleClass("sapUiPositiveText")) {
+        //         sPrice = oCtrl.getText();
+        //     }
+        // });
 
-            // // Update model
-            // var oModel = this.getView().getModel("selectionModel");
-            // oModel.setProperty("/visible", true);
-            // oModel.setProperty("/text", sTitle);
-            // oModel.setProperty("/price", sPrice);
+        // // Update model
+        // var oModel = this.getView().getModel("selectionModel");
+        // oModel.setProperty("/visible", true);
+        // oModel.setProperty("/text", sTitle);
+        // oModel.setProperty("/price", sPrice);
         // },
         onReviewRequest: function (oEvent) {
             var oRowData = oEvent.getSource()
@@ -3976,8 +3981,9 @@ sap.ui.define([
         onCloseDocPrintDialog: function () {
             this._oDocPrintDialog.then(function (oDialog) {
                 oDialog.close();
-            });},
-            onProductOrRouteChange: function () {
+            });
+        },
+        onProductOrRouteChange: function () {
             var oModel = this.getView().getModel("formModel");
 
             var sProduct = oModel.getProperty("/productType");
@@ -4034,69 +4040,150 @@ sap.ui.define([
             MessageToast.show("Opening ZLSDE Screen...");
         },
         onDriverChange: function (oEvent) {
-    var sDriverId = oEvent.getSource().getSelectedKey();
-    var oModel = this.getView().getModel("driverModel");
+            var sDriverId = oEvent.getSource().getSelectedKey();
+            var oModel = this.getView().getModel("driverModel");
 
-    if (!sDriverId) {
-        // Clear everything
-        oModel.setProperty("/selectedDriverId", "");
-        oModel.setProperty("/driverDetails", "");
-        oModel.setProperty("/cost", {
-            base: "",
-            fuel: "",
-            surcharge: "",
-            serviceFee: "",
-            total: ""
-        });
-        return;
-    }
-
-    // Store selected driver
-    oModel.setProperty("/selectedDriverId", sDriverId);
-
-    // Demo driver details + costs (you can replace with backend)
-    var oDriverDataMap = {
-        "DRV-003": {
-            details: "📞 081-456-7890 | 🧾 Class 2 + Fuel | ⭐ 4.5",
-            cost: {
-                base: "฿5,500",
-                fuel: "฿420",
-                surcharge: "฿0",
-                serviceFee: "฿275",
-                total: "฿6,195"
+            if (!sDriverId) {
+                // Clear everything
+                oModel.setProperty("/selectedDriverId", "");
+                oModel.setProperty("/driverDetails", "");
+                oModel.setProperty("/cost", {
+                    base: "",
+                    fuel: "",
+                    surcharge: "",
+                    serviceFee: "",
+                    total: ""
+                });
+                return;
             }
-        },
-        "DRV-001": {
-            details: "📞 081-111-2222 | 🧾 Class 1 | ⭐ 4.8",
-            cost: {
-                base: "฿5,200",
-                fuel: "฿380",
-                surcharge: "฿50",
-                serviceFee: "฿250",
-                total: "฿5,880"
-            }
-        },
-        "DRV-002": {
-            details: "📞 089-333-4444 | 🧾 Class 2 | ⭐ 4.6",
-            cost: {
-                base: "฿5,350",
-                fuel: "฿410",
-                surcharge: "฿25",
-                serviceFee: "฿260",
-                total: "฿6,045"
-            }
-        }
-    };
 
-    var oSelectedData = oDriverDataMap[sDriverId];
+            // Store selected driver
+            oModel.setProperty("/selectedDriverId", sDriverId);
 
-    oModel.setProperty("/driverDetails", oSelectedData.details);
-    oModel.setProperty("/cost", oSelectedData.cost);
+            // Demo driver details + costs (you can replace with backend)
+            var oDriverDataMap = {
+                "DRV-003": {
+                    details: "📞 081-456-7890 | 🧾 Class 2 + Fuel | ⭐ 4.5",
+                    cost: {
+                        base: "฿5,500",
+                        fuel: "฿420",
+                        surcharge: "฿0",
+                        serviceFee: "฿275",
+                        total: "฿6,195"
+                    }
+                },
+                "DRV-001": {
+                    details: "📞 081-111-2222 | 🧾 Class 1 | ⭐ 4.8",
+                    cost: {
+                        base: "฿5,200",
+                        fuel: "฿380",
+                        surcharge: "฿50",
+                        serviceFee: "฿250",
+                        total: "฿5,880"
+                    }
+                },
+                "DRV-002": {
+                    details: "📞 089-333-4444 | 🧾 Class 2 | ⭐ 4.6",
+                    cost: {
+                        base: "฿5,350",
+                        fuel: "฿410",
+                        surcharge: "฿25",
+                        serviceFee: "฿260",
+                        total: "฿6,045"
+                    }
+                }
+            };
+
+            var oSelectedData = oDriverDataMap[sDriverId];
+
+            oModel.setProperty("/driverDetails", oSelectedData.details);
+            oModel.setProperty("/cost", oSelectedData.cost);
 
         },
         onDocSelect: function (oEvent) {
-    oEvent.getSource().toggleStyleClass("selected");
-}
+            oEvent.getSource().toggleStyleClass("selected");
+        },
+        onViewDetailsFreight: function (oEvent) {
+            var oRowData = oEvent.getSource().getBindingContext("orders").getObject();
+            if (!this._oOrderDetailsDialog) {
+                this._oOrderDetailsDialog = this.loadFragment("intellicarrier.view.OrderDetails");
+            }
+            // Map row data into dialog model
+            var oDetailsData = {
+                orderId: oRowData.orderId,
+                customerName: oRowData.customerName,
+                customerEmail: oRowData.customerEmail || "orders@" + (oRowData.customerName || "customer") + ".com",
+                customerPhone: oRowData.customerPhone || "+66 2 567 8901",
+                statusText: oRowData.statusText || "Confirmed",
+                statusState: oRowData.statusState || "Success",
+
+                sourceText: oRowData.sourceText || "Email BOT",
+                createdOn: oRowData.createdOn || "2026-01-08 08:45",
+                createdBy: oRowData.createdBy || "System (BOT)",
+                ocrConfidence: oRowData.ocrConfidence || "98.1%",
+
+                pickupDate: oRowData.pickupDate || "2026-01-13",
+                deliveryDate: oRowData.deliveryDate,
+                weight: oRowData.weight || "500 kg",
+                value: oRowData.value || "High",
+
+                managerComments: oRowData.managerComments || "Approved for express delivery.",
+                assignedFleet: oRowData.assignedFleet || "-",
+                priority: oRowData.priority
+            };
+
+            var oModel = new sap.ui.model.json.JSONModel(oDetailsData);
+            this.getView().setModel(oModel, "orderDetails");
+
+            this._oOrderDetailsDialog.then(function (oDialog) {
+                oDialog.open();
+            });
+        },
+        onCloseOrderDetails: function () {
+
+            this._oOrderDetailsDialog.then(function (oDialog) {
+                oDialog.close();
+            });
+        },
+        onViewExpense: function (oEvent) {
+            var oRowData = oEvent.getSource().getBindingContext().getObject();
+
+            if (!this._oOCRReceiptDialog) {
+                this._oOCRReceiptDialog = this.loadFragment("intellicarrier.view.OCRReceiptProcessing");
+            }
+            // ✅ set dialog model based on clicked row
+            var oOcrData = {
+                vendor: oRowData.vendor || "Shell #1234",
+                amount: oRowData.amount || "2450.00",
+                date: oRowData.date || "2026-01-11",
+                category: oRowData.category || "FUEL",
+                gallons: oRowData.gallons || "62.5",
+
+                vendorConf: "98%",
+                amountConf: "99%",
+                dateConf: "97%",
+                categoryConf: "96%",
+                gallonsConf: "94%"
+            };
+
+            var oModel = new sap.ui.model.json.JSONModel(oOcrData);
+            this.getView().setModel(oModel, "ocrModel");
+
+            this._oOCRReceiptDialog.then(function (oDialog) {
+                oDialog.open();
+            });
+        },
+onCloseOCRReceiptDialog: function () {
+this._oOCRReceiptDialog.then(function (oDialog) {
+                oDialog.close();
+            });},
+
+onConfirmOCRReceipt: function () {
+    sap.m.MessageToast.show("✅ OCR Confirmed Successfully");
+    this.onCloseOCRReceiptDialog();
+},
+
+
 
     });
 });
