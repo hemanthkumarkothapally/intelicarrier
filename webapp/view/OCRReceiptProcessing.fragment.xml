@@ -4,8 +4,8 @@
 
     <Dialog
         id="ocrReceiptDialog"
-        contentWidth="1000px"
-        contentHeight="720px"
+        contentHeight="320px"
+        contentWidth="900px"
         title="OCR Receipt Processing"
         draggable="true"
         resizable="false"
@@ -18,7 +18,7 @@
             <HBox class="sapUiMediumMargin" justifyContent="SpaceBetween" width="100%">
 
                 <!-- Left: Receipt -->
-                <VBox width="48%">
+                <VBox width="45%" class="sapUiSmallMarginEnd">
                     <HBox alignItems="Center" class="sapUiSmallMarginBottom">
                         <core:Icon src="sap-icon://document-text" class="sapUiTinyMarginEnd"/>
                         <Title text="Receipt" level="H5"/>
@@ -31,7 +31,7 @@
                 </VBox>
 
                 <!-- Right: Extracted Data -->
-                <VBox width="48%">
+                <VBox width="45%" class="sapUiSmallMarginEnd">
                     <HBox alignItems="Center" class="sapUiSmallMarginBottom">
                         <core:Icon src="sap-icon://inspection" class="sapUiTinyMarginEnd"/>
                         <Title text="Extracted Data" level="H5"/>

@@ -4193,6 +4193,124 @@ onConfirmOCRReceipt: function () {
     sap.m.MessageToast.show("✅ OCR Confirmed Successfully");
     this.onCloseOCRReceiptDialog();
 },
+onReconcile: function (oEvent) {
+    var oRow = oEvent.getSource().getBindingContext().getObject();
+
+
+            if (!this._oReconcileDialog) {
+                this._oReconcileDialog = this.loadFragment("intellicarrier.view.ReconciliationSettlement");
+            }
+    // Convert balance to "To Return" (example logic)
+    // If balance = "฿2,150" then toReturn = same
+    var sAdvance = oRow.advance || "฿0";
+    var sExpenses = oRow.expenses || "฿0";
+    var sToReturn = oRow.balance || "฿0";
+
+    var oRecModel = new sap.ui.model.json.JSONModel({
+        advanceId: oRow.advanceId,
+        driver: oRow.driver,
+        driverId: oRow.driverId,
+
+        advance: sAdvance,
+        expenses: sExpenses,
+        toReturn: sToReturn,
+
+        settlementType: "EXCESS",
+        recoveryMethod: "PAYROLL",
+        recoveryMethodText: "Payroll Deduction"
+    });
+
+    this.getView().setModel(oRecModel, "recModel");
+    this._oReconcileDialog.then(function (oDialog) {
+                oDialog.open();
+            });
+},
+
+onCloseReconcileDialog: function () {
+    this._oReconcileDialog.then(function (oDialog) {
+                oDialog.close();
+            });
+},
+
+onProcessSettlement: function () {
+    this.onCloseReconcileDialog();
+
+    // Example generated Settlement ID
+    var sSettlementId = "806222";
+
+    // Get values from model
+    var oRecData = this.getView().getModel("recModel").getData();
+    var sRefundAmount = oRecData.toReturn || "฿0";
+
+    sap.m.MessageBox.information(
+        "✅ Settlement Processed!\n\n" +
+        "• " + sSettlementId + "\n" +
+        "• " + sRefundAmount + " Refund\n" +
+        "• Posted to S/4HANA",
+        {
+            title: "This page says"}
+    );
+
+},
+onViewActiveAdvance: function (oEvent) {
+
+    // get selected row data
+    var oRowData = oEvent.getSource().getBindingContext().getObject();
+
+    // create fragment o
+if (!this._oAdvanceDetailsDialog) {
+                this._oAdvanceDetailsDialog = this.loadFragment("intellicarrier.view.AdvanceDetails");
+            }
+    // bind selected data to dialog model
+    var oModel = new sap.ui.model.json.JSONModel({
+        advanceId: oRowData.advanceId,
+        advance: oRowData.advance,
+        expenses: oRowData.expenses,
+        remaining: oRowData.remaining,
+        usagePercent: oRowData.usagePercent,
+        status: oRowData.status,
+        statusState: oRowData.statusState
+    });
+
+    this.getView().setModel(oModel, "advDetails");
+    this._oAdvanceDetailsDialog.then(function (oDialog) {
+                oDialog.open();
+            });
+},
+onCloseAdvanceDetails: function () {
+    this._oAdvanceDetailsDialog.then(function (oDialog) {
+                oDialog.close();
+            });
+},
+onReconcile1:function () {
+
+        this.onCloseAdvanceDetails();
+    
+
+    // ✅ get selected advance data from dialog model
+    var oAdvData = this.getView().getModel("advDetails").getData();
+
+    if (!this._oReconcileDialog) {
+                this._oReconcileDialog = this.loadFragment("intellicarrier.view.ReconciliationSettlement");
+            }
+
+    // ✅ Bind selected advance values to reconcile dialog model
+    var oRecModel = new sap.ui.model.json.JSONModel({
+        advanceId: oAdvData.advanceId,
+        advance: oAdvData.advance,
+        expenses: oAdvData.expenses,
+        toReturn: oAdvData.remaining,
+
+        settlementType: "EXCESS",
+        recoveryMethod: "PAYROLL",
+        recoveryMethodText: "Payroll Deduction"
+    });
+
+    this.getView().setModel(oRecModel, "recModel");
+    this._oReconcileDialog.then(function (oDialog) {
+                oDialog.open();
+            });
+},
 
 
 onViewMaintenance: function (oEvent) {
