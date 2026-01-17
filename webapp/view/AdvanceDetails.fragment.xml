@@ -1,0 +1,61 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+
+    <Dialog id="advanceDetailsDialog"
+            contentWidth="1000px"
+            contentHeight="380px"
+            title="Advance Details - {advDetails>/advanceId}"
+            draggable="true"
+            resizable="true"
+            verticalScrolling="true">
+
+        
+        <content>
+            <VBox width="86%" class="sapUiMediumMargin advSummaryCard">
+
+                <HBox justifyContent="SpaceBetween" alignItems="Center">
+                    <VBox>
+                        <Text text="Current Balance" class="advLabelLight"/>
+                        <Title text="{advDetails>/remaining}" level="H1" class="advBalanceBig"/>
+                    </VBox>
+
+                    <ObjectStatus text="{advDetails>/status}"
+                                  state="{advDetails>/statusState}"
+                                  inverted="true"/>
+                </HBox>
+
+                <Toolbar class="sapUiMediumMarginTop advDividerLine">
+                    <ToolbarSpacer/>
+                </Toolbar>
+
+                <HBox justifyContent="SpaceBetween" class="sapUiMediumMarginTop">
+                    <VBox  alignItems="Center">
+                        <Text text="Advance" class="advLabelLight"/>
+                        <Title text="{advDetails>/advance}" level="H3" class="advValueSmall"/>
+                    </VBox>
+
+                    <VBox  alignItems="Center">
+                        <Text text="Expenses" class="advLabelLight"/>
+                        <Title text="{advDetails>/expenses}" level="H3" class="advValueSmall"/>
+                    </VBox>
+
+                    <VBox  alignItems="Center">
+                        <Text text="Usage" class="advLabelLight"/>
+                        <Title text="{advDetails>/usagePercent}%" level="H3" class="advValueSmall"/>
+                    </VBox>
+                </HBox>
+
+            </VBox>
+            
+                <HBox width="98%">
+                <Image src="model/imageadv.png"></Image>
+                </HBox>
+        </content>
+
+        <buttons>
+            <Button text="Close" press=".onCloseAdvanceDetails"/>
+            <Button text="Reconcile" type="Accept" icon="sap-icon://money-bills" press=".onReconcile1"/>
+        </buttons>
+
+    </Dialog>
+
+</core:FragmentDefinition>
