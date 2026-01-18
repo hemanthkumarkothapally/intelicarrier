@@ -5,6 +5,9 @@
    ======================================== */
 
 /* Custom IntelliCarrier Classes */
+.fontSizeBig{
+    font-size: x-large;
+}
 .intellicarrier-content-padding {
     padding: 1.5rem !important;
     width: 100% !important;
@@ -2442,6 +2445,10 @@
         flex-direction: column !important;
         gap: 1rem !important;
     }
+
+    .greyStatusText .sapMObjStatusText {
+    color: #6a6d70; /* SAP standard grey */
+}
     
     .premium-rate-card {
         flex-direction: column !important;

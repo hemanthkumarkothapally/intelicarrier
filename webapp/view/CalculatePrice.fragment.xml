@@ -1,5 +1,5 @@
 <core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:form="sap.ui.layout.form" xmlns:l="sap.ui.layout">
-    <Dialog  contentWidth="600px">
+    <Dialog >
         <customHeader>
             <Bar design="Header">
                 <contentLeft>
@@ -35,60 +35,79 @@
                 </Panel>
 
                 <Panel headerText="📋 Rate Master Applied" expandable="false" expanded="true" width="auto" class="sapUiSmallMarginBottom">
-                    <VBox class="sapUiSmallMargin">
-                        <HBox justifyContent="SpaceBetween">
-                            <Label text="Rate Agreement:" design="Bold" />
+                    <form:SimpleForm 
+                        editable="false"
+                        layout="ResponsiveGridLayout"
+                        labelSpanXL="4" labelSpanL="4" labelSpanM="4" labelSpanS="12"
+                        adjustLabelSpan="false"
+                        emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0"
+                        columnsM="2" columnsL="2"
+                        singleContainerFullSize="false">
+                        
+                        <form:content>
+                            <core:Title text="Agreement Info:" />
+                            
+                            <Label text="Rate Agreement" design="Bold" />
                             <Text text="{rateId}" />
-                        </HBox>
-                        <HBox justifyContent="SpaceBetween" class="sapUiTinyMarginBottom">
-                            <Label text="Type:" design="Bold" />
+
+                            <Label text="Type" design="Bold" />
                             <Text text="Customer Rate - {customer}" />
-                        </HBox>
-                        
-                        <core:HTML content="&lt;hr&gt;" />
-                        
-                        <HBox justifyContent="SpaceBetween" class="sapUiTinyMarginTop">
-                            <Text text="Base Rate: ฿18.50 / km" />
-                            <Text text="Weight Rate: ฿2.00 / kg" />
-                        </HBox>
-                        <HBox justifyContent="SpaceBetween">
-                            <Text text="Fuel Surcharge: 8.5%" />
-                            <Text text="Discount: 5%" />
-                        </HBox>
-                    </VBox>
+
+
+                            <core:Title text="Rate Details:" />
+
+                            <Label text="Base Rate" />
+                            <Text text="฿18.50 / km" />
+
+                            <Label text="Weight Rate" />
+                            <Text text="฿2.00 / kg" />
+
+                            <Label text="Fuel Surcharge" />
+                            <Text text="8.5%" />
+
+                            <Label text="Discount" />
+                            <Text text="5%" />
+
+                        </form:content>
+                    </form:SimpleForm>
                 </Panel>
 
                 <Panel headerText="💰 Price Calculation" expandable="false" expanded="true" width="auto">
-                    <VBox class="sapUiSmallMargin">
-                        <HBox justifyContent="SpaceBetween" class="sapUiTinyMarginBottom">
-                            <Text text="Distance Charge ({distance} km × ฿18.50)" />
+                    <form:SimpleForm 
+                        editable="false"
+                        layout="ResponsiveGridLayout"
+                        labelSpanXL="9" labelSpanL="9" labelSpanM="8" labelSpanS="8"
+                        adjustLabelSpan="false"
+                        emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0"
+                        columnsM="1" columnsL="1" columnsXL="1"
+                        singleContainerFullSize="false">
+
+                        <form:content>
+                            <Label text="Distance Charge ({distance} km × ฿18.50)" />
                             <Text text="฿12,672.50" />
-                        </HBox>
-                        <HBox justifyContent="SpaceBetween" class="sapUiTinyMarginBottom">
-                            <Text text="Weight Charge ({weight} kg × ฿2.00)" />
+
+                            <Label text="Weight Charge ({weight} kg × ฿2.00)" />
                             <Text text="฿4,900.00" />
-                        </HBox>
-                        <HBox justifyContent="SpaceBetween" class="sapUiSmallMarginBottom">
-                            <Text text="Subtotal" />
-                            <Label text="฿17,572.50" design="Bold"/>
-                        </HBox>
-                        <HBox justifyContent="SpaceBetween" class="sapUiTinyMarginBottom">
-                            <Text text="Fuel Surcharge (+8.5%)" />
+
+                            <Label text="Subtotal" design="Bold" />
+                            <Text text="฿17,572.50" class="sapUiBoldText" />
+
+                            <Label text="Fuel Surcharge (+8.5%)" />
                             <Text text="฿1,493.66" />
-                        </HBox>
-                        <HBox justifyContent="SpaceBetween" class="sapUiMediumMarginBottom">
-                            <Text text="Customer Discount (-5%)" />
+
+                            <Label text="Customer Discount (-5%)" />
                             <ObjectStatus text="-฿953.31" state="Success" />
-                        </HBox>
-                        <core:HTML content="&lt;hr&gt;" />
-                        <HBox justifyContent="SpaceBetween" alignItems="Center" class="sapUiSmallMarginTop">
-                            <Title text="TOTAL CUSTOMER CHARGE" level="H4" />
-                            <ObjectStatus text="฿18,112.85" state="Information" title="Total" active="true" />
-                        </HBox>
-                    </VBox>
+
+                            <core:Title text="" />
+
+                            <Label text="TOTAL CUSTOMER CHARGE" design="Bold" />
+                            <ObjectStatus text="฿18,112.85" state="Information" inverted="true" />
+
+                        </form:content>
+                    </form:SimpleForm>
                 </Panel>
 
-                <MessageStrip text="Next Step: Move to Approval Queue." type="Information" showIcon="true" class="sapUiSmallMarginTop"/>
+                <MessageStrip text="Review and Create sales order" type="Information" showIcon="true" class="sapUiSmallMarginTop"/>
             </VBox>
         </content>
         

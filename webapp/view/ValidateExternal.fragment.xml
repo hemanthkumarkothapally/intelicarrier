@@ -54,7 +54,7 @@
             </VBox>
         </content>
         <beginButton>
-            <Button text="✅ Approve &amp; Send to S/4" type="Accept" press=".onApproveExternal" />
+            <Button text="✅ Create Sales Order" type="Accept" press=".onApproveExternal" />
         </beginButton>
         <endButton>
             <Button text="⚠️ Flag Discrepancy" type="Attention" press=".onFlagDiscrepancy" />

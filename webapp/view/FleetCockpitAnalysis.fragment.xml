@@ -43,7 +43,7 @@
                         </VBox>
 
                         <VBox>
-                            <Title text="Delivery Date"/>
+                            <Title text="Created Date"/>
                             <Text text="{selectedOrder>/deliveryDate}" class="sapUiBoldText"/>
                         </VBox>
 

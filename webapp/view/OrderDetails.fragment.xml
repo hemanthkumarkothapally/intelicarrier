@@ -106,7 +106,7 @@
 
                 <!-- Manager Comments -->
                 <!-- <Panel class="highlightBox sapUiSmallMarginBottom" backgroundDesign="Solid"> -->
-                    <VBox class="sapUiSmallMargin highlightBox" height="5rem">
+                    <VBox class="sapUiSmallMargin highlightBox" visible="false" height="5rem">
                         <HBox alignItems="Center">
                             <core:Icon src="sap-icon://comment" class="sapUiTinyMarginEnd"/>
                             <Title text="Manager Comments" level="H5"/>
@@ -123,8 +123,8 @@
                             <Title text="Fleet Assignment" level="H5"/>
                         </HBox>
 
-                        <Text text="Freight Order: {orderDetails>/orderId}" class="sapUiSmallMarginTop"/>
-                        <Text text="Priority: {orderDetails>/priority}"/>
+                        <Text text="Freight Order: FO-2026-0006" class="sapUiSmallMarginTop"/>
+                        <Text text="Priority: Medium"/>
                     </VBox>
                 <!-- </Panel> -->
 

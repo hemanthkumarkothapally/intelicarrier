@@ -59,27 +59,27 @@
                             <tnt:NavigationListGroup text="Operations" key="Operations">
                                 <tnt:NavigationListItem text="Dashboard" icon="sap-icon://home" key="dashboard"/>
                                 <tnt:NavigationListItem text="Create Freight Order" icon="sap-icon://shipping-status" key="freightOrders" />
-                                <tnt:NavigationListItem text="Create Shipment" icon="sap-icon://create" key="shipmentexecution"/>
-                                 <tnt:NavigationListItem text="Shipment Execution" icon="sap-icon://map" key="tracking"/>
-                                   <tnt:NavigationListItem text="Cash Advance &amp; Reimbursement" icon="sap-icon://wallet" key="CashAdvanceandReimbursement"/>
-                                   <tnt:NavigationListItem text="Create sales order" icon="sap-icon://sales-order" key="priceCalculation"/>
-                                
-                                
+                                <tnt:NavigationListItem text="Fleet Planning and Assignment" icon="sap-icon://create" key="shipmentexecution"/>
+                                <tnt:NavigationListItem text="Shipment Execution" icon="sap-icon://map" key="tracking"/>
+                                <tnt:NavigationListItem text="Cash Advance &amp; Reimbursement" icon="sap-icon://wallet" key="CashAdvanceandReimbursement"/>
+                                <tnt:NavigationListItem text="Create Sales Order" icon="sap-icon://sales-order" key="priceCalculation"/>
+
+
 
                                 <!-- <tnt:NavigationListItem text="Vehicle Checklist" icon="sap-icon://bus-public-transport" key="vehicleChecklist"/> -->
-                               
 
-                              
+
+
 
                             </tnt:NavigationListGroup>
                             <tnt:NavigationListGroup text="Reports" key="Reports" expanded="false">
-                           
+
                                 <tnt:NavigationListItem text="Fleet Overview" icon="sap-icon://curriculum" key="shipmentExecutionViewsub2"/>
-                                  <tnt:NavigationListItem text="Gate Logs" icon="sap-icon://building" key="gateLogs"/>
-                               <tnt:NavigationListItem text="Document Management" icon="sap-icon://document" key="bol"/>
+                                <tnt:NavigationListItem text="Gate Logs" icon="sap-icon://building" key="gateLogs"/>
+                                <tnt:NavigationListItem text="Document Management" icon="sap-icon://document" key="bol"/>
 
                                 <!-- <tnt:NavigationListItem text="Operational &amp; Financial Reports" icon="sap-icon://create" key="OperationalandFinancialReports"/> -->
-                                <tnt:NavigationListItem text="Vehicle Checklist" icon="sap-icon://locate-me" key="vehicleChecklist"/>
+                                <!-- <tnt:NavigationListItem text="Vehicle Checklist" icon="sap-icon://locate-me" key="vehicleChecklist"/> -->
                             </tnt:NavigationListGroup >
                             <tnt:NavigationListGroup text="Masters" key="Masters" expanded="false">
                                 <tnt:NavigationListItem text="Rate Master" icon="sap-icon://money-bills" key="rateMaster"/>
@@ -185,7 +185,7 @@
                                         <items>
                                             <ColumnListItem>
                                                 <cells>
-                                                    <ObjectIdentifier title="Express Service" text="Guaranteed delivery"/>
+                                                    <ObjectIdentifier title="TH-4567" text="Guaranteed delivery"/>
                                                     <Text text="1-2 Business Days"/>
                                                     <ObjectNumber number="42.50" unit="USD"/>
                                                     <ObjectNumber number="3.80" unit="USD"/>
@@ -208,7 +208,7 @@
                                 </items>
                             </SegmentedButton> -->
                             <VBox id="shipmentExecutionViewsub" visible="true" width="100%" class="intellicarrier-content-padding sapUiMediumMarginBottom">
-                                <Title text="Create Shipment" level="H2" class="sapUiMediumMarginBottom"/>
+                                <Title text="Fleet Planning and Assignment" level="H2" class="sapUiMediumMarginBottom"/>
                                 <FlexBox wrap="NoWrap" alignItems="Start" class="sapUiMediumMarginBottom">
 
                                     <!-- Pending Assignment -->
@@ -260,7 +260,7 @@
                                         <tileContent>
                                             <TileContent>
                                                 <content>
-                                                    <NumericContent value="3 / 6" valueColor="Good" icon="sap-icon://fleet"/>
+                                                    <NumericContent value="75" scale="/ 100" valueColor="Good" icon="sap-icon://fleet"/>
                                                 </content>
                                             </TileContent>
                                         </tileContent>
@@ -318,7 +318,7 @@
                                             <Text text="Cargo"/>
                                         </Column>
                                         <Column>
-                                            <Text text="Delivery Date"/>
+                                            <Text text="Created Date"/>
                                         </Column>
                                         <Column>
                                             <Text text="Priority"/>
@@ -341,6 +341,7 @@
                                                 <!-- Order ID -->
                                                 <VBox>
                                                     <Title text="{orderId}" class="sapUiBoldText" wrapping="true" />
+
                                                     <Label text="{coId}" class="sapUiTinyMarginTop sapUiContentLabel" visible="{= ${status} !== 'Completed' }"/>
                                                     <Text text="{sphId}" class="sphId" visible="{= ${status} === 'Completed' }"></Text>
                                                 </VBox>
@@ -381,7 +382,7 @@
 
                                                 <!-- Action -->
                                                 <HBox justifyContent="Center">
-                                                    <Button text="Track" type="Neutral" tooltip="Track Order" visible="{= ${status} === 'Completed' }" press=".onTrackOrder"/>
+                                                    <Button text="Track" type="Neutral" tooltip="Track Order" visible="{= ${status} === 'Completed' || ${status} === 'In Transit' }" press=".onTrackOrder"/>
                                                     <Button text="Plan &amp; Assign" type="Emphasized" visible="{= ${status} === 'Pending Assignment' }" press=".onAnalyzeOrder"/>
                                                     <Button text="Print Docs" type="Emphasized" visible="{= ${status} === 'Internal Fleet' || ${status} === 'External Carrier' }" press=".onOpenDocPrintDialog"/>
 
@@ -503,9 +504,9 @@
                                                     <Text text="Capacity"/>
                                                 </Column>
 
-                                                <Column hAlign="End">
+                                                <!-- <Column hAlign="End">
                                                     <Text text="Daily Rate"/>
-                                                </Column>
+                                                </Column> -->
 
                                                 <Column hAlign="Center">
                                                     <Text text="Actions"/>
@@ -545,7 +546,7 @@
                                                         </VBox>
 
                                                         <!-- dailyRate -->
-                                                        <Text text="{dailyRate}" class="sapUiBoldText sapUiPositiveText"/>
+                                                        <!-- <Text text="{dailyRate}" class="sapUiBoldText sapUiPositiveText"/> -->
 
                                                         <!-- Action -->
                                                         <HBox justifyContent="Center">
@@ -1231,59 +1232,63 @@
                                                 </Column>
                                             </columns>
                                             <items>
-                                                <ColumnListItem press=".onViewShipmentDetails">
-                                                    <cells>
-                                                        <Link text="8062225001" press=".onViewShipmentDetails"/>
-                                                        <Text text="Global Tech Inc"/>
-                                                        <Text text="San Francisco, CA"/>
-                                                        <Text text="New York, NY"/>
-                                                        <Text text="Express"/>
-                                                        <ObjectStatus text="Out for Delivery" state="Warning" icon="sap-icon://employee"/>
-                                                        <Text text="Jan 15, 07:00 AM"/>
-                                                        <Text text="Jan 15, 5:00 PM"/>
-                                                        <Button icon="sap-icon://detail-view" tooltip="View Details" press=".onViewShipmentDetails"/>
-                                                    </cells>
-                                                </ColumnListItem>
-                                                <ColumnListItem press=".onViewShipmentDetails">
-                                                    <cells>
-                                                        <Link text="8062225002" press=".onViewShipmentDetails"/>
-                                                        <Text text="Acme Corporation"/>
-                                                        <Text text="Los Angeles, CA"/>
-                                                        <Text text="Chicago, IL"/>
-                                                        <Text text="Standard"/>
-                                                        <ObjectStatus text="In Transit" state="Warning" icon="sap-icon://shipping-status"/>
-                                                        <Text text="Jan 14, 11:30 PM"/>
-                                                        <Text text="Jan 16, 6:00 PM"/>
-                                                        <Button icon="sap-icon://detail-view" tooltip="View Details" press=".onViewShipmentDetails"/>
-                                                    </cells>
-                                                </ColumnListItem>
-                                                <ColumnListItem press=".onViewShipmentDetails">
-                                                    <cells>
-                                                        <Link text="8062225001" press=".onViewShipmentDetails"/>
-                                                        <Text text="Tech Solutions Ltd"/>
-                                                        <Text text="Seattle, WA"/>
-                                                        <Text text="Miami, FL"/>
-                                                        <Text text="Overnight"/>
-                                                        <ObjectStatus text="Delivered" state="Success" icon="sap-icon://complete"/>
-                                                        <Text text="Jan 15, 10:30 AM"/>
-                                                        <Text text="Delivered"/>
-                                                        <Button icon="sap-icon://detail-view" tooltip="View Details" press=".onViewShipmentDetails"/>
-                                                    </cells>
-                                                </ColumnListItem>
-                                                <ColumnListItem press=".onViewShipmentDetails">
-                                                    <cells>
-                                                        <Link text="8062225003" press=".onViewShipmentDetails"/>
-                                                        <Text text="Innovation Corp"/>
-                                                        <Text text="Boston, MA"/>
-                                                        <Text text="Denver, CO"/>
-                                                        <Text text="Express"/>
-                                                        <ObjectStatus text="Exception" state="Error" icon="sap-icon://warning"/>
-                                                        <Text text="Jan 14, 02:15 PM"/>
-                                                        <Text text="Delayed"/>
-                                                        <Button icon="sap-icon://detail-view" tooltip="View Details" press=".onViewShipmentDetails"/>
-                                                    </cells>
-                                                </ColumnListItem>
-                                            </items>
+    <ColumnListItem press=".onViewShipmentDetails">
+        <cells>
+            <Link text="8062225001" press=".onViewShipmentDetails"/>
+            <Text text="Global Tech Thailand"/>
+            <Text text="Bangkok"/>
+            <Text text="Chiang Mai"/>
+            <Text text="Express"/>
+            <ObjectStatus text="Out for Delivery" state="Warning" icon="sap-icon://employee"/>
+            <Text text="Jan 15, 07:00 AM"/>
+            <Text text="Jan 15, 5:00 PM"/>
+            <Button icon="sap-icon://detail-view" tooltip="View Details" press=".onViewShipmentDetails"/>
+        </cells>
+    </ColumnListItem>
+
+    <ColumnListItem press=".onViewShipmentDetails">
+        <cells>
+            <Link text="8062225002" press=".onViewShipmentDetails"/>
+            <Text text="Acme Thailand Co., Ltd"/>
+            <Text text="Phuket"/>
+            <Text text="Khon Kaen"/>
+            <Text text="Standard"/>
+            <ObjectStatus text="In Transit" state="Warning" icon="sap-icon://shipping-status"/>
+            <Text text="Jan 14, 11:30 PM"/>
+            <Text text="Jan 16, 6:00 PM"/>
+            <Button icon="sap-icon://detail-view" tooltip="View Details" press=".onViewShipmentDetails"/>
+        </cells>
+    </ColumnListItem>
+
+    <ColumnListItem press=".onViewShipmentDetails">
+        <cells>
+            <Link text="8062225003" press=".onViewShipmentDetails"/>
+            <Text text="Tech Solutions Thailand"/>
+            <Text text="Chonburi"/>
+            <Text text="Hat Yai"/>
+            <Text text="Overnight"/>
+            <ObjectStatus text="Delivered" state="Success" icon="sap-icon://complete"/>
+            <Text text="Jan 15, 10:30 AM"/>
+            <Text text="Delivered"/>
+            <Button icon="sap-icon://detail-view" tooltip="View Details" press=".onViewShipmentDetails"/>
+        </cells>
+    </ColumnListItem>
+
+    <ColumnListItem press=".onViewShipmentDetails">
+        <cells>
+            <Link text="8062225004" press=".onViewShipmentDetails"/>
+            <Text text="Innovation Thailand Corp"/>
+            <Text text="Ayutthaya"/>
+            <Text text="Nakhon Ratchasima"/>
+            <Text text="Express"/>
+            <ObjectStatus text="Exception" state="Error" icon="sap-icon://warning"/>
+            <Text text="Jan 14, 02:15 PM"/>
+            <Text text="Delayed"/>
+            <Button icon="sap-icon://detail-view" tooltip="View Details" press=".onViewShipmentDetails"/>
+        </cells>
+    </ColumnListItem>
+</items>
+
                                         </Table>
                                     </content>
                                 </Panel>
@@ -1317,15 +1322,16 @@
                                                 <!-- Shipment Info Section -->
                                                 <HBox width="100%" class="shipmentInfoContainer">
                                                     <VBox class="shipmentInfoSection" width="100%">
-                                                        <ObjectHeader title="8062225001" number="46.30" numberUnit="USD" intro="Express Service" titleActive="true" icon="sap-icon://shipping-status" iconDensityAware="false" class="compactObjectHeader">
+                                                        <ObjectHeader title="8062225001" intro="TH-4567" titleActive="true" icon="sap-icon://shipping-status" iconDensityAware="false" class="compactObjectHeader">
                                                             <attributes>
+                                                                <!-- <ObjectStatus class="fontSizeBig" text="Out for Delivery" state="Warning" icon="sap-icon://employee"/> -->
                                                                 <ObjectAttribute title="Origin" text="San Francisco, CA"/>
-                                                                <ObjectAttribute title="Destination" text="New York, NY"/>
+                                                                <ObjectAttribute title="Destination" text="Bangkok, NY"/>
                                                                 <ObjectAttribute title="Est. Delivery" text="Jan 15, 2026 by 5:00 PM"/>
                                                                 <ObjectAttribute title="Weight" text="2.5 kg"/>
                                                             </attributes>
                                                             <statuses>
-                                                                <ObjectStatus text="Out for Delivery" state="Warning" icon="sap-icon://employee"/>
+                                                                <ObjectStatus class="fontSizeBig" text="{= ${detailModel>/showDocs} ? 'Delivered' : 'Out for Delivery' }" state="Warning" icon="sap-icon://employee"/>
                                                             </statuses>
                                                         </ObjectHeader>
                                                     </VBox>
@@ -1399,7 +1405,7 @@
                                                                     <Text text="Out for Delivery" class="timelineStatusText"/>
                                                                     <Text text="Jan 15, 2026" class="timelineDateText"/>
                                                                     <Text text="07:00 AM" class="timelineTimeText"/>
-                                                                    <Text text="New York Hub" class="timelineLocationText"/>
+                                                                    <Text text="Bangkok Hub" class="timelineLocationText"/>
                                                                     <Text text="Package loaded for final delivery" class="timelineNotesText"/>
                                                                 </VBox>
                                                             </VBox>
@@ -1416,7 +1422,7 @@
                                                                     <Text text="Delivered" class="timelineStatusText"/>
                                                                     <Text text="Jan 15, 2026" class="timelineDateText"/>
                                                                     <Text text="Expected by 5:00 PM" class="timelineTimeText"/>
-                                                                    <Text text="New York, NY" class="timelineLocationText"/>
+                                                                    <Text text="Bangkok, NY" class="timelineLocationText"/>
                                                                     <Text text="Package will be delivered to recipient" class="timelineNotesText"/>
                                                                 </VBox>
                                                             </VBox>
@@ -1434,7 +1440,7 @@
                                                         <!-- Map Header with Route Info -->
                                                         <HBox justifyContent="SpaceBetween" alignItems="Center" class="mapHeader">
                                                             <VBox>
-                                                                <Text text="San Francisco, CA → New York, NY" class="routeTitle"/>
+                                                                <Text text="San Francisco, CA → Bangkok, NY" class="routeTitle"/>
                                                                 <Text text="Total Distance: 2,906 miles | Estimated Time: 4-5 days" class="routeInfo"/>
                                                             </VBox>
                                                             <HBox alignItems="Center">
@@ -1477,7 +1483,7 @@
                                                                         <VBox class="locationDot destination">
                                                                             <core:Icon src="sap-icon://target-group" size="1rem" color="white"/>
                                                                         </VBox>
-                                                                        <Text text="New York" class="locationName"/>
+                                                                        <Text text="Bangkok" class="locationName"/>
                                                                         <Text text="Destination" class="locationLabel"/>
                                                                     </VBox>
 
@@ -1510,13 +1516,13 @@
                                                     </VBox>
                                                 </content>
                                             </Panel>
-                                          
-                                              <HBox width="100%" justifyContent="SpaceBetween" class="sapUiMediumMarginTop">
+
+                                            <HBox width="100%" justifyContent="SpaceBetween" class="sapUiMediumMarginTop">
 
                                                 <!-- ================= LEFT COLUMN ================= -->
                                                 <VBox width="50%">
-                                                
-                                                <Title text="Cash Expenses"/>
+
+                                                    <Title text="Cash Expenses"/>
 
                                                     <Panel headerText="Trip Expenses" width="100%" class="trackingTimelinePanel">
                                                         <!-- ===== SUMMARY CARDS (TOP) ===== -->
@@ -1533,7 +1539,7 @@
                                                         </HBox>
 
                                                         <!-- ===== EXPENSE TABLE ===== -->
-                                                        <Table items="{dashboard>/expenses}"  width="100%" class="sapUiMediumMarginEnd">
+                                                        <Table items="{dashboard>/expenses}" width="100%" class="sapUiMediumMarginEnd">
 
                                                             <headerToolbar>
                                                                 <OverflowToolbar>
@@ -1605,13 +1611,13 @@
 
                                                         </HBox>
 
-                                                    </Panel>        
+                                                    </Panel>
                                                 </VBox>
 
                                                 <!-- ================= RIGHT COLUMN ================= -->
-                                               
+
                                                 <VBox width="50%" class="sapUiMediumMarginBegin">
-                                                <Title text="Documents and POD"/>
+                                                    <Title text="Documents and POD"/>
                                                     <Panel headerText="Shipment Documents" width="100%" class="trackingTimelinePanel">
 
                                                         <Toolbar design="Transparent">
@@ -1621,7 +1627,7 @@
                                                         <HBox justifyContent="SpaceAround" wrap="Wrap" class="sapUiMediumMarginBottom" width="100%">
                                                             <items>
 
-                                                                <GenericTile header="Bill of Lading" subheader="✓ Uploaded" frameType="OneByOne" class="module-tile sapUiSmallMarginEnd" width="100%">
+                                                                <GenericTile  press=".onGenTilePress" header="Bill of Lading" subheader="✓ Uploaded" frameType="OneByOne" class="module-tile sapUiSmallMarginEnd" width="100%">
                                                                     <tileContent>
                                                                         <TileContent footer="Jan 15, 04:30 AM">
                                                                             <content>
@@ -1630,7 +1636,7 @@
                                                                         </TileContent>
                                                                     </tileContent>
                                                                 </GenericTile>
-                                                                <GenericTile header="Delivery Order" subheader="✓ Uploaded" frameType="OneByOne" class="module-tile sapUiSmallMarginEnd" width="100%">
+                                                                <GenericTile press=".onGenTilePress" header="Delivery Order" subheader="✓ Uploaded" frameType="OneByOne" class="module-tile sapUiSmallMarginEnd" width="100%">
                                                                     <tileContent>
                                                                         <TileContent footer="Jan 15, 04:30 AM">
                                                                             <content>
@@ -1639,7 +1645,7 @@
                                                                         </TileContent>
                                                                     </tileContent>
                                                                 </GenericTile>
-                                                                <GenericTile header="Cargo Manifest" subheader="✓ Uploaded" frameType="OneByOne" class="module-tile sapUiSmallMarginEnd" width="100%">
+                                                                <GenericTile press=".onGenTilePress" header="Cargo Manifest" subheader="✓ Uploaded" frameType="OneByOne" class="module-tile sapUiSmallMarginEnd" width="100%">
                                                                     <tileContent>
                                                                         <TileContent footer="Jan 15, 04:30 AM">
                                                                             <content>
@@ -1648,7 +1654,7 @@
                                                                         </TileContent>
                                                                     </tileContent>
                                                                 </GenericTile>
-                                                                <GenericTile header="Invoice" subheader="✓ Uploaded" frameType="OneByOne" class="module-tile sapUiSmallMarginEnd" width="100%">
+                                                                <GenericTile press=".onGenTilePress" header="Invoice" subheader="✓ Uploaded" frameType="OneByOne" class="module-tile sapUiSmallMarginEnd" width="100%">
                                                                     <tileContent>
                                                                         <TileContent footer="Jan 15, 04:30 AM">
                                                                             <content>
@@ -1657,7 +1663,7 @@
                                                                         </TileContent>
                                                                     </tileContent>
                                                                 </GenericTile>
-                                                                <GenericTile header="Safety Data Sheet" subheader="✓ Uploaded" frameType="OneByOne" class="module-tile sapUiSmallMarginEnd" width="100%">
+                                                                <GenericTile press=".onGenTilePress" header="Safety Data Sheet" subheader="✓ Uploaded" frameType="OneByOne" class="module-tile sapUiSmallMarginEnd" width="100%">
                                                                     <tileContent>
                                                                         <TileContent footer="Jan 15, 04:30 AM">
                                                                             <content>
@@ -1666,7 +1672,7 @@
                                                                         </TileContent>
                                                                     </tileContent>
                                                                 </GenericTile>
-                                                                <GenericTile header="POD Document" subheader="⏳ Pending" frameType="OneByOne" class="module-tile sapUiSmallMarginEnd" width="100%">
+                                                                <GenericTile press=".onGenTilePress" header="POD Document" subheader="⏳ Pending" frameType="OneByOne" class="module-tile sapUiSmallMarginEnd" width="100%">
                                                                     <tileContent>
                                                                         <TileContent footer="Required at delivery">
                                                                             <content>
@@ -1687,9 +1693,13 @@
                                                             <HBox justifyContent="SpaceBetween" wrap="Wrap" class="sapUiMediumMarginBottom">
 
                                                                 <!-- Upload Photo -->
-                                                                <VBox width="48%" alignItems="Center" justifyContent="Center" class="podUploadBox" >
+                                                                <VBox width="48%" alignItems="Center" justifyContent="Center" class="podUploadBox">
 
-                                                                    <core:Icon src="sap-icon://camera" size="2.5rem" class="sapUiSmallMarginBottom"/>
+                                                                    <!-- Icon (hidden when Delivered) -->
+                                                                    <core:Icon src="sap-icon://camera" size="2.5rem" class="sapUiSmallMarginBottom" visible="{= !${detailModel>/showDocs} }"/>
+
+                                                                    <!-- Image (shown only when Delivered) -->
+                                                                    <Image src="https://itl-blog-aws.s3.ap-south-1.amazonaws.com/blog/wp-content/uploads/2021/12/image-8.png" width="15.5rem" class="sapUiSmallMarginBottom" visible="{detailModel>/showDocs}"/>
 
                                                                     <Text text="Click to view delivery photo" textAlign="Center"/>
                                                                 </VBox>
@@ -1697,12 +1707,17 @@
                                                                 <!-- Capture Signature -->
                                                                 <VBox width="48%" alignItems="Center" justifyContent="Center" class="podUploadBox">
 
-                                                                    <core:Icon src="sap-icon://signature" size="2.5rem" class="sapUiSmallMarginBottom"/>
+                                                                    <!-- Icon -->
+                                                                    <core:Icon src="sap-icon://signature" size="2.5rem" class="sapUiSmallMarginBottom" visible="{= !${detailModel>/showDocs} }"/>
 
-                                                                    <Text text="Click to view  signature" textAlign="Center"/>
+                                                                    <!-- Image -->
+                                                                    <Image src="https://upload.wikimedia.org/wikipedia/commons/c/c5/Thai-PM-pridi_signature.png" width="15.5rem" class="sapUiSmallMarginBottom" visible="{detailModel>/showDocs}"/>
+
+                                                                    <Text text="Click to view signature" textAlign="Center"/>
                                                                 </VBox>
 
                                                             </HBox>
+
 
                                                             <!-- Receiver Details -->
                                                             <HBox justifyContent="SpaceBetween" wrap="Wrap">
@@ -1723,7 +1738,7 @@
 
                                                     </Panel>
                                                 </VBox>
-                                                
+
                                             </HBox>
 
 
@@ -2102,7 +2117,7 @@
                                 </GenericTile>
 
                                 <!-- Submitted -->
-                                <GenericTile class=" sapUiSmallMarginBottom" frameType="TwoByHalf" width="8rem" header="Submitted" subheader="Awaiting approval" press=".onCardPressFreight">
+                                <GenericTile class=" sapUiSmallMarginBottom" visible="false" frameType="TwoByHalf" width="8rem" header="Submitted" subheader="Awaiting approval" press=".onCardPressFreight">
                                     <TileContent>
                                         <NumericContent value="{orders>/summary/submitted}" icon="sap-icon://upload-to-cloud" valueColor="Neutral" withMargin="false"/>
                                     </TileContent>
@@ -2116,7 +2131,7 @@
                                 </GenericTile>
 
                                 <!-- Revision -->
-                                <GenericTile class=" sapUiSmallMarginBottom" frameType="TwoByHalf" width="8rem" header="Revision" subheader="Needs update" press=".onCardPressFreight">
+                                <GenericTile class=" sapUiSmallMarginBottom" visible="false" frameType="TwoByHalf" width="8rem" header="Revision" subheader="Needs update" press=".onCardPressFreight">
                                     <TileContent>
                                         <NumericContent value="{orders>/summary/revision}" icon="sap-icon://refresh" valueColor="Critical" withMargin="false"/>
                                     </TileContent>
@@ -2130,9 +2145,9 @@
                                 </GenericTile>
 
                                 <!-- Confirmed -->
-                                <GenericTile class="sapUiSmallMarginBottom" visible="false" frameType="TwoByHalf" width="8rem" header="Confirmed" subheader="Fleet assigned" press=".onCardPressFreight">
+                                <GenericTile class="sapUiSmallMarginBottom" visible="true" frameType="TwoByHalf" width="8rem" header="Drafts" subheader="Fleet assigned" press=".onCardPressFreight">
                                     <TileContent>
-                                        <NumericContent value="{orders>/summary/confirmed}" icon="sap-icon://shipping-status" valueColor="Good" withMargin="false"/>
+                                        <NumericContent value="{orders>/summary/confirmed}" icon="sap-icon://request" withMargin="false"/>
                                     </TileContent>
                                 </GenericTile>
 
@@ -2168,7 +2183,7 @@
                                                 <Text text="Products"/>
                                             </Column>
                                             <Column width="10%" hAlign="Begin">
-                                                <Text text="Delivery Date"/>
+                                                <Text text="Created Date"/>
                                             </Column>
                                             <Column width="10%" hAlign="End">
                                                 <Text text="Value"/>
@@ -2185,8 +2200,11 @@
                                                 <cells>
                                                     <!-- Order ID with OCR -->
                                                     <VBox>
-                                                        <Link text="{orders>orderId}" press=".onViewDetailsFreight"/>
-                                                        <Link text="FO-2026-0006" visible="{= ${orders>statusText} === 'Approved' }" />
+                                                        <ObjectStatus class="sapUiBoldText" text="FO-2026-0006" state="Success" visible="{= ${orders>statusText} === 'Approved' }"  />
+                                                        <Link class="greyStatusText" text="{orders>orderId}" press=".onViewDetailsFreight"/>
+                                                        <!-- <Link text="FO-2026-0006" visible="{= ${orders>statusText} === 'Approved' }" /> -->
+
+
                                                     </VBox>
 
                                                     <!-- Source -->
@@ -2208,7 +2226,7 @@
 
                                                     <!-- Products -->
                                                     <VBox>
-                                                        <Text text="{orders>productsCount}"/>
+                                                        <Text text="LPG"/>
                                                         <Text text="{orders>weight}" class="sapUiTinyText"/>
                                                     </VBox>
 
@@ -2613,7 +2631,7 @@
 
                                                         <!-- Actions -->
                                                         <HBox justifyContent="Center">
-                                                            <Button  text="View" type="Emphasized" tooltip="View" press=".onViewActiveAdvance" />
+                                                            <Button text="View" type="Emphasized" tooltip="View" press=".onViewActiveAdvance" />
                                                             <!-- <Button icon="sap-icon://money-bills" type="Critical" visible="{= ${status} !== 'Active' }" tooltip="Settle"/> -->
                                                         </HBox>
 
@@ -2945,90 +2963,59 @@
             </content>
         </Page>
     </App>
-   <Dialog
-    id="contactCustomerDialog"
-    title="Driver Information"
-    contentWidth="60%"
-    draggable="true"
-    resizable="true">
+    <Dialog id="contactCustomerDialog" title="Driver Information" contentWidth="60%" draggable="true" resizable="true">
 
-    <!-- ================= CONTENT ================= -->
-    <VBox class="sapUiMediumMargin driverInfoCard" width="100%">
+        <!-- ================= CONTENT ================= -->
+        <VBox class="sapUiMediumMargin driverInfoCard" width="100%">
 
-        <!-- ===== HEADER ===== -->
-        <HBox
-            justifyContent="SpaceBetween"
-            alignItems="Center"
-            wrap="Wrap"
-            width="95%">
+            <!-- ===== HEADER ===== -->
+            <HBox justifyContent="SpaceBetween" alignItems="Center" wrap="Wrap" width="95%">
 
-            <!-- LEFT SECTION -->
-            <HBox alignItems="Center">
-                <Avatar
-                    displayShape="Circle"
-                    src="sap-icon://person-placeholder"
-                    class="sapUiSmallMarginEnd"/>
-
-                <VBox>
-                    <Title text="Narong Somjai" level="H4"/>
-                    <Text text="Class 2 + Fuel License | TH-FUEL-001"/>
-                </VBox>
-            </HBox>
-
-            <!-- RIGHT SECTION -->
-            <VBox
-                alignItems="Center"
-                class="sapUiTinyMarginEnd">
-
-                <ObjectStatus
-                    text="On Duty"
-                    state="Success"/>
-
+                <!-- LEFT SECTION -->
                 <HBox alignItems="Center">
-                    <core:Icon
-                        src="sap-icon://favorite"
-                        class="sapUiTinyMarginEnd"/>
-                    <Text text="4.5 Rating"/>
+                    <Avatar displayShape="Circle" src="sap-icon://person-placeholder" class="sapUiSmallMarginEnd"/>
+
+                    <VBox>
+                        <Title text="Narong Somjai" level="H4"/>
+                        <Text text="Class 2 + Fuel License | TH-FUEL-001"/>
+                    </VBox>
                 </HBox>
 
-            </VBox>
+                <!-- RIGHT SECTION -->
+                <VBox alignItems="Center" class="sapUiTinyMarginEnd">
 
-        </HBox>
+                    <ObjectStatus text="On Duty" state="Success"/>
 
-        <!-- ===== CONTACT / ACTIONS ===== -->
-        <HBox
-            class="sapUiSmallMarginTop"
-            alignItems="Center"
-            wrap="Wrap">
+                    <HBox alignItems="Center">
+                        <core:Icon src="sap-icon://favorite" class="sapUiTinyMarginEnd"/>
+                        <Text text="4.5 Rating"/>
+                    </HBox>
 
-            <!-- Phone -->
-            <HBox alignItems="Center" class="sapUiTinyMarginEnd">
-                <core:Icon
-                    src="sap-icon://call"
-                    class="sapUiTinyMarginEnd"/>
-                <Link
-                    text="+1 XXXXX45752"
-                    href="tel:+1XXXXX45752"/>
+                </VBox>
+
             </HBox>
 
-            <!-- Track -->
-            <Button
-                text="Track"
-                icon="sap-icon://map"
-                type="Transparent"/>
-        </HBox>
+            <!-- ===== CONTACT / ACTIONS ===== -->
+            <HBox class="sapUiSmallMarginTop" alignItems="Center" wrap="Wrap">
 
-    </VBox>
+                <!-- Phone -->
+                <HBox alignItems="Center" class="sapUiTinyMarginEnd">
+                    <core:Icon src="sap-icon://call" class="sapUiTinyMarginEnd"/>
+                    <Link text="+1 XXXXX45752" href="tel:+1XXXXX45752"/>
+                </HBox>
 
-    <!-- ================= FOOTER ================= -->
-    <endButton>
-        <Button
-            text="Close"
-            type="Emphasized"
-            press=".onContactCloseDialog"/>
-    </endButton>
+                <!-- Track -->
+                <Button text="Track" icon="sap-icon://map" type="Transparent"/>
+            </HBox>
 
-</Dialog>
+        </VBox>
+
+        <!-- ================= FOOTER ================= -->
+        <endButton>
+            <Button text="Close" type="Emphasized" press=".onContactCloseDialog"/>
+        </endButton>
+
+    </Dialog>
 
 
 

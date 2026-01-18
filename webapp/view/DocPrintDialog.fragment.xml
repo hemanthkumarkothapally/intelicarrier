@@ -78,7 +78,7 @@
         class="docTile selected sapUiSmallMargin"
         press=".onDocSelect"
         header="Shipping Labels"
-        subheader="Package identification">
+        subheader="Cargo details">
 
         <TileContent>
             <VBox alignItems="Center" class="sapUiSmallMarginTop">
@@ -106,6 +106,7 @@
 
     <!-- Packing List -->
     <GenericTile
+        visible="false"
         width="20rem"
         class="docTile sapUiSmallMargin"
         press=".onDocSelect"

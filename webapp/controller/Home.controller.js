@@ -1022,14 +1022,14 @@ sap.ui.define([
             this.byId("rateShoppingView").setVisible(false);
             this.byId("shipmentExecutionView").setVisible(false);
             this.byId("trackingView").setVisible(false);
-            this.byId("freightOrdersView").setVisible(false);   
+            this.byId("freightOrdersView").setVisible(false);
             this.byId("shipmentExecutionViewsub2").setVisible(false);
             this.byId("bolView").setVisible(false);
             this.byId("rateMasterView").setVisible(false);
             this.byId("priceCalculationView").setVisible(false);
             this.byId("CashAdvanceandReimbursement").setVisible(false);
-             this.byId("vehicleChecklist").setVisible(false);
-              this.byId("gateLogs").setVisible(false);
+            this.byId("vehicleChecklist").setVisible(false);
+            this.byId("gateLogs").setVisible(false);
 
 
 
@@ -1360,7 +1360,7 @@ sap.ui.define([
                 email: oOrderData.customerEmail || "",
                 phone: oOrderData.fullData?.phone || "",
                 language: oOrderData.fullData?.language || "Thai",
-                pickupAddress: oOrderData.fullData?.pickupAddress || "",
+                pickupAddress: oOrderData.fullData?.pickupAddress || "Amata Nakorn Industrial Estate, 700/705 Moo 1, Tambol Panthong, Amphur Panthong, Chonburi 20160",
                 deliveryAddress: oOrderData.deliveryAddress || "",
                 products: oOrderData.fullData?.products || [
                     {
@@ -1380,11 +1380,11 @@ sap.ui.define([
                 volume: oOrderData.fullData?.volume || 2.5,
                 specialInstructions: oOrderData.fullData?.specialInstructions || "Handle with care. Temperature controlled.",
                 documentName: oOrderData.fullData?.documentName || "PDF not uploaded",
-                sourceText: oOrderData.sourceText || "PDF Upload",
+                sourceText: "uploaded pdf",//oOrderData.sourceText ,
                 checklist: {
-                    customerVerified: false,
-                    addressesAccurate: false,
-                    productsConfirmed: false,
+                    customerVerified: true,
+                    addressesAccurate: true,
+                    productsConfirmed: true,
                     datesFeasible: false
                 }
             });
@@ -1486,7 +1486,7 @@ sap.ui.define([
             this._updateOrderData(oData, "Submitted");
 
             sap.m.MessageBox.success(
-                "Order " + oData.orderId + " has been submitted for approval.",
+                "Order " + oData.orderId + " has been created.",
                 {
                     onClose: function () {
                         this.onBackFromReview();
@@ -1788,7 +1788,7 @@ sap.ui.define([
                         totalCost: "49.20"
                     },
                     {
-                        service: "Express Service",
+                        service: "TH-4567",
                         description: "Guaranteed 2-day delivery",
                         transitTime: "2 Business Days",
                         baseRate: "32.00",
@@ -2289,10 +2289,56 @@ sap.ui.define([
             }
         },
 
+        onCloseDocDialog: function () {
+            if (this._oDocDialog) {
+                this._oDocDialog.close();
+            }
+        },
+
+
+        onGenTilePress: function (oEvent) {
+            var sHeader = oEvent.getSource().getHeader();
+
+            if (!this._oDocDialog) {
+                this._oDocDialog = sap.ui.xmlfragment(
+                    "intellicarrier.view.OpenDoc",
+                    this
+                );
+                this.getView().addDependent(this._oDocDialog);
+            }
+
+            // Optional: pass header to fragment (for title)
+            this._oDocDialog.setTitle(sHeader);
+
+            this._oDocDialog.open();
+        },
+
         onViewShipmentDetails: function (oEvent) {
-            // Get the selected shipment data (if needed)
+
+
+            var oButton = oEvent.getSource();
+            var oRow = oButton.getParent();
+            var aCells = oRow.getCells();
+
+            var sStatusText = aCells[5].getText();
+
+            var oDetailModel = this.getView().getModel("detailModel");
+
+            if (!oDetailModel) {
+                oDetailModel = new sap.ui.model.json.JSONModel({
+                    showDocs: false
+                });
+                this.getView().setModel(oDetailModel, "detailModel"); // ✅ FIX
+            }
+
+            oDetailModel.setProperty("/showDocs", sStatusText === "Delivered");
+
+            console.log("detailModel:", oDetailModel.getData());
+
+
             var oBindingContext = oEvent.getSource().getBindingContext();
             var oShipmentData = oBindingContext ? oBindingContext.getObject() : null;
+            console.log(oShipmentData)
 
             // Hide the shipments list view
             this.byId("shipmentsListView").setVisible(false);
@@ -2394,7 +2440,7 @@ sap.ui.define([
         onContactCustomer: function () {
             this.byId("contactCustomerDialog").open();
         },
-        onContactCloseDialog:function(){
+        onContactCloseDialog: function () {
             this.byId("contactCustomerDialog").close();
         },
         // Quick Actions
@@ -2416,7 +2462,7 @@ sap.ui.define([
                 {
                     id: "SHP-2026-001234",
                     customer: "Acme Corporation",
-                    destination: "New York, NY",
+                    destination: "Bangkok, NY",
                     service: "Express",
                     status: "In Transit",
                     statusState: "Warning",
@@ -2879,7 +2925,7 @@ sap.ui.define([
             });
 
             sap.m.MessageToast.show(
-                "Shipment " + oOrder.orderId + " booked successfully"
+                "Shipment " + oOrder.orderId + " created successfully"
             );
         },
 
@@ -4138,9 +4184,7 @@ sap.ui.define([
                 weight: oRowData.weight || "500 kg",
                 value: oRowData.value || "High",
 
-                managerComments: oRowData.managerComments || "Approved for express delivery.",
-                assignedFleet: oRowData.assignedFleet || "-",
-                priority: oRowData.priority
+
             };
 
             var oModel = new sap.ui.model.json.JSONModel(oDetailsData);
@@ -4184,218 +4228,220 @@ sap.ui.define([
                 oDialog.open();
             });
         },
-onCloseOCRReceiptDialog: function () {
-this._oOCRReceiptDialog.then(function (oDialog) {
+        onCloseOCRReceiptDialog: function () {
+            this._oOCRReceiptDialog.then(function (oDialog) {
                 oDialog.close();
-            });},
+            });
+        },
 
-onConfirmOCRReceipt: function () {
-    sap.m.MessageToast.show("✅ OCR Confirmed Successfully");
-    this.onCloseOCRReceiptDialog();
-},
-onReconcile: function (oEvent) {
-    var oRow = oEvent.getSource().getBindingContext().getObject();
+        onConfirmOCRReceipt: function () {
+            sap.m.MessageToast.show("✅ OCR Confirmed Successfully");
+            this.onCloseOCRReceiptDialog();
+        },
+        onReconcile: function (oEvent) {
+            var oRow = oEvent.getSource().getBindingContext().getObject();
 
 
             if (!this._oReconcileDialog) {
                 this._oReconcileDialog = this.loadFragment("intellicarrier.view.ReconciliationSettlement");
             }
-    // Convert balance to "To Return" (example logic)
-    // If balance = "฿2,150" then toReturn = same
-    var sAdvance = oRow.advance || "฿0";
-    var sExpenses = oRow.expenses || "฿0";
-    var sToReturn = oRow.balance || "฿0";
+            // Convert balance to "To Return" (example logic)
+            // If balance = "฿2,150" then toReturn = same
+            var sAdvance = oRow.advance || "฿0";
+            var sExpenses = oRow.expenses || "฿0";
+            var sToReturn = oRow.balance || "฿0";
 
-    var oRecModel = new sap.ui.model.json.JSONModel({
-        advanceId: oRow.advanceId,
-        driver: oRow.driver,
-        driverId: oRow.driverId,
+            var oRecModel = new sap.ui.model.json.JSONModel({
+                advanceId: oRow.advanceId,
+                driver: oRow.driver,
+                driverId: oRow.driverId,
 
-        advance: sAdvance,
-        expenses: sExpenses,
-        toReturn: sToReturn,
+                advance: sAdvance,
+                expenses: sExpenses,
+                toReturn: sToReturn,
 
-        settlementType: "EXCESS",
-        recoveryMethod: "PAYROLL",
-        recoveryMethodText: "Payroll Deduction"
-    });
+                settlementType: "EXCESS",
+                recoveryMethod: "PAYROLL",
+                recoveryMethodText: "Payroll Deduction"
+            });
 
-    this.getView().setModel(oRecModel, "recModel");
-    this._oReconcileDialog.then(function (oDialog) {
+            this.getView().setModel(oRecModel, "recModel");
+            this._oReconcileDialog.then(function (oDialog) {
                 oDialog.open();
             });
-},
+        },
 
-onCloseReconcileDialog: function () {
-    this._oReconcileDialog.then(function (oDialog) {
+        onCloseReconcileDialog: function () {
+            this._oReconcileDialog.then(function (oDialog) {
                 oDialog.close();
             });
-},
+        },
 
-onProcessSettlement: function () {
-    this.onCloseReconcileDialog();
+        onProcessSettlement: function () {
+            this.onCloseReconcileDialog();
 
-    // Example generated Settlement ID
-    var sSettlementId = "806222";
+            // Example generated Settlement ID
+            var sSettlementId = "806222";
 
-    // Get values from model
-    var oRecData = this.getView().getModel("recModel").getData();
-    var sRefundAmount = oRecData.toReturn || "฿0";
+            // Get values from model
+            var oRecData = this.getView().getModel("recModel").getData();
+            var sRefundAmount = oRecData.toReturn || "฿0";
 
-    sap.m.MessageBox.information(
-        "✅ Settlement Processed!\n\n" +
-        "• " + sSettlementId + "\n" +
-        "• " + sRefundAmount + " Refund\n" +
-        "• Posted to S/4HANA",
-        {
-            title: "This page says"}
-    );
+            sap.m.MessageBox.information(
+                "✅ Settlement Processed!\n\n" +
+                "• " + sSettlementId + "\n" +
+                "• " + sRefundAmount + " Refund\n" +
+                "• Posted to S/4HANA",
+                {
+                    title: "This page says"
+                }
+            );
 
-},
-onViewActiveAdvance: function (oEvent) {
+        },
+        onViewActiveAdvance: function (oEvent) {
 
-    // get selected row data
-    var oRowData = oEvent.getSource().getBindingContext().getObject();
+            // get selected row data
+            var oRowData = oEvent.getSource().getBindingContext().getObject();
 
-    // create fragment o
-if (!this._oAdvanceDetailsDialog) {
+            // create fragment o
+            if (!this._oAdvanceDetailsDialog) {
                 this._oAdvanceDetailsDialog = this.loadFragment("intellicarrier.view.AdvanceDetails");
             }
-    // bind selected data to dialog model
-    var oModel = new sap.ui.model.json.JSONModel({
-        advanceId: oRowData.advanceId,
-        advance: oRowData.advance,
-        expenses: oRowData.expenses,
-        remaining: oRowData.remaining,
-        usagePercent: oRowData.usagePercent,
-        status: oRowData.status,
-        statusState: oRowData.statusState
-    });
+            // bind selected data to dialog model
+            var oModel = new sap.ui.model.json.JSONModel({
+                advanceId: oRowData.advanceId,
+                advance: oRowData.advance,
+                expenses: oRowData.expenses,
+                remaining: oRowData.remaining,
+                usagePercent: oRowData.usagePercent,
+                status: oRowData.status,
+                statusState: oRowData.statusState
+            });
 
-    this.getView().setModel(oModel, "advDetails");
-    this._oAdvanceDetailsDialog.then(function (oDialog) {
+            this.getView().setModel(oModel, "advDetails");
+            this._oAdvanceDetailsDialog.then(function (oDialog) {
                 oDialog.open();
             });
-},
-onCloseAdvanceDetails: function () {
-    this._oAdvanceDetailsDialog.then(function (oDialog) {
+        },
+        onCloseAdvanceDetails: function () {
+            this._oAdvanceDetailsDialog.then(function (oDialog) {
                 oDialog.close();
             });
-},
-onReconcile1:function () {
+        },
+        onReconcile1: function () {
 
-        this.onCloseAdvanceDetails();
-    
+            this.onCloseAdvanceDetails();
 
-    // ✅ get selected advance data from dialog model
-    var oAdvData = this.getView().getModel("advDetails").getData();
 
-    if (!this._oReconcileDialog) {
+            // ✅ get selected advance data from dialog model
+            var oAdvData = this.getView().getModel("advDetails").getData();
+
+            if (!this._oReconcileDialog) {
                 this._oReconcileDialog = this.loadFragment("intellicarrier.view.ReconciliationSettlement");
             }
 
-    // ✅ Bind selected advance values to reconcile dialog model
-    var oRecModel = new sap.ui.model.json.JSONModel({
-        advanceId: oAdvData.advanceId,
-        advance: oAdvData.advance,
-        expenses: oAdvData.expenses,
-        toReturn: oAdvData.remaining,
+            // ✅ Bind selected advance values to reconcile dialog model
+            var oRecModel = new sap.ui.model.json.JSONModel({
+                advanceId: oAdvData.advanceId,
+                advance: oAdvData.advance,
+                expenses: oAdvData.expenses,
+                toReturn: oAdvData.remaining,
 
-        settlementType: "EXCESS",
-        recoveryMethod: "PAYROLL",
-        recoveryMethodText: "Payroll Deduction"
-    });
+                settlementType: "EXCESS",
+                recoveryMethod: "PAYROLL",
+                recoveryMethodText: "Payroll Deduction"
+            });
 
-    this.getView().setModel(oRecModel, "recModel");
-    this._oReconcileDialog.then(function (oDialog) {
+            this.getView().setModel(oRecModel, "recModel");
+            this._oReconcileDialog.then(function (oDialog) {
                 oDialog.open();
             });
-},
+        },
 
 
-onViewMaintenance: function (oEvent) {
-    var oContext = oEvent.getSource()
-        .getParent()
-        .getBindingContext("vehicleDataModel");
+        onViewMaintenance: function (oEvent) {
+            var oContext = oEvent.getSource()
+                .getParent()
+                .getBindingContext("vehicleDataModel");
 
-    this._openWorkOrderDetailsDialog(oContext);
-},
+            this._openWorkOrderDetailsDialog(oContext);
+        },
 
-onCreateMaintenance: function(){
-var oView = this.getView();
+        onCreateMaintenance: function () {
+            var oView = this.getView();
 
-    if (!this.CreateMaintenanceDialog) {
-        this.CreateMaintenanceDialog = Fragment.load({
-            id: oView.getId(),
-            name: "intellicarrier.view.CreateWorkOrder",
-            controller: this
-        }).then(function (oDialog) {
-            oView.addDependent(oDialog);
-            return oDialog;
-        });
-    }
+            if (!this.CreateMaintenanceDialog) {
+                this.CreateMaintenanceDialog = Fragment.load({
+                    id: oView.getId(),
+                    name: "intellicarrier.view.CreateWorkOrder",
+                    controller: this
+                }).then(function (oDialog) {
+                    oView.addDependent(oDialog);
+                    return oDialog;
+                });
+            }
 
-    this.CreateMaintenanceDialog.then(function (oDialog) {
-        // oDialog.setBindingContext(oContext, "vehicleDataModel");
-        oDialog.open();
-    });
-},
-_openWorkOrderDetailsDialog: function (oContext) {
-    var oView = this.getView();
+            this.CreateMaintenanceDialog.then(function (oDialog) {
+                // oDialog.setBindingContext(oContext, "vehicleDataModel");
+                oDialog.open();
+            });
+        },
+        _openWorkOrderDetailsDialog: function (oContext) {
+            var oView = this.getView();
 
-    if (!this._pWorkOrderDetailsDialog) {
-        this._pWorkOrderDetailsDialog = Fragment.load({
-            id: oView.getId(),
-            name: "intellicarrier.view.WorkOrderDetails",
-            controller: this
-        }).then(function (oDialog) {
-            oView.addDependent(oDialog);
-            return oDialog;
-        });
-    }
+            if (!this._pWorkOrderDetailsDialog) {
+                this._pWorkOrderDetailsDialog = Fragment.load({
+                    id: oView.getId(),
+                    name: "intellicarrier.view.WorkOrderDetails",
+                    controller: this
+                }).then(function (oDialog) {
+                    oView.addDependent(oDialog);
+                    return oDialog;
+                });
+            }
 
-    this._pWorkOrderDetailsDialog.then(function (oDialog) {
-        oDialog.setBindingContext(oContext, "vehicleDataModel");
-        oDialog.open();
-    });
-},
+            this._pWorkOrderDetailsDialog.then(function (oDialog) {
+                oDialog.setBindingContext(oContext, "vehicleDataModel");
+                oDialog.open();
+            });
+        },
 
-onCreateTemplate: function(){
-var oView = this.getView();
+        onCreateTemplate: function () {
+            var oView = this.getView();
 
-    if (!this.onCreateTemplateDialog) {
-        this.onCreateTemplateDialog = Fragment.load({
-            id: oView.getId(),
-            name: "intellicarrier.view.CreateChecklistTemplate",
-            controller: this
-        }).then(function (oDialog) {
-            oView.addDependent(oDialog);
-            return oDialog;
-        });
-    }
+            if (!this.onCreateTemplateDialog) {
+                this.onCreateTemplateDialog = Fragment.load({
+                    id: oView.getId(),
+                    name: "intellicarrier.view.CreateChecklistTemplate",
+                    controller: this
+                }).then(function (oDialog) {
+                    oView.addDependent(oDialog);
+                    return oDialog;
+                });
+            }
 
-    this.onCreateTemplateDialog.then(function (oDialog) {
-        // oDialog.setBindingContext(oContext, "vehicleDataModel");
-        oDialog.open();
-    });
-},
+            this.onCreateTemplateDialog.then(function (oDialog) {
+                // oDialog.setBindingContext(oContext, "vehicleDataModel");
+                oDialog.open();
+            });
+        },
 
 
 
-onMarkComplete: function () {
-    var oDialog = this.byId("workOrderDetailsDialog");
-    var oContext = oDialog.getBindingContext("vehicleDataModel");
-    var oModel = oContext.getModel();
-    var sPath = oContext.getPath();
+        onMarkComplete: function () {
+            var oDialog = this.byId("workOrderDetailsDialog");
+            var oContext = oDialog.getBindingContext("vehicleDataModel");
+            var oModel = oContext.getModel();
+            var sPath = oContext.getPath();
 
-    oModel.setProperty(sPath + "/maintStatus", "Completed");
-    oModel.setProperty(sPath + "/maintStatusState", "Success");
+            oModel.setProperty(sPath + "/maintStatus", "Completed");
+            oModel.setProperty(sPath + "/maintStatusState", "Success");
 
-    sap.m.MessageToast.show("Work order marked as complete");
-    this.onCloseDialog();
-},
+            sap.m.MessageToast.show("Work order marked as complete");
+            this.onCloseDialog();
+        },
 
- onCloseDialog: function () {
+        onCloseDialog: function () {
             // Close all dialogs
             if (this._pWorkOrderDetailsDialog) {
                 this._pWorkOrderDetailsDialog.then(function (oDialog) {
@@ -4414,36 +4460,36 @@ onMarkComplete: function () {
             }
         },
         onOpenShippingPointDialog: function () {
-    if (!this._oShippingPointDialog) {
-        this._oShippingPointDialog = sap.ui.xmlfragment(
-            this.getView().getId(),
-            "intellicarrier.view.ShippingPointMaster",
-            this
-        );
-        this.getView().addDependent(this._oShippingPointDialog);
-    }
-    this._oShippingPointDialog.open();
-},
+            if (!this._oShippingPointDialog) {
+                this._oShippingPointDialog = sap.ui.xmlfragment(
+                    this.getView().getId(),
+                    "intellicarrier.view.ShippingPointMaster",
+                    this
+                );
+                this.getView().addDependent(this._oShippingPointDialog);
+            }
+            this._oShippingPointDialog.open();
+        },
 
-onCloseShippingPointDialog: function () {
-    this._oShippingPointDialog.close();
-},
+        onCloseShippingPointDialog: function () {
+            this._oShippingPointDialog.close();
+        },
 
-onOpenDriverHistoryDialog: function () {
-    if (!this._oDriverHistoryDialog) {
-        this._oDriverHistoryDialog = sap.ui.xmlfragment(
-            this.getView().getId(),
-            "intellicarrier.view.DriverGateScanHistory",
-            this
-        );
-        this.getView().addDependent(this._oDriverHistoryDialog);
-    }
-    this._oDriverHistoryDialog.open();
-},
+        onOpenDriverHistoryDialog: function () {
+            if (!this._oDriverHistoryDialog) {
+                this._oDriverHistoryDialog = sap.ui.xmlfragment(
+                    this.getView().getId(),
+                    "intellicarrier.view.DriverGateScanHistory",
+                    this
+                );
+                this.getView().addDependent(this._oDriverHistoryDialog);
+            }
+            this._oDriverHistoryDialog.open();
+        },
 
-onCloseDriverHistoryDialog: function () {
-    this._oDriverHistoryDialog.close();
-}
+        onCloseDriverHistoryDialog: function () {
+            this._oDriverHistoryDialog.close();
+        }
 
 
 

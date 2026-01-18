@@ -14,7 +14,7 @@
                 <HBox>
                     <VBox>
                         <Title text="Welcome to IntelliCarrier Operations Center" level="H2" class="sapUiSmallMarginBottom" />
-                        <Text text="Real-time visibility across all logistics operations • SC Group / Hitachi" class="sapUiSmallMarginBottom" />
+                        <Text text="Real-time visibility across all logistics operations • SC Group" class="sapUiSmallMarginBottom" />
                     </VBox>
                     <HBox>
                         <items>
@@ -103,10 +103,10 @@
                             <content>
                                 <VBox>
                                     <!-- BTP Flow Title -->
-                                    <Title text="SAP BTP - SHIPMENT &amp; TRANSPORTATION FLOW" level="H4" textAlign="Center" class="sapUiMediumMarginBottom sapUiMediumMarginTop" />
+                                    <Title text="Orders Trend (Last 7 Days)" level="H4" textAlign="Center" class="sapUiMediumMarginBottom sapUiMediumMarginTop" />
 
                                     <!-- BTP Flow - Avatars -->
-                                    <HBox justifyContent="SpaceAround" alignItems="Center" width="95%" class="sapUiMediumMarginBegin sapUiMediumMarginEnd sapUiLargeMarginBottom">
+                                    <!-- <HBox justifyContent="SpaceAround" alignItems="Center" width="95%" class="sapUiMediumMarginBegin sapUiMediumMarginEnd sapUiLargeMarginBottom">
                                         <items>
                                             <VBox alignItems="Center">
                                                 <items>
@@ -136,7 +136,29 @@
                                                 </items>
                                             </VBox>
                                         </items>
-                                    </HBox>
+                                    </HBox> -->
+                                    <viz:VizFrame id="ordersTrendViz" vizType="line" width="100%" height="360px">
+                                            <viz:dataset>
+                                                <viz.data:FlattenedDataset data="{dashboard>/ordersTrend}">
+                                                    <viz.data:dimensions>
+                                                        <viz.data:DimensionDefinition name="Day" value="{dashboard>Day}" />
+                                                    </viz.data:dimensions>
+                                                    <viz.data:measures>
+                                                        <viz.data:MeasureDefinition name="Orders" value="{dashboard>Orders}" />
+                                                        <viz.data:MeasureDefinition name="Completed" value="{dashboard>Completed}" />
+                                                    </viz.data:measures>
+                                                </viz.data:FlattenedDataset>
+                                            </viz:dataset>
+                                            <viz:feeds>
+                                                <viz.feeds:FeedItem uid="valueAxis" type="Measure" values="Orders,Completed" />
+                                                <viz.feeds:FeedItem uid="categoryAxis" type="Dimension" values="Day" />
+                                            </viz:feeds>
+                                        </viz:VizFrame>
+                                    <!-- <Panel headerText="Orders Trend (Last 7 Days)" width="100%" class="sapUiMediumMarginBottom">
+                                    <content>
+                                        
+                                    </content>
+                                </Panel> -->
 
                                     <!-- Module Tiles Title -->
                                     <Title text="Key Operational Modules" level="H5" class="sapUiMediumMarginBottom sapUiMediumMarginTop" />
@@ -268,7 +290,7 @@
                         <!-- Charts vertical layout -->
                         <VBox width="100%">
                             <items>
-                                <Panel headerText="Orders Trend (Last 7 Days)" width="100%" class="sapUiMediumMarginBottom">
+                                <!-- <Panel headerText="Orders Trend (Last 7 Days)" width="100%" class="sapUiMediumMarginBottom">
                                     <content>
                                         <viz:VizFrame id="ordersTrendViz" vizType="line" width="100%" height="360px">
                                             <viz:dataset>
@@ -288,7 +310,7 @@
                                             </viz:feeds>
                                         </viz:VizFrame>
                                     </content>
-                                </Panel>
+                                </Panel> -->
 
                                 <Panel headerText="Revenue by Service Type" width="100%">
                                     <content>
