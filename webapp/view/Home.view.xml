@@ -1232,62 +1232,62 @@
                                                 </Column>
                                             </columns>
                                             <items>
-    <ColumnListItem press=".onViewShipmentDetails">
-        <cells>
-            <Link text="8062225001" press=".onViewShipmentDetails"/>
-            <Text text="Global Tech Thailand"/>
-            <Text text="Bangkok"/>
-            <Text text="Chiang Mai"/>
-            <Text text="Express"/>
-            <ObjectStatus text="Out for Delivery" state="Warning" icon="sap-icon://employee"/>
-            <Text text="Jan 15, 07:00 AM"/>
-            <Text text="Jan 15, 5:00 PM"/>
-            <Button icon="sap-icon://detail-view" tooltip="View Details" press=".onViewShipmentDetails"/>
-        </cells>
-    </ColumnListItem>
+                                                <ColumnListItem press=".onViewShipmentDetails">
+                                                    <cells>
+                                                        <Link text="8062225001" press=".onViewShipmentDetails"/>
+                                                        <Text text="Global Tech Thailand"/>
+                                                        <Text text="Bangkok"/>
+                                                        <Text text="Chiang Mai"/>
+                                                        <Text text="Express"/>
+                                                        <ObjectStatus text="Out for Delivery" state="Warning" icon="sap-icon://employee"/>
+                                                        <Text text="Jan 15, 07:00 AM"/>
+                                                        <Text text="Jan 15, 5:00 PM"/>
+                                                        <Button icon="sap-icon://detail-view" tooltip="View Details" press=".onViewShipmentDetails"/>
+                                                    </cells>
+                                                </ColumnListItem>
 
-    <ColumnListItem press=".onViewShipmentDetails">
-        <cells>
-            <Link text="8062225002" press=".onViewShipmentDetails"/>
-            <Text text="Acme Thailand Co., Ltd"/>
-            <Text text="Phuket"/>
-            <Text text="Khon Kaen"/>
-            <Text text="Standard"/>
-            <ObjectStatus text="In Transit" state="Warning" icon="sap-icon://shipping-status"/>
-            <Text text="Jan 14, 11:30 PM"/>
-            <Text text="Jan 16, 6:00 PM"/>
-            <Button icon="sap-icon://detail-view" tooltip="View Details" press=".onViewShipmentDetails"/>
-        </cells>
-    </ColumnListItem>
+                                                <ColumnListItem press=".onViewShipmentDetails">
+                                                    <cells>
+                                                        <Link text="8062225002" press=".onViewShipmentDetails"/>
+                                                        <Text text="Acme Thailand Co., Ltd"/>
+                                                        <Text text="Phuket"/>
+                                                        <Text text="Khon Kaen"/>
+                                                        <Text text="Standard"/>
+                                                        <ObjectStatus text="In Transit" state="Warning" icon="sap-icon://shipping-status"/>
+                                                        <Text text="Jan 14, 11:30 PM"/>
+                                                        <Text text="Jan 16, 6:00 PM"/>
+                                                        <Button icon="sap-icon://detail-view" tooltip="View Details" press=".onViewShipmentDetails"/>
+                                                    </cells>
+                                                </ColumnListItem>
 
-    <ColumnListItem press=".onViewShipmentDetails">
-        <cells>
-            <Link text="8062225003" press=".onViewShipmentDetails"/>
-            <Text text="Tech Solutions Thailand"/>
-            <Text text="Chonburi"/>
-            <Text text="Hat Yai"/>
-            <Text text="Overnight"/>
-            <ObjectStatus text="Delivered" state="Success" icon="sap-icon://complete"/>
-            <Text text="Jan 15, 10:30 AM"/>
-            <Text text="Delivered"/>
-            <Button icon="sap-icon://detail-view" tooltip="View Details" press=".onViewShipmentDetails"/>
-        </cells>
-    </ColumnListItem>
+                                                <ColumnListItem press=".onViewShipmentDetails">
+                                                    <cells>
+                                                        <Link text="8062225003" press=".onViewShipmentDetails"/>
+                                                        <Text text="Tech Solutions Thailand"/>
+                                                        <Text text="Chonburi"/>
+                                                        <Text text="Hat Yai"/>
+                                                        <Text text="Overnight"/>
+                                                        <ObjectStatus text="Delivered" state="Success" icon="sap-icon://complete"/>
+                                                        <Text text="Jan 15, 10:30 AM"/>
+                                                        <Text text="Delivered"/>
+                                                        <Button icon="sap-icon://detail-view" tooltip="View Details" press=".onViewShipmentDetails"/>
+                                                    </cells>
+                                                </ColumnListItem>
 
-    <ColumnListItem press=".onViewShipmentDetails">
-        <cells>
-            <Link text="8062225004" press=".onViewShipmentDetails"/>
-            <Text text="Innovation Thailand Corp"/>
-            <Text text="Ayutthaya"/>
-            <Text text="Nakhon Ratchasima"/>
-            <Text text="Express"/>
-            <ObjectStatus text="Exception" state="Error" icon="sap-icon://warning"/>
-            <Text text="Jan 14, 02:15 PM"/>
-            <Text text="Delayed"/>
-            <Button icon="sap-icon://detail-view" tooltip="View Details" press=".onViewShipmentDetails"/>
-        </cells>
-    </ColumnListItem>
-</items>
+                                                <ColumnListItem press=".onViewShipmentDetails">
+                                                    <cells>
+                                                        <Link text="8062225004" press=".onViewShipmentDetails"/>
+                                                        <Text text="Innovation Thailand Corp"/>
+                                                        <Text text="Ayutthaya"/>
+                                                        <Text text="Nakhon Ratchasima"/>
+                                                        <Text text="Express"/>
+                                                        <ObjectStatus text="Exception" state="Error" icon="sap-icon://warning"/>
+                                                        <Text text="Jan 14, 02:15 PM"/>
+                                                        <Text text="Delayed"/>
+                                                        <Button icon="sap-icon://detail-view" tooltip="View Details" press=".onViewShipmentDetails"/>
+                                                    </cells>
+                                                </ColumnListItem>
+                                            </items>
 
                                         </Table>
                                     </content>
@@ -1340,97 +1340,103 @@
 
                                             <!-- Horizontal Tracking Timeline -->
                                             <Title text="Tracking History" level="H3" class="sapUiMediumMarginTop sapUiSmallMarginBottom"/>
-                                            <Panel class="trackingTimelinePanel" width="100%">
-                                                <content>
-                                                    <ScrollContainer horizontal="true" vertical="false" height="320px" class="horizontalTrackingContainer">
-                                                        <HBox class="trackingTimelineHorizontal" alignItems="Start">
-
-                                                            <!-- Timeline Item 1 - Package Picked Up -->
-                                                            <VBox id="myTimelineVBox" class="timelineItem pickup" alignItems="Center">
-                                                                <VBox class="timelineIconContainer pickup">
-                                                                    <core:Icon src="sap-icon://inventory" size="1.4rem" color="white" class="timelineIconInner"/>
-                                                                </VBox>
-                                                                <VBox class="timelineContentCard pickup" alignItems="Center">
-                                                                    <Text text="Package Picked Up" class="timelineStatusText"/>
-                                                                    <Text text="Jan 14, 2026" class="timelineDateText"/>
-                                                                    <Text text="09:00 AM" class="timelineTimeText"/>
-                                                                    <Text text="San Francisco, CA" class="timelineLocationText"/>
-                                                                    <Text text="Package collected from sender" class="timelineNotesText"/>
-                                                                </VBox>
-                                                            </VBox>
-
-                                                            <!-- Connector Line -->
-                                                            <VBox class="timelineConnectorLine pickup"></VBox>
-
-                                                            <!-- Timeline Item 2 - In Transit -->
-                                                            <VBox class="timelineItem intransit" alignItems="Center">
-                                                                <VBox class="timelineIconContainer intransit">
-                                                                    <core:Icon src="sap-icon://shipping-status" size="1.4rem" color="white" class="timelineIconInner"/>
-                                                                </VBox>
-                                                                <VBox class="timelineContentCard intransit" alignItems="Center">
-                                                                    <Text text="Departed Facility" class="timelineStatusText"/>
-                                                                    <Text text="Jan 14, 2026" class="timelineDateText"/>
-                                                                    <Text text="11:30 AM" class="timelineTimeText"/>
-                                                                    <Text text="San Francisco Hub" class="timelineLocationText"/>
-                                                                    <Text text="Package in transit to next facility" class="timelineNotesText"/>
-                                                                </VBox>
-                                                            </VBox>
-
-                                                            <!-- Connector Line -->
-                                                            <VBox class="timelineConnectorLine intransit"></VBox>
-
-                                                            <!-- Timeline Item 3 - Hub Processing -->
-                                                            <VBox class="timelineItem processing" alignItems="Center">
-                                                                <VBox class="timelineIconContainer processing">
-                                                                    <core:Icon src="sap-icon://process" size="1.4rem" color="white" class="timelineIconInner"/>
-                                                                </VBox>
-                                                                <VBox class="timelineContentCard processing" alignItems="Center">
-                                                                    <Text text="Hub Processing" class="timelineStatusText"/>
-                                                                    <Text text="Jan 14, 2026" class="timelineDateText"/>
-                                                                    <Text text="03:45 PM" class="timelineTimeText"/>
-                                                                    <Text text="Chicago Sorting Facility" class="timelineLocationText"/>
-                                                                    <Text text="Package processed at sorting facility" class="timelineNotesText"/>
-                                                                </VBox>
-                                                            </VBox>
-
-                                                            <!-- Connector Line -->
-                                                            <VBox class="timelineConnectorLine processing"></VBox>
-
-                                                            <!-- Timeline Item 4 - Current Status -->
-                                                            <VBox class="timelineItem active" alignItems="Center">
-                                                                <VBox class="timelineIconContainer active">
-                                                                    <core:Icon src="sap-icon://employee" size="1.4rem" color="white" class="timelineIconInner"/>
-                                                                </VBox>
-                                                                <VBox class="timelineContentCard active" alignItems="Center">
-                                                                    <Text text="Out for Delivery" class="timelineStatusText"/>
-                                                                    <Text text="Jan 15, 2026" class="timelineDateText"/>
-                                                                    <Text text="07:00 AM" class="timelineTimeText"/>
-                                                                    <Text text="Bangkok Hub" class="timelineLocationText"/>
-                                                                    <Text text="Package loaded for final delivery" class="timelineNotesText"/>
-                                                                </VBox>
-                                                            </VBox>
-
-                                                            <!-- Connector Line -->
-                                                            <VBox class="timelineConnectorLine pending"></VBox>
-
-                                                            <!-- Timeline Item 5 - Delivered -->
-                                                            <VBox class="timelineItem delivered" alignItems="Center">
-                                                                <VBox class="timelineIconContainer delivered">
-                                                                    <core:Icon src="sap-icon://complete" size="1.4rem" color="white" class="timelineIconInner"/>
-                                                                </VBox>
-                                                                <VBox class="timelineContentCard delivered" alignItems="Center">
-                                                                    <Text text="Delivered" class="timelineStatusText"/>
-                                                                    <Text text="Jan 15, 2026" class="timelineDateText"/>
-                                                                    <Text text="Expected by 5:00 PM" class="timelineTimeText"/>
-                                                                    <Text text="Bangkok, NY" class="timelineLocationText"/>
-                                                                    <Text text="Package will be delivered to recipient" class="timelineNotesText"/>
-                                                                </VBox>
-                                                            </VBox>
-
-                                                        </HBox>
-                                                    </ScrollContainer>
-                                                </content>
-                                            </Panel>
+                                            <Button text="Update" type="Emphasized" icon="sap-icon://add" press="onOpenUpdateForm"/>
+                                            <!-- Wizard for Tracking Timeline -->
+ <!-- Wizard for Tracking Timeline -->
+            <Panel headerText="Tracking Progress" expandable="false" expanded="true" width="100%">
+                <content>
+                    <Wizard 
+                        id="trackingDisplayWizard" 
+                        enableBranching="false"
+                        showNextButton="false"
+                        finishButtonText="Complete"
+                        backgroundDesign="Solid"
+                        width="100%"
+                        height="auto">
+                        
+                        <!-- Step 1: Package Picked Up -->
+                        <WizardStep 
+                            id="step1"
+                            title="Package Picked Up"
+                            validated="false"
+                            icon="sap-icon://inventory">
+                            <VBox class="sapUiSmallMargin">
+                                <core:Icon src="sap-icon://inventory" size="3rem" color="#CCCCCC"/>
+                                <MessageStrip
+                                    text="Waiting for package pickup information..."
+                                    type="Warning"
+                                    showIcon="true"
+                                    class="sapUiSmallMarginTop"/>
+                            </VBox>
+                        </WizardStep>
+                        
+                        <!-- Step 2: Departed Facility -->
+                        <WizardStep 
+                            id="step2"
+                            title="Departed Facility"
+                            validated="false"
+                            icon="sap-icon://shipping-status">
+                            <VBox class="sapUiSmallMargin">
+                                <core:Icon src="sap-icon://shipping-status" size="3rem" color="#CCCCCC"/>
+                                <MessageStrip
+                                    text="Package has not departed yet..."
+                                    type="Warning"
+                                    showIcon="true"
+                                    class="sapUiSmallMarginTop"/>
+                            </VBox>
+                        </WizardStep>
+                        
+                        <!-- Step 3: Hub Processing -->
+                        <WizardStep 
+                            id="step3"
+                            title="Hub Processing"
+                            validated="false"
+                            icon="sap-icon://process">
+                            <VBox class="sapUiSmallMargin">
+                                <core:Icon src="sap-icon://process" size="3rem" color="#CCCCCC"/>
+                                <MessageStrip
+                                    text="Package not yet at sorting facility..."
+                                    type="Warning"
+                                    showIcon="true"
+                                    class="sapUiSmallMarginTop"/>
+                            </VBox>
+                        </WizardStep>
+                        
+                        <!-- Step 4: Out for Delivery -->
+                        <WizardStep 
+                            id="step4"
+                            title="Out for Delivery"
+                            validated="false"
+                            icon="sap-icon://employee">
+                            <VBox class="sapUiSmallMargin">
+                                <core:Icon src="sap-icon://employee" size="3rem" color="#CCCCCC"/>
+                                <MessageStrip
+                                    text="Package not yet out for delivery..."
+                                    type="Warning"
+                                    showIcon="true"
+                                    class="sapUiSmallMarginTop"/>
+                            </VBox>
+                        </WizardStep>
+                        
+                        <!-- Step 5: Delivered -->
+                        <WizardStep 
+                            id="step5"
+                            title="Delivered"
+                            validated="false"
+                            icon="sap-icon://complete">
+                            <VBox class="sapUiSmallMargin">
+                                <core:Icon src="sap-icon://complete" size="3rem" color="#CCCCCC"/>
+                                <MessageStrip
+                                    text="Package not yet delivered..."
+                                    type="Warning"
+                                    showIcon="true"
+                                    class="sapUiSmallMarginTop"/>
+                            </VBox>
+                        </WizardStep>
+                        
+                    </Wizard>
+                </content>
+            </Panel>
 
                                             <!-- Live Tracking Map -->
                                             <Title text="Live Tracking Map" level="H3" class="sapUiMediumMarginTop sapUiSmallMarginBottom"/>
@@ -1627,7 +1633,7 @@
                                                         <HBox justifyContent="SpaceAround" wrap="Wrap" class="sapUiMediumMarginBottom" width="100%">
                                                             <items>
 
-                                                                <GenericTile  press=".onGenTilePress" header="Bill of Lading" subheader="✓ Uploaded" frameType="OneByOne" class="module-tile sapUiSmallMarginEnd" width="100%">
+                                                                <GenericTile press=".onGenTilePress" header="Bill of Lading" subheader="✓ Uploaded" frameType="OneByOne" class="module-tile sapUiSmallMarginEnd" width="100%">
                                                                     <tileContent>
                                                                         <TileContent footer="Jan 15, 04:30 AM">
                                                                             <content>
@@ -2200,7 +2206,7 @@
                                                 <cells>
                                                     <!-- Order ID with OCR -->
                                                     <VBox>
-                                                        <ObjectStatus class="sapUiBoldText" text="FO-2026-0006" state="Success" visible="{= ${orders>statusText} === 'Approved' }"  />
+                                                        <ObjectStatus class="sapUiBoldText" text="FO-2026-0006" state="Success" visible="{= ${orders>statusText} === 'Approved' }" />
                                                         <Link class="greyStatusText" text="{orders>orderId}" press=".onViewDetailsFreight"/>
                                                         <!-- <Link text="FO-2026-0006" visible="{= ${orders>statusText} === 'Approved' }" /> -->
 

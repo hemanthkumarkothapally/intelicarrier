@@ -99,7 +99,19 @@
                             <Label text="Volume (m³)"/>
                             <Input value="{manualOrder>/volume}" type="Number" placeholder="0"/>
                                                         <Label text="Priority"/>
-                            <Input value="{manualOrder>/priority}" placeholder="0"/>
+                            <!-- <Input value="{manualOrder>/priority}" placeholder="0"/> -->
+                      
+                      <ComboBox
+    selectedKey="Medium"
+    placeholder="Select Priority"
+    width="100%">
+    <items>
+        <core:Item key="High" text="High" />
+        <core:Item key="Medium" text="Medium" />
+        <core:Item key="Low" text="Low" />
+    </items>
+</ComboBox>
+
                         </f:content>
                     </f:SimpleForm>
 

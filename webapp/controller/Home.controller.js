@@ -5,13 +5,65 @@ sap.ui.define([
     "sap/ui/model/json/JSONModel",
     "sap/ui/model/Filter",
     "sap/ui/model/FilterOperator",
-    "sap/ui/core/Fragment"
-], function (Controller, MessageToast, MessageBox, JSONModel, Filter, FilterOperator, Fragment) {
+    "sap/ui/core/Fragment",
+    "sap/m/VBox",
+    "sap/m/Text",
+    "sap/m/Label",
+    "sap/ui/core/Icon"
+], function (Controller, MessageToast, MessageBox, JSONModel, Filter, FilterOperator, Fragment, VBox, Text, Label, Icon) {
     "use strict";
 
     return Controller.extend("intellicarrier.controller.Home", {
 
         onInit: function () {
+
+
+            // Initialize tracking data model
+            var oTrackingData = {
+                events: [],
+                newEvent: {
+                    status: "",
+                    statusText: "",
+                    date: "",
+                    time: "",
+                    location: "",
+                    notes: ""
+                }
+            };
+            
+            var oModel = new JSONModel(oTrackingData);
+            this.getView().setModel(oModel, "trackingModel");
+            
+            // Icon and color mapping for different statuses
+            this.statusConfig = {
+                "pickup": {
+                    icon: "sap-icon://inventory",
+                    iconColor: "#2196F3",
+                    stepId: "step1"
+                },
+                "intransit": {
+                    icon: "sap-icon://shipping-status",
+                    iconColor: "#FF9800",
+                    stepId: "step2"
+                },
+                "processing": {
+                    icon: "sap-icon://process",
+                    iconColor: "#9C27B0",
+                    stepId: "step3"
+                },
+                "outfordelivery": {
+                    icon: "sap-icon://employee",
+                    iconColor: "#4CAF50",
+                    stepId: "step4"
+                },
+                "delivered": {
+                    icon: "sap-icon://complete",
+                    iconColor: "#4CAF50",
+                    stepId: "step5"
+                }
+            };
+
+            
             var oDriverModel = new sap.ui.model.json.JSONModel({
                 selectedDriverId: "",
                 driverDetails: "",
@@ -1432,6 +1484,7 @@ sap.ui.define([
             sap.m.MessageToast.show("Downloading original document...");
             // Implement actual download logic here
         },
+
         onuploadComplete: function (oEvent) {
             debugger
             this.getView().getModel("reviewOrder").setProperty("/documentName", "12345678")
@@ -2295,6 +2348,285 @@ sap.ui.define([
             }
         },
 
+        // ===========================================
+
+        onOpenUpdateForm: function () {
+            console.log("onOpenUpdateForm - Update button clicked");
+            var oView = this.getView();
+            
+            // Reset form data
+            this._resetFormData();
+            
+            // Create dialog if not exists
+            if (!this.oUpdateDialog) {
+                console.log("Creating new dialog fragment...");
+                Fragment.load({
+                    id: oView.getId(),
+                    name: "intellicarrier.view.UpdateTrackingFragment",
+                    controller: this
+                }).then(function (oDialog) {
+                    console.log("Dialog fragment loaded successfully");
+                    this.oUpdateDialog = oDialog;
+                    oView.addDependent(this.oUpdateDialog);
+                    this.oUpdateDialog.open();
+                    console.log("Dialog opened");
+                }.bind(this)).catch(function(error) {
+                    console.error("Error loading fragment:", error);
+                });
+            } else {
+                console.log("Dialog already exists, opening it");
+                this.oUpdateDialog.open();
+            }
+        },
+
+         _resetFormData: function () {
+            console.log("_resetFormData - Resetting form data");
+            var oModel = this.getView().getModel("trackingModel");
+            oModel.setProperty("/newEvent", {
+                status: "",
+                statusText: "",
+                date: "",
+                time: "",
+                location: "",
+                notes: ""
+            });
+            console.log("Form data reset complete");
+        },
+
+          onStatusChange: function (oEvent) {
+            console.log("onStatusChange - Status changed");
+            var oComboBox = oEvent.getSource();
+            var sSelectedKey = oComboBox.getSelectedKey();
+            var sSelectedText = oComboBox.getValue();
+            
+            console.log("Selected Status Key:", sSelectedKey);
+            console.log("Selected Status Text:", sSelectedText);
+            
+            var oModel = this.getView().getModel("trackingModel");
+            
+            // If user selected from dropdown
+            if (sSelectedKey) {
+                oModel.setProperty("/newEvent/status", sSelectedKey);
+                oModel.setProperty("/newEvent/statusText", sSelectedText);
+            } else {
+                // If user typed custom text
+                oModel.setProperty("/newEvent/status", "");
+                oModel.setProperty("/newEvent/statusText", sSelectedText);
+            }
+            
+            console.log("Status updated in model");
+        },
+
+        onAddEvent: function () {
+            console.log("onAddEvent - Add Event button clicked");
+            var oModel = this.getView().getModel("trackingModel");
+            var oNewEvent = oModel.getProperty("/newEvent");
+            
+            console.log("New Event Data:", oNewEvent);
+            
+            // Validate required fields
+            if (!oNewEvent.status || !oNewEvent.statusText || !oNewEvent.date || 
+                !oNewEvent.time || !oNewEvent.location) {
+                console.warn("Validation failed - Missing required fields");
+                MessageToast.show("Please fill all required fields");
+                return;
+            }
+            
+            console.log("Validation passed");
+            
+            // Add event to the events array
+            var aEvents = oModel.getProperty("/events");
+            console.log("Current events array:", aEvents);
+            
+            var newEventData = {
+                status: oNewEvent.status,
+                statusText: oNewEvent.statusText,
+                date: oNewEvent.date,
+                time: oNewEvent.time,
+                location: oNewEvent.location,
+                notes: oNewEvent.notes || "No additional notes"
+            };
+            
+            aEvents.push(newEventData);
+            console.log("Event added to array:", newEventData);
+            console.log("Updated events array:", aEvents);
+            
+            oModel.setProperty("/events", aEvents);
+            console.log("Model updated with new events");
+            
+            // Update the corresponding wizard step
+            console.log("Calling _updateWizardStep...");
+            this._updateWizardStep(newEventData);
+            
+            // Close dialog
+            this.oUpdateDialog.close();
+            console.log("Dialog closed");
+            MessageToast.show("Tracking event added successfully!");
+        },
+
+        onCancelUpdate: function () {
+            console.log("onCancelUpdate - Cancel button clicked");
+            this.oUpdateDialog.close();
+            console.log("Dialog closed without saving");
+        },
+
+        _updateWizardStep: function (oEvent) {
+            console.log("_updateWizardStep - Starting update");
+            console.log("Event data received:", oEvent);
+            
+            var sStepId = this.statusConfig[oEvent.status] ? 
+                         this.statusConfig[oEvent.status].stepId : null;
+            
+            console.log("Status from event:", oEvent.status);
+            console.log("Mapped Step ID:", sStepId);
+            
+            if (!sStepId) {
+                console.error("Step ID not found for status:", oEvent.status);
+                return;
+            }
+            
+            var oStep = this.byId(sStepId);
+            console.log("Step object retrieved:", oStep);
+            
+            if (!oStep) {
+                console.error("Step not found with ID:", sStepId);
+                return;
+            }
+            
+            var sIcon = this.statusConfig[oEvent.status].icon;
+            var sIconColor = this.statusConfig[oEvent.status].iconColor;
+            
+            console.log("Icon:", sIcon);
+            console.log("Icon Color:", sIconColor);
+            
+            // Create content for the step
+            console.log("Creating VBox content...");
+            
+            try {
+                var oIcon = new Icon({
+                    src: sIcon,
+                    size: "3rem",
+                    color: sIconColor
+                });
+                oIcon.addStyleClass("sapUiSmallMarginBottom");
+                console.log("Icon created successfully");
+                
+                var oStatusVBox = new VBox({
+                    items: [
+                        new Label({ text: "Status:", design: "Bold" }),
+                        new Text({ text: oEvent.statusText }).addStyleClass("sapUiSmallMarginBottom")
+                    ]
+                });
+                oStatusVBox.addStyleClass("sapUiSmallMarginTop");
+                console.log("Status VBox created");
+                
+                var oDateTimeVBox = new VBox({
+                    items: [
+                        new Label({ text: "Date & Time:", design: "Bold" }),
+                        new Text({ text: oEvent.date + " at " + oEvent.time }).addStyleClass("sapUiSmallMarginBottom")
+                    ]
+                });
+                oDateTimeVBox.addStyleClass("sapUiSmallMarginTop");
+                console.log("DateTime VBox created");
+                
+                var oLocationVBox = new VBox({
+                    items: [
+                        new Label({ text: "Location:", design: "Bold" }),
+                        new Text({ text: oEvent.location }).addStyleClass("sapUiSmallMarginBottom")
+                    ]
+                });
+                oLocationVBox.addStyleClass("sapUiSmallMarginTop");
+                console.log("Location VBox created");
+                
+                var oNotesVBox = new VBox({
+                    items: [
+                        new Label({ text: "Notes:", design: "Bold" }),
+                        new Text({ text: oEvent.notes })
+                    ]
+                });
+                oNotesVBox.addStyleClass("sapUiSmallMarginTop");
+                console.log("Notes VBox created");
+                
+                var oContent = new VBox({
+                    items: [
+                        oIcon,
+                        oStatusVBox,
+                        oDateTimeVBox,
+                        oLocationVBox,
+                        oNotesVBox
+                    ]
+                });
+                oContent.addStyleClass("sapUiSmallMargin");
+                console.log("Main content VBox created successfully");
+                
+                // Remove old content and add new content
+                console.log("Removing old content from step...");
+                oStep.removeAllContent();
+                console.log("Adding new content to step...");
+                oStep.addContent(oContent);
+                
+                // Mark step as validated (completed)
+                console.log("Setting step as validated...");
+                oStep.setValidated(true);
+                
+                // Navigate to the updated step
+                var oWizard = this.byId("trackingDisplayWizard");
+                console.log("Wizard object:", oWizard);
+                
+                if (oWizard) {
+                    console.log("Current wizard step before navigation:", oWizard.getCurrentStep());
+                    console.log("Navigating to step:", sStepId);
+                    
+                    // Get all steps
+                    var aAllSteps = oWizard.getSteps();
+                    console.log("All wizard steps:", aAllSteps);
+                    
+                    var iTargetStepIndex = -1;
+                    for (var i = 0; i < aAllSteps.length; i++) {
+                        if (aAllSteps[i].getId() === oStep.getId()) {
+                            iTargetStepIndex = i;
+                            break;
+                        }
+                    }
+                    console.log("Target step index:", iTargetStepIndex);
+                    
+                    // Validate all steps up to and including the current one
+                    for (var j = 0; j <= iTargetStepIndex; j++) {
+                        console.log("Validating step index:", j, "Step ID:", aAllSteps[j].getId());
+                        aAllSteps[j].setValidated(true);
+                    }
+                    
+                    // Reset wizard progress to first step, then navigate
+                    console.log("Discarding wizard progress...");
+                    oWizard.discardProgress(aAllSteps[0]);
+                    
+                    // Now navigate step by step to the target
+                    console.log("Navigating step by step to index:", iTargetStepIndex);
+                    for (var k = 0; k < iTargetStepIndex; k++) {
+                        console.log("Moving to next step, current index:", k);
+                        oWizard.nextStep();
+                    }
+                    
+                    // Force re-render
+                    setTimeout(function() {
+                        console.log("Current wizard step after navigation:", oWizard.getCurrentStep());
+                    }, 200);
+                    
+                    console.log("Navigation complete");
+                } else {
+                    console.error("Wizard not found!");
+                }
+                
+                console.log("_updateWizardStep - Update completed successfully");
+                
+            } catch (error) {
+                console.error("Error in _updateWizardStep:", error);
+                console.error("Error stack:", error.stack);
+            }
+        },
+
+        // ==============================================
+
 
         onGenTilePress: function (oEvent) {
             var sHeader = oEvent.getSource().getHeader();
@@ -2925,7 +3257,7 @@ sap.ui.define([
             });
 
             sap.m.MessageToast.show(
-                "Shipment " + oOrder.orderId + " created successfully"
+                "Shipment 800000334 created successfully"
             );
         },
 
