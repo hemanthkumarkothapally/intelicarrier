@@ -6,14 +6,45 @@
 
         <content>
             <VBox class="sapUiSmallMargin">
+                <VBox class="formBox sapUiMediumMarginTop">
+                    <HBox alignItems="Center" class="sapUiSmallMarginBottom">
+                        <core:Icon src="sap-icon://customer" size="1.2rem" color="#0854A0" class="sapUiTinyMarginEnd"/>
+                        <Title text="Business Unit &amp; Product Type" level="H4"/>
+                    </HBox>
+
+                    <f:SimpleForm backgroundDesign="Transparent" editable="true" layout="ColumnLayout" columnsXL="3" columnsL="3" columnsM="3">
+                        <f:content>
+                            <Label text="หน่วยงาน (Business Unit)" required="true"/>
+                            <Input value="{ChannelSelectionModel>/company}" editable="false"/>
+
+                            <Label text="ชนิดสินค้า (Product Type)"/>
+                            <Input value="{ChannelSelectionModel>/product}" editable="false" />
+
+                            <Label text="Shipment Type" required="true"/>
+                            <Select id="productSelect" width="100%">
+                                <items>
+                                    <core:Item key="0601" text="0601 — NGV"/>
+                                    <core:Item key="0602" text="0602 — LPG"/>
+                                    <core:Item key="0603" text="0603 — Chemical"/>
+                                    <core:Item key="0605" text="0605 — Fuel"/>
+                                    <core:Item key="00" text="00 — SCA Car Carrier"/>
+                                    <core:Item key="ML" text="ML — Coastal Container"/>
+                                </items>
+
+                            </Select>
+
+                        </f:content>
+                    </f:SimpleForm>
+                </VBox>
+
                 <!-- Customer Information Section -->
-                <VBox class="sapUiMediumMarginTop">
+                <VBox class="formBox sapUiMediumMarginTop">
                     <HBox alignItems="Center" class="sapUiSmallMarginBottom">
                         <core:Icon src="sap-icon://customer" size="1.2rem" color="#0854A0" class="sapUiTinyMarginEnd"/>
                         <Title text="Customer Information" level="H4"/>
                     </HBox>
 
-                    <f:SimpleForm editable="true" layout="ResponsiveGridLayout" labelSpanXL="4" labelSpanL="4" labelSpanM="12" labelSpanS="12" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="2" columnsL="2" columnsM="1">
+                    <f:SimpleForm backgroundDesign="Transparent" editable="true" layout="ColumnLayout" columnsXL="3" columnsL="3" columnsM="3">
                         <f:content>
                             <Label text="Customer Name" required="true"/>
                             <Input value="{manualOrder>/customerName}" placeholder="Company or person name"/>
@@ -27,15 +58,30 @@
                     </f:SimpleForm>
                 </VBox>
 
+
                 <!-- Shipping Addresses Section -->
-                <VBox class="sapUiMediumMarginTop">
+                <VBox class="formBox sapUiMediumMarginTop">
                     <HBox alignItems="Center" class="sapUiSmallMarginBottom">
                         <core:Icon src="sap-icon://map" size="1.2rem" color="#BB0000" class="sapUiTinyMarginEnd"/>
-                        <Title text="Shipping Addresses" level="H4"/>
+                        <Title text="Route &amp; Addresses" level="H4"/>
                     </HBox>
 
-                    <f:SimpleForm editable="true" layout="ResponsiveGridLayout" labelSpanXL="4" labelSpanL="4" labelSpanM="12" labelSpanS="12" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="2" columnsL="2" columnsM="1">
+                    <f:SimpleForm backgroundDesign="Transparent" editable="true" layout="ColumnLayout" columnsXL="2" columnsL="2" columnsM="2">
                         <f:content>
+                            <Label text=" เส้นทาง (Route)" required="true"/>
+                            <Input value="{manualOrder>/customerName}" placeholder="eg. SRc-BKK"/>
+
+                            <Label text="สัญญา / WBS"/>
+                            <Input value="{manualOrder>/email}" placeholder="eg. 025.15.JETTYG.HO"/>
+                            <Label text="Shipping Type"></Label>
+                            <Select >
+                                <items>
+                                    <core:Item text="01- Truck"></core:Item>
+                                    <core:Item text="02- Trailer"></core:Item>
+                                    <core:Item text="03- Vessel"></core:Item>
+                                    <core:Item text="04- Tug"></core:Item>
+                                </items>
+                            </Select>
                             <Label text="Pickup Address" required="true"/>
                             <TextArea value="{manualOrder>/pickupAddress}" rows="3" placeholder="Full pickup address..."/>
 
@@ -44,16 +90,211 @@
                         </f:content>
                     </f:SimpleForm>
                 </VBox>
-
-                <!-- Product Details Section -->
-                <VBox class="sapUiMediumMarginTop">
+                <!-- Fuel Details Section -->
+                <VBox class="formBox sapUiMediumMarginTop"  visible="{= ${ChannelSelectionModel>/product} === 'FUEL'}">
                     <HBox alignItems="Center" class="sapUiSmallMarginBottom">
                         <core:Icon src="sap-icon://product" size="1.2rem" color="#AB6D00" class="sapUiTinyMarginEnd"/>
-                        <Title text="Product Details" level="H4"/>
+                        <Title text="Fuel Product Details (BFPL Format)" level="H4"/>
                     </HBox>
 
                     <VBox items="{manualOrder>/products}">
-                        <f:SimpleForm editable="true" layout="ResponsiveGridLayout" labelSpanXL="3" labelSpanL="3" labelSpanM="12" labelSpanS="12" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="3" columnsL="3" columnsM="1">
+                        <f:SimpleForm backgroundDesign="Transparent" editable="true" layout="ColumnLayout" columnsXL="3" columnsL="3" columnsM="3">
+                            <f:content>
+                                <Label text="Plant / Depot" required="true"/>
+                                <Input value="{manualOrder>productName}" placeholder=""/>
+                                <Label text="Truck Registration" required="true"/>
+                                <Input value="{manualOrder>TruckRegistration}" placeholder=""/>
+                                <Label text="Shipment No." required="true"/>
+                                <Input value="{manualOrder>ShipmentNo}" placeholder=""/>
+                                <Label text=" Ship-To Code" required="true"/>
+                                <Input value="{manualOrder> ShipToCode}" placeholder=""/>
+                                <Label text="Customer Name" required="true"/>
+
+                                <Input value="{manualOrder>CustomerName}" placeholder=""/>
+                                <Label text="Status"/>
+                                <Select selectedKey="{manualOrder>unit}" width="100%">
+                                    <items>
+                                        <core:Item key="01" text="Scheduled"/>
+                                        <core:Item key="02" text="Draft"/>
+                                        <core:Item key="03" text="Confirmed"/>
+                                    </items>
+                                </Select>
+                                <Label text="Distance (km)" required="true"/>
+                                <Input value="{manualOrder>Distance(km)}" placeholder=""/>
+                                <Label text="Load Date &amp; Load Time" required="true"/>
+                                <DateTimePicker value="{manualOrder>LoadDate}" placeholder=""/>
+                                <Label text="Seal No" />
+                                <Input value="{manualOrder>SealNo}"></Input>
+                                <Label text="Total Volume (L)" required="true"/>
+                                <Input value="{manualOrder>Total Volume}" enabled="false" placeholder=""/>
+                            </f:content>
+                        </f:SimpleForm>
+                    </VBox>
+
+                    <f:SimpleForm backgroundDesign="Transparent" class="productPanel productYellow" layout="ColumnLayout" columnsXL="4" columnsL="4" columnsM="3">
+                        <f:title>
+                            <core:Title text="Product 1: Hi Diesel S (ดีเซล)"></core:Title>
+                        </f:title>
+                        <Label text="Volume (x1000 L)"/>
+
+                        <StepInput value="12"></StepInput>
+
+                        <Label text="C#1"/>
+                        <StepInput id="C1_P1" change=".onCompartmentChange" value="4"/>
+
+                        <Label text="C#2"/>
+                        <StepInput id="C2_P1" change=".onCompartmentChange" value="4"/>
+
+                        <Label text="C#3"/>
+                        <StepInput id="C3_P1" change=".onCompartmentChange" value="4"/>
+
+                        <Label text="C#4"/>
+                        <StepInput id="C4_P1" change=".onCompartmentChange" value="0"/>
+
+                        <Label text="C#5"/>
+                        <StepInput id="C5_P1" change=".onCompartmentChange" value="0"/>
+
+                        <Label text="C#6"/>
+                        <StepInput id="C6_P1" change=".onCompartmentChange" value="0"/>
+
+                        <Label text="C#7"/>
+                        <StepInput id="C7_P1" change=".onCompartmentChange" value="0"/>
+
+                    </f:SimpleForm>
+
+
+                    <f:SimpleForm backgroundDesign="Transparent" class="productPanel productGreen" layout="ColumnLayout" columnsXL="4" columnsL="4" columnsM="3">
+                        <f:title>
+                            <core:Title text="Product 2: Gasoline 95 (G95)"></core:Title>
+                        </f:title>
+                        <Label text="Volume (x1000 L)"/>
+                        <StepInput value="7"/>
+
+                        <Label text="C#1"/>
+                        <StepInput id="C1_P2" change=".onCompartmentChange" value="0"/>
+
+                        <Label text="C#2"/>
+                        <StepInput id="C2_P2" change=".onCompartmentChange" value="0"/>
+
+                        <Label text="C#3"/>
+                        <StepInput id="C3_P2" change=".onCompartmentChange" value="0"/>
+
+                        <Label text="C#4"/>
+                        <StepInput id="C4_P2" change=".onCompartmentChange" value="3"/>
+
+                        <Label text="C#5"/>
+                        <StepInput id="C5_P2" change=".onCompartmentChange" value="4"/>
+
+                        <Label text="C#6"/>
+                        <StepInput id="C6_P2" change=".onCompartmentChange" value="0"/>
+
+                        <Label text="C#7"/>
+                        <StepInput id="C7_P2" change=".onCompartmentChange" value="0"/>
+
+                    </f:SimpleForm>
+
+
+
+                    <f:SimpleForm backgroundDesign="Transparent" class="productPanel productBlue" layout="ColumnLayout" columnsXL="4" columnsL="4" columnsM="3">
+                        <f:title>
+                            <core:Title text="Product 3: Gasoline 91 (G91)"></core:Title>
+                        </f:title>
+
+                        <Label text="Volume (x1000 L)"/>
+                        <StepInput placeholder="e.g. 4"/>
+
+                        <Label text="C#1"/>
+                        <StepInput id="C1_P3" change=".onCompartmentChange" value="0"/>
+
+                        <Label text="C#2"/>
+                        <StepInput id="C2_P3" change=".onCompartmentChange" value="0"/>
+
+                        <Label text="C#3"/>
+                        <StepInput id="C3_P3" change=".onCompartmentChange" value="0"/>
+
+                        <Label text="C#4"/>
+                        <StepInput id="C4_P3" change=".onCompartmentChange" value="0"/>
+
+                        <Label text="C#5"/>
+                        <StepInput id="C5_P3" change=".onCompartmentChange" value="0"/>
+
+                        <Label text="C#6"/>
+                        <StepInput id="C6_P3" change=".onCompartmentChange" value="0"/>
+
+                        <Label text="C#7"/>
+                        <StepInput id="C7_P3" change=".onCompartmentChange" value="0"/>
+
+                    </f:SimpleForm>
+
+                    <Panel class="sapUiSmallMarginBottom formBox" backgroundDesign="Transparent">
+                      
+                            <Toolbar design="Transparent" class="sapUiSmallMarginBottom" >
+                                <Title text="Compartment Summary (9 compartments max)"></Title>
+                            </Toolbar>
+                       
+
+                        <HBox justifyContent="SpaceBetween" class="compartmentSummary">
+
+                            <VBox alignItems="Center">
+                                <Text text="C#1"/>
+                                <Text id="sumC1" text="0K" class="summaryValue"/>
+                            </VBox>
+
+                            <VBox alignItems="Center">
+                                <Text text="C#2"/>
+                                <Text id="sumC2" text="0K" class="summaryValue"/>
+                            </VBox>
+
+                            <VBox alignItems="Center">
+                                <Text text="C#3"/>
+                                <Text id="sumC3" text="0K" class="summaryValue"/>
+                            </VBox>
+
+                            <VBox alignItems="Center">
+                                <Text text="C#4"/>
+                                <Text id="sumC4" text="0K" class="summaryValue"/>
+                            </VBox>
+
+                            <VBox alignItems="Center">
+                                <Text text="C#5"/>
+                                <Text id="sumC5" text="0K" class="summaryValue"/>
+                            </VBox>
+
+                            <VBox alignItems="Center">
+                                <Text text="C#6"/>
+                                <Text id="sumC6" text="0K" class="summaryValue"/>
+                            </VBox>
+
+                            <VBox alignItems="Center">
+                                <Text text="C#7"/>
+                                <Text id="sumC7" text="0K" class="summaryValue"/>
+                            </VBox>
+
+                            <VBox alignItems="Center">
+                                <Text text="C#8"/>
+                                <Text id="sumC8" text="-" class="summaryValue"/>
+                            </VBox>
+
+                            <VBox alignItems="Center">
+                                <Text text="C#9"/>
+                                <Text id="sumC9" text="-" class="summaryValue"/>
+                            </VBox>
+
+                        </HBox>
+                    </Panel>
+
+
+
+                </VBox>
+                <!-- Product Details Section -->
+                <VBox class="formBox sapUiMediumMarginTop" visible="{= ${ChannelSelectionModel>/product} !== 'FUEL'}">
+                    <HBox alignItems="Center" class="sapUiSmallMarginBottom">
+                        <core:Icon src="sap-icon://product" size="1.2rem" color="#AB6D00" class="sapUiTinyMarginEnd"/>
+                        <Title text="Product &amp; Cargo Details" level="H4"/>
+                    </HBox>
+
+                    <VBox items="{manualOrder>/products}">
+                        <f:SimpleForm backgroundDesign="Transparent" editable="true" layout="ColumnLayout" columnsXL="3" columnsL="3" columnsM="3">
                             <f:content>
                                 <Label text="Product Name" required="true"/>
                                 <Input value="{manualOrder>productName}" placeholder="Product description"/>
@@ -79,13 +320,13 @@
                 </VBox>
 
                 <!-- Schedule & Cargo Details Section -->
-                <VBox class="sapUiMediumMarginTop">
+                <VBox class="formBox sapUiMediumMarginTop">
                     <HBox alignItems="Center" class="sapUiSmallMarginBottom">
                         <core:Icon src="sap-icon://calendar" size="1.2rem" color="#BB0000" class="sapUiTinyMarginEnd"/>
                         <Title text="Schedule &amp; Cargo Details" level="H4"/>
                     </HBox>
 
-                    <f:SimpleForm editable="true" layout="ResponsiveGridLayout" labelSpanXL="4" labelSpanL="4" labelSpanM="12" labelSpanS="12" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="2" columnsL="2" columnsM="1">
+                    <f:SimpleForm editable="true" backgroundDesign="Transparent" layout="ColumnLayout" columnsXL="2" columnsL="2" columnsM="2">
                         <f:content>
                             <Label text="Pickup Date" required="true"/>
                             <DatePicker value="{manualOrder>/pickupDate}" valueFormat="yyyy-MM-dd" displayFormat="dd/MM/yyyy" placeholder="dd/mm/yyyy"/>
@@ -98,27 +339,24 @@
 
                             <Label text="Volume (m³)"/>
                             <Input value="{manualOrder>/volume}" type="Number" placeholder="0"/>
-                                                        <Label text="Priority"/>
+                            <Label text="Priority"/>
                             <!-- <Input value="{manualOrder>/priority}" placeholder="0"/> -->
-                      
-                      <ComboBox
-    selectedKey="Medium"
-    placeholder="Select Priority"
-    width="100%">
-    <items>
-        <core:Item key="High" text="High" />
-        <core:Item key="Medium" text="Medium" />
-        <core:Item key="Low" text="Low" />
-    </items>
-</ComboBox>
+
+                            <ComboBox selectedKey="Medium" placeholder="Select Priority" width="100%">
+                                <items>
+                                    <core:Item key="High" text="High" />
+                                    <core:Item key="Medium" text="Medium" />
+                                    <core:Item key="Low" text="Low" />
+                                </items>
+                            </ComboBox>
+                            <Label text="Special Instructions"/>
+                            <TextArea value="{manualOrder>/specialInstructions}" rows="3" placeholder="Any special handling requirements..." width="100%"/>
+
 
                         </f:content>
                     </f:SimpleForm>
 
-                    <VBox class="sapUiSmallMarginTop">
-                        <Label text="Special Instructions"/>
-                        <TextArea value="{manualOrder>/specialInstructions}" rows="3" placeholder="Any special handling requirements..." width="100%"/>
-                    </VBox>
+
                 </VBox>
 
             </VBox>

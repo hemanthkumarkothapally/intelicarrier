@@ -1,0 +1,55 @@
+<core:FragmentDefinition xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:u="sap.ui.unified">
+
+    <Dialog title="📊 Excel Batch Upload" contentWidth="820px" draggable="true" resizable="true">
+
+        <VBox alignItems="Center">
+
+            <!-- Subtitle -->
+            <Text text="Upload SCA calling sheet or batch vehicle list" class="sapUiSmallMarginBottom"/>
+
+            <!-- Step Indicator (Custom) -->
+            <HBox justifyContent="Center" class="stepBar sapUiSmallMarginBottom">
+
+                <GenericTag status="Information" design="StatusIconHidden" text="Upload"/>
+                <Text text="→" class="stepArrow"/>
+                <GenericTag text="Detect Lang" design="StatusIconHidden" status="Success" />
+                <Text text="→" class="stepArrow"/>
+                <GenericTag text="OCR" design="StatusIconHidden" status="Warning"/>
+                <Text text="→" class="stepArrow"/>
+                <GenericTag text="Review Queue" design="StatusIconHidden" status="Error"/>
+            </HBox>
+
+            <!-- Drop Area -->
+            <VBox alignItems="Center" class="dropZone sapUiMediumMarginEnd sapUiMediumMarginBegin">
+
+                <core:Icon src="sap-icon://upload-to-cloud" size="3rem" color="#0854a0"/>
+
+                <Text text="Drop Excel calling sheet here" class="sapUiSmallMarginTop sapUiSmallMarginBottom"/>
+
+                <Text text="XLSX, XLS, CSV • Calling sheet format" class="sapUiTinyMarginBottom" />
+
+                <!-- FileUploader -->
+                <u:FileUploader id="pdfUploader1" name="file" uploadOnChange="false" sameFilenameAllowed="false" fileType="xls" maximumFileSize="10" buttonOnly="true" buttonText="Click to Upload" change=".onFileSelected1"/>
+
+                <!-- Language Pills -->
+                <HBox class="sapUiSmallMarginTop">
+                    <ObjectStatus text="GB English" state="Information"/>
+                    <ObjectStatus text="TH Thai" state="Warning" class="sapUiTinyMarginBegin"/>
+                </HBox>
+
+            </VBox>
+            <Button id="extractBtn1" text="Extract" icon="sap-icon://process" type="Emphasized" visible="false" press=".onExtractPress"/>
+            <!-- Demo Button -->
+            <Button text="Run Demo with Sample" icon="sap-icon://sys-help" type="Emphasized" class="sapUiMediumMarginTop" width="240px" press=".onExtractPress"/>
+
+        </VBox>
+
+        <endButton>
+            <Button text="Cancel" press=".onCloseDialog1"/>
+        </endButton>
+
+    </Dialog>
+
+</core:FragmentDefinition>

@@ -2091,9 +2091,11 @@
                             <HBox justifyContent="SpaceBetween" alignItems="Center" class="sapUiMediumMarginBottom">
                                 <Title text="Freight Order Management" level="H2"/>
                                 <HBox>
-                                    <unified:FileUploader buttonOnly="true" buttonText="Upload PDF" fileType="pdf"></unified:FileUploader>
+                                    <!-- <unified:FileUploader buttonOnly="true" buttonText="Upload PDF" fileType="pdf"></unified:FileUploader> -->
                                     <!-- <Button icon="sap-icon://upload" text="Upload PDF" press=".onUploadFreight" class="sapUiTinyMarginEnd"/> -->
-                                    <Button icon="sap-icon://edit" class="sapUiSmallMarginBegin" text="Create Manual Freight Order " press=".onManualEntryFreight"/>
+                                    <!-- <Button icon="sap-icon://edit" class="sapUiSmallMarginBegin" text="Create Manual Freight Order " press=".onManualEntryFreight"/> -->
+                                    <Button icon="sap-icon://edit" class="sapUiSmallMarginBegin" text="New Freight Order " press=".onManualEntryFreight1"/>
+
                                 </HBox>
                             </HBox>
 

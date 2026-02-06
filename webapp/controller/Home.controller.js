@@ -30,10 +30,10 @@ sap.ui.define([
                     notes: ""
                 }
             };
-            
+
             var oModel = new JSONModel(oTrackingData);
             this.getView().setModel(oModel, "trackingModel");
-            
+
             // Icon and color mapping for different statuses
             this.statusConfig = {
                 "pickup": {
@@ -63,7 +63,7 @@ sap.ui.define([
                 }
             };
 
-            
+
             var oDriverModel = new sap.ui.model.json.JSONModel({
                 selectedDriverId: "",
                 driverDetails: "",
@@ -1208,49 +1208,246 @@ sap.ui.define([
 
         // Add these methods to your controller
 
-        onManualEntryFreight: function () {
-            // Initialize the model with default values
-            var oManualOrderModel = new sap.ui.model.json.JSONModel({
-                customerName: "",
-                email: "",
-                phone: "",
-                pickupAddress: "",
-                deliveryAddress: "",
-                products: [
-                    {
-                        productName: "",
-                        quantity: 0,
-                        unit: "pcs"
-                    }
-                ],
-                pickupDate: null,
-                deliveryDate: null,
-                totalWeight: 0,
-                volume: 0,
-                specialInstructions: ""
-            });
+        onManualEntryFreight: function (oExtractedData) {
+            if (oExtractedData && oExtractedData.getSource) {
+                oExtractedData = null;
+            }
+
+            var oManualOrderModel = new sap.ui.model.json.JSONModel(
+                oExtractedData || {
+                    customerName: "",
+                    email: "",
+                    phone: "",
+                    pickupAddress: "",
+                    deliveryAddress: "",
+                    products: [
+                        {
+                            productName: "",
+                            quantity: 0,
+                            unit: "pcs"
+                        }
+                    ],
+                    pickupDate: null,
+                    deliveryDate: null,
+                    totalWeight: 0,
+                    volume: 0,
+                    specialInstructions: ""
+                }
+            );
 
             this.getView().setModel(oManualOrderModel, "manualOrder");
 
-            // Load and open the fragment
             if (!this._oManualOrderDialog) {
-                this._oManualOrderDialog = sap.ui.xmlfragment(
-                    "intellicarrier.view.ManualFreightOrder",
-                    this
-                );
-                this.getView().addDependent(this._oManualOrderDialog);
+                this._oManualOrderDialog = this.loadFragment("intellicarrier.view.ManualFreightOrder");
             }
+            this._oManualOrderDialog.then(function (oDialog) {
+                oDialog.open();
 
-            this._oManualOrderDialog.open();
+                // ✅ Wait until dialog is rendered
+                oDialog.attachAfterOpen(function () {
+                    this.onCompartmentChange();
+                }.bind(this));
+            }.bind(this));
+        },
+        onManualEntryFreight1: function () {
+            if (!this._oManualOrderDialog1) {
+                this._oManualOrderDialog1 = this.loadFragment("intellicarrier.view.CreateFreightOrderChannel");
+            }
+            this._oManualOrderDialog1.then(function (oDialog) {
+                oDialog.open();
+            });
+
+        },
+        onCloseChannelDialog: function () {
+            this._oManualOrderDialog1.then(function (oDialog) {
+                oDialog.close();
+            });
+        },
+        onSelectionChange: function () {
+            const oCompanyCB = this.byId("companyCB");
+            const oProductCB = this.byId("productCB");
+
+            const sCompany = oCompanyCB.getSelectedKey();
+            const sProduct = oProductCB.getSelectedKey();
+
+            const aItems = oProductCB.getItems();
+
+            // If company changed → reset product & filter
+            if (oCompanyCB === sap.ui.getCore().byId(oCompanyCB.getId())) {
+                oProductCB.setSelectedKey("");
+                oProductCB.setEnabled(!!sCompany);
+
+                // Hide all items first
+                aItems.forEach(function (oItem) {
+                    oItem.setEnabled(false);
+                });
+
+                let aAllowed = [];
+                switch (sCompany) {
+                    case "SCC":
+                        aAllowed = ["LPG", "CHEM", "FUEL", "NGV"];
+                        break;
+                    case "SCA":
+                        aAllowed = ["CAR"];
+                        break;
+                    case "SPL":
+                        aAllowed = ["CONT"];
+                        break;
+                }
+
+                // Show only allowed items
+                aItems.forEach(function (oItem) {
+                    if (aAllowed.includes(oItem.getKey())) {
+                        oItem.setEnabled(true);
+                    }
+                });
+            }
+            [
+                "tilePdf",
+                "tileStandardForm",
+                "tileLineMessage",
+                "tileEmail",
+                "tileTms",
+                "tileManual",
+                "tileExcel",
+                "tileForecast"
+            ].forEach(id => this.byId(id).setVisible(false));
+            // ✅ SINGLE SOURCE OF TRUTH
+            const bShowFlex = !!oCompanyCB.getSelectedKey() && !!sProduct;
+            var oChannelSelectionModel = new sap.ui.model.json.JSONModel(
+                {
+                    company: sCompany,
+                    product: sProduct
+                });
+            this.getView().setModel(oChannelSelectionModel, "ChannelSelectionModel");
+            if (bShowFlex) {
+                if (sCompany === "SPL" && sProduct === "CONT") {
+                    this.byId("tileManual").setVisible(true)
+                }
+                if (sCompany === "SCA" && sProduct === "CAR") {
+                    this.byId("tileManual").setVisible(true)
+                    this.byId("tileExcel").setVisible(true)
+
+                }
+                if (sCompany === "SCC" && sProduct === "NGV") {
+                    this.byId("tileLineMessage").setVisible(true)
+                    this.byId("tileStandardForm").setVisible(true)
+                    this.byId("tileExcel").setVisible(true)
+                }
+                if (sCompany === "SCC" && sProduct === "FUEL") {
+                    this.byId("tilePdf").setVisible(true)
+                    this.byId("tileExcel").setVisible(true)
+                    this.byId("tileTms").setVisible(true)
+                    this.byId("tileEmail").setVisible(true)
+                    this.byId("tileLineMessage").setVisible(true)
+                }
+                if (sCompany === "SCC" && sProduct === "CHEM") {
+                    this.byId("tileManual").setVisible(true)
+                    this.byId("tileEmail").setVisible(true)
+                    this.byId("tileStandardForm").setVisible(true)
+
+
+                }
+                if (sCompany === "SCC" && sProduct === "LPG") {
+                    this.byId("tilePdf").setVisible(true)
+                    this.byId("tileExcel").setVisible(true)
+                }
+            }
+            this.byId("channelFlex").setVisible(bShowFlex);
+        },
+        onPdfUploadPress: function () {
+            this._openDialog("PdfUploadDialog", "intellicarrier.view.PdfUpload");
+        },
+        onCompartmentChange: function () {
+            const aCompartments = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+            const aProducts = ["P1", "P2", "P3"]; // 3 forms
+
+            aCompartments.forEach(cNo => {
+                let iSum = 0;
+
+                aProducts.forEach(p => {
+                    const oInput = this.byId(`C${cNo}_${p}`);
+                    if (oInput) {
+                        iSum += Number(oInput.getValue()) || 0;
+                    }
+                });
+
+                const oText = this.byId(`sumC${cNo}`);
+                if (oText) {
+                    oText.setText(iSum > 0 ? iSum + "K" : "-");
+                }
+            });
+        },
+        onExcelUploadPress: function () {
+            this._openDialog("ExcelUploadDialog", "intellicarrier.view.ExcelUpload");
         },
 
+        _openDialog: function (sDialogId, sFragmentPath) {
+
+            this.onCloseChannelDialog();
+            if (!this[sDialogId]) {
+                this[sDialogId] = this.loadFragment(sFragmentPath);
+            }
+            this[sDialogId].then(function (oDialog) {
+                oDialog.open();
+            });
+        },
+
+        onCloseDialog1: function (oEvent) {
+            oEvent.getSource().getParent().close();
+        },
+        onFileSelected: function (oEvent) {
+            const aFiles = oEvent.getParameter("files");
+
+            if (aFiles && aFiles.length) {
+                // File selected successfully
+                this.getView().byId("extractBtn").setVisible(true);
+
+                // (Optional) store file reference for OCR
+                this._uploadedFile = aFiles[0];
+            }
+        },
+        onUploadFreightPress: function () {
+
+            // 🔹 Simulated extracted data (replace with OCR response)
+            var oExtractedData = {
+                customerName: "ABC Industries",
+                email: "contact@abc.com",
+                phone: "9876543210",
+                pickupAddress: "Chennai Port",
+                deliveryAddress: "Bangalore Warehouse",
+                products: [
+                    {
+                        productName: "LPG",
+                        quantity: 20,
+                        unit: "MT"
+                    }
+                ],
+                pickupDate: new Date(),
+                deliveryDate: new Date(),
+                totalWeight: 20000,
+                volume: 45,
+                specialInstructions: "Handle with care"
+            };
+
+            // Open manual entry with extracted data
+            this.onManualEntryFreight(oExtractedData);
+
+             this.PdfUploadDialog.then(function (oDialog) {
+                oDialog.close();
+            });
+        },
+        onUploadPress:function(){
+            this.byId("CustomContentBox").setVisible(true)
+            this.byId("uploadFrightVBox").setVisible(false)
+            this.byId("uploadFlowHBox").setVisible(false)
+            this.byId("uploadFlowHBoxReview").setVisible(true)
 
 
-
+        },
         onAddProduct: function () {
             var oModel = this.getView().getModel("manualOrder");
             var aProducts = oModel.getProperty("/products");
-
             aProducts.push({
                 productName: "",
                 quantity: 0,
@@ -1323,11 +1520,14 @@ sap.ui.define([
             sap.m.MessageToast.show("Manual order created successfully: " + sOrderId);
 
             // Close dialog
-            this._oManualOrderDialog.close();
+            this.onCancelManualOrder();
         },
 
         onCancelManualOrder: function () {
-            this._oManualOrderDialog.close();
+           this._oManualOrderDialog.then(function (oDialog) {
+                oDialog.close();
+
+        });
         },
 
         _formatDate: function (sDate) {
@@ -1600,56 +1800,6 @@ sap.ui.define([
 
             oOrdersModel.refresh();
         },
-
-        onManualEntryFreight: function () {
-            // Initialize the model with default values
-            var oManualOrderModel = new sap.ui.model.json.JSONModel({
-                customerName: "",
-                email: "",
-                phone: "",
-                pickupAddress: "",
-                deliveryAddress: "",
-                products: [
-                    {
-                        productName: "",
-                        quantity: 0,
-                        unit: "pcs"
-                    }
-                ],
-                pickupDate: null,
-                deliveryDate: null,
-                totalWeight: 0,
-                volume: 0,
-                specialInstructions: ""
-            });
-
-            this.getView().setModel(oManualOrderModel, "manualOrder");
-
-            // Load and open the fragment
-            if (!this._oManualOrderDialog) {
-                this._oManualOrderDialog = sap.ui.xmlfragment(
-                    "intellicarrier.view.ManualFreightOrder",
-                    this
-                );
-                this.getView().addDependent(this._oManualOrderDialog);
-            }
-
-            this._oManualOrderDialog.open();
-        },
-
-        onAddProduct: function () {
-            var oModel = this.getView().getModel("manualOrder");
-            var aProducts = oModel.getProperty("/products");
-
-            aProducts.push({
-                productName: "",
-                quantity: 0,
-                unit: "pcs"
-            });
-
-            oModel.setProperty("/products", aProducts);
-        },
-
         onSaveManualOrder: function () {
             var oModel = this.getView().getModel("manualOrder");
             var oData = oModel.getData();
@@ -1713,12 +1863,10 @@ sap.ui.define([
             sap.m.MessageToast.show("Manual order created successfully: " + sOrderId);
 
             // Close dialog
-            this._oManualOrderDialog.close();
+            this.onCancelManualOrder();
         },
 
-        onCancelManualOrder: function () {
-            this._oManualOrderDialog.close();
-        },
+       
 
         _formatDate: function (sDate) {
             if (!sDate) return "";
@@ -2353,10 +2501,10 @@ sap.ui.define([
         onOpenUpdateForm: function () {
             console.log("onOpenUpdateForm - Update button clicked");
             var oView = this.getView();
-            
+
             // Reset form data
             this._resetFormData();
-            
+
             // Create dialog if not exists
             if (!this.oUpdateDialog) {
                 console.log("Creating new dialog fragment...");
@@ -2370,7 +2518,7 @@ sap.ui.define([
                     oView.addDependent(this.oUpdateDialog);
                     this.oUpdateDialog.open();
                     console.log("Dialog opened");
-                }.bind(this)).catch(function(error) {
+                }.bind(this)).catch(function (error) {
                     console.error("Error loading fragment:", error);
                 });
             } else {
@@ -2379,7 +2527,7 @@ sap.ui.define([
             }
         },
 
-         _resetFormData: function () {
+        _resetFormData: function () {
             console.log("_resetFormData - Resetting form data");
             var oModel = this.getView().getModel("trackingModel");
             oModel.setProperty("/newEvent", {
@@ -2393,17 +2541,17 @@ sap.ui.define([
             console.log("Form data reset complete");
         },
 
-          onStatusChange: function (oEvent) {
+        onStatusChange: function (oEvent) {
             console.log("onStatusChange - Status changed");
             var oComboBox = oEvent.getSource();
             var sSelectedKey = oComboBox.getSelectedKey();
             var sSelectedText = oComboBox.getValue();
-            
+
             console.log("Selected Status Key:", sSelectedKey);
             console.log("Selected Status Text:", sSelectedText);
-            
+
             var oModel = this.getView().getModel("trackingModel");
-            
+
             // If user selected from dropdown
             if (sSelectedKey) {
                 oModel.setProperty("/newEvent/status", sSelectedKey);
@@ -2413,7 +2561,7 @@ sap.ui.define([
                 oModel.setProperty("/newEvent/status", "");
                 oModel.setProperty("/newEvent/statusText", sSelectedText);
             }
-            
+
             console.log("Status updated in model");
         },
 
@@ -2421,23 +2569,23 @@ sap.ui.define([
             console.log("onAddEvent - Add Event button clicked");
             var oModel = this.getView().getModel("trackingModel");
             var oNewEvent = oModel.getProperty("/newEvent");
-            
+
             console.log("New Event Data:", oNewEvent);
-            
+
             // Validate required fields
-            if (!oNewEvent.status || !oNewEvent.statusText || !oNewEvent.date || 
+            if (!oNewEvent.status || !oNewEvent.statusText || !oNewEvent.date ||
                 !oNewEvent.time || !oNewEvent.location) {
                 console.warn("Validation failed - Missing required fields");
                 MessageToast.show("Please fill all required fields");
                 return;
             }
-            
+
             console.log("Validation passed");
-            
+
             // Add event to the events array
             var aEvents = oModel.getProperty("/events");
             console.log("Current events array:", aEvents);
-            
+
             var newEventData = {
                 status: oNewEvent.status,
                 statusText: oNewEvent.statusText,
@@ -2446,18 +2594,18 @@ sap.ui.define([
                 location: oNewEvent.location,
                 notes: oNewEvent.notes || "No additional notes"
             };
-            
+
             aEvents.push(newEventData);
             console.log("Event added to array:", newEventData);
             console.log("Updated events array:", aEvents);
-            
+
             oModel.setProperty("/events", aEvents);
             console.log("Model updated with new events");
-            
+
             // Update the corresponding wizard step
             console.log("Calling _updateWizardStep...");
             this._updateWizardStep(newEventData);
-            
+
             // Close dialog
             this.oUpdateDialog.close();
             console.log("Dialog closed");
@@ -2473,35 +2621,35 @@ sap.ui.define([
         _updateWizardStep: function (oEvent) {
             console.log("_updateWizardStep - Starting update");
             console.log("Event data received:", oEvent);
-            
-            var sStepId = this.statusConfig[oEvent.status] ? 
-                         this.statusConfig[oEvent.status].stepId : null;
-            
+
+            var sStepId = this.statusConfig[oEvent.status] ?
+                this.statusConfig[oEvent.status].stepId : null;
+
             console.log("Status from event:", oEvent.status);
             console.log("Mapped Step ID:", sStepId);
-            
+
             if (!sStepId) {
                 console.error("Step ID not found for status:", oEvent.status);
                 return;
             }
-            
+
             var oStep = this.byId(sStepId);
             console.log("Step object retrieved:", oStep);
-            
+
             if (!oStep) {
                 console.error("Step not found with ID:", sStepId);
                 return;
             }
-            
+
             var sIcon = this.statusConfig[oEvent.status].icon;
             var sIconColor = this.statusConfig[oEvent.status].iconColor;
-            
+
             console.log("Icon:", sIcon);
             console.log("Icon Color:", sIconColor);
-            
+
             // Create content for the step
             console.log("Creating VBox content...");
-            
+
             try {
                 var oIcon = new Icon({
                     src: sIcon,
@@ -2510,7 +2658,7 @@ sap.ui.define([
                 });
                 oIcon.addStyleClass("sapUiSmallMarginBottom");
                 console.log("Icon created successfully");
-                
+
                 var oStatusVBox = new VBox({
                     items: [
                         new Label({ text: "Status:", design: "Bold" }),
@@ -2519,7 +2667,7 @@ sap.ui.define([
                 });
                 oStatusVBox.addStyleClass("sapUiSmallMarginTop");
                 console.log("Status VBox created");
-                
+
                 var oDateTimeVBox = new VBox({
                     items: [
                         new Label({ text: "Date & Time:", design: "Bold" }),
@@ -2528,7 +2676,7 @@ sap.ui.define([
                 });
                 oDateTimeVBox.addStyleClass("sapUiSmallMarginTop");
                 console.log("DateTime VBox created");
-                
+
                 var oLocationVBox = new VBox({
                     items: [
                         new Label({ text: "Location:", design: "Bold" }),
@@ -2537,7 +2685,7 @@ sap.ui.define([
                 });
                 oLocationVBox.addStyleClass("sapUiSmallMarginTop");
                 console.log("Location VBox created");
-                
+
                 var oNotesVBox = new VBox({
                     items: [
                         new Label({ text: "Notes:", design: "Bold" }),
@@ -2546,7 +2694,7 @@ sap.ui.define([
                 });
                 oNotesVBox.addStyleClass("sapUiSmallMarginTop");
                 console.log("Notes VBox created");
-                
+
                 var oContent = new VBox({
                     items: [
                         oIcon,
@@ -2558,29 +2706,29 @@ sap.ui.define([
                 });
                 oContent.addStyleClass("sapUiSmallMargin");
                 console.log("Main content VBox created successfully");
-                
+
                 // Remove old content and add new content
                 console.log("Removing old content from step...");
                 oStep.removeAllContent();
                 console.log("Adding new content to step...");
                 oStep.addContent(oContent);
-                
+
                 // Mark step as validated (completed)
                 console.log("Setting step as validated...");
                 oStep.setValidated(true);
-                
+
                 // Navigate to the updated step
                 var oWizard = this.byId("trackingDisplayWizard");
                 console.log("Wizard object:", oWizard);
-                
+
                 if (oWizard) {
                     console.log("Current wizard step before navigation:", oWizard.getCurrentStep());
                     console.log("Navigating to step:", sStepId);
-                    
+
                     // Get all steps
                     var aAllSteps = oWizard.getSteps();
                     console.log("All wizard steps:", aAllSteps);
-                    
+
                     var iTargetStepIndex = -1;
                     for (var i = 0; i < aAllSteps.length; i++) {
                         if (aAllSteps[i].getId() === oStep.getId()) {
@@ -2589,36 +2737,36 @@ sap.ui.define([
                         }
                     }
                     console.log("Target step index:", iTargetStepIndex);
-                    
+
                     // Validate all steps up to and including the current one
                     for (var j = 0; j <= iTargetStepIndex; j++) {
                         console.log("Validating step index:", j, "Step ID:", aAllSteps[j].getId());
                         aAllSteps[j].setValidated(true);
                     }
-                    
+
                     // Reset wizard progress to first step, then navigate
                     console.log("Discarding wizard progress...");
                     oWizard.discardProgress(aAllSteps[0]);
-                    
+
                     // Now navigate step by step to the target
                     console.log("Navigating step by step to index:", iTargetStepIndex);
                     for (var k = 0; k < iTargetStepIndex; k++) {
                         console.log("Moving to next step, current index:", k);
                         oWizard.nextStep();
                     }
-                    
+
                     // Force re-render
-                    setTimeout(function() {
+                    setTimeout(function () {
                         console.log("Current wizard step after navigation:", oWizard.getCurrentStep());
                     }, 200);
-                    
+
                     console.log("Navigation complete");
                 } else {
                     console.error("Wizard not found!");
                 }
-                
+
                 console.log("_updateWizardStep - Update completed successfully");
-                
+
             } catch (error) {
                 console.error("Error in _updateWizardStep:", error);
                 console.error("Error stack:", error.stack);
