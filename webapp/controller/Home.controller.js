@@ -133,9 +133,6 @@ sap.ui.define([
                         statusState: "Warning",
                         value: "฿ 125,000"
                     },
-
-                    /* -------- NEW DATA FROM SCREENSHOT -------- */
-
                     {
                         orderId: "FO-2026-0003",
                         coId: "CO-2026-0007",
@@ -1442,6 +1439,9 @@ sap.ui.define([
             // Open manual entry with extracted data
             this.onManualEntryFreight(oExtractedData);
 
+            this.PdfUploadDialog.then(function (oDialog) {
+                oDialog.close();
+            });
             // this.PdfUploadDialog.then(function (oDialog) {
             //     oDialog.close();
             // });
@@ -3330,6 +3330,86 @@ sap.ui.define([
 
             oBinding.filter(aFilters);
         },
+        onCreateOrder: function () {
+            debugger
+            if (!this._oFleetDialog) {
+                this._oFleetDialog = this.loadFragment("intellicarrier.view.FleetCockpitAnalysis");
+            }
+            var oModel = this.getView().getModel("OrdersD");
+            console.log(oModel)
+            oModel.setProperty("/editData", {
+
+            });
+            oModel.setProperty("/isEdit", false);
+
+            // var oOrderModel = new sap.ui.model.json.JSONModel(oOrder);
+            // this.getView().setModel(oOrderModel, "selectedOrder");
+
+            this._oFleetDialog.then(function (oDialog) {
+                oDialog.open();
+            });
+        },
+        onFleetSuggest: function () {
+            debugger
+            if (!this._oFleetSDialog) {
+                this._oFleetSDialog = this.loadFragment("intellicarrier.view.fleetSuggestDialog");
+            }
+
+            // var oOrderModel = new sap.ui.model.json.JSONModel(oOrder);
+            // this.getView().setModel(oOrderModel, "selectedOrder");
+
+            this._oFleetSDialog.then(function (oDialog) {
+                oDialog.open();
+            });
+        },
+        onCloseFleetModal: function () {
+
+            this._oFleetSDialog.then(function (oDialog) {
+                oDialog.close();
+            });
+        },
+        onConfirmFleetSelection: function () {
+
+            this._oFleetSDialog.then(function (oDialog) {
+                oDialog.close();
+            });
+        },
+        onAddStage: function () {
+            sap.m.MessageToast.show("Open Stage Selection Dialog");
+
+        },
+        onSwapStage: function () {
+
+            // Create and open the Swap Confirmation Dialog
+            if (!this._oSwapDialog) {
+                this._oSwapDialog = new sap.m.Dialog({
+                    title: "Stage Order Changed",
+                    type: "Message",
+                    state: "Warning",
+                    content: new sap.m.Text({
+                        text: "Stage order has been changed. System will auto-search for matching route. If no match is found, a dummy route will be created."
+                    }),
+                    beginButton: new sap.m.Button({
+                        type: "Emphasized",
+                        text: "Confirm & Search Route",
+                        press: function () {
+                            // Implement logic to reorder items in your model and update total distance
+                            this._oSwapDialog.close();
+                            sap.m.MessageToast.show("Route matched! Distance updated.");
+                        }.bind(this)
+                    }),
+                    endButton: new sap.m.Button({
+                        text: "Cancel",
+                        press: function () {
+                            this._oSwapDialog.close();
+                        }.bind(this)
+                    })
+                });
+            }
+
+            this._oSwapDialog.open();
+        },
+
         onAnalyzeOrder: function (oEvent) {
             debugger
             var oOrder = oEvent.getSource().getBindingContext().getObject();
@@ -3337,8 +3417,64 @@ sap.ui.define([
                 this._oFleetDialog = this.loadFragment("intellicarrier.view.FleetCockpitAnalysis");
             }
 
-            var oOrderModel = new sap.ui.model.json.JSONModel(oOrder);
-            this.getView().setModel(oOrderModel, "selectedOrder");
+            // var oOrderModel = new sap.ui.model.json.JSONModel(oOrder);
+            // this.getView().setModel(oOrderModel, "selectedOrder");
+            var oModel = this.getView().getModel("OrdersD");
+            console.log(oModel)
+            oModel.setProperty("/editData", {
+                "bu": "SCC — SC Carrier",
+                "productType": "LPG",
+                "site": "060C — ATLAS-LPG-BPK",
+                "shipmentNo": "SHP-2026-0208-01",
+                "shipmentType": "0602 — SCC-LPG",
+                "shippingType": "01 — Truck",
+                "buSiteDisplay": "SCC / 060C",
+                "routeID": "010005 — BTC → ไทยเบฟ → BTC",
+                "wbs": "08S.26CF.BPK.001",
+                "contractDate": "2026-02-04",
+                "plannedDateTime": "2026-02-08T14:30:00",
+                "truckPlate": "83-0569",
+                "trailerPlate": "83-1069",
+                "vehicleNo": "VH-830569",
+                "truckTypeDisplay": "LPG Tanker 18T",
+                "driver1Id": "EMP001",
+                "driver1Name": "สมชาย ใจดี",
+                "driver1Phone": "081-123-4567",
+                "driver1Intern": false,
+                "totalDistance": "311",
+                "transportFee": "เก็บ",
+                "tripPay": "จ่าย",
+                "brokenMiles": false,
+                "stages": [
+                    {
+                        "stageIdx": "0",
+                        "statusState": "Information",
+                        "typeName": "First",
+                        "depName": "—",
+                        "depCode": "—",
+                        "destName": "ท่าเรือบางปะกง",
+                        "destCode": "010007",
+                        "distance": "—",
+                        "arrivalDT": "2026-02-08T14:30:00",
+                        "departureDT": "2026-02-08T15:00:00"
+                    },
+                    {
+                        "stageIdx": "1",
+                        "statusState": "Warning",
+                        "typeName": "Transport",
+                        "depName": "ท่าเรือบางปะกง",
+                        "depCode": "010007",
+                        "destName": "ไทยเบฟ (บางบาล)",
+                        "destCode": "010025",
+                        "distance": "151 km",
+                        "arrivalDT": "2026-02-08T17:30:00",
+                        "departureDT": "2026-02-08T18:30:00"
+                    }
+                ]
+            });
+            oModel.setProperty("/isEdit", true);
+
+
 
             this._oFleetDialog.then(function (oDialog) {
                 oDialog.open();
@@ -3533,7 +3669,40 @@ sap.ui.define([
         },
         onConformpres: function () {
             this.onCloseFleetCockpit();
-            this.onBookShipment();
+            var oModel = this.getView().getModel();
+            var dModel = this.getView().getModel("OrdersD");
+            var f = dModel.getProperty("/isEdit");
+            if (!f) {
+
+                if (oModel) {
+                    var aOrders = oModel.getProperty("/orders");
+                    if (!aOrders) {
+                        aOrders = [];
+                    }
+                    var l = aOrders.length;
+                    var oNewRecord = {
+                        orderId: `FO-2026-000${l}`,
+                        coId: "CO-2026-0004",
+                        customer: "Innovation Corp",
+                        from: "Bangkok (Ratchada)",
+                        to: "Hat Yai, Songkhla",
+                        distance: "945 km",
+                        cargoType: "Medical Equipment",
+                        cargoInfo: "1000 kg | 5 m³",
+                        deliveryDate: "2026-01-20",
+                        priority: "URGENT",
+                        priorityState: "Error",
+                        status: "Pending Assignment",
+                        statusState: "Warning",
+                        value: "฿ 125,000"
+                    };
+                    aOrders.push(oNewRecord);
+                    oModel.setProperty("/orders", aOrders);
+                    console.log("Record added successfully!");
+                } else {
+                    console.error("Model not found. Please check your model name in manifest.json");
+                }
+            }
         },
         onTrackOrder: function () {
             var oFakeEvent = {

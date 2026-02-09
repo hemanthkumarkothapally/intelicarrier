@@ -97,6 +97,13 @@
           "defaultBindingMode": "TwoWay"
         }
       },
+      "OrdersD": {
+        "type": "sap.ui.model.json.JSONModel",
+        "uri": "model/OrdersD.json",
+        "settings": {
+          "defaultBindingMode": "TwoWay"
+        }
+      },
       "dashboard": {
         "type": "sap.ui.model.json.JSONModel",
         "uri": "model/dashboard.json",
