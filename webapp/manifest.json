@@ -97,6 +97,13 @@
           "defaultBindingMode": "TwoWay"
         }
       },
+      "reportIn": {
+        "type": "sap.ui.model.json.JSONModel",
+        "uri": "model/reportIn.json",
+        "settings": {
+          "defaultBindingMode": "TwoWay"
+        }
+      },
       "OrdersD": {
         "type": "sap.ui.model.json.JSONModel",
         "uri": "model/OrdersD.json",

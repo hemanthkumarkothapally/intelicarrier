@@ -1,0 +1,107 @@
+<core:FragmentDefinition xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:f="sap.ui.layout.form">
+
+    <Dialog contentWidth="80%" contentHeight="70%" draggable="true" resizable="true" title="Report-In — {reportIn>shipmentNo}" class="sapUiResponsivePadding--content">
+
+        <content>
+            <VBox width="100%" class="sapUiSmallMargin">
+                <VBox class="formBox sapUiMediumMarginTop">
+
+
+                    <f:SimpleForm backgroundDesign="Transparent" editable="true" layout="ColumnLayout" columnsXL="3" columnsL="3" columnsM="3">
+                        <f:content>
+                            <Label text="Route"/>
+                            <Text text="{reportIn>route}"></Text>
+                            <Label text="Driver"/>
+                            <Text text="{reportIn>driver}"></Text>
+                            <Label text="Vehicle"/>
+                            <Text text="{reportIn>vehicleType}"></Text>
+                            <Label text="Customer"/>
+                            <Text text="{reportIn>customer}"></Text>
+                            <Label text="Last Truck Miles"/>
+                            <Text text="{reportIn>lastTruckMiles}"></Text>
+                        </f:content>
+                    </f:SimpleForm>
+
+                </VBox>
+                <IconTabBar id="idIconTabBarFiori2" backgroundDesign="Transparent" class="sapUiResponsiveContentPadding sapUiMediumMarginTop">
+                    <items>
+                        <IconTabFilter  text="Vehicle Info" key="VehicleInfo">
+                            <VBox class="formBox sapUiMediumMarginTop">
+                                <HBox alignItems="Center" class="sapUiSmallMarginBottom">
+                                    <Title text=" Vehicle &amp; Driver Information" level="H4"/>
+                                </HBox>
+
+                                <f:SimpleForm backgroundDesign="Transparent" editable="true" layout="ColumnLayout">
+                                    <f:content>
+                                        <Label text="Driver" />
+                                        <Input value="{reportIn>driver}" editable="false" />
+
+                                        <Label text="Driver ID" />
+                                        <Input value="{reportIn>driverId}" editable="false" />
+
+                                        <Label text="Vehicle Plate (หัวรถ)" />
+                                        <Input value="{reportIn>plate}" placeholder="e.g. 66-0770" />
+
+                                        <Label text="Trailer (หางรถ)" />
+                                        <Input value="{reportIn>trailer}" placeholder="e.g. 99-7788" />
+
+                                        <Label text="Vehicle Type" />
+                                        <Input value="{reportIn>vehicleType}" />
+
+                                        <Label text="Vehicle Age" />
+                                        <Select selectedKey="{reportIn>vehicleAge}">
+                                            <core:Item key="le8" text="≤ 8 ปี" />
+                                            <core:Item key="gt8" text="> 8 ปี" />
+                                        </Select>
+
+                                        <Label text="Odometer Start (km)" />
+                                        <Input value="{reportIn>milesStart}" type="Number" placeholder="e.g. 125430" />
+
+                                        <Label text="Odometer End (km)" />
+                                        <Input value="{reportIn>milesEnd}" type="Number" placeholder="Auto-fill on close" />
+
+                                        <Label text="Last Truck Miles" />
+                                        <Input value="{reportIn>lastTruckMiles}" editable="false">
+                                        </Input>
+                                        <Label text="Miles Source" />
+                                        <Input value="Truck Master" editable="false" />
+                                    </f:content>
+                                </f:SimpleForm>
+
+                            </VBox>
+                        </IconTabFilter>
+                        <IconTabFilter text="Stages(Report-In)" key="Stages">
+                            <VBox width="100%" class="sapUiSmallMargin">
+                                <Text text="Attachments go here ..." />
+                            </VBox>
+
+                        </IconTabFilter>
+                        <IconTabFilter text="Expenses" key="Expenses">
+                            <Text text="Notes go here ..." />
+                        </IconTabFilter>
+                        <IconTabFilter text="Fuel" key="Fuel">
+                            <Text text="People content goes here ..." />
+                        </IconTabFilter>
+                        <IconTabFilter text="Parking" key="Parking">
+                            <Text text="People content goes here ..." />
+                        </IconTabFilter>
+                        <IconTabFilter text="Review &amp; Close" key="Review">
+                            <Text text="People content goes here ..." />
+                        </IconTabFilter>
+                    </items>
+                </IconTabBar>
+            </VBox>
+        </content>
+
+        <beginButton>
+            <Button text="Cancel" press=".onCloseShipment"/>
+        </beginButton>
+        <endButton>
+            <Button text="Confirm Assignment" type="Accept" press=".onCloseShipment"/>
+        </endButton>
+
+
+    </Dialog>
+</core:FragmentDefinition>

@@ -1,0 +1,202 @@
+<core:FragmentDefinition xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:layout="sap.ui.layout"
+    xmlns:f="sap.f"
+    xmlns:grid="sap.ui.layout.cssgrid">
+    <VBox width="100%">
+        <HBox width="100%" justifyContent="SpaceBetween">
+            <HBox >
+                <Title text="Report-In" level="H4"/>
+                <Label text=" — Update report-in information for each stage | Miles Checking"></Label>
+            </HBox>
+            <ToolbarSpacer ></ToolbarSpacer>
+            <HBox gap="10px">
+                <Button text=" Auto Report-In Ready"/>
+                <Button text="Refresh" icon="sap-icon://refresh"/>
+            </HBox>
+        </HBox>
+        <FlexBox wrap="Wrap" columnGap="0px">
+            <HBox>
+                <GenericTile frameType="OneByHalf" header="Awaiting Report-In" press="onSelectRateType" class="sapUiTinyMarginEnd sapUiTinyMarginBottom">
+                    <tileContent>
+                        <TileContent>
+                            <content>
+                                <NumericContent value="8" valueColor="Critical"/>
+                            </content>
+                        </TileContent>
+                    </tileContent>
+                    <customData>
+                        <core:CustomData key="rateType" value="customer"/>
+                    </customData>
+                </GenericTile>
+                <GenericTile frameType="OneByHalf" header="In Progress (Draft)" press="onSelectRateType" class="sapUiTinyMarginEnd sapUiTinyMarginBottom">
+                    <tileContent>
+                        <TileContent>
+                            <content>
+                                <NumericContent value="3" valueColor="Neutral"/>
+                            </content>
+                        </TileContent>
+                    </tileContent>
+                    <customData>
+                        <core:CustomData key="rateType" value="route"/>
+                    </customData>
+                </GenericTile>
+                <GenericTile frameType="OneByHalf" header="Pending Review" press="onSelectRateType" class="sapUiTinyMarginEnd sapUiTinyMarginBottom">
+                    <tileContent>
+                        <TileContent>
+                            <content>
+                                <NumericContent value="2" valueColor="Critical"/>
+                            </content>
+                        </TileContent>
+                    </tileContent>
+                    <customData>
+                        <core:CustomData key="rateType" value="carrier"/>
+                    </customData>
+                </GenericTile>
+                <GenericTile frameType="OneByHalf" header="Completed Today" press="onSelectRateType" class="sapUiTinyMarginBottom">
+                    <tileContent>
+                        <TileContent>
+                            <content>
+                                <NumericContent value="24" valueColor="Good"/>
+                            </content>
+                        </TileContent>
+                    </tileContent>
+                    <customData>
+                        <core:CustomData key="rateType" value="surcharge"/>
+                    </customData>
+                </GenericTile>
+                <GenericTile frameType="OneByHalf" header="Rejected (Edit)" press="onSelectRateType" class="sapUiTinyMarginBottom">
+                    <tileContent>
+                        <TileContent>
+                            <content>
+                                <NumericContent value="1" valueColor="Error"/>
+                            </content>
+                        </TileContent>
+                    </tileContent>
+                    <customData>
+                        <core:CustomData key="rateType" value="surcharge"/>
+                    </customData>
+                </GenericTile>
+            </HBox>
+        </FlexBox>
+        <IconTabBar id="reportInTabBar" expandable="false" headerMode="Inline" selectedKey="Awaiting" select=".reportInTabSelect">
+            <items>
+                <IconTabFilter key="All" text="All Shipments" class="shipment-tab-item"/>
+                <IconTabFilter key="Awaiting" text="Awaiting" class="shipment-tab-item"/>
+                <IconTabFilter key="Draft" text="Draft" class="shipment-tab-item"/>
+                <IconTabFilter key="Review" text="Pending Review" class="shipment-tab-item"/>
+                <IconTabFilter key="Rejected" text="Rejected" class="shipment-tab-item"/>
+                <IconTabFilter key="Completed" text="Completed" class="shipment-tab-item"/>
+            </items>
+        </IconTabBar>
+        <!-- Orders Table -->
+        <Table id="reportInTable" items="{reportIn>/shippment}" growing="true" growingScrollToLoad="true">
+            <headerToolbar>
+                <Toolbar>
+
+                    <SearchField placeholder="Search orders..." liveChange=".onSearchOrders" width="20rem" />
+                    <ToolbarSpacer/>
+                    <Select >
+                        <items>
+                            <core:Item key="All" text="All Types"/>
+                            <core:Item key="LPG" text="LPG"/>
+                            <core:Item key="Chemical" text="Chemical"/>
+                            <core:Item key="NGV" text="NGV"/>
+                            <core:Item key="Fuel" text="Fuel/WO"/>
+                            <core:Item key="Car" text="Car Carrier"/>
+                            <core:Item key="Container" text="Containerv"/>
+                        </items>
+                    </Select>
+                    <Select >
+                        <items>
+                            <core:Item key="All" text="All BU"/>
+                            <core:Item key="0609" text="0609-BRP"/>
+                            <core:Item key="060A" text="060A-SRT"/>
+                            <core:Item key="060C" text="060C-BPK"/>
+                            <core:Item key="060E" text="060E-NKC"/>
+                        </items>
+                    </Select>
+                </Toolbar>
+            </headerToolbar>
+
+            <columns>
+
+                <Column>
+                    <Text text="Shipment No."/>
+                </Column>
+                <Column >
+                    <Text text="Type"/>
+                </Column>
+                <Column>
+                    <Text text="Route"/>
+                </Column>
+                <Column>
+                    <Text text="Driver / Plate"/>
+                </Column>
+                <Column>
+                    <Text text="Customer"/>
+                </Column>
+                <Column>
+                    <Text text="Dispatch Date"/>
+                </Column>
+                <Column >
+                    <Text text="Stage Progress"/>
+                </Column>
+                <Column >
+                    <Text text="Status"/>
+                </Column>
+                <Column >
+                    <Text text="Actions"/>
+                </Column>
+            </columns>
+
+            <items>
+                <ColumnListItem>
+                    <cells>
+                        <ObjectIdentifier title="{reportIn>shipmentNo}" />
+
+                        <GenericTag text="{reportIn>type}" status="{= ${reportIn>type} === 'LPG' ? 'Warning' : 
+                            ${reportIn>type} === 'CHEM' ? 'Success' : 
+                            ${reportIn>type} === 'NGV' ? 'Information' : 
+                            ${reportIn>type} === 'Fuel' ? 'Error' : 
+                            ${reportIn>type} === 'Car' ? 'Success' : 
+                            'None' }" design="StatusIconHidden"/>
+
+                        <!-- Route -->
+                        <Text text="{reportIn>routeName}"/>
+
+                        <!-- driver -->
+                        <VBox>
+                            <Title text="{reportIn>driver}"/>
+                            <Text text="{reportIn>plate}" class="sapUiTinyMarginTop"/>
+                        </VBox>
+
+                        <!-- customer -->
+                        <Text text="{reportIn>customer}"/>
+
+                        <!-- dispatchDate -->
+                        <Text text="{reportIn>dispatchDate}" />
+
+                        <!-- stageProgress -->
+                        <Title text="{reportIn>stageProgress}" />
+
+                        <!-- riStatus -->
+                        <GenericTag text="{reportIn>riStatus}" status="{= ${reportIn>riStatus} === 'review' ? 'Warning' : 
+                            ${reportIn>riStatus} === 'Completed' ? 'Success' : 
+                            ${reportIn>riStatus} === 'pending' ? 'Information' : 
+                            ${reportIn>riStatus} === 'Rejected' ? 'Error' : 
+                            'None' }" design="StatusIconHidden"/>
+
+                        <!-- Action -->
+                        <HBox justifyContent="Center">
+                            <Button text="Open" type="Emphasized" press=".onOpenShipment"/>
+                        </HBox>
+                    </cells>
+                </ColumnListItem>
+            </items>
+
+        </Table>
+
+    </VBox>
+
+</core:FragmentDefinition >

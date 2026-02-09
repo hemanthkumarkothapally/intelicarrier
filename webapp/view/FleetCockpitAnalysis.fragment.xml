@@ -2,7 +2,7 @@
     xmlns:core="sap.ui.core"
     xmlns:f="sap.ui.layout.form">
 
-    <Dialog id="fleetCockpitDialog" contentWidth="80%" contentHeight="70%" draggable="true" resizable="true" title="{= (${OrdersD>/isEdit} ? 'Edit' : 'Create') + ' Shipment'}" class="sapUiResponsivePadding--content">
+    <Dialog id="fleetCockpitDialog" contentWidth="80%" contentHeight="70%" draggable="true" resizable="true" title="{= (${OrdersD>/isEdit} ? 'Plan &amp; Assign' : 'Create') + ' Shipment'}" class="sapUiResponsivePadding--content">
 
         <content>
             <VBox width="100%" class="sapUiSmallMargin">
@@ -232,7 +232,51 @@
                             <ColumnListItem>
                                 <cells>
                                     <Text text="2"/>
-                                    <Text text="พตร. 1 (Helper)"/>
+                                    <ObjectStatus text="พขร. 2" />
+                                    <Input showValueHelp="true" placeholder="optionial" valueHelpRequest=".onDriverLookup"/>
+                                    <Input placeholder="— Auto —" editable="false"/>
+                                    <Input placeholder="Phone"/>
+                                    <CheckBox/>
+                                    <ObjectStatus text="-"></ObjectStatus>
+                                </cells>
+                            </ColumnListItem>
+                            <ColumnListItem>
+                                <cells>
+                                    <Text text="3"/>
+                                    <Text text="พขร. 3"/>
+                                    <Input showValueHelp="true" placeholder="optionial" valueHelpRequest=".onHelperLookup"/>
+                                    <Input placeholder="— Auto —" editable="false"/>
+                                    <Input placeholder="Phone"/>
+                                    <CheckBox/>
+                                    <ObjectStatus text="-"></ObjectStatus>
+                                </cells>
+                            </ColumnListItem>
+                            <ColumnListItem>
+                                <cells>
+                                    <Text text="4"/>
+                                    <Text text="พขร. 4"/>
+                                    <Input showValueHelp="true" placeholder="optionial" valueHelpRequest=".onHelperLookup"/>
+                                    <Input placeholder="— Auto —" editable="false"/>
+                                    <Input placeholder="Phone"/>
+                                    <CheckBox/>
+                                    <ObjectStatus text="-"></ObjectStatus>
+                                </cells>
+                            </ColumnListItem>
+                            <ColumnListItem>
+                                <cells>
+                                    <Text text="5"/>
+                                    <Text text="พตร. 1 (Helper 1)"/>
+                                    <Input showValueHelp="true" placeholder="optionial" valueHelpRequest=".onHelperLookup"/>
+                                    <Input placeholder="— Auto —" editable="false"/>
+                                    <Input placeholder="Phone"/>
+                                    <CheckBox/>
+                                    <ObjectStatus text="-"></ObjectStatus>
+                                </cells>
+                            </ColumnListItem>
+                            <ColumnListItem>
+                                <cells>
+                                    <Text text="6"/>
+                                    <Text text="พตร. 2 (Helper 2)"/>
                                     <Input showValueHelp="true" placeholder="optionial" valueHelpRequest=".onHelperLookup"/>
                                     <Input placeholder="— Auto —" editable="false"/>
                                     <Input placeholder="Phone"/>

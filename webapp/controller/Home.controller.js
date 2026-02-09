@@ -17,6 +17,13 @@ sap.ui.define([
 
         onInit: function () {
 
+            var oTable = this.byId("reportInTable");
+            oTable.addEventDelegate({
+                onAfterRendering: function () {
+                    this.reportInTabSelect();
+                }.bind(this)
+            });
+
 
             // Initialize tracking data model
             var oTrackingData = {
@@ -1079,6 +1086,8 @@ sap.ui.define([
             this.byId("CashAdvanceandReimbursement").setVisible(false);
             this.byId("vehicleChecklist").setVisible(false);
             this.byId("gateLogs").setVisible(false);
+            this.byId("ReportInView").setVisible(false);
+
 
 
 
@@ -1120,6 +1129,9 @@ sap.ui.define([
                     break
                 case "gateLogs":
                     this.byId("gateLogs").setVisible(true);
+                    break
+                case "ReportIn":
+                    this.byId("ReportInView").setVisible(true);
                     break
             }
         },
@@ -2123,6 +2135,8 @@ sap.ui.define([
         onDestinationValueHelp: function () {
             MessageToast.show("Location search dialog would open here");
         },
+
+
 
         // NEW: Shipment Execution Handlers
         onShipmentTabSelect: function (oEvent) {
@@ -5135,8 +5149,94 @@ sap.ui.define([
 
         onCloseDriverHistoryDialog: function () {
             this._oDriverHistoryDialog.close();
-        }
+        },
 
+
+        reportInTabSelect: function (oEvent) {
+            var sSelectedKey = oEvent ? oEvent.getParameter("key") : "Awaiting";
+            var oTable = this.byId("reportInTable");
+            var oBinding = oTable.getBinding("items");
+
+            var aFilters = [];
+
+            switch (sSelectedKey) {
+
+                case "Awaiting":
+                    aFilters.push(
+                        new sap.ui.model.Filter("riStatus", sap.ui.model.FilterOperator.EQ, "pending")
+                    );
+                    break;
+
+                case "Draft":
+                    aFilters.push(
+                        new sap.ui.model.Filter({
+                            filters: [
+                                new sap.ui.model.Filter("riStatus", sap.ui.model.FilterOperator.EQ, "Draft"),
+                            ],
+
+                        })
+                    );
+                    break;
+
+                case "Review":
+                    aFilters.push(
+                        new sap.ui.model.Filter("riStatus", sap.ui.model.FilterOperator.EQ, "Review")
+                    );
+                    break;
+
+                case "Rejected":
+                    aFilters.push(
+                        new sap.ui.model.Filter("riStatus", sap.ui.model.FilterOperator.EQ, "Rejected")
+                    );
+                    break;
+                case "Completed":
+                    aFilters.push(
+                        new sap.ui.model.Filter("riStatus", sap.ui.model.FilterOperator.EQ, "Completed")
+                    );
+                    break;
+
+                default:
+                    // no filter
+                    break;
+            }
+
+            oBinding.filter(aFilters);
+        },
+
+        onOpenShipment() {
+            if (!this._oreportInDialog) {
+                this._oreportInDialog = this.loadFragment("intellicarrier.view.FleetCockpitAnalysis");
+            }
+            this.onFleetCockpitTabSelect({
+                getParameter: function () {
+                    return "PendingAssignment";
+                }
+            });
+        },
+
+        onOpenShipment: function (oEvent) {
+            var oContext = oEvent.getSource().getBindingContext("reportIn");
+
+            if (!oContext) {
+                console.error("Binding context not found!");
+                return;
+            }
+
+            if (!this._oreportInDialog) {
+                this._oreportInDialog = sap.ui.xmlfragment(
+                    this.getView().getId(),
+                    "intellicarrier.view.ReportInDialog",
+                    this
+                );
+                this.getView().addDependent(this._oreportInDialog);
+            }
+            this._oreportInDialog.setBindingContext(oContext, "reportIn");
+            this._oreportInDialog.open();
+        },
+
+        onCloseShipment: function () {
+            this._oreportInDialog.close();
+        },
 
 
     });
