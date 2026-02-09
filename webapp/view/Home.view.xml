@@ -63,9 +63,6 @@
                                 <tnt:NavigationListItem text="Shipment Execution" icon="sap-icon://map" key="tracking"/>
                                 <tnt:NavigationListItem text="Cash Advance &amp; Reimbursement" icon="sap-icon://wallet" key="CashAdvanceandReimbursement"/>
                                 <tnt:NavigationListItem text="Create Sales Order" icon="sap-icon://sales-order" key="priceCalculation"/>
-
-
-
                                 <!-- <tnt:NavigationListItem text="Vehicle Checklist" icon="sap-icon://bus-public-transport" key="vehicleChecklist"/> -->
 
 
@@ -2969,6 +2966,7 @@
 
 
                         </VBox>
+                        
                     </ScrollContainer>
                 </FlexBox>
             </content>
