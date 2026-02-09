@@ -17,7 +17,7 @@ sap.ui.define([
 
         onInit: function () {
 
-
+this.selectedTiletype;
             // Initialize tracking data model
             var oTrackingData = {
                 events: [],
@@ -1355,7 +1355,9 @@ sap.ui.define([
             }
             this.byId("channelFlex").setVisible(bShowFlex);
         },
-        onPdfUploadPress: function () {
+        onPdfUploadPress: function (oEvent) {
+            this.selectedTiletype = oEvent.getSource().getProperty("header");
+
             this._openDialog("PdfUploadDialog", "intellicarrier.view.PdfUpload");
         },
         onCompartmentChange: function () {
@@ -1391,6 +1393,8 @@ sap.ui.define([
             this[sDialogId].then(function (oDialog) {
                 oDialog.open();
             });
+            this.byId("extractBtn").setVisible(true);
+
         },
 
         onCloseDialog1: function (oEvent) {
@@ -1451,6 +1455,7 @@ sap.ui.define([
             this.byId("uploadFrightVBox").setVisible(false)
             this.byId("uploadFlowHBox").setVisible(false)
             this.byId("uploadFlowHBoxReview").setVisible(true)
+            this.byId("extractBtn").setVisible(false)
 
 
         },
@@ -1472,14 +1477,7 @@ sap.ui.define([
             }
 
             const iCount = aSelectedItems.length;
-            oList.removeSelections(true);
-            this.PdfUploadDialog.then(function (oDialog) {
-                oDialog.close();
-            });
-            this.byId("CustomContentBox").setVisible(false)
-            this.byId("uploadFrightVBox").setVisible(true)
-            this.byId("uploadFlowHBox").setVisible(true)
-            this.byId("uploadFlowHBoxReview").setVisible(false)
+            let sourcetext=this.selectedTiletype;
             sap.m.MessageBox.confirm(
                 "Confirm " + iCount + " draft(s)?\n\nStatus will change: Draft → Open",
                 {
@@ -1488,22 +1486,96 @@ sap.ui.define([
                     emphasizedAction: sap.m.MessageBox.Action.OK,
 
                     onClose: function (sAction) {
-                        if (sAction === sap.m.MessageBox.Action.OK) {
-
-                            // ✅ Here you would normally call backend API
-                            // this._confirmDrafts(aSelectedItems);
-
-                            sap.m.MessageBox.success(
-                                "All drafts confirmed!\nStatus: OPEN",
-                                {
-                                    title: "Success",
-                                    actions: [sap.m.MessageBox.Action.OK]
-                                }
-                            );
+                        if (sAction !== sap.m.MessageBox.Action.OK) {
+                            return;
                         }
+
+                        // 🔹 Orders model
+                        const oOrdersModel = this.getView().getModel("orders");
+                        const aOrders = oOrdersModel.getProperty("/ordersList") || [];
+
+                        // 🔹 Loop selected list items
+                        aSelectedItems.forEach(function (oItem) {
+
+                            // ---- Extract data from static CustomListItem ----
+                            const oRootHBox = oItem.getContent()[0];      // Main HBox
+                            const oLeftVBox = oRootHBox.getItems()[0];   // Left VBox
+
+                            // Header row
+                            const oHeaderHBox = oLeftVBox.getItems()[0];
+                            const sOrderId = oHeaderHBox.getItems()[0].getText(); // FO-DRAFT-xxxx
+
+                            // Meta rows
+                            const oMetaRow1 = oLeftVBox.getItems()[1];
+                            const sCustomerName = oMetaRow1.getItems()[1].getText();
+
+                            const oMetaRow2 = oLeftVBox.getItems()[2];
+                            const sProductText = oMetaRow2.getItems()[1].getText(); // D:12K + G95:7K
+                            const sDeliveryDate = oMetaRow2.getItems()[3].getText();
+
+                            // ---- Create new order object ----
+                            const oNewOrder = {
+                                orderId: sOrderId.replace("DRAFT", "OPEN"),
+
+                                sourceIcon: "sap-icon://document-text",
+                                sourceText: sourcetext,
+
+                                customerName: sCustomerName,
+                                customerEmail: "",
+
+                                deliveryAddress: "456 Chang Klan Road, Mueang, Chiang Mai 50100",
+
+                                productsCount: sProductText,
+                                weight: "19,000 kg",
+                                deliveryDate: sDeliveryDate,
+
+                                // ✅ NON-ZERO VALUE
+                                value: "฿125,000",
+
+                                statusText: "Open",
+                                statusState: "Success",
+                                statusIcon: "sap-icon://accept",
+
+                                actionButtonText: "View",
+                                actionButtonType: "Default",
+
+                                ocrConfidence: "94.4%",
+
+                                fullData: {
+                                    orderId: sOrderId,
+                                    customerName: sCustomerName,
+                                    deliveryAddress: "456 Chang Klan Road, Mueang, Chiang Mai 50100",
+                                    products: sProductText,
+                                    deliveryDate: sDeliveryDate,
+                                    value: "฿125,000"
+                                }
+                            };
+
+                            // Add to top of list
+                            aOrders.unshift(oNewOrder);
+                        });
+
+                        // Update model
+                        oOrdersModel.setProperty("/ordersList", aOrders);
+
+                        // UI cleanup
+                        oList.removeSelections(true);
+                        this.byId("CustomContentBox").setVisible(false);
+                        this.byId("uploadFrightVBox").setVisible(true);
+                        this.byId("uploadFlowHBox").setVisible(true);
+                        this.byId("uploadFlowHBoxReview").setVisible(false);
+
+                        sap.m.MessageBox.success(
+                            "All drafts confirmed!\nStatus: OPEN",
+                            { title: "Success" }
+                        );
+
                     }.bind(this)
                 }
             );
+            this.PdfUploadDialog.then(function (oDialog) {
+                oDialog.close();
+            });
         },
         onAddProduct: function () {
             var oModel = this.getView().getModel("manualOrder");
@@ -1581,7 +1653,7 @@ sap.ui.define([
 
             // Close dialog
             this.onCancelManualOrder();
-            
+
         },
 
         onCancelManualOrder: function () {
@@ -1590,7 +1662,8 @@ sap.ui.define([
 
             });
             this._oManualOrderDialog1.then(function (oDialog) {
-                oDialog.close();})
+                oDialog.close();
+            })
         },
         onCreateShipment: function () {
             this.onCloseOrderDetails();
@@ -1602,12 +1675,12 @@ sap.ui.define([
             //     "Type: " + oOrder.product + "\n" +
             //     "Route: " + oOrder.route + "\n\n" +
             //     "This will open the Create Shipment screen.";
-            
+
             const sConfirmText =
                 "Create Shipment for " + oOrder.orderId + "?\n\n" +
-                "BU: " + "SCC"+ "\n" +
-                "Type: " + "Fule"+ "\n" +
-                "Route: " + "130H-CUST"+ "\n\n" +
+                "BU: " + "SCC" + "\n" +
+                "Type: " + "Fule" + "\n" +
+                "Route: " + "130H-CUST" + "\n\n" +
                 "This will open the Create Shipment screen.";
             sap.m.MessageBox.confirm(
                 sConfirmText,
