@@ -5,13 +5,65 @@ sap.ui.define([
     "sap/ui/model/json/JSONModel",
     "sap/ui/model/Filter",
     "sap/ui/model/FilterOperator",
-    "sap/ui/core/Fragment"
-], function (Controller, MessageToast, MessageBox, JSONModel, Filter, FilterOperator, Fragment) {
+    "sap/ui/core/Fragment",
+    "sap/m/VBox",
+    "sap/m/Text",
+    "sap/m/Label",
+    "sap/ui/core/Icon"
+], function (Controller, MessageToast, MessageBox, JSONModel, Filter, FilterOperator, Fragment, VBox, Text, Label, Icon) {
     "use strict";
 
     return Controller.extend("intellicarrier.controller.Home", {
 
         onInit: function () {
+
+
+            // Initialize tracking data model
+            var oTrackingData = {
+                events: [],
+                newEvent: {
+                    status: "",
+                    statusText: "",
+                    date: "",
+                    time: "",
+                    location: "",
+                    notes: ""
+                }
+            };
+
+            var oModel = new JSONModel(oTrackingData);
+            this.getView().setModel(oModel, "trackingModel");
+
+            // Icon and color mapping for different statuses
+            this.statusConfig = {
+                "pickup": {
+                    icon: "sap-icon://inventory",
+                    iconColor: "#2196F3",
+                    stepId: "step1"
+                },
+                "intransit": {
+                    icon: "sap-icon://shipping-status",
+                    iconColor: "#FF9800",
+                    stepId: "step2"
+                },
+                "processing": {
+                    icon: "sap-icon://process",
+                    iconColor: "#9C27B0",
+                    stepId: "step3"
+                },
+                "outfordelivery": {
+                    icon: "sap-icon://employee",
+                    iconColor: "#4CAF50",
+                    stepId: "step4"
+                },
+                "delivered": {
+                    icon: "sap-icon://complete",
+                    iconColor: "#4CAF50",
+                    stepId: "step5"
+                }
+            };
+
+
             var oDriverModel = new sap.ui.model.json.JSONModel({
                 selectedDriverId: "",
                 driverDetails: "",
@@ -81,9 +133,6 @@ sap.ui.define([
                         statusState: "Warning",
                         value: "฿ 125,000"
                     },
-
-                    /* -------- NEW DATA FROM SCREENSHOT -------- */
-
                     {
                         orderId: "FO-2026-0003",
                         coId: "CO-2026-0007",
@@ -1028,6 +1077,9 @@ sap.ui.define([
             this.byId("rateMasterView").setVisible(false);
             this.byId("priceCalculationView").setVisible(false);
             this.byId("CashAdvanceandReimbursement").setVisible(false);
+            this.byId("vehicleChecklist").setVisible(false);
+            this.byId("gateLogs").setVisible(false);
+
 
 
 
@@ -1051,6 +1103,9 @@ sap.ui.define([
                 case "shipmentExecutionViewsub2":
                     this.byId("shipmentExecutionViewsub2").setVisible(true);
                     break
+                case "vehicleChecklist":
+                    this.byId("vehicleChecklist").setVisible(true);
+                    break
                 case "bol":
                     this.byId("bolView").setVisible(true);
                     break;
@@ -1062,6 +1117,9 @@ sap.ui.define([
                     break;
                 case "CashAdvanceandReimbursement":
                     this.byId("CashAdvanceandReimbursement").setVisible(true);
+                    break
+                case "gateLogs":
+                    this.byId("gateLogs").setVisible(true);
                     break
             }
         },
@@ -1147,49 +1205,309 @@ sap.ui.define([
 
         // Add these methods to your controller
 
-        onManualEntryFreight: function () {
-            // Initialize the model with default values
-            var oManualOrderModel = new sap.ui.model.json.JSONModel({
-                customerName: "",
-                email: "",
-                phone: "",
-                pickupAddress: "",
-                deliveryAddress: "",
-                products: [
-                    {
-                        productName: "",
-                        quantity: 0,
-                        unit: "pcs"
-                    }
-                ],
-                pickupDate: null,
-                deliveryDate: null,
-                totalWeight: 0,
-                volume: 0,
-                specialInstructions: ""
-            });
+        onManualEntryFreight: function (oExtractedData) {
+            if (oExtractedData && oExtractedData.getSource) {
+                oExtractedData = null;
+            }
+
+            var oManualOrderModel = new sap.ui.model.json.JSONModel(
+                oExtractedData || {
+                    customerName: "",
+                    email: "",
+                    phone: "",
+                    pickupAddress: "",
+                    deliveryAddress: "",
+                    products: [
+                        {
+                            productName: "",
+                            quantity: 0,
+                            unit: "pcs"
+                        }
+                    ],
+                    pickupDate: null,
+                    deliveryDate: null,
+                    totalWeight: 0,
+                    volume: 0,
+                    specialInstructions: ""
+                }
+            );
 
             this.getView().setModel(oManualOrderModel, "manualOrder");
 
-            // Load and open the fragment
             if (!this._oManualOrderDialog) {
-                this._oManualOrderDialog = sap.ui.xmlfragment(
-                    "intellicarrier.view.ManualFreightOrder",
-                    this
-                );
-                this.getView().addDependent(this._oManualOrderDialog);
+                this._oManualOrderDialog = this.loadFragment("intellicarrier.view.ManualFreightOrder");
             }
+            this._oManualOrderDialog.then(function (oDialog) {
+                oDialog.open();
 
-            this._oManualOrderDialog.open();
+                // ✅ Wait until dialog is rendered
+                oDialog.attachAfterOpen(function () {
+                    this.onCompartmentChange();
+                }.bind(this));
+            }.bind(this));
+        },
+        onManualEntryFreight1: function () {
+            if (!this._oManualOrderDialog1) {
+                this._oManualOrderDialog1 = this.loadFragment("intellicarrier.view.CreateFreightOrderChannel");
+            }
+            this._oManualOrderDialog1.then(function (oDialog) {
+                oDialog.open();
+            });
+            this.byId("companyCB").setSelectedKey("");
+            this.byId("productCB").setSelectedKey("");
+            this.onSelectionChange();
+
+        },
+        onCloseChannelDialog: function () {
+            this._oManualOrderDialog1.then(function (oDialog) {
+                oDialog.close();
+            });
+        },
+        onSelectionChange: function () {
+            const oCompanyCB = this.byId("companyCB");
+            const oProductCB = this.byId("productCB");
+
+            const sCompany = oCompanyCB.getSelectedKey();
+            const sProduct = oProductCB.getSelectedKey();
+
+            const aItems = oProductCB.getItems();
+
+            // If company changed → reset product & filter
+            if (oCompanyCB === sap.ui.getCore().byId(oCompanyCB.getId())) {
+                oProductCB.setSelectedKey("");
+                oProductCB.setEnabled(!!sCompany);
+
+                // Hide all items first
+                aItems.forEach(function (oItem) {
+                    oItem.setEnabled(false);
+                });
+
+                let aAllowed = [];
+                switch (sCompany) {
+                    case "SCC":
+                        aAllowed = ["LPG", "CHEM", "FUEL", "NGV"];
+                        break;
+                    case "SCA":
+                        aAllowed = ["CAR"];
+                        break;
+                    case "SPL":
+                        aAllowed = ["CONT"];
+                        break;
+                }
+
+                // Show only allowed items
+                aItems.forEach(function (oItem) {
+                    if (aAllowed.includes(oItem.getKey())) {
+                        oItem.setEnabled(true);
+                    }
+                });
+            }
+            [
+                "tilePdf",
+                "tileStandardForm",
+                "tileLineMessage",
+                "tileEmail",
+                "tileTms",
+                "tileManual",
+                "tileExcel",
+                "tileForecast"
+            ].forEach(id => this.byId(id).setVisible(false));
+            // ✅ SINGLE SOURCE OF TRUTH
+            const bShowFlex = !!oCompanyCB.getSelectedKey() && !!sProduct;
+            var oChannelSelectionModel = new sap.ui.model.json.JSONModel(
+                {
+                    company: sCompany,
+                    product: sProduct
+                });
+            this.getView().setModel(oChannelSelectionModel, "ChannelSelectionModel");
+            if (bShowFlex) {
+                if (sCompany === "SPL" && sProduct === "CONT") {
+                    this.byId("tileManual").setVisible(true)
+                }
+                if (sCompany === "SCA" && sProduct === "CAR") {
+                    this.byId("tileManual").setVisible(true)
+                    this.byId("tileExcel").setVisible(true)
+
+                }
+                if (sCompany === "SCC" && sProduct === "NGV") {
+                    this.byId("tileLineMessage").setVisible(true)
+                    this.byId("tileStandardForm").setVisible(true)
+                    this.byId("tileExcel").setVisible(true)
+                }
+                if (sCompany === "SCC" && sProduct === "FUEL") {
+                    this.byId("tilePdf").setVisible(true)
+                    this.byId("tileExcel").setVisible(true)
+                    this.byId("tileTms").setVisible(true)
+                    this.byId("tileEmail").setVisible(true)
+                    this.byId("tileLineMessage").setVisible(true)
+                }
+                if (sCompany === "SCC" && sProduct === "CHEM") {
+                    this.byId("tileManual").setVisible(true)
+                    this.byId("tileEmail").setVisible(true)
+                    this.byId("tileStandardForm").setVisible(true)
+
+
+                }
+                if (sCompany === "SCC" && sProduct === "LPG") {
+                    this.byId("tilePdf").setVisible(true)
+                    this.byId("tileExcel").setVisible(true)
+                }
+            }
+            this.byId("channelFlex").setVisible(bShowFlex);
+        },
+        onPdfUploadPress: function () {
+            this._openDialog("PdfUploadDialog", "intellicarrier.view.PdfUpload");
+        },
+        onCompartmentChange: function () {
+            const aCompartments = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+            const aProducts = ["P1", "P2", "P3"]; // 3 forms
+
+            aCompartments.forEach(cNo => {
+                let iSum = 0;
+
+                aProducts.forEach(p => {
+                    const oInput = this.byId(`C${cNo}_${p}`);
+                    if (oInput) {
+                        iSum += Number(oInput.getValue()) || 0;
+                    }
+                });
+
+                const oText = this.byId(`sumC${cNo}`);
+                if (oText) {
+                    oText.setText(iSum > 0 ? iSum + "K" : "-");
+                }
+            });
+        },
+        onExcelUploadPress: function () {
+            this._openDialog("ExcelUploadDialog", "intellicarrier.view.ExcelUpload");
         },
 
+        _openDialog: function (sDialogId, sFragmentPath) {
+
+            this.onCloseChannelDialog();
+            if (!this[sDialogId]) {
+                this[sDialogId] = this.loadFragment(sFragmentPath);
+            }
+            this[sDialogId].then(function (oDialog) {
+                oDialog.open();
+            });
+        },
+
+        onCloseDialog1: function (oEvent) {
+            const oDialog = oEvent.getSource().getParent();
+
+            oDialog.close();
+            this.byId("CustomContentBox").setVisible(false)
+            this.byId("uploadFrightVBox").setVisible(true)
+            this.byId("uploadFlowHBox").setVisible(true)
+            this.byId("uploadFlowHBoxReview").setVisible(false)
+        },
+        onFileSelected: function (oEvent) {
+            const aFiles = oEvent.getParameter("files");
+            this.getView().byId("extractBtn").setVisible(false);
+            if (aFiles && aFiles.length) {
+                // File selected successfully
+                this.getView().byId("extractBtn").setVisible(true);
+
+                // (Optional) store file reference for OCR
+                this._uploadedFile = aFiles[0];
+            }
+        },
+        onUploadFreightPress: function () {
+
+            // 🔹 Simulated extracted data (replace with OCR response)
+            var oExtractedData = {
+                customerName: "ABC Industries",
+                email: "contact@abc.com",
+                phone: "9876543210",
+                pickupAddress: "Chennai Port",
+                deliveryAddress: "Bangalore Warehouse",
+                products: [
+                    {
+                        productName: "LPG",
+                        quantity: 20,
+                        unit: "MT"
+                    }
+                ],
+                pickupDate: new Date(),
+                deliveryDate: new Date(),
+                totalWeight: 20000,
+                volume: 45,
+                specialInstructions: "Handle with care"
+            };
+
+            // Open manual entry with extracted data
+            this.onManualEntryFreight(oExtractedData);
+
+            this.PdfUploadDialog.then(function (oDialog) {
+                oDialog.close();
+            });
+            // this.PdfUploadDialog.then(function (oDialog) {
+            //     oDialog.close();
+            // });
+        },
+        onUploadPress: function () {
+            this.byId("CustomContentBox").setVisible(true)
+            this.byId("uploadFrightVBox").setVisible(false)
+            this.byId("uploadFlowHBox").setVisible(false)
+            this.byId("uploadFlowHBoxReview").setVisible(true)
 
 
+        },
+        onSelectAll: function (oEvent) {
+            const bSelected = oEvent.getParameter("selected");
+            const oList = this.byId("freightList");
 
+            oList.getItems().forEach(function (oItem) {
+                oList.setSelectedItem(oItem, bSelected);
+            });
+        },
+        onConfirmSelection: function () {
+            const oList = this.byId("freightList");
+            const aSelectedItems = oList.getSelectedItems();
+
+            if (!aSelectedItems.length) {
+                sap.m.MessageToast.show("Please select at least one draft");
+                return;
+            }
+
+            const iCount = aSelectedItems.length;
+            oList.removeSelections(true);
+            this.PdfUploadDialog.then(function (oDialog) {
+                oDialog.close();
+            });
+            this.byId("CustomContentBox").setVisible(false)
+            this.byId("uploadFrightVBox").setVisible(true)
+            this.byId("uploadFlowHBox").setVisible(true)
+            this.byId("uploadFlowHBoxReview").setVisible(false)
+            sap.m.MessageBox.confirm(
+                "Confirm " + iCount + " draft(s)?\n\nStatus will change: Draft → Open",
+                {
+                    title: "Confirm Drafts",
+                    actions: [sap.m.MessageBox.Action.OK, sap.m.MessageBox.Action.CANCEL],
+                    emphasizedAction: sap.m.MessageBox.Action.OK,
+
+                    onClose: function (sAction) {
+                        if (sAction === sap.m.MessageBox.Action.OK) {
+
+                            // ✅ Here you would normally call backend API
+                            // this._confirmDrafts(aSelectedItems);
+
+                            sap.m.MessageBox.success(
+                                "All drafts confirmed!\nStatus: OPEN",
+                                {
+                                    title: "Success",
+                                    actions: [sap.m.MessageBox.Action.OK]
+                                }
+                            );
+                        }
+                    }.bind(this)
+                }
+            );
+        },
         onAddProduct: function () {
             var oModel = this.getView().getModel("manualOrder");
             var aProducts = oModel.getProperty("/products");
-
             aProducts.push({
                 productName: "",
                 quantity: 0,
@@ -1239,7 +1557,7 @@ sap.ui.define([
                 statusText: "Pending Review",
                 statusState: "Warning",
                 statusIcon: "sap-icon://pending",
-                actionButtonText: "Review",
+                actionButtonText: "View",
                 actionButtonType: "Default",
                 ocrConfidence: "Manual",
                 // Store full data
@@ -1262,11 +1580,70 @@ sap.ui.define([
             sap.m.MessageToast.show("Manual order created successfully: " + sOrderId);
 
             // Close dialog
-            this._oManualOrderDialog.close();
+            this.onCancelManualOrder();
+            
         },
 
         onCancelManualOrder: function () {
-            this._oManualOrderDialog.close();
+            this._oManualOrderDialog.then(function (oDialog) {
+                oDialog.close();
+
+            });
+            this._oManualOrderDialog1.then(function (oDialog) {
+                oDialog.close();})
+        },
+        onCreateShipment: function () {
+            this.onCloseOrderDetails();
+            const oOrder = this.getView().getModel("orderDetails").getData();
+
+            // const sConfirmText =
+            //     "Create Shipment for " + oOrder.orderId + "?\n\n" +
+            //     "BU: " + oOrder.bu + "\n" +
+            //     "Type: " + oOrder.product + "\n" +
+            //     "Route: " + oOrder.route + "\n\n" +
+            //     "This will open the Create Shipment screen.";
+            
+            const sConfirmText =
+                "Create Shipment for " + oOrder.orderId + "?\n\n" +
+                "BU: " + "SCC"+ "\n" +
+                "Type: " + "Fule"+ "\n" +
+                "Route: " + "130H-CUST"+ "\n\n" +
+                "This will open the Create Shipment screen.";
+            sap.m.MessageBox.confirm(
+                sConfirmText,
+                {
+                    title: "Create Shipment",
+                    icon: sap.m.MessageBox.Icon.QUESTION,
+                    actions: [sap.m.MessageBox.Action.OK, sap.m.MessageBox.Action.CANCEL],
+                    emphasizedAction: sap.m.MessageBox.Action.OK,
+
+                    onClose: function (sAction) {
+                        if (sAction === sap.m.MessageBox.Action.OK) {
+
+                            // 🔹 Simulate backend shipment creation
+                            const sShipmentNo = "SH-2026-003420";
+
+                            sap.m.MessageBox.success(
+                                "Shipment " + sShipmentNo + " created!\n\n" +
+                                "→ In production, this opens CreateShipment_AllTypes.html\n" +
+                                "pre-filled with FO data for: " + oOrder.bu + " / " + oOrder.product + "\n\n" +
+                                "Next step: Assign driver/vehicle → Dispatch",
+                                {
+                                    title: "Shipment Created",
+                                    actions: [sap.m.MessageBox.Action.OK],
+
+                                    onClose: function () {
+                                        // 🔹 Real navigation would go here
+                                        // window.location.href = "CreateShipment_AllTypes.html?fo=" + oOrder.orderId;
+
+                                        sap.m.MessageToast.show("Proceed to shipment assignment");
+                                    }
+                                }
+                            );
+                        }
+                    }.bind(this)
+                }
+            );
         },
 
         _formatDate: function (sDate) {
@@ -1351,7 +1728,7 @@ sap.ui.define([
                 email: oOrderData.customerEmail || "",
                 phone: oOrderData.fullData?.phone || "",
                 language: oOrderData.fullData?.language || "Thai",
-                pickupAddress: oOrderData.fullData?.pickupAddress || "",
+                pickupAddress: oOrderData.fullData?.pickupAddress || "Amata Nakorn Industrial Estate, 700/705 Moo 1, Tambol Panthong, Amphur Panthong, Chonburi 20160",
                 deliveryAddress: oOrderData.deliveryAddress || "",
                 products: oOrderData.fullData?.products || [
                     {
@@ -1371,11 +1748,11 @@ sap.ui.define([
                 volume: oOrderData.fullData?.volume || 2.5,
                 specialInstructions: oOrderData.fullData?.specialInstructions || "Handle with care. Temperature controlled.",
                 documentName: oOrderData.fullData?.documentName || "PDF not uploaded",
-                sourceText: oOrderData.sourceText || "PDF Upload",
+                sourceText: "uploaded pdf",//oOrderData.sourceText ,
                 checklist: {
-                    customerVerified: false,
-                    addressesAccurate: false,
-                    productsConfirmed: false,
+                    customerVerified: true,
+                    addressesAccurate: true,
+                    productsConfirmed: true,
                     datesFeasible: false
                 }
             });
@@ -1423,6 +1800,7 @@ sap.ui.define([
             sap.m.MessageToast.show("Downloading original document...");
             // Implement actual download logic here
         },
+
         onuploadComplete: function (oEvent) {
             debugger
             this.getView().getModel("reviewOrder").setProperty("/documentName", "12345678")
@@ -1477,7 +1855,7 @@ sap.ui.define([
             this._updateOrderData(oData, "Submitted");
 
             sap.m.MessageBox.success(
-                "Order " + oData.orderId + " has been submitted for approval.",
+                "Order " + oData.orderId + " has been created.",
                 {
                     onClose: function () {
                         this.onBackFromReview();
@@ -1538,56 +1916,6 @@ sap.ui.define([
 
             oOrdersModel.refresh();
         },
-
-        onManualEntryFreight: function () {
-            // Initialize the model with default values
-            var oManualOrderModel = new sap.ui.model.json.JSONModel({
-                customerName: "",
-                email: "",
-                phone: "",
-                pickupAddress: "",
-                deliveryAddress: "",
-                products: [
-                    {
-                        productName: "",
-                        quantity: 0,
-                        unit: "pcs"
-                    }
-                ],
-                pickupDate: null,
-                deliveryDate: null,
-                totalWeight: 0,
-                volume: 0,
-                specialInstructions: ""
-            });
-
-            this.getView().setModel(oManualOrderModel, "manualOrder");
-
-            // Load and open the fragment
-            if (!this._oManualOrderDialog) {
-                this._oManualOrderDialog = sap.ui.xmlfragment(
-                    "intellicarrier.view.ManualFreightOrder",
-                    this
-                );
-                this.getView().addDependent(this._oManualOrderDialog);
-            }
-
-            this._oManualOrderDialog.open();
-        },
-
-        onAddProduct: function () {
-            var oModel = this.getView().getModel("manualOrder");
-            var aProducts = oModel.getProperty("/products");
-
-            aProducts.push({
-                productName: "",
-                quantity: 0,
-                unit: "pcs"
-            });
-
-            oModel.setProperty("/products", aProducts);
-        },
-
         onSaveManualOrder: function () {
             var oModel = this.getView().getModel("manualOrder");
             var oData = oModel.getData();
@@ -1628,7 +1956,7 @@ sap.ui.define([
                 statusText: "Pending Review",
                 statusState: "Warning",
                 statusIcon: "sap-icon://pending",
-                actionButtonText: "Review",
+                actionButtonText: "View",
                 actionButtonType: "Default",
                 ocrConfidence: "Manual",
                 // Store full data
@@ -1651,12 +1979,10 @@ sap.ui.define([
             sap.m.MessageToast.show("Manual order created successfully: " + sOrderId);
 
             // Close dialog
-            this._oManualOrderDialog.close();
+            this.onCancelManualOrder();
         },
 
-        onCancelManualOrder: function () {
-            this._oManualOrderDialog.close();
-        },
+
 
         _formatDate: function (sDate) {
             if (!sDate) return "";
@@ -1779,7 +2105,7 @@ sap.ui.define([
                         totalCost: "49.20"
                     },
                     {
-                        service: "Express Service",
+                        service: "TH-4567",
                         description: "Guaranteed 2-day delivery",
                         transitTime: "2 Business Days",
                         baseRate: "32.00",
@@ -2280,10 +2606,335 @@ sap.ui.define([
             }
         },
 
+        onCloseDocDialog: function () {
+            if (this._oDocDialog) {
+                this._oDocDialog.close();
+            }
+        },
+
+        // ===========================================
+
+        onOpenUpdateForm: function () {
+            console.log("onOpenUpdateForm - Update button clicked");
+            var oView = this.getView();
+
+            // Reset form data
+            this._resetFormData();
+
+            // Create dialog if not exists
+            if (!this.oUpdateDialog) {
+                console.log("Creating new dialog fragment...");
+                Fragment.load({
+                    id: oView.getId(),
+                    name: "intellicarrier.view.UpdateTrackingFragment",
+                    controller: this
+                }).then(function (oDialog) {
+                    console.log("Dialog fragment loaded successfully");
+                    this.oUpdateDialog = oDialog;
+                    oView.addDependent(this.oUpdateDialog);
+                    this.oUpdateDialog.open();
+                    console.log("Dialog opened");
+                }.bind(this)).catch(function (error) {
+                    console.error("Error loading fragment:", error);
+                });
+            } else {
+                console.log("Dialog already exists, opening it");
+                this.oUpdateDialog.open();
+            }
+        },
+
+        _resetFormData: function () {
+            console.log("_resetFormData - Resetting form data");
+            var oModel = this.getView().getModel("trackingModel");
+            oModel.setProperty("/newEvent", {
+                status: "",
+                statusText: "",
+                date: "",
+                time: "",
+                location: "",
+                notes: ""
+            });
+            console.log("Form data reset complete");
+        },
+
+        onStatusChange: function (oEvent) {
+            console.log("onStatusChange - Status changed");
+            var oComboBox = oEvent.getSource();
+            var sSelectedKey = oComboBox.getSelectedKey();
+            var sSelectedText = oComboBox.getValue();
+
+            console.log("Selected Status Key:", sSelectedKey);
+            console.log("Selected Status Text:", sSelectedText);
+
+            var oModel = this.getView().getModel("trackingModel");
+
+            // If user selected from dropdown
+            if (sSelectedKey) {
+                oModel.setProperty("/newEvent/status", sSelectedKey);
+                oModel.setProperty("/newEvent/statusText", sSelectedText);
+            } else {
+                // If user typed custom text
+                oModel.setProperty("/newEvent/status", "");
+                oModel.setProperty("/newEvent/statusText", sSelectedText);
+            }
+
+            console.log("Status updated in model");
+        },
+
+        onAddEvent: function () {
+            console.log("onAddEvent - Add Event button clicked");
+            var oModel = this.getView().getModel("trackingModel");
+            var oNewEvent = oModel.getProperty("/newEvent");
+
+            console.log("New Event Data:", oNewEvent);
+
+            // Validate required fields
+            if (!oNewEvent.status || !oNewEvent.statusText || !oNewEvent.date ||
+                !oNewEvent.time || !oNewEvent.location) {
+                console.warn("Validation failed - Missing required fields");
+                MessageToast.show("Please fill all required fields");
+                return;
+            }
+
+            console.log("Validation passed");
+
+            // Add event to the events array
+            var aEvents = oModel.getProperty("/events");
+            console.log("Current events array:", aEvents);
+
+            var newEventData = {
+                status: oNewEvent.status,
+                statusText: oNewEvent.statusText,
+                date: oNewEvent.date,
+                time: oNewEvent.time,
+                location: oNewEvent.location,
+                notes: oNewEvent.notes || "No additional notes"
+            };
+
+            aEvents.push(newEventData);
+            console.log("Event added to array:", newEventData);
+            console.log("Updated events array:", aEvents);
+
+            oModel.setProperty("/events", aEvents);
+            console.log("Model updated with new events");
+
+            // Update the corresponding wizard step
+            console.log("Calling _updateWizardStep...");
+            this._updateWizardStep(newEventData);
+
+            // Close dialog
+            this.oUpdateDialog.close();
+            console.log("Dialog closed");
+            MessageToast.show("Tracking event added successfully!");
+        },
+
+        onCancelUpdate: function () {
+            console.log("onCancelUpdate - Cancel button clicked");
+            this.oUpdateDialog.close();
+            console.log("Dialog closed without saving");
+        },
+
+        _updateWizardStep: function (oEvent) {
+            console.log("_updateWizardStep - Starting update");
+            console.log("Event data received:", oEvent);
+
+            var sStepId = this.statusConfig[oEvent.status] ?
+                this.statusConfig[oEvent.status].stepId : null;
+
+            console.log("Status from event:", oEvent.status);
+            console.log("Mapped Step ID:", sStepId);
+
+            if (!sStepId) {
+                console.error("Step ID not found for status:", oEvent.status);
+                return;
+            }
+
+            var oStep = this.byId(sStepId);
+            console.log("Step object retrieved:", oStep);
+
+            if (!oStep) {
+                console.error("Step not found with ID:", sStepId);
+                return;
+            }
+
+            var sIcon = this.statusConfig[oEvent.status].icon;
+            var sIconColor = this.statusConfig[oEvent.status].iconColor;
+
+            console.log("Icon:", sIcon);
+            console.log("Icon Color:", sIconColor);
+
+            // Create content for the step
+            console.log("Creating VBox content...");
+
+            try {
+                var oIcon = new Icon({
+                    src: sIcon,
+                    size: "3rem",
+                    color: sIconColor
+                });
+                oIcon.addStyleClass("sapUiSmallMarginBottom");
+                console.log("Icon created successfully");
+
+                var oStatusVBox = new VBox({
+                    items: [
+                        new Label({ text: "Status:", design: "Bold" }),
+                        new Text({ text: oEvent.statusText }).addStyleClass("sapUiSmallMarginBottom")
+                    ]
+                });
+                oStatusVBox.addStyleClass("sapUiSmallMarginTop");
+                console.log("Status VBox created");
+
+                var oDateTimeVBox = new VBox({
+                    items: [
+                        new Label({ text: "Date & Time:", design: "Bold" }),
+                        new Text({ text: oEvent.date + " at " + oEvent.time }).addStyleClass("sapUiSmallMarginBottom")
+                    ]
+                });
+                oDateTimeVBox.addStyleClass("sapUiSmallMarginTop");
+                console.log("DateTime VBox created");
+
+                var oLocationVBox = new VBox({
+                    items: [
+                        new Label({ text: "Location:", design: "Bold" }),
+                        new Text({ text: oEvent.location }).addStyleClass("sapUiSmallMarginBottom")
+                    ]
+                });
+                oLocationVBox.addStyleClass("sapUiSmallMarginTop");
+                console.log("Location VBox created");
+
+                var oNotesVBox = new VBox({
+                    items: [
+                        new Label({ text: "Notes:", design: "Bold" }),
+                        new Text({ text: oEvent.notes })
+                    ]
+                });
+                oNotesVBox.addStyleClass("sapUiSmallMarginTop");
+                console.log("Notes VBox created");
+
+                var oContent = new VBox({
+                    items: [
+                        oIcon,
+                        oStatusVBox,
+                        oDateTimeVBox,
+                        oLocationVBox,
+                        oNotesVBox
+                    ]
+                });
+                oContent.addStyleClass("sapUiSmallMargin");
+                console.log("Main content VBox created successfully");
+
+                // Remove old content and add new content
+                console.log("Removing old content from step...");
+                oStep.removeAllContent();
+                console.log("Adding new content to step...");
+                oStep.addContent(oContent);
+
+                // Mark step as validated (completed)
+                console.log("Setting step as validated...");
+                oStep.setValidated(true);
+
+                // Navigate to the updated step
+                var oWizard = this.byId("trackingDisplayWizard");
+                console.log("Wizard object:", oWizard);
+
+                if (oWizard) {
+                    console.log("Current wizard step before navigation:", oWizard.getCurrentStep());
+                    console.log("Navigating to step:", sStepId);
+
+                    // Get all steps
+                    var aAllSteps = oWizard.getSteps();
+                    console.log("All wizard steps:", aAllSteps);
+
+                    var iTargetStepIndex = -1;
+                    for (var i = 0; i < aAllSteps.length; i++) {
+                        if (aAllSteps[i].getId() === oStep.getId()) {
+                            iTargetStepIndex = i;
+                            break;
+                        }
+                    }
+                    console.log("Target step index:", iTargetStepIndex);
+
+                    // Validate all steps up to and including the current one
+                    for (var j = 0; j <= iTargetStepIndex; j++) {
+                        console.log("Validating step index:", j, "Step ID:", aAllSteps[j].getId());
+                        aAllSteps[j].setValidated(true);
+                    }
+
+                    // Reset wizard progress to first step, then navigate
+                    console.log("Discarding wizard progress...");
+                    oWizard.discardProgress(aAllSteps[0]);
+
+                    // Now navigate step by step to the target
+                    console.log("Navigating step by step to index:", iTargetStepIndex);
+                    for (var k = 0; k < iTargetStepIndex; k++) {
+                        console.log("Moving to next step, current index:", k);
+                        oWizard.nextStep();
+                    }
+
+                    // Force re-render
+                    setTimeout(function () {
+                        console.log("Current wizard step after navigation:", oWizard.getCurrentStep());
+                    }, 200);
+
+                    console.log("Navigation complete");
+                } else {
+                    console.error("Wizard not found!");
+                }
+
+                console.log("_updateWizardStep - Update completed successfully");
+
+            } catch (error) {
+                console.error("Error in _updateWizardStep:", error);
+                console.error("Error stack:", error.stack);
+            }
+        },
+
+        // ==============================================
+
+
+        onGenTilePress: function (oEvent) {
+            var sHeader = oEvent.getSource().getHeader();
+
+            if (!this._oDocDialog) {
+                this._oDocDialog = sap.ui.xmlfragment(
+                    "intellicarrier.view.OpenDoc",
+                    this
+                );
+                this.getView().addDependent(this._oDocDialog);
+            }
+
+            // Optional: pass header to fragment (for title)
+            this._oDocDialog.setTitle(sHeader);
+
+            this._oDocDialog.open();
+        },
+
         onViewShipmentDetails: function (oEvent) {
-            // Get the selected shipment data (if needed)
+
+
+            var oButton = oEvent.getSource();
+            var oRow = oButton.getParent();
+            var aCells = oRow.getCells();
+
+            var sStatusText = aCells[5].getText();
+
+            var oDetailModel = this.getView().getModel("detailModel");
+
+            if (!oDetailModel) {
+                oDetailModel = new sap.ui.model.json.JSONModel({
+                    showDocs: false
+                });
+                this.getView().setModel(oDetailModel, "detailModel"); // ✅ FIX
+            }
+
+            oDetailModel.setProperty("/showDocs", sStatusText === "Delivered");
+
+            console.log("detailModel:", oDetailModel.getData());
+
+
             var oBindingContext = oEvent.getSource().getBindingContext();
             var oShipmentData = oBindingContext ? oBindingContext.getObject() : null;
+            console.log(oShipmentData)
 
             // Hide the shipments list view
             this.byId("shipmentsListView").setVisible(false);
@@ -2383,9 +3034,11 @@ sap.ui.define([
         },
 
         onContactCustomer: function () {
-            MessageToast.show("Connecting to customer care...");
+            this.byId("contactCustomerDialog").open();
         },
-
+        onContactCloseDialog: function () {
+            this.byId("contactCustomerDialog").close();
+        },
         // Quick Actions
         onQuickShipment: function () {
             this._showView("shipmentexecution");
@@ -2405,7 +3058,7 @@ sap.ui.define([
                 {
                     id: "SHP-2026-001234",
                     customer: "Acme Corporation",
-                    destination: "New York, NY",
+                    destination: "Bangkok, NY",
                     service: "Express",
                     status: "In Transit",
                     statusState: "Warning",
@@ -2677,6 +3330,86 @@ sap.ui.define([
 
             oBinding.filter(aFilters);
         },
+        onCreateOrder: function () {
+            debugger
+            if (!this._oFleetDialog) {
+                this._oFleetDialog = this.loadFragment("intellicarrier.view.FleetCockpitAnalysis");
+            }
+            var oModel = this.getView().getModel("OrdersD");
+            console.log(oModel)
+            oModel.setProperty("/editData", {
+
+            });
+            oModel.setProperty("/isEdit", false);
+
+            // var oOrderModel = new sap.ui.model.json.JSONModel(oOrder);
+            // this.getView().setModel(oOrderModel, "selectedOrder");
+
+            this._oFleetDialog.then(function (oDialog) {
+                oDialog.open();
+            });
+        },
+        onFleetSuggest: function () {
+            debugger
+            if (!this._oFleetSDialog) {
+                this._oFleetSDialog = this.loadFragment("intellicarrier.view.fleetSuggestDialog");
+            }
+
+            // var oOrderModel = new sap.ui.model.json.JSONModel(oOrder);
+            // this.getView().setModel(oOrderModel, "selectedOrder");
+
+            this._oFleetSDialog.then(function (oDialog) {
+                oDialog.open();
+            });
+        },
+        onCloseFleetModal: function () {
+
+            this._oFleetSDialog.then(function (oDialog) {
+                oDialog.close();
+            });
+        },
+        onConfirmFleetSelection: function () {
+
+            this._oFleetSDialog.then(function (oDialog) {
+                oDialog.close();
+            });
+        },
+        onAddStage: function () {
+            sap.m.MessageToast.show("Open Stage Selection Dialog");
+
+        },
+        onSwapStage: function () {
+
+            // Create and open the Swap Confirmation Dialog
+            if (!this._oSwapDialog) {
+                this._oSwapDialog = new sap.m.Dialog({
+                    title: "Stage Order Changed",
+                    type: "Message",
+                    state: "Warning",
+                    content: new sap.m.Text({
+                        text: "Stage order has been changed. System will auto-search for matching route. If no match is found, a dummy route will be created."
+                    }),
+                    beginButton: new sap.m.Button({
+                        type: "Emphasized",
+                        text: "Confirm & Search Route",
+                        press: function () {
+                            // Implement logic to reorder items in your model and update total distance
+                            this._oSwapDialog.close();
+                            sap.m.MessageToast.show("Route matched! Distance updated.");
+                        }.bind(this)
+                    }),
+                    endButton: new sap.m.Button({
+                        text: "Cancel",
+                        press: function () {
+                            this._oSwapDialog.close();
+                        }.bind(this)
+                    })
+                });
+            }
+
+            this._oSwapDialog.open();
+        },
+
         onAnalyzeOrder: function (oEvent) {
             debugger
             var oOrder = oEvent.getSource().getBindingContext().getObject();
@@ -2684,8 +3417,64 @@ sap.ui.define([
                 this._oFleetDialog = this.loadFragment("intellicarrier.view.FleetCockpitAnalysis");
             }
 
-            var oOrderModel = new sap.ui.model.json.JSONModel(oOrder);
-            this.getView().setModel(oOrderModel, "selectedOrder");
+            // var oOrderModel = new sap.ui.model.json.JSONModel(oOrder);
+            // this.getView().setModel(oOrderModel, "selectedOrder");
+            var oModel = this.getView().getModel("OrdersD");
+            console.log(oModel)
+            oModel.setProperty("/editData", {
+                "bu": "SCC — SC Carrier",
+                "productType": "LPG",
+                "site": "060C — ATLAS-LPG-BPK",
+                "shipmentNo": "SHP-2026-0208-01",
+                "shipmentType": "0602 — SCC-LPG",
+                "shippingType": "01 — Truck",
+                "buSiteDisplay": "SCC / 060C",
+                "routeID": "010005 — BTC → ไทยเบฟ → BTC",
+                "wbs": "08S.26CF.BPK.001",
+                "contractDate": "2026-02-04",
+                "plannedDateTime": "2026-02-08T14:30:00",
+                "truckPlate": "83-0569",
+                "trailerPlate": "83-1069",
+                "vehicleNo": "VH-830569",
+                "truckTypeDisplay": "LPG Tanker 18T",
+                "driver1Id": "EMP001",
+                "driver1Name": "สมชาย ใจดี",
+                "driver1Phone": "081-123-4567",
+                "driver1Intern": false,
+                "totalDistance": "311",
+                "transportFee": "เก็บ",
+                "tripPay": "จ่าย",
+                "brokenMiles": false,
+                "stages": [
+                    {
+                        "stageIdx": "0",
+                        "statusState": "Information",
+                        "typeName": "First",
+                        "depName": "—",
+                        "depCode": "—",
+                        "destName": "ท่าเรือบางปะกง",
+                        "destCode": "010007",
+                        "distance": "—",
+                        "arrivalDT": "2026-02-08T14:30:00",
+                        "departureDT": "2026-02-08T15:00:00"
+                    },
+                    {
+                        "stageIdx": "1",
+                        "statusState": "Warning",
+                        "typeName": "Transport",
+                        "depName": "ท่าเรือบางปะกง",
+                        "depCode": "010007",
+                        "destName": "ไทยเบฟ (บางบาล)",
+                        "destCode": "010025",
+                        "distance": "151 km",
+                        "arrivalDT": "2026-02-08T17:30:00",
+                        "departureDT": "2026-02-08T18:30:00"
+                    }
+                ]
+            });
+            oModel.setProperty("/isEdit", true);
+
+
 
             this._oFleetDialog.then(function (oDialog) {
                 oDialog.open();
@@ -2868,7 +3657,7 @@ sap.ui.define([
             });
 
             sap.m.MessageToast.show(
-                "Shipment " + oOrder.orderId + " booked successfully"
+                "Shipment 800000334 created successfully"
             );
         },
 
@@ -2880,7 +3669,40 @@ sap.ui.define([
         },
         onConformpres: function () {
             this.onCloseFleetCockpit();
-            this.onBookShipment();
+            var oModel = this.getView().getModel();
+            var dModel = this.getView().getModel("OrdersD");
+            var f = dModel.getProperty("/isEdit");
+            if (!f) {
+
+                if (oModel) {
+                    var aOrders = oModel.getProperty("/orders");
+                    if (!aOrders) {
+                        aOrders = [];
+                    }
+                    var l = aOrders.length;
+                    var oNewRecord = {
+                        orderId: `FO-2026-000${l}`,
+                        coId: "CO-2026-0004",
+                        customer: "Innovation Corp",
+                        from: "Bangkok (Ratchada)",
+                        to: "Hat Yai, Songkhla",
+                        distance: "945 km",
+                        cargoType: "Medical Equipment",
+                        cargoInfo: "1000 kg | 5 m³",
+                        deliveryDate: "2026-01-20",
+                        priority: "URGENT",
+                        priorityState: "Error",
+                        status: "Pending Assignment",
+                        statusState: "Warning",
+                        value: "฿ 125,000"
+                    };
+                    aOrders.push(oNewRecord);
+                    oModel.setProperty("/orders", aOrders);
+                    console.log("Record added successfully!");
+                } else {
+                    console.error("Model not found. Please check your model name in manifest.json");
+                }
+            }
         },
         onTrackOrder: function () {
             var oFakeEvent = {
@@ -4127,9 +4949,7 @@ sap.ui.define([
                 weight: oRowData.weight || "500 kg",
                 value: oRowData.value || "High",
 
-                managerComments: oRowData.managerComments || "Approved for express delivery.",
-                assignedFleet: oRowData.assignedFleet || "-",
-                priority: oRowData.priority
+
             };
 
             var oModel = new sap.ui.model.json.JSONModel(oDetailsData);
@@ -4173,133 +4993,268 @@ sap.ui.define([
                 oDialog.open();
             });
         },
-onCloseOCRReceiptDialog: function () {
-this._oOCRReceiptDialog.then(function (oDialog) {
+        onCloseOCRReceiptDialog: function () {
+            this._oOCRReceiptDialog.then(function (oDialog) {
                 oDialog.close();
-            });},
+            });
+        },
 
-onConfirmOCRReceipt: function () {
-    sap.m.MessageToast.show("✅ OCR Confirmed Successfully");
-    this.onCloseOCRReceiptDialog();
-},
-onReconcile: function (oEvent) {
-    var oRow = oEvent.getSource().getBindingContext().getObject();
+        onConfirmOCRReceipt: function () {
+            sap.m.MessageToast.show("✅ OCR Confirmed Successfully");
+            this.onCloseOCRReceiptDialog();
+        },
+        onReconcile: function (oEvent) {
+            var oRow = oEvent.getSource().getBindingContext().getObject();
 
 
             if (!this._oReconcileDialog) {
                 this._oReconcileDialog = this.loadFragment("intellicarrier.view.ReconciliationSettlement");
             }
-    // Convert balance to "To Return" (example logic)
-    // If balance = "฿2,150" then toReturn = same
-    var sAdvance = oRow.advance || "฿0";
-    var sExpenses = oRow.expenses || "฿0";
-    var sToReturn = oRow.balance || "฿0";
+            // Convert balance to "To Return" (example logic)
+            // If balance = "฿2,150" then toReturn = same
+            var sAdvance = oRow.advance || "฿0";
+            var sExpenses = oRow.expenses || "฿0";
+            var sToReturn = oRow.balance || "฿0";
 
-    var oRecModel = new sap.ui.model.json.JSONModel({
-        advanceId: oRow.advanceId,
-        driver: oRow.driver,
-        driverId: oRow.driverId,
+            var oRecModel = new sap.ui.model.json.JSONModel({
+                advanceId: oRow.advanceId,
+                driver: oRow.driver,
+                driverId: oRow.driverId,
 
-        advance: sAdvance,
-        expenses: sExpenses,
-        toReturn: sToReturn,
+                advance: sAdvance,
+                expenses: sExpenses,
+                toReturn: sToReturn,
 
-        settlementType: "EXCESS",
-        recoveryMethod: "PAYROLL",
-        recoveryMethodText: "Payroll Deduction"
-    });
+                settlementType: "EXCESS",
+                recoveryMethod: "PAYROLL",
+                recoveryMethodText: "Payroll Deduction"
+            });
 
-    this.getView().setModel(oRecModel, "recModel");
-    this._oReconcileDialog.then(function (oDialog) {
+            this.getView().setModel(oRecModel, "recModel");
+            this._oReconcileDialog.then(function (oDialog) {
                 oDialog.open();
             });
-},
+        },
 
-onCloseReconcileDialog: function () {
-    this._oReconcileDialog.then(function (oDialog) {
+        onCloseReconcileDialog: function () {
+            this._oReconcileDialog.then(function (oDialog) {
                 oDialog.close();
             });
-},
+        },
 
-onProcessSettlement: function () {
-    this.onCloseReconcileDialog();
+        onProcessSettlement: function () {
+            this.onCloseReconcileDialog();
 
-    // Example generated Settlement ID
-    var sSettlementId = "806222";
+            // Example generated Settlement ID
+            var sSettlementId = "806222";
 
-    // Get values from model
-    var oRecData = this.getView().getModel("recModel").getData();
-    var sRefundAmount = oRecData.toReturn || "฿0";
+            // Get values from model
+            var oRecData = this.getView().getModel("recModel").getData();
+            var sRefundAmount = oRecData.toReturn || "฿0";
 
-    sap.m.MessageBox.information(
-        "✅ Settlement Processed!\n\n" +
-        "• " + sSettlementId + "\n" +
-        "• " + sRefundAmount + " Refund\n" +
-        "• Posted to S/4HANA",
-        {
-            title: "This page says"}
-    );
+            sap.m.MessageBox.information(
+                "✅ Settlement Processed!\n\n" +
+                "• " + sSettlementId + "\n" +
+                "• " + sRefundAmount + " Refund\n" +
+                "• Posted to S/4HANA",
+                {
+                    title: "This page says"
+                }
+            );
 
-},
-onViewActiveAdvance: function (oEvent) {
+        },
+        onViewActiveAdvance: function (oEvent) {
 
-    // get selected row data
-    var oRowData = oEvent.getSource().getBindingContext().getObject();
+            // get selected row data
+            var oRowData = oEvent.getSource().getBindingContext().getObject();
 
-    // create fragment o
-if (!this._oAdvanceDetailsDialog) {
+            // create fragment o
+            if (!this._oAdvanceDetailsDialog) {
                 this._oAdvanceDetailsDialog = this.loadFragment("intellicarrier.view.AdvanceDetails");
             }
-    // bind selected data to dialog model
-    var oModel = new sap.ui.model.json.JSONModel({
-        advanceId: oRowData.advanceId,
-        advance: oRowData.advance,
-        expenses: oRowData.expenses,
-        remaining: oRowData.remaining,
-        usagePercent: oRowData.usagePercent,
-        status: oRowData.status,
-        statusState: oRowData.statusState
-    });
+            // bind selected data to dialog model
+            var oModel = new sap.ui.model.json.JSONModel({
+                advanceId: oRowData.advanceId,
+                advance: oRowData.advance,
+                expenses: oRowData.expenses,
+                remaining: oRowData.remaining,
+                usagePercent: oRowData.usagePercent,
+                status: oRowData.status,
+                statusState: oRowData.statusState
+            });
 
-    this.getView().setModel(oModel, "advDetails");
-    this._oAdvanceDetailsDialog.then(function (oDialog) {
+            this.getView().setModel(oModel, "advDetails");
+            this._oAdvanceDetailsDialog.then(function (oDialog) {
                 oDialog.open();
             });
-},
-onCloseAdvanceDetails: function () {
-    this._oAdvanceDetailsDialog.then(function (oDialog) {
+        },
+        onCloseAdvanceDetails: function () {
+            this._oAdvanceDetailsDialog.then(function (oDialog) {
                 oDialog.close();
             });
-},
-onReconcile1:function () {
+        },
+        onReconcile1: function () {
 
-        this.onCloseAdvanceDetails();
-    
+            this.onCloseAdvanceDetails();
 
-    // ✅ get selected advance data from dialog model
-    var oAdvData = this.getView().getModel("advDetails").getData();
 
-    if (!this._oReconcileDialog) {
+            // ✅ get selected advance data from dialog model
+            var oAdvData = this.getView().getModel("advDetails").getData();
+
+            if (!this._oReconcileDialog) {
                 this._oReconcileDialog = this.loadFragment("intellicarrier.view.ReconciliationSettlement");
             }
 
-    // ✅ Bind selected advance values to reconcile dialog model
-    var oRecModel = new sap.ui.model.json.JSONModel({
-        advanceId: oAdvData.advanceId,
-        advance: oAdvData.advance,
-        expenses: oAdvData.expenses,
-        toReturn: oAdvData.remaining,
+            // ✅ Bind selected advance values to reconcile dialog model
+            var oRecModel = new sap.ui.model.json.JSONModel({
+                advanceId: oAdvData.advanceId,
+                advance: oAdvData.advance,
+                expenses: oAdvData.expenses,
+                toReturn: oAdvData.remaining,
 
-        settlementType: "EXCESS",
-        recoveryMethod: "PAYROLL",
-        recoveryMethodText: "Payroll Deduction"
-    });
+                settlementType: "EXCESS",
+                recoveryMethod: "PAYROLL",
+                recoveryMethodText: "Payroll Deduction"
+            });
 
-    this.getView().setModel(oRecModel, "recModel");
-    this._oReconcileDialog.then(function (oDialog) {
+            this.getView().setModel(oRecModel, "recModel");
+            this._oReconcileDialog.then(function (oDialog) {
                 oDialog.open();
             });
-},
+        },
+
+
+        onViewMaintenance: function (oEvent) {
+            var oContext = oEvent.getSource()
+                .getParent()
+                .getBindingContext("vehicleDataModel");
+
+            this._openWorkOrderDetailsDialog(oContext);
+        },
+
+        onCreateMaintenance: function () {
+            var oView = this.getView();
+
+            if (!this.CreateMaintenanceDialog) {
+                this.CreateMaintenanceDialog = Fragment.load({
+                    id: oView.getId(),
+                    name: "intellicarrier.view.CreateWorkOrder",
+                    controller: this
+                }).then(function (oDialog) {
+                    oView.addDependent(oDialog);
+                    return oDialog;
+                });
+            }
+
+            this.CreateMaintenanceDialog.then(function (oDialog) {
+                // oDialog.setBindingContext(oContext, "vehicleDataModel");
+                oDialog.open();
+            });
+        },
+        _openWorkOrderDetailsDialog: function (oContext) {
+            var oView = this.getView();
+
+            if (!this._pWorkOrderDetailsDialog) {
+                this._pWorkOrderDetailsDialog = Fragment.load({
+                    id: oView.getId(),
+                    name: "intellicarrier.view.WorkOrderDetails",
+                    controller: this
+                }).then(function (oDialog) {
+                    oView.addDependent(oDialog);
+                    return oDialog;
+                });
+            }
+
+            this._pWorkOrderDetailsDialog.then(function (oDialog) {
+                oDialog.setBindingContext(oContext, "vehicleDataModel");
+                oDialog.open();
+            });
+        },
+
+        onCreateTemplate: function () {
+            var oView = this.getView();
+
+            if (!this.onCreateTemplateDialog) {
+                this.onCreateTemplateDialog = Fragment.load({
+                    id: oView.getId(),
+                    name: "intellicarrier.view.CreateChecklistTemplate",
+                    controller: this
+                }).then(function (oDialog) {
+                    oView.addDependent(oDialog);
+                    return oDialog;
+                });
+            }
+
+            this.onCreateTemplateDialog.then(function (oDialog) {
+                // oDialog.setBindingContext(oContext, "vehicleDataModel");
+                oDialog.open();
+            });
+        },
+
+
+
+        onMarkComplete: function () {
+            var oDialog = this.byId("workOrderDetailsDialog");
+            var oContext = oDialog.getBindingContext("vehicleDataModel");
+            var oModel = oContext.getModel();
+            var sPath = oContext.getPath();
+
+            oModel.setProperty(sPath + "/maintStatus", "Completed");
+            oModel.setProperty(sPath + "/maintStatusState", "Success");
+
+            sap.m.MessageToast.show("Work order marked as complete");
+            this.onCloseDialog();
+        },
+
+        onCloseDialog: function () {
+            // Close all dialogs
+            if (this._pWorkOrderDetailsDialog) {
+                this._pWorkOrderDetailsDialog.then(function (oDialog) {
+                    oDialog.close();
+                });
+            }
+            if (this.CreateMaintenanceDialog) {
+                this.CreateMaintenanceDialog.then(function (oDialog) {
+                    oDialog.close();
+                });
+            }
+            if (this.onCreateTemplateDialog) {
+                this.onCreateTemplateDialog.then(function (oDialog) {
+                    oDialog.close();
+                });
+            }
+        },
+        onOpenShippingPointDialog: function () {
+            if (!this._oShippingPointDialog) {
+                this._oShippingPointDialog = sap.ui.xmlfragment(
+                    this.getView().getId(),
+                    "intellicarrier.view.ShippingPointMaster",
+                    this
+                );
+                this.getView().addDependent(this._oShippingPointDialog);
+            }
+            this._oShippingPointDialog.open();
+        },
+
+        onCloseShippingPointDialog: function () {
+            this._oShippingPointDialog.close();
+        },
+
+        onOpenDriverHistoryDialog: function () {
+            if (!this._oDriverHistoryDialog) {
+                this._oDriverHistoryDialog = sap.ui.xmlfragment(
+                    this.getView().getId(),
+                    "intellicarrier.view.DriverGateScanHistory",
+                    this
+                );
+                this.getView().addDependent(this._oDriverHistoryDialog);
+            }
+            this._oDriverHistoryDialog.open();
+        },
+
+        onCloseDriverHistoryDialog: function () {
+            this._oDriverHistoryDialog.close();
+        }
 
 
 

@@ -6,8 +6,7 @@
     <VBox width="100%" class=" sapUiTinyMarginTop">
         <HBox justifyContent="SpaceBetween">
             <HBox >
-                <Title text="Price Determination
-and Settlement" level="H1" class="sapUiSmallMarginBegin
+                <Title text="Create Sales Order" level="H1" class="sapUiSmallMarginBegin
 sapUiSmallMarginBottom"/>
                 <Text text="-Calculate freight
 charges for completed shipments and trigger S/4HANA Sales Orders" class="sapUiTinyMarginBegin sapUiContentLabel" />
@@ -17,37 +16,30 @@ charges for completed shipments and trigger S/4HANA Sales Orders" class="sapUiTi
                 <Button text="🔄 Refresh"/>
             </HBox>
         </HBox>
-        <MessageStrip text="Integration: IntelliCarrier
-calculates prices and triggers Sales Order creation. All financial
-documents are created within S/4HANA." type="Information" showIcon="true" class="sapUiMediumMarginHorizontal
-sapUiSmallMarginBottom"/>
-        <ScrollContainer height="100%" width="100%" horizontal="true" vertical="false" class="sapUiMediumMarginTopBottom">
+        
+        <ScrollContainer visible="false" height="100%" width="100%" horizontal="true" vertical="false" class="sapUiMediumMarginTopBottom">
 
-            <Panel width="auto">
+            <Panel width="auto" visible="true">
                 <content>
 
                     <HBox alignItems="Center" justifyContent="Center" class="sapUiSmallMargin">
 
-                        <VBox alignItems="Center" justifyContent="Center" width="140px" height="110px" class="bgGreen
-sapUiSmallMarginEnd sapUiTinyMarginBottom">
+                        <VBox alignItems="Center" justifyContent="Center" width="140px" height="110px" class="bgGreen sapUiSmallMarginEnd sapUiTinyMarginBottom">
                             <Avatar fallbackIcon="sap-icon://shipping-status" displayShape="Circle" backgroundColor="Accent8" initials="1" displaySize="S" class="sapUiTinyMarginBottom"/>
                             <Text text="Shipment&#xa;Delivered" textAlign="Center"/>
                         </VBox>
 
                         <core:Icon src="sap-icon://arrow-right" size="1.5rem" color="#9e9e9e" class="sapUiSmallMarginEnd sapUiTinyMarginBottom"/>
 
-                        <VBox alignItems="Center" justifyContent="Center" width="140px" height="110px" class="bgBlue
-sapUiSmallMarginEnd sapUiTinyMarginBottom">
+                        <VBox alignItems="Center" justifyContent="Center" width="140px" height="110px" class="bgBlue sapUiSmallMarginEnd sapUiTinyMarginBottom">
                             <Avatar fallbackIcon="sap-icon://money-bills" displayShape="Circle" backgroundColor="Accent1" displaySize="S" class="sapUiTinyMarginBottom"/>
                             <Text text="Calculate&#xa;Price" textAlign="Center"/>
                         </VBox>
 
                         <core:Icon src="sap-icon://arrow-right" size="1.5rem" color="#9e9e9e" class="sapUiSmallMarginEnd sapUiTinyMarginBottom"/>
 
-                        <VBox alignItems="Center" justifyContent="Center" class="sapUiSmallMarginEnd
-sapUiTinyMarginBottom">
-                            <Text text="Based on
-Fleet Type" class="sapUiTinyMarginBottom" />
+                        <VBox alignItems="Center" justifyContent="Center" class="sapUiSmallMarginEnd sapUiTinyMarginBottom">
+                            <Text text="Based on Fleet Type" class="sapUiTinyMarginBottom" />
                             <HBox>
                                 <ObjectStatus text="Rate Master" icon="sap-icon://shipping-status" state="Success" inverted="true" class="sapUiTinyMarginEnd"/>
                                 <ObjectStatus text="Invoice Validation" icon="sap-icon://building" state="Information" inverted="true"/>
@@ -56,11 +48,9 @@ Fleet Type" class="sapUiTinyMarginBottom" />
 
                         <core:Icon src="sap-icon://arrow-right" size="1.5rem" color="#9e9e9e" class="sapUiSmallMarginEnd sapUiTinyMarginBottom"/>
 
-                        <VBox alignItems="Center" justifyContent="Center" width="140px" height="110px" class="bgPurple
-sapUiSmallMarginEnd sapUiTinyMarginBottom">
+                        <VBox alignItems="Center" justifyContent="Center" width="140px" height="110px" class="bgPurple sapUiSmallMarginEnd sapUiTinyMarginBottom">
                             <Avatar displayShape="Circle" backgroundColor="Accent3" fallbackIcon="sap-icon://hr-approval" displaySize="S" class="sapUiTinyMarginBottom"/>
-                            <Text text="Review
-&amp; Approve" textAlign="Center"/>
+                            <Text text="Review &amp; Approve" textAlign="Center"/>
                         </VBox>
 
                         <core:Icon src="sap-icon://arrow-right" size="1.5rem" color="#9e9e9e" class="sapUiSmallMarginEnd sapUiTinyMarginBottom"/>
@@ -109,7 +99,7 @@ sapUiTinyMarginBottom" width="11rem">
                 </TileContent>
             </GenericTile>
 
-            <GenericTile header="Sent to S/4HANA" subheader="Today" frameType="TwoByHalf" press="onFilterSent" class="sapUiTinyMarginEnd sapUiTinyMarginBottom" width="11rem">
+            <GenericTile header="Sales Orders Created" subheader="Today" frameType="TwoByHalf" press="onFilterSent" class="sapUiTinyMarginEnd sapUiTinyMarginBottom" width="11rem">
                 <TileContent>
                     <NumericContent value="24" valueColor="Good" icon="sap-icon://accept"/>
                 </TileContent>
@@ -428,12 +418,12 @@ sapUiContentLabel" />
                 </IconTabFilter>
 
                 <IconTabFilter key="Sent" text="✅
-Sent to S/4 (24)">
+Sales Orders Created(24)">
                     <Table id="s4Table" items="{/SentToS4}">
                         <headerToolbar>
                             <OverflowToolbar>
                                 <Title text="✅
-Sent to S/4HANA Sales Orders" />
+Sales Orders Created" />
                                 <Text text="—
 Sales Order created, monitoring S/4 status" class="sapUiTinyMarginBegin sapUiContentLabel" />
                                 <ToolbarSpacer />

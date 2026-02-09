@@ -1,0 +1,169 @@
+<core:FragmentDefinition xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:u="sap.ui.unified">
+
+    <Dialog title="Upload Customer Documents" contentWidth="820px">
+
+        <VBox alignItems="Center" width="800px">
+
+            <!-- Subtitle -->
+            <Text text="Extract freight orders from PDF, Excel, or Email" class="sapUiSmallMarginBottom"/>
+
+            <!-- Step Indicator (Custom) -->
+            <HBox id="uploadFlowHBox" justifyContent="Center" class="stepBar sapUiSmallMarginBottom">
+
+                <GenericTag status="Success" design="StatusIconHidden" text="Select Type"/>
+                <Text text="→" class="stepArrow"/>
+                <GenericTag text="Upload File" design="StatusIconHidden" status="Information" />
+                <Text text="→" class="stepArrow"/>
+                <GenericTag text="Review Queue" design="StatusIconHidden" status="None"/>
+            </HBox>
+            <HBox id="uploadFlowHBoxReview" visible="false" justifyContent="Center" class="stepBar sapUiSmallMarginBottom">
+
+                <GenericTag status="Success" design="StatusIconHidden" text="Select Type"/>
+                <Text text="→" class="stepArrow"/>
+                <GenericTag text="Upload File" design="StatusIconHidden" status="Success" />
+                <Text text="→" class="stepArrow"/>
+                <GenericTag text="Review Queue" design="StatusIconHidden" status="Information"/>
+            </HBox>
+            <!-- Drop Area -->
+            <VBox id="uploadFrightVBox" alignItems="Center" class="dropZone">
+
+                <core:Icon src="sap-icon://upload-to-cloud" size="3rem" color="#0854a0"/>
+
+                <Text text="Drop PDF here or click to upload" class="sapUiSmallMarginTop sapUiSmallMarginBottom"/>
+
+                <Text text="PDF, JPG, PNG · Max 10MB" class="sapUiTinyMarginBottom" />
+
+                <!-- FileUploader -->
+                <u:FileUploader id="pdfUploader" name="file" uploadOnChange="false" sameFilenameAllowed="false" fileType="pdf,png,jpg" maximumFileSize="10" buttonOnly="false" buttonText="Click to Upload" change=".onFileSelected"/>
+
+                <!-- Language Pills -->
+                <HBox class="sapUiSmallMarginTop">
+                    <ObjectStatus text="GB English" state="Information"/>
+                    <ObjectStatus text="TH Thai" state="Warning" class="sapUiTinyMarginBegin"/>
+                </HBox>
+
+            </VBox>
+            <VBox id="CustomContentBox" visible="false">
+                <List mode="MultiSelect"  id="freightList" class="freightList" width="100%" multiSelectMode="SelectAll">
+                    <!-- Header -->
+                    <headerToolbar>
+                        <Toolbar>
+                            <CheckBox id="selectAllCB" text="Select All" select=".onSelectAll"/>
+
+                            <ToolbarSpacer/>
+
+                            <Button text="Confirm Selection" type="Emphasized" press=".onConfirmSelection"/>
+                        </Toolbar>
+                    </headerToolbar>
+                    <!-- Item 1 -->
+                    <CustomListItem class="freightItem">
+                        <HBox justifyContent="SpaceBetween" alignItems="Center" width="100%">
+
+                            <!-- Left Content -->
+                            <VBox class="sapUiSmallMarginBegin">
+
+                                <!-- Header Row -->
+                                <HBox alignItems="Center" class="sapUiTinyMarginBottom">
+                                    <Text text="FO-DRAFT-1304-1" class="freightTitle sapUiTinyMarginEnd"/>
+
+                                    <GenericTag text="Draft" status="Warning" class="sapUiTinyMarginEnd"/>
+                                    <GenericTag text="88.5%" status="Information" class="sapUiTinyMarginEnd"/>
+                                    <GenericTag text="BFPL"/>
+                                </HBox>
+
+                                <!-- Meta Row 1 -->
+                                <HBox class="sapUiTinyMarginBottom">
+                                    <core:Icon src="sap-icon://building" class="metaIcon"/>
+                                    <Text text="หจก.ธงชัยบริการ" class="metaText sapUiTinyMarginEnd"/>
+
+                                    <core:Icon src="sap-icon://pushpin-on" class="metaIcon"/>
+                                    <Text text="140H-CUST" class="metaText sapUiTinyMarginEnd"/>
+
+                                    <core:Icon src="sap-icon://factory" class="metaIcon"/>
+                                    <Text text="130H" class="metaText sapUiTinyMarginEnd"/>
+
+                                    <core:Icon src="sap-icon://shipping-status" class="metaIcon"/>
+                                    <Text text="THSCC6719H" class="metaText"/>
+                                </HBox>
+
+                                <!-- Meta Row 2 -->
+                                <HBox>
+                                    <core:Icon src="sap-icon://document" class="metaIcon"/>
+                                    <Text text="D:12K + G95:7K" class="metaText sapUiTinyMarginEnd"/>
+
+                                    <core:Icon src="sap-icon://calendar" class="metaIcon"/>
+                                    <Text text="2026-02-07" class="metaText"/>
+                                </HBox>
+
+                            </VBox>
+
+                            <!-- Action -->
+                            <Button text="Review" icon="sap-icon://edit" type="Emphasized" press="onUploadFreightPress"/>
+
+                        </HBox>
+                    </CustomListItem>
+
+                    <!-- Item 2 -->
+                    <CustomListItem class="freightItem">
+                        <HBox justifyContent="SpaceBetween" alignItems="Center" width="100%">
+
+                            <VBox class="sapUiSmallMarginBegin">
+
+                                <HBox alignItems="Center" class="sapUiTinyMarginBottom">
+                                    <Text text="FO-DRAFT-1304-2" class="freightTitle sapUiTinyMarginEnd"/>
+
+                                    <GenericTag text="Draft" status="Warning" class="sapUiTinyMarginEnd"/>
+                                    <GenericTag text="94.1%" status="Information" class="sapUiTinyMarginEnd"/>
+                                    <GenericTag text="BFPL"/>
+                                </HBox>
+
+                                <HBox class="sapUiTinyMarginBottom">
+                                    <core:Icon src="sap-icon://building" class="metaIcon"/>
+                                    <Text text="บริษัท นกนคร จำกัด" class="metaText sapUiTinyMarginEnd"/>
+
+                                    <core:Icon src="sap-icon://pushpin-on" class="metaIcon"/>
+                                    <Text text="150H-CUST" class="metaText sapUiTinyMarginEnd"/>
+
+                                    <core:Icon src="sap-icon://factory" class="metaIcon"/>
+                                    <Text text="140H" class="metaText sapUiTinyMarginEnd"/>
+
+                                    <core:Icon src="sap-icon://shipping-status" class="metaIcon"/>
+                                    <Text text="THSCC6715H" class="metaText"/>
+                                </HBox>
+
+                                <HBox>
+                                    <core:Icon src="sap-icon://document" class="metaIcon"/>
+                                    <Text text="D:12K + G95:5K" class="metaText sapUiTinyMarginEnd"/>
+
+                                    <core:Icon src="sap-icon://calendar" class="metaIcon"/>
+                                    <Text text="2026-02-04" class="metaText"/>
+                                </HBox>
+
+                            </VBox>
+
+                            <Button text="Review" icon="sap-icon://edit" type="Emphasized" press="onUploadFreightPress"/>
+
+                        </HBox>
+                    </CustomListItem>
+
+                </List>
+
+            </VBox>
+
+            <!-- <Button id="extractBtn" text="Extract" icon="sap-icon://process" type="Emphasized" visible="false" press=".onExtractPress"/> -->
+            <!-- Demo Button -->
+            <!-- <Button text="Run Demo with Sample" icon="sap-icon://sys-help" type="Emphasized" class="sapUiMediumMarginTop" width="240px" press=".onExtractPress"/> -->
+
+        </VBox>
+        <beginButton>
+            <Button id="extractBtn" text="Upload" icon="sap-icon://process" type="Emphasized" visible="false" press=".onUploadPress"/>
+        </beginButton>
+        <endButton>
+            <Button text="Cancel" press=".onCloseDialog1"/>
+        </endButton>
+
+    </Dialog>
+
+</core:FragmentDefinition>

@@ -5,6 +5,9 @@
    ======================================== */
 
 /* Custom IntelliCarrier Classes */
+.fontSizeBig{
+    font-size: x-large;
+}
 .intellicarrier-content-padding {
     padding: 1.5rem !important;
     width: 100% !important;
@@ -794,11 +797,7 @@
     width: 80px !important;
     margin-right: 0.3rem !important;
 }
-/* Force VBox containers to full width */
-.sapMVBox {
-    width: 100% !important;
-    max-width: none !important;
-}
+
 
 /* Force Panel content to full width */
 .sapMPanel,
@@ -2442,6 +2441,10 @@
         flex-direction: column !important;
         gap: 1rem !important;
     }
+
+    .greyStatusText .sapMObjStatusText {
+    color: #6a6d70; /* SAP standard grey */
+}
     
     .premium-rate-card {
         flex-direction: column !important;
@@ -2501,6 +2504,20 @@ color: #0066cc !important;
     font-size: 30px;
     font-weight: bold;
 }
+
+
+/* ========================================
+   DASHBOARD STYLES
+   ======================================== */
+
+
+   /* .kpiTileBlue{
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%) !important;
+    color: white !important;
+    
+    border-radius: 12px !important;
+    box-shadow: 0 8px 30px rgba(59, 130, 246, 0.3) !important;
+   } */
 /* ===== Dialog ===== */
 .docPrintDialog .sapMDialogSection {
     background: #ffffff;
@@ -2646,6 +2663,19 @@ color: #0066cc !important;
     padding: 12px;
     border-left: 4px solid #1b8e3e;
 }
+.podUploadBox {
+    border: 2px dashed #d1d7e0;
+    border-radius: 8px;
+    height: 140px;
+    cursor: pointer;
+    background-color: #fafafa;
+}
+
+.podUploadBox:hover {
+    background-color: #f5faff;
+    border-color: #0a6ed1;
+}
+
 .reconcileHeaderBar {
     background: #49647a !important;
 }
@@ -2747,4 +2777,103 @@ color: #0066cc !important;
     height: 1px;
     margin-top: 10px;
     margin-bottom: 10px;
+}
+
+
+.dropZone {
+    border: 2px dashed #d1d5db;
+    border-radius: 12px;
+    padding: 2rem;
+    background: #fafafa;
+    margin: 20px !important;
+}
+
+.stepBar button {
+    pointer-events: none;
+}
+
+.stepArrow {
+    margin: 0 0.5rem;
+    padding-top: 5px;
+    font-size: 1.2rem;
+}
+.formBox{
+    background-color: #f5f7f9;
+     border: 2px dashed #d9dce1;
+     padding: 15px;
+     border-radius: 10px;
+}
+.productPanel {
+    margin-bottom: 1rem;
+    border-radius: 8px;
+}
+
+.productYellow {
+    background-color: #fff7e6;
+    border: 1px solid #ffd591;
+}
+
+.productGreen {
+    background-color: #f0fff4;
+    border: 1px solid #b7eb8f;
+}
+
+.productBlue {
+    background-color: #e6f7ff;
+    border: 1px solid #91d5ff;
+}
+.summaryValue {
+    font-weight: bold;
+    color: #0a6ed1;
+    font-size: 1.1rem;
+}
+.freightItem {
+    border: 1px solid #91c8f6;
+    border-radius: 12px;
+    margin-bottom: 1rem;
+    padding: 0.75rem;
+    background-color: #eaf6ff;
+}
+
+.freightTitle {
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+.metaIcon {
+    color: #6a6d70;
+    font-size: 0.9rem;
+    margin-right: 0.25rem;
+}
+
+.metaText {
+    font-size: 0.85rem;
+    color: #32363a;
+}
+.infoCard {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 1rem;
+    /* min-width: 320px; */
+}
+.readyShipmentBox {
+    background-color: #e8f5e9;
+    border: 2px solid #1e8e3e;
+    border-radius: 12px;
+    padding: 1rem 1.5rem;
+}
+
+.readyShipmentBox .sapUiIcon {
+    color: #1e8e3e;
+}
+.channelTile{
+    border: 1.5px solid #d4d8d5;
+    background-color: #e3ebf8;
+        border-left: 6px solid #0a6ed1; /* thick left border */
+
+}
+.bluetext{
+    font: 10px;
+    color: #0066cc;
 }

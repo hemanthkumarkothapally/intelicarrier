@@ -51,7 +51,8 @@
       "minUI5Version": "1.138.1",
       "libs": {
         "sap.m": {},
-        "sap.ui.core": {}
+        "sap.ui.core": {},
+        "sap.viz": {}
       }
     },
     "contentDensities": {
@@ -77,13 +78,35 @@
         "type": "sap.ui.model.json.JSONModel",
         "uri": "model/RateMaster.json"
       },
+      "gateLogModel": {
+        "type": "sap.ui.model.json.JSONModel",
+        "uri": "model/gateLogData.json"
+      },
       "SubDistrictModel": {
         "type": "sap.ui.model.json.JSONModel",
         "uri": "model/subdistricts.json"
       },
+      "vehicleDataModel": {
+        "type": "sap.ui.model.json.JSONModel",
+        "uri": "model/vehicleData.json"
+      },
       "orders": {
         "type": "sap.ui.model.json.JSONModel",
         "uri": "model/orders.json",
+        "settings": {
+          "defaultBindingMode": "TwoWay"
+        }
+      },
+      "OrdersD": {
+        "type": "sap.ui.model.json.JSONModel",
+        "uri": "model/OrdersD.json",
+        "settings": {
+          "defaultBindingMode": "TwoWay"
+        }
+      },
+      "dashboard": {
+        "type": "sap.ui.model.json.JSONModel",
+        "uri": "model/dashboard.json",
         "settings": {
           "defaultBindingMode": "TwoWay"
         }

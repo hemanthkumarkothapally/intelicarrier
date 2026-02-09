@@ -2,433 +2,385 @@
     xmlns:core="sap.ui.core"
     xmlns:f="sap.ui.layout.form">
 
-    <Dialog id="fleetCockpitDialog" contentWidth="80%" contentHeight="70%" draggable="true" resizable="true" title="Fleet Cockpit Analysis" class="sapUiResponsivePadding--content">
+    <Dialog id="fleetCockpitDialog" contentWidth="80%" contentHeight="70%" draggable="true" resizable="true" title="{= (${OrdersD>/isEdit} ? 'Edit' : 'Create') + ' Shipment'}" class="sapUiResponsivePadding--content">
 
-        <!-- ===== HEADER ===== -->
-        <!-- <customHeader >
-            <Bar >
-                <contentLeft>
-                    <HBox>
-                        <core:Icon src="sap-icon://shipping-status" class="sapUiTinyMarginEnd"/>
-                        <VBox>
-                            <Title text="Fleet Cockpit Analysis" level="H4"/>
-                            <Text text="{selectedOrder>/orderId} - {selectedOrder>/customer}" />
-                        </VBox>
-                    </HBox>
-                </contentLeft>
-                <contentRight>
-                    <Button icon="sap-icon://decline" press=".onCloseFleetCockpit"/>
-                </contentRight>
-            </Bar>
-        </customHeader> -->
-
-        <!-- ===== CONTENT ===== -->
         <content>
             <VBox width="100%" class="sapUiSmallMargin">
-
-                <!-- ORDER SUMMARY -->
-                <Panel headerText="Order Summary" width="100%">
-                    <HBox justifyContent="SpaceBetween" wrap="NoWrap">
-
-                        <VBox>
-                            <Title text="Route" class="sapUiTinyMarginBottom"/>
-                            <Text text="{selectedOrder>/from} → {selectedOrder>/to}" class="sapUiBoldText"/>
-                            <Text text="{selectedOrder>/distance}"/>
-                        </VBox>
-
-                        <VBox>
-                            <Title text="Cargo" class="sapUiTinyMarginBottom"/>
-                            <Text text="{selectedOrder>/cargoType}" class="sapUiBoldText"/>
-                            <Text text="{selectedOrder>/cargoInfo}"/>
-                        </VBox>
-
-                        <VBox>
-                            <Title text="Delivery Date"/>
-                            <Text text="{selectedOrder>/deliveryDate}" class="sapUiBoldText"/>
-                        </VBox>
-
-                        <VBox>
-                            <Title text="Priority"/>
-                            <ObjectStatus text="{selectedOrder>/priority}" state="{selectedOrder>/priorityState}"/>
-                        </VBox>
-
-                        <VBox>
-                            <Title text="Value"/>
-                            <Text text="{selectedOrder>/value}" class="sapUiBoldText sapUiPositiveText"/>
-                        </VBox>
-
-                    </HBox>
-                </Panel>
-                <Panel >
-                    <content>
-
-                        <VBox >
-
-                            <!-- Row 1 : Customer + Contact -->
-                            <HBox width="100%" class="sapUiSmallMarginBottom">
-                                <VBox width="50%" class="sapUiSmallMarginEnd">
-                                    <Label text="CUSTOMER NAME" design="Bold"/>
-                                    <Input value="Atlas-LPG Corp"/>
-                                </VBox>
-
-                                <VBox width="50%">
-                                    <Label text="CONTACT PERSON" design="Bold"/>
-                                    <Input value="Mr. Somchai"/>
-                                </VBox>
-                            </HBox>
-
-                            <!-- Row 2 : Origin + Destination -->
-                            <HBox width="100%" class="sapUiSmallMarginBottom">
-                                <VBox width="50%" class="sapUiSmallMarginEnd">
-                                    <Label text="ORIGIN" design="Bold"/>
-                                    <Input value="Bangkok (Bangchak Depot)"/>
-                                </VBox>
-
-                                <VBox width="50%">
-                                    <Label text="DESTINATION" design="Bold"/>
-                                    <Input value="Chiang Mai (LPG Station)"/>
-                                </VBox>
-                            </HBox>
-
-                            <!-- Row 3 : Cargo + Weight + Volume + Delivery -->
-                            <HBox width="100%">
-                                <VBox width="25%" class="sapUiSmallMarginEnd">
-                                    <Label text="CARGO DESCRIPTION" design="Bold"/>
-                                    <Input value="LPG Gas"/>
-                                </VBox>
-
-                                <VBox width="25%" class="sapUiSmallMarginEnd">
-                                    <Label text="WEIGHT (KG)" design="Bold"/>
-                                    <Input value="6030" valueState="Warning"/>
-                                </VBox>
-
-                                <VBox width="25%" class="sapUiSmallMarginEnd">
-                                    <Label text="VOLUME (M³)" design="Bold"/>
-                                    <Input value="13" valueState="Warning"/>
-                                </VBox>
-
-                                <VBox width="25%">
-                                    <Label text="DELIVERY DATE" design="Bold"/>
-                                    <DatePicker value="16-01-2026" displayFormat="dd-MM-yyyy" valueFormat="dd-MM-yyyy"/>
-                                </VBox>
-                            </HBox>
-
-                        </VBox>
-
-                    </content>
-                </Panel>
-                <Panel >
-   <!-- Row 1 (Dropdowns) -->
-            <HBox width="100%" justifyContent="SpaceBetween">
-
-                <!-- Product Type -->
-                <VBox width="48%">
-                    <Label text="PRODUCT TYPE *" design="Bold"/>
-
-                    <Select
-                        width="98%"
-                        selectedKey="{formModel>/productType}"
-                        change=".onProductOrRouteChange">
-
-                        <items>
-                            <core:Item key="" text="-- Select Product Type --"/>
-                            <core:Item key="LPG" text="LPG (Liquefied Petroleum Gas)" />
-                            <core:Item key="FUEL_WO" text="Fuel WO (Fuel Work Order)" />
-                            <core:Item key="NGV" text="NGV (Natural Gas Vehicle)" />
-                            <core:Item key="CHEM" text="Chemical" />
-                            <core:Item key="CONT" text="Container" />
-                        </items>
-                    </Select>
-                </VBox>
-
-                <!-- Route Code -->
-                <VBox width="48%">
-                    <Label text="ROUTE CODE *" design="Bold"/>
-
-                    <Select
-                        width="98%"
-                        selectedKey="{formModel>/routeCode}"
-                        change=".onProductOrRouteChange">
-
-                        <items>
-                            <core:Item key="" text="-- Select Route --"/>
-                            <core:Item key="RT-CONT-001" text="RT-CONT-001 - LCB-BKK ICD"/>
-                            <core:Item key="RT-CONT-002" text="RT-CONT-002 - BKK-CNX"/>
-                            <core:Item key="RT-LPG-001" text="RT-LPG-001 - BKK-HKT"/>
-                        </items>
-                    </Select>
-                </VBox>
-
-            </HBox>
-            <!-- Row 2 (Info box) Visible only when both selected -->
-            <VBox
-                class="sapUiSmallMarginTop routeInfoBox"
-                visible="{= ${formModel>/distance} !== ''}"
-                >
-
-                <HBox justifyContent="SpaceBetween" class="sapUiSmallMargin">
-
-                    <VBox width="25%">
-                        <Text text="DISTANCE" class="sapUiContentLabel"/>
-                        <Text text="{formModel>/distance}" class="sapUiBoldText"/>
-                    </VBox>
-
-                    <VBox width="25%">
-                        <Text text="EST. DURATION" class="sapUiContentLabel"/>
-                        <Text text="{formModel>/duration}" class="sapUiBoldText"/>
-                    </VBox>
-
-                    <VBox width="25%">
-                        <Text text="BASE RATE" class="sapUiContentLabel"/>
-                        <Text text="{formModel>/baseRate}" class="sapUiBoldText"/>
-                    </VBox>
-
-                    <VBox width="25%">
-                        <Text text="ZLSDE SCREEN" class="sapUiContentLabel"/>
-                        <Link text="{formModel>/zlsdeScreen}" press=".onOpenZlsdeScreen"/>
-                    </VBox>
-
-                </HBox>
-
-            </VBox>
-
-                </Panel>
-
-
-                <!-- <HBox width="100%" class="sapUiMediumMarginTop" alignItems="Stretch" justifyContent="SpaceAround"> -->
-                <FlexBox width="100%" wrap="NoWrap" alignItems="Stretch" class="sapUiMediumMarginBottom">
-                    <List headerText="🚛 Internal Fleet Options" selectionChange="onCarrierListSelected" class=" ab12345 sapUiTinyMarginEnd" mode="SingleSelectMaster">
-                        <layoutData>
-                            <FlexItemData growFactor="1"/>
-                        </layoutData>
-                        <CustomListItem class="sapUiTinyMargin">
-                            <VBox class="sapUiSmallMargin">
-
-                                <Text text="🚛TH-1234 - 6-Wheeler Truck" class="sapUiBoldText"/>
-
-
-                                <Text text="Driver: Somchai Prasert"/>
-                                <HBox justifyContent="Start" alignItems="Center" class="sapUiTinyMargin">
-                                    <Text text="ETA: 2 day(s)"/>
-                                    <Text text="Capacity: 8,000 kg"/>
-                                    <Text text="฿ 11,398" class="sapUiBoldText sapUiPositiveText"/>
-                                </HBox>
-                                <Text text="Base: ฿ 9,000 | Fuel: ฿ 2,398" class="sapUiTinyMarginTop"/>
-                            </VBox>
-                        </CustomListItem>
-
-                        <CustomListItem>
-                            <VBox class="sapUiSmallMargin">
-                                <Text text="🚛 TH-2345 - 10-Wheeler Truck" class="sapUiBoldText"/>
-                                <Text text="Driver: Wichai Thongsuk"/>
-                                <HBox justifyContent="Start" class="sapUiTinyMargin">
-                                    <Text text="ETA: 2 day(s)"/>
-                                    <Text text="Capacity: 15,000 kg"/>
-                                    <Text text="฿ 15,398" class="sapUiBoldText sapUiPositiveText"/>
-                                </HBox>
-                                <Text text="Base: ฿ 13,000 | Fuel: ฿ 2,398" class="sapUiTinyMarginTop"/>
-                            </VBox>
-                        </CustomListItem>
-
-                        <CustomListItem>
-                            <VBox class="sapUiSmallMargin">
-                                <Text text="🚛 TH-6789 - Refrigerated Truck" class="sapUiBoldText"/>
-                                <Text text="Driver: Surachai Pranee"/>
-                                <HBox justifyContent="Start" class="sapUiTinyMargin">
-                                    <Text text="ETA: 2 day(s)"/>
-                                    <Text text="Capacity: 5,000 kg"/>
-                                    <Text text="฿ 17,398" class="sapUiBoldText sapUiPositiveText"/>
-                                </HBox>
-                                <Text text="Base: ฿ 15,000 | Fuel: ฿ 2,398" class="sapUiTinyMarginTop"/>
-                            </VBox>
-                        </CustomListItem>
-
-                    </List>
-
-
-                    <List headerText="🏢 External Carrier Options" mode="SingleSelectMaster" selectionChange=".onCarrierListSelected" class="ab12345 sapUiTinyMarginBegin">
-                        <layoutData>
-                            <FlexItemData growFactor="1"/>
-                        </layoutData>
-                        <CustomListItem selected="true">
-                            <VBox class="sapUiSmallMargin">
-                                <Text text="🏢 J&amp;T Express" class="sapUiBoldText"/>
-                                <ObjectStatus text="★★★★☆ 4.5"/>
-                                <HBox justifyContent="Start" class="sapUiTinyMargin">
-                                    <Text text="Lead Time: 2–3 days"/>
-                                    <Text text="Coverage: Nationwide"/>
-                                    <Text text="฿ 4,110" class="sapUiBoldText sapUiPositiveText"/>
-                                </HBox>
-                                <Text text="Base: ฿ 140 | Distance: ฿ 4,110" class="sapUiTinyMarginTop"/>
-                            </VBox>
-                        </CustomListItem>
-
-                        <CustomListItem>
-                            <VBox class="sapUiSmallMargin">
-                                <Text text="🏢 Flash Express" class="sapUiBoldText"/>
-                                <ObjectStatus text="★★★★☆ 4.6"/>
-                                <HBox justifyContent="Start" class="sapUiTinyMargin">
-                                    <Text text="Lead Time: 1–3 days"/>
-                                    <Text text="Coverage: Nationwide"/>
-                                    <Text text="฿ 4,945" class="sapUiBoldText sapUiPositiveText"/>
-                                </HBox>
-                                <Text text="Base: ฿ 150 | Distance: ฿ 4,795" class="sapUiTinyMarginTop"/>
-                            </VBox>
-                        </CustomListItem>
-
-                        <CustomListItem>
-                            <VBox class="sapUiSmallMargin">
-                                <Text text="🏢 Kerry Express Thailand" class="sapUiBoldText"/>
-                                <ObjectStatus text="★★★★☆ 4.8"/>
-                                <HBox justifyContent="Start" class="sapUiTinyMargin">
-                                    <Text text="Lead Time: 1–2 days"/>
-                                    <Text text="Coverage: Nationwide"/>
-                                    <Text text="฿ 5,655" class="sapUiBoldText sapUiPositiveText"/>
-                                </HBox>
-                                <Text text="Base: ฿ 175 | Distance: ฿ 5,480" class="sapUiTinyMarginTop"/>
-                            </VBox>
-                        </CustomListItem>
-
-                        <CustomListItem>
-                            <VBox class="sapUiSmallMargin">
-                                <Text text="🏢 SCG Logistics" class="sapUiBoldText"/>
-                                <ObjectStatus text="★★★★☆ 4.7"/>
-                                <HBox justifyContent="Start" class="sapUiTinyMargin">
-                                    <Text text="Lead Time: 1–2 days"/>
-                                    <Text text="Coverage: Regional"/>
-                                    <Text text="฿ 7,075" class="sapUiBoldText sapUiPositiveText"/>
-                                </HBox>
-                                <Text text="Base: ฿ 225 | Distance: ฿ 6,850" class="sapUiTinyMarginTop"/>
-                            </VBox>
-                        </CustomListItem>
-
-                        <CustomListItem>
-                            <VBox class="sapUiSmallMargin">
-                                <Text text="🏢 DHL Thailand" class="sapUiBoldText"/>
-                                <ObjectStatus text="★★★★☆ 4.9"/>
-                                <HBox justifyContent="Start" class="sapUiTinyMargin">
-                                    <Text text="Lead Time: 1–2 days"/>
-                                    <Text text="Coverage: International"/>
-                                    <Text text="฿ 8,470" class="sapUiBoldText sapUiPositiveText"/>
-                                </HBox>
-                                <Text text="Base: ฿ 250 | Distance: ฿ 8,220" class="sapUiTinyMarginTop"/>
-                            </VBox>
-                        </CustomListItem>
-
-                    </List>
-
-                </FlexBox>
-                <!-- </HBox> -->
-                <!-- <Panel class="sapUiMediumMarginTop recomendation" backgroundDesign="Solid">
-
-                    <HBox justifyContent="SpaceBetween" alignItems="Center" class="sapUiSmallMargin">
-
-                        <VBox alignItems="Center">
-                            <core:Icon src="sap-icon://shipping-status" color="blue"/>
-                            <Title text="Best Internal"/>
-                            <Text text="฿ 11,398" class="sapUiBoldText sapUiPositiveText"/>
-                            <Text text="TH-1234"/>
-                        </VBox>
-
-                        <core:Icon src="sap-icon://compare"/>
-
-                        <VBox alignItems="Center">
-                            <core:Icon src="sap-icon://supplier" color="green"/>
-                            <Title text="Best External"/>
-                            <Text text="฿ 4,110" class="sapUiBoldText sapUiPositiveText"/>
-                            <Text text="J&amp;T Express"/>
-                        </VBox>
-
-                        <Button text="External Carrier" type="Emphasized" icon="sap-icon://accept"/>
-                    </HBox>
-                </Panel> -->
-                <HBox id="selectedCarrierBox" visible="{= ${selectionModel>/visible} }" class="sapUiSmallMarginTop sapUiSmallMarginBottom selectedCarrierBox" alignItems="Center" justifyContent="Start">
-
-                    <HBox class="sapUiSmallMargin">
-                        <Text text="✓ Selected:" class="sapUiBoldText sapUiTinyMarginEnd"/>
-                        <Text text="{selectionModel>/text}" class="sapUiTinyMarginEnd"/>
-                        <!-- <Text text="({selectionModel>/price})" class="sapUiBoldText sapUiPositiveText"/> -->
+                <VBox class="formBox sapUiMediumMarginTop">
+                    <HBox alignItems="Center" class="sapUiSmallMarginBottom">
+                        <Title text="Select Business Unit &amp; Product Type" level="H4"/>
                     </HBox>
 
-                </HBox>
-                <Panel >
-                
-                <HBox width="100%" justifyContent="SpaceBetween">
+                    <f:SimpleForm backgroundDesign="Transparent" editable="true" layout="ColumnLayout" columnsXL="3" columnsL="3" columnsM="3">
+                        <f:content>
+                            <Label text="หน่วยงาน (Business Unit)" required="true"/>
+                            <ComboBox placeholder="-Select BU-" value="{OrdersD>/editData/bu}" width="100%" items="{OrdersD>/sections/0/fields/0/options}">
+                                <items>
+                                    <core:Item key="{OrdersD>}" text="{OrdersD>}"/>
+                                </items>
+                            </ComboBox>
 
-                <!-- Product Type -->
-                <VBox width="48%">
-                        <Label text="SELECT DRIVER *" design="Bold"/>
-                    <Select
-                        width="100%"
-                        selectedKey="{driverModel>/selectedDriverId}"
-                        change=".onDriverChange">
+                            <Label text="ชนิดสินค้า (Product Type)"/>
+                            <ComboBox items="{OrdersD>/sections/0/fields/1/options}" value="{OrdersD>/editData/productType}" placeholder="— Select Product —" width="100%">
+                                <items>
+                                    <core:Item key="{OrdersD>}" text="{OrdersD>}"/>
+                                </items>
+                            </ComboBox>
 
+                            <Label text="Site (Optional)" required="true"/>
+                            <ComboBox width="100%" placeholder="All Sites" value="{OrdersD>/editData/site}" items="{OrdersD>/sections/0/fields/2/options}">
+                                <items>
+                                    <core:Item key="{OrdersD>}" text="{OrdersD>}"/>
+                                </items>
+                            </ComboBox>
+
+                            <Label text="Route" visible="{OrdersD>/isEdit}"/>
+                            <Input value="010005" visible="{= ${OrdersD>/isEdit}}" editable="false" />
+
+                            <Label text="Customer" visible="{OrdersD>/isEdit}"/>
+                            <Input value="ไทยเบฟ (บางบาล)" visible="{= ${OrdersD>/isEdit}}"  editable="false" />
+
+                            <Label text="Ship-To" visible="{OrdersD>/isEdit}"/>
+                            <Input value="010025" visible="{= ${OrdersD>/isEdit}}" editable="false" />
+
+                            <Label text="Quantity" visible="{OrdersD>/isEdit}"/>
+                            <Input value="15,000 kg" visible="{= ${OrdersD>/isEdit}}" editable="false" />
+
+                            <Label text="Planned Date" visible="{OrdersD>/isEdit}"/>
+                            <Input value="05.02.2026" visible="{= ${OrdersD>/isEdit}}" editable="false" />
+
+                            <Label text="Contract/WBS" visible="{OrdersD>/isEdit}"/>
+                            <Input value="08S.26CF.BPK.001" visible="{= ${OrdersD>/isEdit}}" editable="false" />
+
+                            <Label text="Status" visible="{OrdersD>/isEdit}" />
+                            <ObjectStatus text="Approved" state="Success" visible="{OrdersD>/isEdit}" />
+
+                        </f:content>
+                    </f:SimpleForm>
+                </VBox>
+
+                <VBox visible="{OrdersD>/isEdit}" class="formBox sapUiMediumMarginTop">
+                    <HBox alignItems="Center" justifyContent="SpaceBetween" class="sapUiSmallMarginBottom">
                         <items>
-                            <core:Item key="" text="-- Select Driver --"/>
-                            <core:Item key="DRV-003" text="Narong Somjai (Class 2 + Fuel)"/>
-                            <core:Item key="DRV-001" text="Somchai Prasert (Class 1)"/>
-                            <core:Item key="DRV-002" text="Wichai Thongsuk (Class 2)"/>
+                            <Title text="Add More Freight Orders (Same Route)" level="H4"/>
+                            <ObjectStatus id="addedFOCountBadge" text="0 Added" state="Information" inverted="true" />
                         </items>
-                    </Select>
-                
+                    </HBox>
+
+                    <MessageStrip text="Consolidate multiple FOs into one shipment. When route changes, matching FOs will refresh." type="Information" showIcon="true" class="sapUiSmallMarginBottom" />
+
+                    <Table id="matchingFOTable" inset="false" mode="MultiSelect" selectionChange=".onFOToggle" sticky="ColumnHeaders">
+                        <headerToolbar>
+                            <OverflowToolbar>
+                                <content>
+                                    <Label text="Matching FOs for Route:" />
+                                    <Title id="matchingRouteLabel" text="BPK-NKC" level="H5" />
+                                    <ToolbarSpacer />
+                                    <Button icon="sap-icon://refresh" text="Refresh" press=".onRefreshMatchingFOs" />
+                                </content>
+                            </OverflowToolbar>
+                        </headerToolbar>
+                        <columns>
+                            <Column>
+                                <Text text="FO No." />
+                            </Column>
+                            <Column>
+                                <Text text="Customer" />
+                            </Column>
+                            <Column>
+                                <Text text="Ship-To" />
+                            </Column>
+                            <Column hAlign="End">
+                                <Text text="Quantity" />
+                            </Column>
+                        </columns>
+                        <items>
+                            <ColumnListItem>
+                                <cells>
+                                    <Text text="FO-2026-0002" class="sapUiTinyMarginTop sapUiTinyMarginBottom" />
+                                    <Text text="ไทยเบฟ (บางบาล)" />
+                                    <Text text="010025" />
+                                    <ObjectNumber number="12,000" unit="kg" />
+                                </cells>
+                            </ColumnListItem>
+                            <ColumnListItem>
+                                <cells>
+                                    <Text text="FO-2026-0007" />
+                                    <Text text="ไทยเบฟ (บางบาล)" />
+                                    <Text text="010025" />
+                                    <ObjectNumber number="10,000" unit="kg" />
+                                </cells>
+                            </ColumnListItem>
+                        </items>
+                    </Table>
+
+                    <VBox id="addedFOSummaryBox" visible="false" class="sapUiSmallMarginTop sapUiContentPadding">
+                        <items>
+                            <HBox alignItems="Center" class="sapUiTinyMarginBottom">
+                                <core:Icon src="sap-icon://accept" color="#107e3e" class="sapUiTinyMarginEnd" />
+                                <Label text="✓ Consolidated Freight Orders" design="Bold" />
+                            </HBox>
+                            <VBox id="consolidatedListContainer">
+                            </VBox>
+                        </items>
+                    </VBox>
                 </VBox>
 
-                <!-- Route Code -->
-                <VBox width="48%">
-                    <Label text="DRIVER DETAILS" design="Bold"/>
+                <VBox class="formBox sapUiMediumMarginTop">
+                    <HBox alignItems="Center" class="sapUiSmallMarginBottom">
+                        <Title text="Shipment Header" level="H4"/>
+                    </HBox>
 
-                    <Text
-                        text="{driverModel>/driverDetails}"
-                        class="sapUiTinyMarginTop"/>
-        
+                    <f:SimpleForm backgroundDesign="Transparent" editable="true" layout="ColumnLayout" columnsXL="3" columnsL="3" columnsM="3">
+                        <f:content>
+                            <Label text="Shipment No." />
+                            <Input value="{OrdersD>/editData/shipmentNo}" placeholder="Auto generated" editable="false" />
 
+                            <Label text="Shipment Type" required="true" />
+                            <ComboBox value="{OrdersD>/editData/shipmentType}" placeholder="— Select —" selectedKey="0602" items="{OrdersD>/sections/2/fields/1/options}">
+                                <core:Item key="{OrdersD>}" text="{OrdersD>}" />
+                            </ComboBox>
+
+                            <Label text="Shipping Type" required="true" />
+                            <ComboBox value="{OrdersD>/editData/shippingType}" placeholder="— Select —" selectedKey="01" items="{OrdersD>/sections/2/fields/2/options}">
+                                <core:Item key="{OrdersD>}" text="{OrdersD>}" />
+                            </ComboBox>
+
+                            <Label text="Product Type" />
+                            <Input value="{OrdersD>/editData/productType}" editable="false" />
+
+                            <Label text="BU / Site" />
+                            <Input value="{OrdersD>/editData/buSiteDisplay}" editable="false" />
+
+                            <Label text="Route" required="true" />
+                            <ComboBox value="{OrdersD>/editData/routeID}" placeholder="— Select Route —" change=".onRouteChange" items="{OrdersD>/sections/2/fields/5/options}">
+                                <core:Item key="{OrdersD>}" text="{OrdersD>}" />
+                            </ComboBox>
+
+                            <Label text="Contract/WBS" required="true" />
+                            <Input value="{OrdersD>/editData/wbs}" />
+
+                            <Label text="Contract Date" required="true" />
+                            <DatePicker value="{OrdersD>/editData/contractDate}" valueFormat="yyyy-MM-dd" />
+
+                            <Label text="Planned Date/Time" required="true" />
+                            <DateTimePicker value="{OrdersD>/editData/plannedDateTime}"/>
+                        </f:content>
+                    </f:SimpleForm>
                 </VBox>
 
-            </HBox>
-                </Panel>
-                
-                <Panel
-    backgroundDesign="Solid"
-    visible="{= ${driverModel>/selectedDriverId} !== '' }">
-        <VBox class=" costBox">
+                <VBox class="formBox sapUiMediumMarginTop">
+                    <HBox alignItems="Center" justifyContent="SpaceBetween" class="sapUiSmallMarginBottom">
+                        <Title text="Vehicle Assignment" level="H4"/>
+                        <Button text="🚛 Fleet Suggest" type="Emphasized" press=".onFleetSuggest"/>
+                    </HBox>
+                    <f:SimpleForm backgroundDesign="Transparent" editable="true" layout="ColumnLayout" columnsXL="4" columnsL="4" columnsM="2">
+                        <f:content>
+                            <Label text="ทะเบียนหัว (Truck Plate)" required="true"/>
+                            <Input placeholder="e.g. 83-0569" value="{OrdersD>/editData/truckPlate}" showValueHelp="true" valueHelpRequest=".onTruckValueHelp"/>
 
-            <HBox justifyContent="SpaceBetween" class="sapUiTinyMarginBottom">
-                <Text text="Base Transport Cost"/>
-                <Text text="{driverModel>/cost/base}" class="sapUiBoldText"/>
-            </HBox>
+                            <Label text="ทะเบียนพ่วง (Trailer Plate)"/>
+                            <Input placeholder="Auto from truck" value="{OrdersD>/editData/trailerPlate}" editable="false"/>
 
-            <HBox justifyContent="SpaceBetween" class="sapUiTinyMarginBottom">
-                <Text text="Fuel Cost (Est.)"/>
-                <Text text="{driverModel>/cost/fuel}" class="sapUiBoldText sapUiCriticalText"/>
-            </HBox>
+                            <Label text="หมายเลขรถ (Vehicle No.)"/>
+                            <Input placeholder="Or enter vehicle no." value="{OrdersD>/editData/vehicleNo}" showValueHelp="true" valueHelpRequest=".onVehicleValueHelp"/>
 
-            <HBox justifyContent="SpaceBetween" class="sapUiTinyMarginBottom">
-                <Text text="Distance Surcharge"/>
-                <Text text="{driverModel>/cost/surcharge}" class="sapUiBoldText"/>
-            </HBox>
-
-            <HBox justifyContent="SpaceBetween" class="sapUiTinyMarginBottom">
-                <Text text="Service Fee"/>
-                <Text text="{driverModel>/cost/serviceFee}" class="sapUiBoldText"/>
-            </HBox>
-
-            <Toolbar class="sapUiSmallMarginTop">
-                <ToolbarSpacer/>
-                <VBox alignItems="End" height="60px">
-                    <Text text="Total Estimated Cost" class="sapUiBoldText"/>
-                    <Text text="{driverModel>/cost/total}" class="sapUiBoldText sapUiPositiveText"/>
+                            <Label text="Truck Type"/>
+                            <Input placeholder="Auto from lookup" value="{OrdersD>/editData/truckTypeDisplay}" editable="false"/>
+                        </f:content>
+                    </f:SimpleForm>
                 </VBox>
-            </Toolbar>
 
-        </VBox>
-    
-                </Panel>
+                <VBox class="formBox sapUiMediumMarginTop">
+                    <Title text="Drivers &amp; Helpers" level="H4" class="sapUiSmallMarginBottom"/>
+                    <Table id="driverTable" inset="false" sticky="ColumnHeaders">
+                        <columns>
+                            <Column >
+                                <Text text="#"/>
+                            </Column>
+                            <Column>
+                                <Text text="Role"/>
+                            </Column>
+                            <Column >
+                                <Text text="Employee ID"/>
+                            </Column>
+                            <Column>
+                                <Text text="Name"/>
+                            </Column>
+                            <Column>
+                                <Text text="Phone"/>
+                            </Column>
+                            <Column hAlign="Center">
+                                <Text text="Intern"/>
+                            </Column>
+                            <Column hAlign="Center">
+                                <Text text="License ✓"/>
+                            </Column>
+                        </columns>
+                        <items>
+                            <ColumnListItem>
+                                <cells>
+                                    <Text text="1"/>
+                                    <ObjectStatus text="พขร. 1 (Mandatory)" state="Error"/>
+                                    <Input showValueHelp="true" placeholder="serach by ID/Name" valueHelpRequest=".onDriverLookup"/>
+                                    <Input placeholder="— Auto —" editable="false"/>
+                                    <Input placeholder="Phone"/>
+                                    <CheckBox/>
+                                    <ObjectStatus text="✓ Valid" inverted="true" state="Success"></ObjectStatus>
+                                </cells>
+                            </ColumnListItem>
+                            <ColumnListItem>
+                                <cells>
+                                    <Text text="2"/>
+                                    <Text text="พตร. 1 (Helper)"/>
+                                    <Input showValueHelp="true" placeholder="optionial" valueHelpRequest=".onHelperLookup"/>
+                                    <Input placeholder="— Auto —" editable="false"/>
+                                    <Input placeholder="Phone"/>
+                                    <CheckBox/>
+                                    <ObjectStatus text="-"></ObjectStatus>
+                                </cells>
+                            </ColumnListItem>
+                        </items>
+                    </Table>
+                </VBox>
 
+                <VBox class="formBox sapUiMediumMarginTop">
+                    <HBox alignItems="Center" justifyContent="SpaceBetween" class="sapUiSmallMarginBottom">
+                        <Title text="Stages &amp; Route Plan" level="H4"/>
+                        <ObjectNumber number="311" unit="km" state="Information"/>
+                    </HBox>
+                    <Table id="stagesTable" inset="false" alternateRowColors="true">
+                        <headerToolbar>
+                            <OverflowToolbar>
+                                <content>
+                                    <Label text="📍 Stages from Route Master. Distance is read-only." />
+                                </content>
+                            </OverflowToolbar>
+                        </headerToolbar>
+                        <columns>
+                            <Column width="4rem" hAlign="Center">
+                                <Text text="Stage"/>
+                            </Column>
+                            <Column >
+                                <Text text="Departure"/>
+                            </Column>
+                            <Column >
+                                <Text text="Destination"/>
+                            </Column>
+                            <Column width="100px">
+                                <Text text="Type"/>
+                            </Column>
+                            <Column >
+                                <Text text="Planned Arrival"/>
+                            </Column>
+                            <Column >
+                                <Text text="Planned Departure"/>
+                            </Column>
+                            <Column width="80px" hAlign="End">
+                                <Text text="Distance"/>
+                            </Column>
+                            <Column width="100px" hAlign="Center">
+                                <Text text="Actions"/>
+                            </Column>
+                        </columns>
+                        <items>
+                            <ColumnListItem>
+                                <cells>
+                                    <ObjectStatus text="0" state="Information" inverted="true" />
+                                    <VBox>
+                                        <Text text="—" />
+                                        <Text text="—" class="sapUiTinyMarginTop"/>
+                                    </VBox>
+                                    <VBox>
+                                        <Text text="ท่าเรือบางปะกง" />
+                                        <Text text="010007" class="sapUiTinyMarginTop"/>
+                                    </VBox>
+                                    <ObjectStatus text="First" state="None" />
+                                    <DateTimePicker />
+                                    <DateTimePicker />
+                                    <Text text="—" />
+                                    <HBox justifyContent="Center">
+                                        <Button icon="sap-icon://notes" type="Transparent" press=".onReportIn" tooltip="Report-In" visible="false"/>
+                                    </HBox>
+                                </cells>
+                            </ColumnListItem>
 
+                            <ColumnListItem>
+                                <cells>
+                                    <ObjectStatus text="1" state="Warning" inverted="true" />
+                                    <VBox>
+                                        <Text text="ท่าเรือบางปะกง" />
+                                        <Text text="010007" />
+                                    </VBox>
+                                    <VBox>
+                                        <Text text="ไทยเบฟ (บางบาล)" />
+                                        <Text text="010025" />
+                                    </VBox>
+                                    <ObjectStatus text="Transport" state="Warning" />
+                                    <DateTimePicker />
+                                    <DateTimePicker />
+                                    <Text text="151 km" />
+                                    <HBox>
+                                        <Button icon="sap-icon://navigation-up-arrow" press=".onSwapStage" />
+                                        <Button icon="sap-icon://navigation-down-arrow" press=".onSwapStage" />
+                                    </HBox>
+                                </cells>
+                            </ColumnListItem>
+
+                            <ColumnListItem>
+                                <cells>
+                                    <ObjectStatus text="2" state="Success" inverted="true" />
+                                    <VBox>
+                                        <Text text="ไทยเบฟ (บางบาล)" />
+                                        <Text text="010025" />
+                                    </VBox>
+                                    <VBox>
+                                        <Text text="ท่าเรือบางปะกง" />
+                                        <Text text="010007" />
+                                    </VBox>
+                                    <ObjectStatus text="Loading Transfer" state="Success" />
+                                    <DateTimePicker />
+                                    <DateTimePicker />
+                                    <Text text="160 km" />
+                                    <HBox>
+                                        <Button icon="sap-icon://navigation-up-arrow" press=".onSwapStage" />
+                                        <Button icon="sap-icon://navigation-down-arrow" press=".onSwapStage" />
+                                    </HBox>
+                                </cells>
+                            </ColumnListItem>
+                        </items>
+                    </Table>
+                    <HBox justifyContent="SpaceBetween" alignItems="Center" class="sapUiSmallMarginTop">
+                        <Button text="Add Stage" icon="sap-icon://add" press=".onAddStage" />
+                        <HBox alignItems="Center">
+                            <Label text="Total Distance:" class="sapUiSmallMarginEnd" />
+                            <Title text="316 km" titleStyle="H3" />
+                        </HBox>
+                    </HBox>
+                </VBox>
+
+                <VBox class="formBox sapUiMediumMarginTop sapUiLargeMarginBottom">
+                    <Title text="Transport Fee &amp; Trip Pay" level="H4" class="sapUiSmallMarginBottom"/>
+                    <f:SimpleForm backgroundDesign="Transparent" editable="true" layout="ColumnLayout" columnsXL="3" columnsL="3" columnsM="1">
+                        <f:content>
+                            <Label text="ค่าขนส่ง (Transport Fee)"/>
+                            <ComboBox items="{OrdersD>/sections/6/fields/0/options}" value="{OrdersD>/editData/transportFee}" selectedKey="เก็บ">
+                                <core:Item key="{OrdersD>}" text="{OrdersD>}"/>
+                            </ComboBox>
+
+                            <Label text="ค่าเที่ยว (Trip Pay)"/>
+                            <ComboBox items="{OrdersD>/sections/6/fields/1/options}" value="{OrdersD>/editData/tripPay}" selectedKey="จ่าย">
+                                <core:Item key="{OrdersD>}" text="{OrdersD>}"/>
+                            </ComboBox>
+
+                            <Label text="Validation"/>
+                            <CheckBox selected="{OrdersD>/editData/brokenMiles}" text="ไม่คิดเสีย (Broken Miles) — If checked, validates with broken miles criteria (config 004, 005)"/>
+                        </f:content>
+                    </f:SimpleForm>
+                </VBox>
             </VBox>
         </content>
 
-        <!-- ===== FOOTER ===== -->
         <beginButton>
             <Button text="Cancel" press=".onCloseFleetCockpit"/>
         </beginButton>

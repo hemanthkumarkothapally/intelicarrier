@@ -19,7 +19,7 @@
                     </VBox>
                 </contentMiddle>
                 <contentRight>
-                    <HBox alignItems="Center" class="sapUiSmallMarginEnd">
+                    <HBox visible="false" alignItems="Center" class="sapUiSmallMarginEnd">
                         <core:Icon src="sap-icon://quality-issue" size="1rem" color="#E9730C" class="sapUiTinyMarginEnd"/>
                         <Text text="OCR Confidence: {reviewOrder>/ocrConfidence}"/>
                     </HBox>
@@ -141,6 +141,13 @@
                                                 <Label text="Delivery Date" required="true"/>
                                                 <DatePicker value="{reviewOrder>/deliveryDate}" valueFormat="yyyy-MM-dd" displayFormat="dd/MM/yyyy"/>
 
+                                                <Label text="Priority"/>
+                                                <Select selectedKey="Medium">
+                                                    <core:Item key="Low" text="Low" />
+                                                    <core:Item key="Medium" text="Medium" />
+                                                    <core:Item key="High" text="High" />
+                                                </Select>
+
                                                 <Label text="Total Weight (kg)"/>
                                                 <Input value="{reviewOrder>/totalWeight}" type="Number"/>
 
@@ -178,9 +185,9 @@
                             <content>
                                 <VBox alignItems="Center" width="50%" class="sapUiLargeMarginTopBottom sapUiLargeMarginBeginEnd">
                                     <core:Icon src="sap-icon://pdf-attachment" size="5rem" color="#666"/>
-                                    <Title text="{reviewOrder>/documentName}" level="H5" class="sapUiSmallMarginTop"/>
+                                    <Title visible="false" text="{reviewOrder>/documentName}" level="H5" class="sapUiSmallMarginTop"/>
                                     <Text text="{reviewOrder>/sourceText} • {reviewOrder>/language}" class="sapUiTinyMarginTop sapUiTinyText"/>
-                                    <unified:FileUploader buttonOnly="true" buttonText="Upload PDF" fileType="pdf" change=".onuploadComplete" class="sapUiMediumMarginTop"></unified:FileUploader>
+                                    <unified:FileUploader visible="false" buttonOnly="true" buttonText="Upload PDF" fileType="pdf" change=".onuploadComplete" class="sapUiMediumMarginTop"></unified:FileUploader>
                                     <Button text="Download Original" icon="sap-icon://download" type="Emphasized" press=".onDownloadOriginal" />
                                 </VBox>
                             </content>
@@ -213,7 +220,7 @@
                 <ToolbarSpacer/>
                 <Button text="Cancel" press=".onCancelReview"/>
                 <Button text="Save Draft" type="Default" press=".onSaveDraftReview"/>
-                <Button text="Submit for Approval" type="Emphasized" press=".onSubmitReview"/>
+                <Button text="Approve" type="Emphasized" press=".onSubmitReview"/>
             </OverflowToolbar>
         </footer>
 

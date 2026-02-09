@@ -1,0 +1,193 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:f="sap.ui.layout.form"
+    xmlns:l="sap.ui.layout">
+
+    <Dialog
+        title="🔧 Create Maintenance Work Order"
+        contentWidth="800px"
+        contentHeight="700px"
+        resizable="true"
+        draggable="true">
+
+        <customHeader>
+            <Bar>
+                <contentLeft>
+                    <VBox>
+                        <Title text="🔧 Create Maintenance Work Order" level="H2"/>
+                        <!-- <Text text="Schedule maintenance for vehicle" class="sapUiTinyText"/> -->
+                    </VBox>
+                </contentLeft>
+                <contentRight>
+                    <Button icon="sap-icon://decline" press="onCloseDialog"/>
+                </contentRight>
+            </Bar>
+        </customHeader>
+
+        <content>
+            <ScrollContainer height="100%" width="100%" vertical="true">
+                <VBox class="sapUiSmallMargin">
+
+                    <f:SimpleForm
+                        editable="true"
+                        layout="ResponsiveGridLayout"
+                        labelSpanXL="4"
+                        labelSpanL="4"
+                        labelSpanM="12"
+                        labelSpanS="12"
+                        emptySpanXL="0"
+                        emptySpanL="0"
+                        emptySpanM="0"
+                        emptySpanS="0"
+                        columnsXL="2"
+                        columnsL="2"
+                        columnsM="1">
+
+                        <f:content>
+                            <!-- Work Order ID -->
+                            <Label text="Work Order ID"/>
+                            <Input value="{vehicleDataModel>/workOrderId}" editable="false"/>
+
+                            <!-- Vehicle -->
+                            <Label text="Vehicle" required="true"/>
+                            <Select selectedKey="{vehicleDataModel>/vehicleId}">
+                                <items>
+                                    <core:Item key="TH-FUEL-001" text="TH-FUEL-001 - Fuel Tanker 36K"/>
+                                    <core:Item key="TH-LPG-002" text="TH-LPG-002 - LPG Tanker 24K"/>
+                                    <core:Item key="TH-CHEM-003" text="TH-CHEM-003 - Chemical Tanker 30K"/>
+                                </items>
+                            </Select>
+
+                            <!-- Maintenance Type -->
+                            <Label text="Maintenance Type" required="true"/>
+                            <Select selectedKey="{vehicleDataModel>/maintenanceType}">
+                                <items>
+                                    <core:Item key="corrective" text="🔧 Corrective Maintenance"/>
+                                    <core:Item key="preventive" text="⚙️ Preventive Maintenance"/>
+                                    <core:Item key="inspection" text="🔍 Inspection"/>
+                                    <core:Item key="emergency" text="🚨 Emergency Repair"/>
+                                </items>
+                            </Select>
+
+                            <!-- Priority -->
+                            <Label text="Priority" required="true"/>
+                            <Select selectedKey="{vehicleDataModel>/priority}">
+                                <items>
+                                    <core:Item key="critical" text="🔴 Critical"/>
+                                    <core:Item key="high" text="🟠 High"/>
+                                    <core:Item key="medium" text="🟡 Medium"/>
+                                    <core:Item key="low" text="🟢 Low"/>
+                                </items>
+                            </Select>
+
+                            <!-- Description -->
+                            <Label text="Description" required="true"/>
+                            <TextArea 
+                                value="{vehicleDataModel>/description}" 
+                                rows="4"
+                                placeholder="Enter detailed description of the maintenance work required"
+                                width="100%"/>
+
+                            <!-- Scheduled Date -->
+                            <Label text="Scheduled Date" required="true"/>
+                            <DatePicker 
+                                value="{vehicleDataModel>/scheduledDate}"
+                                valueFormat="yyyy-MM-dd"
+                                displayFormat="dd-MM-yyyy"/>
+
+                            <!-- Scheduled Time -->
+                            <Label text="Scheduled Time"/>
+                            <TimePicker 
+                                value="{vehicleDataModel>/scheduledTime}"
+                                valueFormat="HH:mm"
+                                displayFormat="HH:mm"/>
+
+                            <!-- Service Provider -->
+                            <Label text="Service Provider"/>
+                            <Select selectedKey="{vehicleDataModel>/serviceProvider}">
+                                <items>
+                                    <core:Item key="toyota" text="Toyota Service Center"/>
+                                    <core:Item key="isuzu" text="Isuzu Authorized Service"/>
+                                    <core:Item key="hino" text="Hino Service Center"/>
+                                    <core:Item key="mitsubishi" text="Mitsubishi Fuso Service"/>
+                                    <core:Item key="internal" text="Internal Workshop"/>
+                                </items>
+                            </Select>
+
+                            <!-- Estimated Cost -->
+                            <Label text="Estimated Cost (฿)"/>
+                            <Input 
+                                value="{vehicleDataModel>/estimatedCost}" 
+                                type="Number"
+                                placeholder="0"/>
+                        </f:content>
+                    </f:SimpleForm>
+
+                    <!-- Parts Required Section -->
+                    <VBox class="sapUiMediumMarginTop sapUiSmallMarginEnd">
+                        <Title text="Parts Required" level="H4" class="sapUiSmallMarginBottom"/>
+
+                        <Table 
+                            id="partsTable" 
+                            items="{vehicleDataModel>/parts}"
+                            mode="Delete"
+                            delete="onDeletePart">
+                            <columns>
+                                <Column width="60%">
+                                    <Text text="Part Name"/>
+                                </Column>
+                                <Column width="20%" hAlign="Center">
+                                    <Text text="Quantity"/>
+                                </Column>
+                                <Column width="20%" hAlign="End">
+                                    <Text text="Cost (฿)"/>
+                                </Column>
+                            </columns>
+                            <items>
+                                <ColumnListItem>
+                                    <cells>
+                                        <Text text="{vehicleDataModel>partName}"/>
+                                        <Text text="x{vehicleDataModel>quantity}" class="sapUiTinyMarginEnd"/>
+                                        <Text text="฿{vehicleDataModel>cost}" class="sapUiBoldText"/>
+                                    </cells>
+                                </ColumnListItem>
+                            </items>
+                        </Table>
+
+                        <Button 
+                            text="+ Add Part" 
+                            type="Transparent" 
+                            press="onAddPart"
+                            class="sapUiSmallMarginTop"
+                            width="100%"/>
+                    </VBox>
+
+                    <!-- Notes Section -->
+                    <VBox class="sapUiMediumMarginTop sapUiSmallMarginEnd">
+                        <Title text="Notes" level="H4" class="sapUiSmallMarginBottom"/>
+                        <TextArea 
+                            value="{vehicleDataModel>/notes}" 
+                            rows="3"
+                            placeholder="Additional notes or special instructions"
+                            width="100%"
+                            class="sapUiSmallMarginEnd" />
+                    </VBox>
+
+                </VBox>
+            </ScrollContainer>
+        </content>
+
+        <beginButton>
+            <Button text="Cancel" press="onCloseDialog"/>
+        </beginButton>
+        <endButton>
+            <Button 
+                text="Create Work Order" 
+                icon="sap-icon://add" 
+                type="Emphasized" 
+                press="onCreateWorkOrder"/>
+        </endButton>
+    </Dialog>
+
+</core:FragmentDefinition>
