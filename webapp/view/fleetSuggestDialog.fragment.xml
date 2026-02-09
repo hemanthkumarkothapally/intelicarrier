@@ -1,0 +1,78 @@
+<core:FragmentDefinition 
+    xmlns="sap.m" 
+    xmlns:l="sap.ui.layout"
+    xmlns:core="sap.ui.core">
+    <Dialog id="fleetSuggestDialog" title="🚛 Fleet Suggest — Available Trucks" contentWidth="500px">
+        
+        <content>
+            <VBox class="sapUiSmallMargin">
+                <MessageStrip
+                    text="Showing trucks for: LPG"
+                    type="Information"
+                    showIcon="true"
+                    class="sapUiSmallMarginBottom" />
+                
+                <List id="fleetList" mode="SingleSelectMaster" selectionChange=".onFleetSelect">
+                    <items>
+                        <CustomListItem>
+                            <VBox class="sapUiSmallMargin">
+                                <HBox justifyContent="SpaceBetween" alignItems="Center">
+                                    <Title text="🚛 83-0569" level="H4" titleStyle="H4" />
+                                    <ObjectStatus text="Available" state="Success" />
+                                </HBox>
+                                <l:Grid containerQuery="true" defaultSpan="XL4 L4 M4 S6">
+                                    <Text text="Trailer: 83-1069" />
+                                    <Text text="Vehicle: VH-830569" />
+                                    <Text text="Type: LPG Tanker 18T" />
+                                    <Text text="Capacity: 18,000 kg" />
+                                    <Text text="Location: BPK Depot" />
+                                    <Text text="Last: 03.02.2026" />
+                                </l:Grid>
+                            </VBox>
+                        </CustomListItem>
+
+                        <CustomListItem>
+                            <VBox class="sapUiSmallMargin">
+                                <HBox justifyContent="SpaceBetween" alignItems="Center">
+                                    <Title text="🚛 83-0571" level="H4" />
+                                    <ObjectStatus text="Available" state="Success" />
+                                </HBox>
+                                <l:Grid containerQuery="true" defaultSpan="XL4 L4 M4 S6">
+                                    <Text text="Trailer: 83-1071" />
+                                    <Text text="Vehicle: VH-830571" />
+                                    <Text text="Type: LPG Tanker 20T" />
+                                    <Text text="Capacity: 20,000 kg" />
+                                    <Text text="Location: SRC Depot" />
+                                    <Text text="Last: 02.02.2026" />
+                                </l:Grid>
+                            </VBox>
+                        </CustomListItem>
+
+                        <CustomListItem>
+                            <VBox class="sapUiSmallMargin">
+                                <HBox justifyContent="SpaceBetween" alignItems="Center">
+                                    <Title text="🚛 83-0575" level="H4" />
+                                    <ObjectStatus text="Available" state="Success" />
+                                </HBox>
+                                <l:Grid containerQuery="true" defaultSpan="XL4 L4 M4 S6">
+                                    <Text text="Trailer: 83-1075" />
+                                    <Text text="Vehicle: VH-830575" />
+                                    <Text text="Type: LPG Tanker 15T" />
+                                    <Text text="Capacity: 15,000 kg" />
+                                    <Text text="Location: BPK Depot" />
+                                    <Text text="Last: 01.02.2026" />
+                                </l:Grid>
+                            </VBox>
+                        </CustomListItem>
+                    </items>
+                </List>
+            </VBox>
+        </content>
+        <beginButton>
+            <Button text="Cancel" press=".onCloseFleetModal" />
+        </beginButton>
+        <endButton>
+            <Button id="confirmFleetBtn" text="✓ Confirm Selection" type="Emphasized" enabled="true" press=".onConfirmFleetSelection" />
+        </endButton>
+    </Dialog>
+</core:FragmentDefinition>

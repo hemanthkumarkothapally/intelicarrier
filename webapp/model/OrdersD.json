@@ -1,0 +1,351 @@
+{
+  "c": false,
+  "editData": {
+    "name":"Edit",
+    "bu": "SCC — SC Carrier",
+    "productType": "LPG",
+    "site": "060C — ATLAS-LPG-BPK",
+    "shipmentNo": "SHP-2026-0208-01",
+    "shipmentType": "0602 — SCC-LPG",
+    "shippingType": "01 — Truck",
+    "buSiteDisplay": "SCC / 060C",
+    "routeID": "010005 — BTC → ไทยเบฟ → BTC",
+    "wbs": "08S.26CF.BPK.001",
+    "contractDate": "2026-02-04",
+    "plannedDateTime": "2026-02-08T14:30:00",
+    "truckPlate": "83-0569",
+    "trailerPlate": "83-1069",
+    "vehicleNo": "VH-830569",
+    "truckTypeDisplay": "LPG Tanker 18T",
+    "driver1Id": "EMP001",
+    "driver1Name": "สมชาย ใจดี",
+    "driver1Phone": "081-123-4567",
+    "driver1Intern": false,
+    "totalDistance": "311",
+    "transportFee": "เก็บ",
+    "tripPay": "จ่าย",
+    "brokenMiles": false,
+    "stages": [
+      {
+        "stageIdx": "0",
+        "statusState": "Information",
+        "typeName": "First",
+        "depName": "—",
+        "depCode": "—",
+        "destName": "ท่าเรือบางปะกง",
+        "destCode": "010007",
+        "distance": "—",
+        "arrivalDT": "2026-02-08T14:30:00",
+        "departureDT": "2026-02-08T15:00:00"
+      },
+      {
+        "stageIdx": "1",
+        "statusState": "Warning",
+        "typeName": "Transport",
+        "depName": "ท่าเรือบางปะกง",
+        "depCode": "010007",
+        "destName": "ไทยเบฟ (บางบาล)",
+        "destCode": "010025",
+        "distance": "151 km",
+        "arrivalDT": "2026-02-08T17:30:00",
+        "departureDT": "2026-02-08T18:30:00"
+      }
+    ]
+  },
+  "pageTitle": "SC Group — Create Shipment (LPG / Chemical)",
+  "sections": [
+    {
+      "sectionId": "sec-bu-product",
+      "heading": "1. Select Business Unit & Product Type",
+      "fields": [
+        {
+          "label": "Business Unit",
+          "type": "select",
+          "required": true,
+          "defaultText": "— Select BU —",
+          "options": [
+            "SCC — SC Carrier",
+            "SCA — SC Alliance"
+          ]
+        },
+        {
+          "label": "Product Type",
+          "type": "select",
+          "required": true,
+          "defaultText": "— Select Product —",
+          "options": [
+            "🔥 LPG",
+            "🧪 Chemical"
+          ]
+        },
+        {
+          "label": "Site (Optional)",
+          "type": "select",
+          "defaultText": "All Sites",
+          "options": [
+            "060B — COC-FUEL-LLK",
+            "060C — ATLAS-LPG-BPK",
+            "060E — ATLAS-LPG-NKC",
+            "060U — ATLAS-BSRC-SRC",
+            "060J — SHELL-FUEL-KKN",
+            "060L — SHELL-FUEL-KBI",
+            "060N — INC-CHEM-BRP",
+            "0631 — COC-LPG-BRP",
+            "0632 — PTTOR-PROPANE",
+            "0633 — ATLAS-LPG-SRC",
+            "0634 — PTTOR-LPG-COD-BRP",
+            "0636 — PTTGC-C3-BRP",
+            "0637 — PTTGC-HA-BRP",
+            "0639 — ZEON-RAFFINATE",
+            "0656 — CMI-CHEM-SSK",
+            "0670 — PTTGC-CX-BRP",
+            "0675 — COC-LPG-NKC"
+          ]
+        }
+      ]
+    },
+    {
+      "sectionId": "sec-add-fo",
+      "heading": "2. Add More Freight Orders (Same Route)",
+      "infoText": "ℹ️ Consolidate multiple FOs into one shipment. When route changes, matching FOs will refresh.",
+      "tableHeadings": [
+        "FO No.",
+        "Route",
+        "Customer",
+        "Ship-To",
+        "Quantity",
+        "Date"
+      ]
+    },
+    {
+      "sectionId": "sec-header",
+      "heading": "3. Shipment Header",
+      "fields": [
+        {
+          "label": "Shipment No.",
+          "type": "input",
+          "defaultText": "Auto-generated"
+        },
+        {
+          "label": "Shipment Type",
+          "type": "select",
+          "required": true,
+          "defaultText": "— Select —",
+          "defaultValue": "0602 — SCC-LPG",
+          "options": [
+            "0001 — Indiv.Shipmt - Road",
+            "0002 — Collct.Shipmt - Road",
+            "0003 — Collective Shipment",
+            "0004 — Prelim. leg by road",
+            "0005 — Main leg by sea",
+            "0006 — Subseq. leg by road",
+            "0010 — Inbound Shipment",
+            "0101 — SCGL – Costal Feeder",
+            "0102 — SCGL – River Feeder",
+            "0103 — SCGL - Truck",
+            "0201 — SCM – Habour BKK",
+            "0202 — SCM – Habour MTP",
+            "0601 — SCC-NGV",
+            "0602 — SCC-LPG",
+            "0603 — SCC-CHEM",
+            "0604 — SCC-Ammonia",
+            "0605 — SCC-Fuel",
+            "0606 — SCC-Special Container",
+            "0607 — SCC-Internal Job",
+            "0608 — SCC-Industrial GAS",
+            "0609 — SCC-Other",
+            "0800 — NPM-Harbor Service",
+            "0801 — NPM– Coastal Feeder",
+            "1200 — SPL - Truck",
+            "1400 — SCA - Truck",
+            "1500 — SCH - Gas Vessel",
+            "1700 — PKR - Truck"
+          ]
+        },
+        {
+          "label": "Shipping Type",
+          "type": "select",
+          "required": true,
+          "defaultText": "— Select —",
+          "defaultValue": "01 — Truck",
+          "options": [
+            "01 — Truck",
+            "02 — Mail",
+            "03 — Rail",
+            "04 — Sea",
+            "61 — งานปกติ",
+            "62 — งานโอนคลัง",
+            "63 — งานเติมเก็บ",
+            "64 — งานกิ่ง",
+            "65 — งานCommissioning",
+            "66 — งานคาลิเบท",
+            "67 — เปลี่ยนแปลงสถานีแม่",
+            "68 — เพิ่มตู้เข้าสถานีแม่",
+            "69 — ลากตู้ NGV ตรวจสภาพ",
+            "6A — งานดูดก๊าซ",
+            "6B — Test Bulk",
+            "6C — นำรถเข้าศูนย์",
+            "6D — งานนำรถ เติมน้ำมัน",
+            "6E — งานวิ่งลงคิว",
+            "6F — งานลากรถเสีย",
+            "6G — งานย้ายรถ/งานทอยตู้",
+            "6H — งานนำรถ ล้างถัง(TOP)",
+            "6I — งาน Adhoc",
+            "6J — งาน Replace",
+            "6K — งานรับรถชั่วโมงหมด",
+            "6L — ลงน้ำมันถังคลัง Esso",
+            "6M — นำรถเข้าตรวจสภาพ",
+            "6N — นำรถเข้าอู่",
+            "6O — นำรถมาซ่อมที่ BRP",
+            "6P — ใช้รถทดสอบ พขร.",
+            "6Q — RETURN PRODUCT",
+            "6R — กิจกรรมอื่นๆ",
+            "HI — Harbor Serv. Inside",
+            "HO — Harbor Serv. Outside",
+            "OF — Offshore Serv.",
+            "OT — MO Other",
+            "ZC — ยกเลิกเส้นทาง"
+          ]
+        },
+        {
+          "label": "Product Type",
+          "type": "input",
+          "defaultText": "LPG"
+        },
+        {
+          "label": "BU / Site",
+          "type": "input",
+          "defaultText": "SCC / 060C"
+        },
+        {
+          "label": "Route",
+          "type": "select",
+          "required": true,
+          "defaultText": "— Select Route —",
+          "options": [
+            "010001 — ท่าเรือแหลมฉบัง → ท่าเรือกรุงเทพ (121 km)",
+            "010002 — ท่าเรือกรุงเทพ → ท่าเรือแหลมฉบัง (120 km)",
+            "010003 — ท่าเรือแหลมฉบัง → ท่าเรือ NPM (765 km)",
+            "010005 — BTC → ไทยเบฟ → BTC (311 km)",
+            "010006 — BTC → ไทยเบฟ → SCSC → BTC (413 km)",
+            "010007 — BTC → LCH → ไทยเบฟ → SCSC → BTC (529 km)",
+            "010011 — BTC → บุญรอดฯ → BTC (231 km)",
+            "010014 — BTC → มหพันธ์ (ลพบุรี) → BTC (397 km)",
+            "010024 — BTC → มิชลิน (หนองแค) → BTC (300 km)",
+            "010027 — BTC → มิชลิน (หนองรี) → BTC (55 km)",
+            "010029 — BTC → LCH (ตู้เปล่า) (124 km)",
+            "010030 — BTC → LCH (ตู้หนัก) (124 km)",
+            "+ Create Custom Route..."
+          ]
+        },
+        {
+          "label": "Contract/WBS",
+          "type": "input",
+          "required": true,
+          "defaultText": "08S.26CF.BPK.001"
+        },
+        {
+          "label": "Contract Date",
+          "type": "date",
+          "required": true,
+          "defaultText": "2026-02-04"
+        },
+        {
+          "label": "Planned Date/Time",
+          "type": "datetime-local",
+          "required": true
+        }
+      ]
+    },
+    {
+      "sectionId": "sec-vehicle",
+      "heading": "4. Vehicle Assignment",
+      "infoText": "ℹ️ Enter Truck Plate → auto-fill Trailer & Vehicle No. OR Vehicle No. → auto-fill plates. Use Fleet Suggest to find available trucks.",
+      "fields": [
+        {
+          "label": "ทะเบียนหัว (Truck Plate)",
+          "type": "input-group",
+          "required": true,
+          "placeholder": "e.g. 83-0569"
+        },
+        {
+          "label": "ทะเบียนพ่วง (Trailer Plate)",
+          "type": "input",
+          "placeholder": "Auto from truck"
+        },
+        {
+          "label": "หมายเลขรถ (Vehicle No.)",
+          "type": "input-group",
+          "placeholder": "Or enter vehicle no."
+        },
+        {
+          "label": "Truck Type",
+          "type": "input",
+          "placeholder": "Auto from lookup"
+        }
+      ]
+    },
+    {
+      "sectionId": "sec-drivers",
+      "heading": "5. Drivers & Helpers",
+      "infoText": "⚠️ Check driver license expiry before assignment (zlsde01_t006). Intern checkbox = trainee.",
+      "tableHeadings": [
+        "#",
+        "Role",
+        "Employee ID",
+        "Name",
+        "Phone",
+        "Intern",
+        "License ✓"
+      ]
+    },
+    {
+      "sectionId": "sec-stages",
+      "heading": "6. Stages & Route Plan",
+      "infoText": "📍 Stages from Route Master. Swap stages to recalculate distance. Distance is read-only from route detail master.",
+      "tableHeadings": [
+        "Stage",
+        "Dep. No",
+        "Departure",
+        "Dest. No",
+        "Destination",
+        "Type",
+        "Planned Arrival",
+        "Planned Departure",
+        "Distance",
+        "Actions"
+      ]
+    },
+    {
+      "sectionId": "sec-fees",
+      "heading": "7. Transport Fee & Trip Pay",
+      "fields": [
+        {
+          "label": "ค่าขนส่ง (Transport Fee)",
+          "type": "select",
+          "defaultValue": "เก็บ (Collect)",
+          "info": "Default: เก็บ · บาท/ลิตร, เพิ่มเติม รถเช่า",
+          "options": [
+            "เก็บ (Collect)",
+            "ไม่เก็บ (No Collect)"
+          ]
+        },
+        {
+          "label": "ค่าเที่ยว (Trip Pay)",
+          "type": "select",
+          "defaultValue": "จ่าย (Pay)",
+          "info": "Default: จ่าย · บาท/รอบ",
+          "options": [
+            "จ่าย (Pay)",
+            "ไม่จ่าย (No Pay)"
+          ]
+        },
+        {
+          "label": "ไม่คิดเสีย (Broken Miles)",
+          "type": "checkbox",
+          "info": "— If checked, validates with broken miles criteria (config 004, 005)"
+        }
+      ]
+    }
+  ]
+}

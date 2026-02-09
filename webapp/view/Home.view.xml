@@ -208,7 +208,10 @@
                                 </items>
                             </SegmentedButton> -->
                             <VBox id="shipmentExecutionViewsub" visible="true" width="100%" class="intellicarrier-content-padding sapUiMediumMarginBottom">
+                                <HBox justifyContent="SpaceBetween">
                                 <Title text="Fleet Planning and Assignment" level="H2" class="sapUiMediumMarginBottom"/>
+                                <Button text="+ Create Shipment" press = "onCreateOrder"></Button>
+                                </HBox>
                                 <FlexBox wrap="NoWrap" alignItems="Start" class="sapUiMediumMarginBottom">
 
                                     <!-- Pending Assignment -->
