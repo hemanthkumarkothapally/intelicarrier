@@ -69,7 +69,7 @@
                     <f:SimpleForm backgroundDesign="Transparent" editable="true" layout="ColumnLayout" columnsXL="2" columnsL="2" columnsM="2">
                         <f:content>
                             <Label text=" เส้นทาง (Route)" required="true"/>
-                            <Input value="{manualOrder>/customerName}" placeholder="eg. SRc-BKK"/>
+                            <Input value="{manualOrder>/deliveryAddress}" placeholder="eg. SRc-BKK"/>
 
                             <Label text="สัญญา / WBS"/>
                             <Input value="{manualOrder>/email}" placeholder="eg. 025.15.JETTYG.HO"/>

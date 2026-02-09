@@ -45,21 +45,111 @@
                 </HBox>
 
             </VBox>
-            <VBox id="CustomContentBox" visible="false" >
-                <List headerText="Custom Content" mode="MultiSelect">
-                    <CustomListItem>
-                        <HBox>
-                            <VBox class="sapUiSmallMarginBegin sapUiSmallMarginTopBottom">
-                                <HBox >
-                                    <Text text="FO-DRAFT-1304-1"></Text>
-                                    <GenericTag text="Draft" status="Warning"></GenericTag>
-                                    <GenericTag text="BFPL"></GenericTag>
+            <VBox id="CustomContentBox" visible="false">
+                <List mode="MultiSelect"  id="freightList" class="freightList" width="100%" multiSelectMode="SelectAll">
+                    <!-- Header -->
+                    <headerToolbar>
+                        <Toolbar>
+                            <CheckBox id="selectAllCB" text="Select All" select=".onSelectAll"/>
+
+                            <ToolbarSpacer/>
+
+                            <Button text="Confirm Selection" type="Emphasized" press=".onConfirmSelection"/>
+                        </Toolbar>
+                    </headerToolbar>
+                    <!-- Item 1 -->
+                    <CustomListItem class="freightItem">
+                        <HBox justifyContent="SpaceBetween" alignItems="Center" width="100%">
+
+                            <!-- Left Content -->
+                            <VBox class="sapUiSmallMarginBegin">
+
+                                <!-- Header Row -->
+                                <HBox alignItems="Center" class="sapUiTinyMarginBottom">
+                                    <Text text="FO-DRAFT-1304-1" class="freightTitle sapUiTinyMarginEnd"/>
+
+                                    <GenericTag text="Draft" status="Warning" class="sapUiTinyMarginEnd"/>
+                                    <GenericTag text="88.5%" status="Information" class="sapUiTinyMarginEnd"/>
+                                    <GenericTag text="BFPL"/>
                                 </HBox>
+
+                                <!-- Meta Row 1 -->
+                                <HBox class="sapUiTinyMarginBottom">
+                                    <core:Icon src="sap-icon://building" class="metaIcon"/>
+                                    <Text text="หจก.ธงชัยบริการ" class="metaText sapUiTinyMarginEnd"/>
+
+                                    <core:Icon src="sap-icon://pushpin-on" class="metaIcon"/>
+                                    <Text text="140H-CUST" class="metaText sapUiTinyMarginEnd"/>
+
+                                    <core:Icon src="sap-icon://factory" class="metaIcon"/>
+                                    <Text text="130H" class="metaText sapUiTinyMarginEnd"/>
+
+                                    <core:Icon src="sap-icon://shipping-status" class="metaIcon"/>
+                                    <Text text="THSCC6719H" class="metaText"/>
+                                </HBox>
+
+                                <!-- Meta Row 2 -->
+                                <HBox>
+                                    <core:Icon src="sap-icon://document" class="metaIcon"/>
+                                    <Text text="D:12K + G95:7K" class="metaText sapUiTinyMarginEnd"/>
+
+                                    <core:Icon src="sap-icon://calendar" class="metaIcon"/>
+                                    <Text text="2026-02-07" class="metaText"/>
+                                </HBox>
+
                             </VBox>
-                            <Button text="Review" type="Neutral" press="onUploadFreightPress"></Button>
+
+                            <!-- Action -->
+                            <Button text="Review" icon="sap-icon://edit" type="Emphasized" press="onUploadFreightPress"/>
+
                         </HBox>
                     </CustomListItem>
+
+                    <!-- Item 2 -->
+                    <CustomListItem class="freightItem">
+                        <HBox justifyContent="SpaceBetween" alignItems="Center" width="100%">
+
+                            <VBox class="sapUiSmallMarginBegin">
+
+                                <HBox alignItems="Center" class="sapUiTinyMarginBottom">
+                                    <Text text="FO-DRAFT-1304-2" class="freightTitle sapUiTinyMarginEnd"/>
+
+                                    <GenericTag text="Draft" status="Warning" class="sapUiTinyMarginEnd"/>
+                                    <GenericTag text="94.1%" status="Information" class="sapUiTinyMarginEnd"/>
+                                    <GenericTag text="BFPL"/>
+                                </HBox>
+
+                                <HBox class="sapUiTinyMarginBottom">
+                                    <core:Icon src="sap-icon://building" class="metaIcon"/>
+                                    <Text text="บริษัท นกนคร จำกัด" class="metaText sapUiTinyMarginEnd"/>
+
+                                    <core:Icon src="sap-icon://pushpin-on" class="metaIcon"/>
+                                    <Text text="150H-CUST" class="metaText sapUiTinyMarginEnd"/>
+
+                                    <core:Icon src="sap-icon://factory" class="metaIcon"/>
+                                    <Text text="140H" class="metaText sapUiTinyMarginEnd"/>
+
+                                    <core:Icon src="sap-icon://shipping-status" class="metaIcon"/>
+                                    <Text text="THSCC6715H" class="metaText"/>
+                                </HBox>
+
+                                <HBox>
+                                    <core:Icon src="sap-icon://document" class="metaIcon"/>
+                                    <Text text="D:12K + G95:5K" class="metaText sapUiTinyMarginEnd"/>
+
+                                    <core:Icon src="sap-icon://calendar" class="metaIcon"/>
+                                    <Text text="2026-02-04" class="metaText"/>
+                                </HBox>
+
+                            </VBox>
+
+                            <Button text="Review" icon="sap-icon://edit" type="Emphasized" press="onUploadFreightPress"/>
+
+                        </HBox>
+                    </CustomListItem>
+
                 </List>
+
             </VBox>
 
             <!-- <Button id="extractBtn" text="Extract" icon="sap-icon://process" type="Emphasized" visible="false" press=".onExtractPress"/> -->

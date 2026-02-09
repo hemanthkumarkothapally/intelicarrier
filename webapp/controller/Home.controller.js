@@ -1256,6 +1256,9 @@ sap.ui.define([
             this._oManualOrderDialog1.then(function (oDialog) {
                 oDialog.open();
             });
+            this.byId("companyCB").setSelectedKey("");
+            this.byId("productCB").setSelectedKey("");
+            this.onSelectionChange();
 
         },
         onCloseChannelDialog: function () {
@@ -1394,11 +1397,17 @@ sap.ui.define([
         },
 
         onCloseDialog1: function (oEvent) {
-            oEvent.getSource().getParent().close();
+            const oDialog = oEvent.getSource().getParent();
+
+            oDialog.close();
+            this.byId("CustomContentBox").setVisible(false)
+            this.byId("uploadFrightVBox").setVisible(true)
+            this.byId("uploadFlowHBox").setVisible(true)
+            this.byId("uploadFlowHBoxReview").setVisible(false)
         },
         onFileSelected: function (oEvent) {
             const aFiles = oEvent.getParameter("files");
-
+            this.getView().byId("extractBtn").setVisible(false);
             if (aFiles && aFiles.length) {
                 // File selected successfully
                 this.getView().byId("extractBtn").setVisible(true);
@@ -1433,17 +1442,68 @@ sap.ui.define([
             // Open manual entry with extracted data
             this.onManualEntryFreight(oExtractedData);
 
-             this.PdfUploadDialog.then(function (oDialog) {
-                oDialog.close();
-            });
+            // this.PdfUploadDialog.then(function (oDialog) {
+            //     oDialog.close();
+            // });
         },
-        onUploadPress:function(){
+        onUploadPress: function () {
             this.byId("CustomContentBox").setVisible(true)
             this.byId("uploadFrightVBox").setVisible(false)
             this.byId("uploadFlowHBox").setVisible(false)
             this.byId("uploadFlowHBoxReview").setVisible(true)
 
 
+        },
+        onSelectAll: function (oEvent) {
+            const bSelected = oEvent.getParameter("selected");
+            const oList = this.byId("freightList");
+
+            oList.getItems().forEach(function (oItem) {
+                oList.setSelectedItem(oItem, bSelected);
+            });
+        },
+        onConfirmSelection: function () {
+            const oList = this.byId("freightList");
+            const aSelectedItems = oList.getSelectedItems();
+
+            if (!aSelectedItems.length) {
+                sap.m.MessageToast.show("Please select at least one draft");
+                return;
+            }
+
+            const iCount = aSelectedItems.length;
+            oList.removeSelections(true);
+            this.PdfUploadDialog.then(function (oDialog) {
+                oDialog.close();
+            });
+            this.byId("CustomContentBox").setVisible(false)
+            this.byId("uploadFrightVBox").setVisible(true)
+            this.byId("uploadFlowHBox").setVisible(true)
+            this.byId("uploadFlowHBoxReview").setVisible(false)
+            sap.m.MessageBox.confirm(
+                "Confirm " + iCount + " draft(s)?\n\nStatus will change: Draft → Open",
+                {
+                    title: "Confirm Drafts",
+                    actions: [sap.m.MessageBox.Action.OK, sap.m.MessageBox.Action.CANCEL],
+                    emphasizedAction: sap.m.MessageBox.Action.OK,
+
+                    onClose: function (sAction) {
+                        if (sAction === sap.m.MessageBox.Action.OK) {
+
+                            // ✅ Here you would normally call backend API
+                            // this._confirmDrafts(aSelectedItems);
+
+                            sap.m.MessageBox.success(
+                                "All drafts confirmed!\nStatus: OPEN",
+                                {
+                                    title: "Success",
+                                    actions: [sap.m.MessageBox.Action.OK]
+                                }
+                            );
+                        }
+                    }.bind(this)
+                }
+            );
         },
         onAddProduct: function () {
             var oModel = this.getView().getModel("manualOrder");
@@ -1497,7 +1557,7 @@ sap.ui.define([
                 statusText: "Pending Review",
                 statusState: "Warning",
                 statusIcon: "sap-icon://pending",
-                actionButtonText: "Review",
+                actionButtonText: "View",
                 actionButtonType: "Default",
                 ocrConfidence: "Manual",
                 // Store full data
@@ -1521,13 +1581,69 @@ sap.ui.define([
 
             // Close dialog
             this.onCancelManualOrder();
+            
         },
 
         onCancelManualOrder: function () {
-           this._oManualOrderDialog.then(function (oDialog) {
+            this._oManualOrderDialog.then(function (oDialog) {
                 oDialog.close();
 
-        });
+            });
+            this._oManualOrderDialog1.then(function (oDialog) {
+                oDialog.close();})
+        },
+        onCreateShipment: function () {
+            this.onCloseOrderDetails();
+            const oOrder = this.getView().getModel("orderDetails").getData();
+
+            // const sConfirmText =
+            //     "Create Shipment for " + oOrder.orderId + "?\n\n" +
+            //     "BU: " + oOrder.bu + "\n" +
+            //     "Type: " + oOrder.product + "\n" +
+            //     "Route: " + oOrder.route + "\n\n" +
+            //     "This will open the Create Shipment screen.";
+            
+            const sConfirmText =
+                "Create Shipment for " + oOrder.orderId + "?\n\n" +
+                "BU: " + "SCC"+ "\n" +
+                "Type: " + "Fule"+ "\n" +
+                "Route: " + "130H-CUST"+ "\n\n" +
+                "This will open the Create Shipment screen.";
+            sap.m.MessageBox.confirm(
+                sConfirmText,
+                {
+                    title: "Create Shipment",
+                    icon: sap.m.MessageBox.Icon.QUESTION,
+                    actions: [sap.m.MessageBox.Action.OK, sap.m.MessageBox.Action.CANCEL],
+                    emphasizedAction: sap.m.MessageBox.Action.OK,
+
+                    onClose: function (sAction) {
+                        if (sAction === sap.m.MessageBox.Action.OK) {
+
+                            // 🔹 Simulate backend shipment creation
+                            const sShipmentNo = "SH-2026-003420";
+
+                            sap.m.MessageBox.success(
+                                "Shipment " + sShipmentNo + " created!\n\n" +
+                                "→ In production, this opens CreateShipment_AllTypes.html\n" +
+                                "pre-filled with FO data for: " + oOrder.bu + " / " + oOrder.product + "\n\n" +
+                                "Next step: Assign driver/vehicle → Dispatch",
+                                {
+                                    title: "Shipment Created",
+                                    actions: [sap.m.MessageBox.Action.OK],
+
+                                    onClose: function () {
+                                        // 🔹 Real navigation would go here
+                                        // window.location.href = "CreateShipment_AllTypes.html?fo=" + oOrder.orderId;
+
+                                        sap.m.MessageToast.show("Proceed to shipment assignment");
+                                    }
+                                }
+                            );
+                        }
+                    }.bind(this)
+                }
+            );
         },
 
         _formatDate: function (sDate) {
@@ -1840,7 +1956,7 @@ sap.ui.define([
                 statusText: "Pending Review",
                 statusState: "Warning",
                 statusIcon: "sap-icon://pending",
-                actionButtonText: "Review",
+                actionButtonText: "View",
                 actionButtonType: "Default",
                 ocrConfidence: "Manual",
                 // Store full data
@@ -1866,7 +1982,7 @@ sap.ui.define([
             this.onCancelManualOrder();
         },
 
-       
+
 
         _formatDate: function (sDate) {
             if (!sDate) return "";

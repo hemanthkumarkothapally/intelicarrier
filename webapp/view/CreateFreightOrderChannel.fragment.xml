@@ -4,7 +4,7 @@
     xmlns:f="sap.f">
 
     <Dialog id="channelDialog" title="➕ Create New Freight Order" class="sapUiResponsivePadding--content" draggable="true" resizable="true" contentWidth="720px">
-        <form:SimpleForm layout="ColumnLayout" columnsM="2" columnsL="2" columnsXL="2">
+        <form:SimpleForm class="productPanel productYellow sapUiSmallMarginTop" backgroundDesign="Transparent" layout="ColumnLayout" columnsM="2" columnsL="2" columnsXL="2">
             <Label required="true" text="Company (Business Unit)"></Label>
             <ComboBox id="companyCB" selectionChange=".onSelectionChange">
                 <items>
@@ -42,26 +42,26 @@
                     </TileContent>
                 </GenericTile>
                 <!-- Standard form-->
-                <GenericTile id="tileStandardForm" header="Standard Form" visible="false" subheader="Customer fills online form" press=".onChannelSelect" class="channelTile">
+                <GenericTile id="tileStandardForm" header="Standard Form" visible="false" subheader="Customer fills online form" press=".onManualEntryFreight" class="channelTile">
                     <TileContent>
                         <ImageContent src="sap-icon://write-new-document" />
                     </TileContent>
                 </GenericTile>
                  <!-- Line Message-->
-                <GenericTile id="tileLineMessage" header="Line Message" visible="false" subheader="Import fron LINE chat" press=".onChannelSelect" class="channelTile">
+                <GenericTile id="tileLineMessage" header="Line Message" visible="false" subheader="Import fron LINE chat" press=".onPdfUploadPress" class="channelTile">
                     <TileContent>
                         <ImageContent src="sap-icon://tag-cloud-chart" />
                     </TileContent>
                 </GenericTile>
                 <!-- Email RPA -->
-                <GenericTile id="tileEmail" header="Email RPA" visible="false" subheader="fetch from email inbox" press=".onChannelSelect" class="channelTile">
+                <GenericTile id="tileEmail" header="Email RPA" visible="false" subheader="fetch from email inbox" press=".onPdfUploadPress" class="channelTile">
                     <TileContent>
                         <ImageContent src="sap-icon://email" />
                     </TileContent>
                 </GenericTile>
 
                 <!-- TMS API -->
-                <GenericTile id="tileTms" header="TMS API" visible="false" subheader="Fetch from transport system" press=".onChannelSelect" class="channelTile">
+                <GenericTile id="tileTms" header="TMS API" visible="false" subheader="Fetch from transport system" press=".onPdfUploadPress" class="channelTile">
                     <TileContent>
                         <ImageContent src="sap-icon://chain-link" />
                     </TileContent>
@@ -75,14 +75,14 @@
                 </GenericTile>
 
                 <!-- Excel Batch -->
-                <GenericTile id="tileExcel" header="Excel Batch" visible="false" subheader="Batch Calling sheet / BFPL format" press=".onExcelUploadPress" class="channelTile">
+                <GenericTile id="tileExcel" header="Excel Batch" visible="false" subheader="Batch Calling sheet / BFPL format" press=".onPdfUploadPress" class="channelTile">
                     <TileContent>
                         <ImageContent src="sap-icon://excel-attachment" />
                     </TileContent>
                 </GenericTile>
 
                 <!-- Forecast Upload -->
-                <GenericTile id="tileForecast" header="Forecast Upload" visible="false" subheader="NPM Coastal vessel plan" press=".onChannelSelect" class="channelTile">
+                <GenericTile id="tileForecast" header="Forecast Upload" visible="false" subheader="NPM Coastal vessel plan" press=".onPdfUploadPress" class="channelTile">
                     <TileContent>
                         <ImageContent src="sap-icon://shipping-status" />
                     </TileContent>

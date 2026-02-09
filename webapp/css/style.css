@@ -2827,3 +2827,53 @@ color: #0066cc !important;
     color: #0a6ed1;
     font-size: 1.1rem;
 }
+.freightItem {
+    border: 1px solid #91c8f6;
+    border-radius: 12px;
+    margin-bottom: 1rem;
+    padding: 0.75rem;
+    background-color: #eaf6ff;
+}
+
+.freightTitle {
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+.metaIcon {
+    color: #6a6d70;
+    font-size: 0.9rem;
+    margin-right: 0.25rem;
+}
+
+.metaText {
+    font-size: 0.85rem;
+    color: #32363a;
+}
+.infoCard {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 1rem;
+    /* min-width: 320px; */
+}
+.readyShipmentBox {
+    background-color: #e8f5e9;
+    border: 2px solid #1e8e3e;
+    border-radius: 12px;
+    padding: 1rem 1.5rem;
+}
+
+.readyShipmentBox .sapUiIcon {
+    color: #1e8e3e;
+}
+.channelTile{
+    border: 1.5px solid #d4d8d5;
+    background-color: #e3ebf8;
+        border-left: 6px solid #0a6ed1; /* thick left border */
+
+}
+.bluetext{
+    font: 10px;
+    color: #0066cc;
+}
