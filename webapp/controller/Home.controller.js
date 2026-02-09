@@ -17,7 +17,7 @@ sap.ui.define([
 
         onInit: function () {
 
-this.selectedTiletype;
+            this.selectedTiletype;
             // Initialize tracking data model
             var oTrackingData = {
                 events: [],
@@ -1477,7 +1477,22 @@ this.selectedTiletype;
             }
 
             const iCount = aSelectedItems.length;
-            let sourcetext=this.selectedTiletype;
+            let sourcetext;
+            if (this.selectedTiletype.includes("PDF")) {
+                sourcetext = "PDF Upload";
+            }
+            else if (this.selectedTiletype.includes("Email")) {
+                sourcetext = "Email Upload";
+
+            }
+            else if (this.selectedTiletype.includes("Excel")) {
+                sourcetext = "Excel Upload";
+
+            }
+            else {
+                sourcetext = this.selectedTiletype;
+
+            }
             sap.m.MessageBox.confirm(
                 "Confirm " + iCount + " draft(s)?\n\nStatus will change: Draft → Open",
                 {
