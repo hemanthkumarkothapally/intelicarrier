@@ -63,6 +63,7 @@
                                 <tnt:NavigationListItem text="Shipment Execution" icon="sap-icon://map" key="tracking"/>
                                 <tnt:NavigationListItem text="Cash Advance &amp; Reimbursement" icon="sap-icon://wallet" key="CashAdvanceandReimbursement"/>
                                 <tnt:NavigationListItem text="Create Sales Order" icon="sap-icon://sales-order" key="priceCalculation"/>
+                                 <tnt:NavigationListItem text="Expense, Fuel &amp; Parking Management" icon="sap-icon://expense-report" key="expenseFuelParkingManagement"/>
 
 
 
@@ -1191,7 +1192,7 @@
                                 <!-- Active Shipments Table -->
                                 <Panel headerText="All Shipments" class="intellicarrier-full-width-panel" width="100%">
                                     <content>
-                                        <Table id="allShipmentsTable" mode="SingleSelect" selectionChange=".onShipmentSelect" width="100%" class="shipmentsTable">
+                                        <Table id="allShipmentsTable" selectionChange=".onShipmentSelect" width="100%" class="shipmentsTable">
                                             <headerToolbar>
                                                 <Toolbar>
                                                     <content>
@@ -2965,6 +2966,12 @@
 
 
 
+                        </VBox>
+
+                        <VBox id="expenseFuelParkingManagement" visible="false" width="100%" class="intellicarrier-content-padding sapUiMediumMarginBottom">
+                        
+                        <core:Fragment fragmentName="intellicarrier.view.ExpenseFuelParkingManagement" type="XML"/>
+                        
                         </VBox>
                     </ScrollContainer>
                 </FlexBox>

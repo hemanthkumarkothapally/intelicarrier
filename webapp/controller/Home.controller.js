@@ -1082,6 +1082,7 @@ sap.ui.define([
             this.byId("CashAdvanceandReimbursement").setVisible(false);
             this.byId("vehicleChecklist").setVisible(false);
             this.byId("gateLogs").setVisible(false);
+            this.byId("expenseFuelParkingManagement").setVisible(false);
 
 
 
@@ -1123,6 +1124,9 @@ sap.ui.define([
                     break
                 case "gateLogs":
                     this.byId("gateLogs").setVisible(true);
+                    break
+                case "expenseFuelParkingManagement":
+                    this.byId("expenseFuelParkingManagement").setVisible(true);
                     break
             }
         },
@@ -1433,11 +1437,11 @@ sap.ui.define([
             // Open manual entry with extracted data
             this.onManualEntryFreight(oExtractedData);
 
-             this.PdfUploadDialog.then(function (oDialog) {
+            this.PdfUploadDialog.then(function (oDialog) {
                 oDialog.close();
             });
         },
-        onUploadPress:function(){
+        onUploadPress: function () {
             this.byId("CustomContentBox").setVisible(true)
             this.byId("uploadFrightVBox").setVisible(false)
             this.byId("uploadFlowHBox").setVisible(false)
@@ -1524,10 +1528,10 @@ sap.ui.define([
         },
 
         onCancelManualOrder: function () {
-           this._oManualOrderDialog.then(function (oDialog) {
+            this._oManualOrderDialog.then(function (oDialog) {
                 oDialog.close();
 
-        });
+            });
         },
 
         _formatDate: function (sDate) {
@@ -1866,7 +1870,7 @@ sap.ui.define([
             this.onCancelManualOrder();
         },
 
-       
+
 
         _formatDate: function (sDate) {
             if (!sDate) return "";
@@ -4969,7 +4973,39 @@ sap.ui.define([
 
         onCloseDriverHistoryDialog: function () {
             this._oDriverHistoryDialog.close();
+        },
+        onSegmentChange: function (oEvent) {
+            const sKey =oEvent.getSource().getProperty("selectedKey")
+            debugger
+            const oExpenseTable = this.byId("panel1");
+            const oFuelTable = this.byId("panel2");
+            const oParkingTable = this.byId("panel3");
+
+            // Hide all first
+            oExpenseTable.setVisible(false);
+            oFuelTable.setVisible(false);
+            oParkingTable.setVisible(false);
+
+            if (sKey === "SHIPMENT") {
+                // Show Fuel + Parking + Expense (3 tables)
+                oExpenseTable.setVisible(true);
+                oFuelTable.setVisible(true);
+                oParkingTable.setVisible(true);
+            }
+
+            if (sKey === "CASH") {
+                // Show ONLY Expense Records
+                oExpenseTable.setVisible(true);
+            }
+
+            if (sKey === "ALL") {
+                // Show all 3 tables
+                oExpenseTable.setVisible(true);
+                oFuelTable.setVisible(true);
+                oParkingTable.setVisible(true);
+            }
         }
+
 
 
 
