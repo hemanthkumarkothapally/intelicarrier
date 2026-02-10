@@ -289,6 +289,203 @@
       "status": "Draft",
       "statusColor": "None"
     }
-  ]
+  ],
+  "cashAdvances": [
+    {
+      "caNo": "CA-2026-0045",
+      "employeeName": "นายศักดิ์ทิวาดล จินดาพิชัย",
+      "employeeId": "39396",
+      "type": "Driver Advance",
+      "typeState": "Information",
+      "bu": "060C",
+      "caAmount": 5000,
+      "disbursed": 5000,
+      "expensed": 1500,
+      "balance": 3500,
+      "status": "Open",
+      "daysOpen": 6,
+      "warning": true
+    },
+    {
+      "caNo": "CA-2026-0052",
+      "employeeName": "นายสมชาย แสงทอง",
+      "employeeId": "40125",
+      "type": "Driver Advance",
+      "typeState": "Information",
+      "bu": "060E",
+      "caAmount": 3000,
+      "disbursed": 3000,
+      "expensed": 300,
+      "balance": 2700,
+      "status": "Open",
+      "daysOpen": 5,
+      "warning": false
+    },
+    {
+      "caNo": "CA-2026-0060",
+      "employeeName": "นางสาวพิมพ์ใจ สุขสันต์",
+      "employeeId": "50100",
+      "type": "Site Advance",
+      "typeState": "Success",
+      "bu": "060C",
+      "caAmount": 10000,
+      "disbursed": 10000,
+      "expensed": 3500,
+      "balance": 6500,
+      "status": "Open",
+      "daysOpen": 4,
+      "warning": false
+    },
+    {
+      "caNo": "CA-2026-0070",
+      "employeeName": "นายอนุชา ศิริสำเร็จ",
+      "employeeId": "50200",
+      "type": "Specific Advance",
+      "typeState": "Warning",
+      "bu": "060C",
+      "caAmount": 8000,
+      "disbursed": 8000,
+      "expensed": 4200,
+      "balance": 3800,
+      "status": "Open",
+      "daysOpen": 3,
+      "warning": false
+    }
+  ],
+  "recordedExpenses": [
+    {
+      "no": 1,
+      "date": "2026-01-28 08:30",
+      "refDoc": "RCP-10234",
+      "employee": "นายศักดิ์ทิวาดล จินดาพิชัย",
+      "type": "ค่าทางด่วน (Toll)",
+      "group": "ค่าใช้จ่ายดำเนินงาน",
+      "payType": "CASH",
+      "amount": 250,
+      "receipt": "📷",
+      "status": "Approved",
+      "statusState": "Success",
+      "remark": ""
+    },
+    {
+      "no": 2,
+      "date": "2026-01-28 12:15",
+      "refDoc": "-",
+      "employee": "นายศักดิ์ทิวาดล จินดาพิชัย",
+      "type": "ค่าอาหาร (Meal)",
+      "group": "ค่าใช้จ่ายดำเนินงาน",
+      "payType": "CASH",
+      "amount": 150,
+      "receipt": "-",
+      "status": "Approved",
+      "statusState": "Success",
+      "remark": ""
+    },
+    {
+      "no": 3,
+      "date": "2026-01-28 17:00",
+      "refDoc": "RCP-10236",
+      "employee": "นายศักดิ์ทิวาดล จินดาพิชัย",
+      "type": "ค่าน้ำหนัก (Weighbridge)",
+      "group": "ค่าใช้จ่ายดำเนินงาน",
+      "payType": "CASH",
+      "amount": 100,
+      "receipt": "📷",
+      "status": "Approved",
+      "statusState": "Success",
+      "remark": ""
+    },
+    {
+      "no": 4,
+      "date": "2026-01-28 18:00",
+      "refDoc": "RCP-10237",
+      "employee": "นายศักดิ์ทิวาดล จินดาพิชัย",
+      "type": "ค่าค้างคืน (Overnight)",
+      "group": "ค่าใช้จ่ายดำเนินงาน",
+      "payType": "CASH",
+      "amount": 800,
+      "receipt": "📷",
+      "status": "Rejected",
+      "statusState": "Error",
+      "remark": "ใบเสร็จไม่ชัด กรุณาแนบใหม่"
+    }
+  ],
+  "totalAmount": 1300,
+   "fuelRecordss": [
+      {
+        "no": 1,
+        "date": "2026-01-28 06:15",
+        "fillType": "Fleet Card",
+        "fillState": "Information",
+        "slip": "FL-880123",
+        "station": "PTT Station บางนา",
+        "fuel": "Diesel B7",
+        "liters": 180.50,
+        "amount": 5584.67,
+        "rate": "4.1 km/L",
+        "status": "Approved",
+        "statusState": "Success"
+      },
+      {
+        "no": 2,
+        "date": "2026-01-28 16:30",
+        "fillType": "Cash",
+        "fillState": "Success",
+        "slip": "RCP-F-5501",
+        "station": "Shell สระบุรี",
+        "fuel": "Diesel B7",
+        "liters": 50.00,
+        "amount": 1547.00,
+        "rate": "4.1 km/L",
+        "status": "Approved",
+        "statusState": "Success"
+      }
+    ],
+    "totalLiters": 230.50,
+    "TotalAmount": 7131.67,
+     "fuelAllocation": [
+      {
+        "stage": 1,
+        "from": "BPK",
+        "fromDesc": "คลังสินค้า บางปะกง",
+        "to": "C0001",
+        "toDesc": "PTT Tank Terminal ระยอง",
+        "startMiles": 100,
+        "endMiles": 215,
+        "distance": 115,
+        "ratio": "44.4%",
+        "fuel": 80.14,
+        "cost": 2479.68
+      },
+      {
+        "stage": 2,
+        "from": "C0001",
+        "fromDesc": "PTT Tank Terminal ระยอง",
+        "to": "C0132",
+        "toDesc": "คลังสินค้า อ่าวอุดม",
+        "startMiles": 215,
+        "endMiles": 301,
+        "distance": 86,
+        "ratio": "33.2%",
+        "fuel": 59.93,
+        "cost": 1854.37
+      },
+      {
+        "stage": 3,
+        "from": "C0132",
+        "fromDesc": "คลังสินค้า อ่าวอุดม",
+        "to": "C0001",
+        "toDesc": "คลังสินค้า บางปะกง",
+        "startMiles": 301,
+        "endMiles": 359,
+        "distance": 58,
+        "ratio": "22.4%",
+        "fuel": 40.42,
+        "cost": 1250.62
+      }
+    ],
+    "totalDistance": 259,
+    "totalFuel": 180.50,
+    "totalCost": 5584.67
 
 }

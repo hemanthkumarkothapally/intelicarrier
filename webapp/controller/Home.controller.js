@@ -17,6 +17,7 @@ sap.ui.define([
 
         onInit: function () {
 
+          
 
             // Initialize tracking data model
             var oTrackingData = {
@@ -1083,6 +1084,8 @@ sap.ui.define([
             this.byId("vehicleChecklist").setVisible(false);
             this.byId("gateLogs").setVisible(false);
             this.byId("expenseFuelParkingManagement").setVisible(false);
+            this.byId("settlementReconciliation").setVisible(false);
+             this.byId("addNewexpenseFuelParkingManagement").setVisible(false);
 
 
 
@@ -1127,6 +1130,12 @@ sap.ui.define([
                     break
                 case "expenseFuelParkingManagement":
                     this.byId("expenseFuelParkingManagement").setVisible(true);
+                    break
+                case "settlementReconciliation":
+                    this.byId("settlementReconciliation").setVisible(true);
+                    break
+                      case "addNewexpenseFuelParkingManagement":
+                    this.byId("addNewexpenseFuelParkingManagement").setVisible(true);
                     break
             }
         },
@@ -4975,7 +4984,7 @@ sap.ui.define([
             this._oDriverHistoryDialog.close();
         },
         onSegmentChange: function (oEvent) {
-            const sKey =oEvent.getSource().getProperty("selectedKey")
+            const sKey = oEvent.getSource().getProperty("selectedKey")
             debugger
             const oExpenseTable = this.byId("panel1");
             const oFuelTable = this.byId("panel2");
@@ -5004,7 +5013,90 @@ sap.ui.define([
                 oFuelTable.setVisible(true);
                 oParkingTable.setVisible(true);
             }
-        }
+        },
+        onFleetCockpitTabSelect1: function (oEvent) {
+            debugger
+            var sKey = oEvent.getParameter("key");
+
+            var oExpenseTable = this.byId("panel1");
+            var oFuelTable = this.byId("panel2");
+            var oParkingTable = this.byId("panel3");
+            var oModel = this.getView().getModel("expenceDataModel");
+            if (oModel) {
+                oModel.refresh(true);
+            }
+
+            // Reset everything first
+            oExpenseTable.setVisible(false);
+            oFuelTable.setVisible(false);
+            oParkingTable.setVisible(false);
+
+            // Remove existing filters from Expense table
+            var oBinding = oExpenseTable.getBinding("items");
+            if (oBinding) {
+                oBinding.filter([]);
+            }
+
+            this._clearExpenseFilters();
+
+            switch (sKey) {
+                case "All":
+                    oExpenseTable.setVisible(true);
+                    oFuelTable.setVisible(true);
+                    oParkingTable.setVisible(true);
+                    break;
+
+                case "Expenses":
+                    oExpenseTable.setVisible(true);
+                    break;
+
+                case "Fuel":
+                    oFuelTable.setVisible(true);
+                    break;
+
+                case "Parking":
+                    oParkingTable.setVisible(true);
+                    break;
+
+                case "Pending":
+                    oExpenseTable.setVisible(true);
+                    this._filterExpenseByStatus("Pending Review");
+                    break;
+
+                case "Rejected":
+                    oExpenseTable.setVisible(true);
+                    this._filterExpenseByStatus("Rejected");
+                    break;
+            }
+        },
+        _filterExpenseByStatus: function (sStatus) {
+            var oExpenseTable = this.byId("expenceTable");
+            var oBinding = oExpenseTable.getBinding("items");
+
+            if (!oBinding) {
+                return;
+            }
+
+            var oFilter = new sap.ui.model.Filter(
+                "status",               // <-- status field from expense model
+                sap.ui.model.FilterOperator.EQ,
+                sStatus
+            );
+
+            oBinding.filter([oFilter]);
+        },
+        _clearExpenseFilters: function () {
+            var oTable = this.byId("expenceTable");
+            var oBinding = oTable && oTable.getBinding("items");
+
+            if (oBinding) {
+                oBinding.filter([]); // ✅ clears all filters
+            }
+        },
+
+        
+
+
 
 
 
