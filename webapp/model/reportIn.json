@@ -1,186 +1,261 @@
 {
-    "shippment": [
+  "shippment": [
+    {
+      "shipmentNo": "SH-2026-000142",
+      "foId": "FO-2026-0198",
+      "type": "LPG",
+      "bu": "060C",
+      "buName": "Atlas-LPG-BPK",
+      "route": "0C3415",
+      "routeName": "BPK > PTT TANK > ATL โอลิมปัส สัตหีบ3 > BPK",
+      "driver": "Somchai P.",
+      "driverId": "DRV-001",
+      "plate": "66-0770",
+      "trailer": "",
+      "vehicleType": "10 ล้อ",
+      "vehicleAge": "≤ 8 ปี",
+      "customer": "บมจ.แอตลาส เอ็นเนอยี",
+      "dispatchDate": "2026-01-15",
+      "lastTruckMiles": 125430,
+      "milesStart": 12345,
+      "milesEnd": 137775,
+      "stageProgress": "0/4",
+      "riStatus": "Pending",
+      "stages": [
         {
-            "shipmentNo": "SH-2026-000142",
-            "foId": "FO-2026-0198",
-            "type": "LPG",
-            "bu": "060C",
-            "buName": "Atlas-LPG-BPK",
-            "route": "0C3415",
-            "routeName": "BPK > PTT TANK > ATL โอลิมปัส สัตหีบ3 > BPK",
-            "driver": "Somchai P.",
-            "driverId": "DRV-001",
-            "plate": "66-0770",
-            "trailer": "",
-            "vehicleType": "10 ล้อ",
-            "vehicleAge": "≤ 8 ปี",
-            "customer": "บมจ.แอตลาส เอ็นเนอยี",
-            "dispatchDate": "2026-01-15",
-            "lastTruckMiles": 125430,
-            "milesStart": 12345,
-            "milesEnd": 137775,
-            "stageProgress": "0/4",
-            "riStatus": "pending",
-            "stages": [
-                {
-                    "n": 0,
-                    "type": "first",
-                    "origin": "—",
-                    "dest": "คลังก๊าซบางปะกง",
-                    "stdDist": 0,
-                    "status": "pending"
-                },
-                {
-                    "n": 1,
-                    "type": "load",
-                    "origin": "คลังก๊าซบางปะกง",
-                    "dest": "คลังPTT Tank Terminal ระยอง",
-                    "stdDist": 120,
-                    "status": "pending"
-                },
-                {
-                    "n": 2,
-                    "type": "customer",
-                    "origin": "คลังPTT Tank Terminal ระยอง",
-                    "dest": "PTT TANK - ATL โอลิมปัส สัตหีบ3",
-                    "stdDist": 50,
-                    "status": "pending"
-                },
-                {
-                    "n": 3,
-                    "type": "last",
-                    "origin": "PTT TANK - ATL โอลิมปัส สัตหีบ3",
-                    "dest": "คลังก๊าซบางปะกง",
-                    "stdDist": 120,
-                    "status": "pending"
-                }
-            ],
-            "expenses": [],
-            "fuelEntries": [],
-            "parkingEntries": []
+          "n": 0,
+          "type": "first",
+          "origin": "—",
+          "dest": "คลังก๊าซบางปะกง",
+          "stdDist": 0,
+          "status": true,
+          "depTime": "",
+          "arrTime": "",
+          "milesStart": 5430,
+          "milesEnd": 44567,
+          "gpsDistance": 0,
+          "actDistance": 0
         },
         {
-            "shipmentNo": "SH-2026-000143",
-            "foId": "FO-2026-0199",
-            "type": "CHEM",
-            "bu": "060F",
-            "buName": "RY-Napatr Chemical",
-            "route": "0F2110",
-            "routeName": "RY > ลูกค้า Map Ta Phut > RY",
-            "driver": "Narong S.",
-            "driverId": "DRV-003",
-            "plate": "70-1122",
-            "trailer": "70-8899",
-            "vehicleType": "18 ล้อ",
-            "vehicleAge": "> 8 ปี",
-            "customer": "Thai Chemical Industries",
-            "dispatchDate": "2026-01-15",
-            "lastTruckMiles": 98500,
-            "milesStart": 12345,
-            "milesEnd": 137775,
-            "stageProgress": "0/3",
-            "riStatus": "pending",
-            "stages": [
-                {
-                    "n": 0,
-                    "type": "first",
-                    "origin": "—",
-                    "dest": "คลังสารเคมี ระยอง",
-                    "stdDist": 0,
-                    "status": "pending"
-                },
-                {
-                    "n": 1,
-                    "type": "customer",
-                    "origin": "คลังสารเคมี ระยอง",
-                    "dest": "Map Ta Phut Industrial",
-                    "stdDist": 45,
-                    "status": "pending"
-                },
-                {
-                    "n": 2,
-                    "type": "last",
-                    "origin": "Map Ta Phut Industrial",
-                    "dest": "คลังสารเคมี ระยอง",
-                    "stdDist": 45,
-                    "status": "pending"
-                }
-            ],
-            "expenses": [],
-            "fuelEntries": [],
-            "parkingEntries": []
+          "n": 1,
+          "type": "load",
+          "origin": "คลังก๊าซบางปะกง",
+          "dest": "คลังPTT Tank Terminal ระยอง",
+          "stdDist": 120,
+          "status": true,
+          "depTime": "",
+          "arrTime": "",
+          "milesStart": 0,
+          "milesEnd": 0,
+          "gpsDistance": 0,
+          "actDistance": 0,
+          "weightBefore": 14200, 
+            "weightAfter": 25800,
+            "uom": "kg"
         },
         {
-            "shipmentNo": "SH-2026-000138",
-            "foId": "FO-2026-0190",
-            "type": "LPG",
-            "bu": "060C",
-            "buName": "Atlas-LPG-BPK",
-            "route": "0C2200",
-            "routeName": "BPK > PTT > ชลบุรี > BPK",
-            "driver": "Thanakorn V.",
-            "driverId": "DRV-004",
-            "plate": "64-8811",
-            "trailer": "",
-            "vehicleType": "10 ล้อ",
-            "vehicleAge": "≤ 8 ปี",
-            "customer": "ปตท.สผ. ชลบุรี",
-            "dispatchDate": "2026-01-15",
-            "lastTruckMiles": 120000,
-            "milesStart": 12345,
-            "milesEnd": 137775,
-            "stageProgress": "4/4",
-            "riStatus": "review",
-            "stages": [
-                {
-                    "n": 0,
-                    "type": "first",
-                    "origin": "—",
-                    "dest": "คลังก๊าซบางปะกง",
-                    "stdDist": 0,
-                    "status": "completed"
-                },
-                {
-                    "n": 1,
-                    "type": "load",
-                    "origin": "คลังก๊าซบางปะกง",
-                    "dest": "PTT Tank ชลบุรี",
-                    "stdDist": 80,
-                    "status": "completed"
-                },
-                {
-                    "n": 2,
-                    "type": "customer",
-                    "origin": "PTT Tank ชลบุรี",
-                    "dest": "PTT EP ชลบุรี",
-                    "stdDist": 30,
-                    "status": "completed"
-                },
-                {
-                    "n": 3,
-                    "type": "last",
-                    "origin": "PTT EP ชลบุรี",
-                    "dest": "คลังก๊าซบางปะกง",
-                    "stdDist": 80,
-                    "status": "completed"
-                }
-            ],
-            "expenses": [
-                {
-                    "cat": "toll",
-                    "desc": "ทางด่วนบูรพาวิถี",
-                    "amt": 120
-                }
-            ],
-            "fuelEntries": [
-                {
-                    "station": "PTT Bang Pakong",
-                    "type": "Diesel B7",
-                    "liters": 50,
-                    "amt": 1547
-                }
-            ],
-            "parkingEntries": []
+          "n": 2,
+          "type": "customer",
+          "origin": "คลังPTT Tank Terminal ระยอง",
+          "dest": "PTT TANK - ATL โอลิมปัส สัตหีบ3",
+          "stdDist": 50,
+          "status": false,
+          "depTime": "",
+          "arrTime": "",
+          "milesStart": 0,
+          "milesEnd": 0,
+          "gpsDistance": 0,
+          "actDistance": 0
+        },
+        {
+          "n": 3,
+          "type": "last",
+          "origin": "PTT TANK - ATL โอลิมปัส สัตหีบ3",
+          "dest": "คลังก๊าซบางปะกง",
+          "stdDist": 120,
+          "status": false,
+          "depTime": "",
+          "arrTime": "",
+          "milesStart": 0,
+          "milesEnd": 0,
+          "gpsDistance": 0,
+          "actDistance": 0
         }
-    ]
+      ],
+      "expenses": [],
+      "fuelEntries": [],
+      "parkingEntries": []
+    },
+    {
+      "shipmentNo": "SH-2026-000143",
+      "foId": "FO-2026-0199",
+      "type": "CHEM",
+      "bu": "060F",
+      "buName": "RY-Napatr Chemical",
+      "route": "0F2110",
+      "routeName": "RY > ลูกค้า Map Ta Phut > RY",
+      "driver": "Narong S.",
+      "driverId": "DRV-003",
+      "plate": "70-1122",
+      "trailer": "70-8899",
+      "vehicleType": "18 ล้อ",
+      "vehicleAge": "> 8 ปี",
+      "customer": "Thai Chemical Industries",
+      "dispatchDate": "2026-01-15",
+      "lastTruckMiles": 98500,
+      "milesStart": 12345,
+      "milesEnd": 137775,
+      "stageProgress": "0/3",
+      "riStatus": "Pending",
+      "stages": [
+        {
+          "n": 0,
+          "type": "first",
+          "origin": "—",
+          "dest": "คลังสารเคมี ระยอง",
+          "stdDist": 0,
+          "status": false,
+          "depTime": "",
+          "arrTime": "",
+          "milesStart": 0,
+          "milesEnd": 0,
+          "gpsDistance": 0,
+          "actDistance": 0
+        },
+        {
+          "n": 1,
+          "type": "customer",
+          "origin": "คลังสารเคมี ระยอง",
+          "dest": "Map Ta Phut Industrial",
+          "stdDist": 45,
+          "status": false,
+          "depTime": "",
+          "arrTime": "",
+          "milesStart": 0,
+          "milesEnd": 0,
+          "gpsDistance": 0,
+          "actDistance": 0,
+          "weightBefore": 14200, 
+            "weightAfter": 25800,
+            "uom": "kg"
+        },
+        {
+          "n": 2,
+          "type": "last",
+          "origin": "Map Ta Phut Industrial",
+          "dest": "คลังสารเคมี ระยอง",
+          "stdDist": 45,
+          "status": false,
+          "depTime": "",
+          "arrTime": "",
+          "milesStart": 0,
+          "milesEnd": 0,
+          "gpsDistance": 0,
+          "actDistance": 0
+        }
+      ],
+      "expenses": [],
+      "fuelEntries": [],
+      "parkingEntries": []
+    },
+    {
+      "shipmentNo": "SH-2026-000138",
+      "foId": "FO-2026-0190",
+      "type": "LPG",
+      "bu": "060C",
+      "buName": "Atlas-LPG-BPK",
+      "route": "0C2200",
+      "routeName": "BPK > PTT > ชลบุรี > BPK",
+      "driver": "Thanakorn V.",
+      "driverId": "DRV-004",
+      "plate": "64-8811",
+      "trailer": "",
+      "vehicleType": "10 ล้อ",
+      "vehicleAge": "≤ 8 ปี",
+      "customer": "ปตท.สผ. ชลบุรี",
+      "dispatchDate": "2026-01-15",
+      "lastTruckMiles": 120000,
+      "milesStart": 12345,
+      "milesEnd": 137775,
+      "stageProgress": "4/4",
+      "riStatus": "Review",
+      "stages": [
+        {
+          "n": 0,
+          "type": "first",
+          "origin": "—",
+          "dest": "คลังก๊าซบางปะกง",
+          "stdDist": 0,
+          "status": true,
+          "depTime": "2026-01-15T08:00:00",
+          "arrTime": "2026-01-15T08:30:00",
+          "milesStart": 120000,
+          "milesEnd": 120005,
+          "gpsDistance": 5,
+          "actDistance": 5
+        },
+        {
+          "n": 1,
+          "type": "load",
+          "origin": "คลังก๊าซบางปะกง",
+          "dest": "PTT Tank ชลบุรี",
+          "stdDist": 80,
+          "status": true,
+          "depTime": "2026-01-15T09:00:00",
+          "arrTime": "2026-01-15T10:45:00",
+          "milesStart": 120005,
+          "milesEnd": 120085,
+          "gpsDistance": 80,
+          "actDistance": 80,
+          "weightBefore": 14200, 
+            "weightAfter": 25800,
+            "uom": "kg"
+        },
+        {
+          "n": 2,
+          "type": "customer",
+          "origin": "PTT Tank ชลบุรี",
+          "dest": "PTT EP ชลบุรี",
+          "stdDist": 30,
+          "status": true,
+          "depTime": "2026-01-15T11:30:00",
+          "arrTime": "2026-01-15T12:15:00",
+          "milesStart": 120085,
+          "milesEnd": 120115,
+          "gpsDistance": 30,
+          "actDistance": 30
+        },
+        {
+          "n": 3,
+          "type": "last",
+          "origin": "PTT EP ชลบุรี",
+          "dest": "คลังก๊าซบางปะกง",
+          "stdDist": 80,
+          "status": true,
+          "depTime": "2026-01-15T13:00:00",
+          "arrTime": "2026-01-15T14:45:00",
+          "milesStart": 120115,
+          "milesEnd": 120195,
+          "gpsDistance": 80,
+          "actDistance": 80
+        }
+      ],
+      "expenses": [
+        {
+          "cat": "toll",
+          "desc": "ทางด่วนบูรพาวิถี",
+          "amt": 120
+        }
+      ],
+      "fuelEntries": [
+        {
+          "station": "PTT Bang Pakong",
+          "type": "Diesel B7",
+          "liters": 50,
+          "amt": 1547
+        }
+      ],
+      "parkingEntries": []
+    }
+  ]
 }

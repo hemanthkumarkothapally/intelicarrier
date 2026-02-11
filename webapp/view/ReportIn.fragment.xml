@@ -79,7 +79,7 @@
                 </GenericTile>
             </HBox>
         </FlexBox>
-        <IconTabBar id="reportInTabBar" expandable="false" headerMode="Inline" selectedKey="Awaiting" select=".reportInTabSelect">
+        <IconTabBar id="reportInTabBar" expandable="false" headerMode="Inline" selectedKey="All" select=".reportInTabSelect">
             <items>
                 <IconTabFilter key="All" text="All Shipments" class="shipment-tab-item"/>
                 <IconTabFilter key="Awaiting" text="Awaiting" class="shipment-tab-item"/>
@@ -118,9 +118,7 @@
                     </Select>
                 </Toolbar>
             </headerToolbar>
-
             <columns>
-
                 <Column>
                     <Text text="Shipment No."/>
                 </Column>
@@ -181,9 +179,9 @@
                         <Title text="{reportIn>stageProgress}" />
 
                         <!-- riStatus -->
-                        <GenericTag text="{reportIn>riStatus}" status="{= ${reportIn>riStatus} === 'review' ? 'Warning' : 
+                        <GenericTag text="{reportIn>riStatus}" status="{= ${reportIn>riStatus} === 'Review' ? 'Warning' : 
                             ${reportIn>riStatus} === 'Completed' ? 'Success' : 
-                            ${reportIn>riStatus} === 'pending' ? 'Information' : 
+                            ${reportIn>riStatus} === 'Pending' ? 'Information' : 
                             ${reportIn>riStatus} === 'Rejected' ? 'Error' : 
                             'None' }" design="StatusIconHidden"/>
 

@@ -7,8 +7,6 @@
         <content>
             <VBox width="100%" class="sapUiSmallMargin">
                 <VBox class="formBox sapUiMediumMarginTop">
-
-
                     <f:SimpleForm backgroundDesign="Transparent" editable="true" layout="ColumnLayout" columnsXL="3" columnsL="3" columnsM="3">
                         <f:content>
                             <Label text="Route"/>
@@ -23,11 +21,10 @@
                             <Text text="{reportIn>lastTruckMiles}"></Text>
                         </f:content>
                     </f:SimpleForm>
-
                 </VBox>
-                <IconTabBar id="idIconTabBarFiori2" backgroundDesign="Transparent" class="sapUiResponsiveContentPadding sapUiMediumMarginTop">
+                <IconTabBar id="ReportInDialogTabBar" selectedKey="VehicleInfo" backgroundDesign="Transparent" class="sapUiResponsiveContentPadding sapUiMediumMarginTop">
                     <items>
-                        <IconTabFilter  text="Vehicle Info" key="VehicleInfo">
+                        <IconTabFilter text="Vehicle Info" key="VehicleInfo">
                             <VBox class="formBox sapUiMediumMarginTop">
                                 <HBox alignItems="Center" class="sapUiSmallMarginBottom">
                                     <Title text=" Vehicle &amp; Driver Information" level="H4"/>
@@ -69,26 +66,431 @@
                                         <Input value="Truck Master" editable="false" />
                                     </f:content>
                                 </f:SimpleForm>
-
                             </VBox>
+                            <MessageStrip class="sapUiMediumMarginTop" enableFormattedText="true" type="Warning" showIcon="true" text="&lt;strong&gt;Miles Checking -System will REJECT data if conditions not met:&lt;/strong&gt;&lt;br&gt;
+                                001: First stage - Beginning miles vs Last Truck Miles ≤ 50 km&lt;br&gt;
+                                002: Stage gap - Previous ending miles vs Current beginning miles ≤ 10 km&lt;br&gt;
+                                003: Distance variance from standard ≤ 15%&lt;br&gt;
+                                004: Dummy route tolerance = 100 km&lt;br&gt;
+                                005: Broken miles bypass = Enabled" />
+                            <FormattedText  />
                         </IconTabFilter>
+
+
                         <IconTabFilter text="Stages(Report-In)" key="Stages">
                             <VBox width="100%" class="sapUiSmallMargin">
-                                <Text text="Attachments go here ..." />
-                            </VBox>
+                                <MessageStrip text="LPG— Case LPG &amp; Chem: Record ต้นทาง/ปลายทาง, ไมล์, and delivery data per stage."></MessageStrip>
+                                <Wizard id="StageWizard" finishButtonText="Submit" renderMode="Page" showNextButton="true" complete="onWizardCompleted" class="sapUiResponsivePadding--header sapUiResponsivePadding--content">
 
+                                    <WizardStep id="First" title="Stage 1: First Stage" validated="{reportIn>stages/0/status}" activate="onStepActivate">
+                                        <VBox class="sapUiSmallMargin">
+
+                                            <f:SimpleForm editable="true" layout="ColumnLayout" columnsL="2" columnsM="2">
+                                                <f:content>
+                                                    <core:Title text="Location &amp; Distance" />
+                                                    <Label text="ต้นทาง (Origin)" required="true" />
+                                                    <Input liveChange="true" value="{reportIn>stages/0/origin}" placeholder="Origin location" />
+
+                                                    <Label text="ปลายทาง (Destination)" required="true" />
+                                                    <Input liveChange="true" value="{reportIn>stages/0/dest}" placeholder="Destination" />
+
+                                                    <Label text="ระยะทางมาตร (Std. Distance)" />
+                                                    <Input liveChange="true" value="{reportIn>stages/0/stdDist}" editable="false" description="km" />
+
+                                                    <core:Title text="Timing &amp; Odometer" />
+                                                    <Label text="วัน-เวลาต้นทาง (Departure)" required="true" />
+                                                    <DateTimePicker value="{reportIn>stages/0/depTime}" />
+
+                                                    <Label text="วัน-เวลาปลายทาง (Arrival)" required="true" />
+                                                    <DateTimePicker value="{reportIn>stages/0/arrTime}" />
+
+                                                    <Label text="เลขไมล์ต้นทาง" required="true" />
+                                                    <Input liveChange="true" value="{reportIn>stages/0/milesStart}" type="Number" change="onMilesValidation" description="km" />
+
+                                                    <Label text="เลขไมล์ปลายทาง" required="true" />
+                                                    <Input liveChange="true" value="{reportIn>stages/0/milesEnd}" type="Number" change="onMilesValidation" description="km" />
+
+                                                    <Label text="ระยะทาง GPS" />
+                                                    <Input liveChange="true" value="{reportIn>stages/0/gpsDistance}" type="Number" description="km" />
+
+                                                    <Label text="ระยะทางจริง (ไมล์ปลาย-ต้นทาง)" />
+                                                    <Input liveChange="true" value="{reportIn>stages/0/actDistance}" editable="false" description="km" class="sapUiSemantics-Information" />
+                                                </f:content>
+                                            </f:SimpleForm>
+                                            <HBox width="100%" justifyContent="SpaceBetween">
+                                                <Button text="Simulate Auto Report-In" press="onSimulateAutoReportIn" icon="sap-icon://iphone"></Button>
+                                                <HBox>
+                                                    <Button text="clear" press="onClearStage" icon="sap-icon://synchronize"/>
+                                                    <Button text="Checkmiles" icon="sap-icon://search"/>
+                                                </HBox>
+                                            </HBox>
+                                        </VBox>
+                                    </WizardStep>
+
+                                    <WizardStep id="Load" title="Stage 2: Load" validated="{reportIn>stages/1/status}" activate="onStepActivate">
+                                        <VBox class="sapUiSmallMargin">
+
+                                            <f:SimpleForm editable="true" layout="ColumnLayout" columnsL="2" columnsM="2">
+                                                <f:content>
+                                                    <core:Title text="Location &amp; Distance" />
+                                                    <Label text="ต้นทาง (Origin)" required="true" />
+                                                    <Input liveChange="true" value="{reportIn>stages/1/origin}" placeholder="Origin location" />
+
+                                                    <Label text="ปลายทาง (Destination)" required="true" />
+                                                    <Input liveChange="true" value="{reportIn>stages/1/dest}" placeholder="Destination" />
+
+                                                    <Label text="ระยะทางมาตร (Std. Distance)" />
+                                                    <Input liveChange="true" value="{reportIn>stages/1/stdDist}" editable="false" description="km" />
+
+                                                    <core:Title text="Timing &amp; Odometer" />
+                                                    <Label text="วัน-เวลาต้นทาง (Departure)" required="true" />
+                                                    <DateTimePicker value="{reportIn>stages/1/depTime}" />
+
+                                                    <Label text="วัน-เวลาปลายทาง (Arrival)" required="true" />
+                                                    <DateTimePicker value="{reportIn>stages/1/arrTime}" />
+
+                                                    <Label text="เลขไมล์ต้นทาง" required="true" />
+                                                    <Input liveChange="true" value="{reportIn>stages/1/milesStart}" type="Number" change="onMilesValidation" description="km" />
+
+                                                    <Label text="เลขไมล์ปลายทาง" required="true" />
+                                                    <Input liveChange="true" value="{reportIn>stages/1/milesEnd}" type="Number" change="onMilesValidation" description="km" />
+
+                                                    <Label text="ระยะทาง GPS" />
+                                                    <Input liveChange="true" value="{reportIn>stages/1/gpsDistance}" type="Number" description="km" />
+
+                                                    <Label text="ระยะทางจริง (ไมล์ปลาย-ต้นทาง)" />
+                                                    <Input liveChange="true" value="{reportIn>stages/1/actDistance}" editable="false" description="km" class="sapUiSemantics-Information" />
+                                                </f:content>
+                                            </f:SimpleForm>
+                                            <VBox class="formBox sapUiMediumMarginTop">
+                                                <f:SimpleForm backgroundDesign="Transparent" editable="true" layout="ColumnLayout" columnsXL="3" columnsL="3" columnsM="3">
+                                                    <f:content>
+                                                        <Label text="น้ำหนักรถก่อนโหลด (kg)" />
+                                                        <Input value="{reportIn>stages/1/weightBefore}" type="Number" />
+
+                                                        <Label text="น้ำหนักรถหลังโหลด (kg)" />
+                                                        <Input value="{reportIn>stages/1/weightAfter}" type="Number" />
+                                                    </f:content>
+                                                </f:SimpleForm>
+                                            </VBox>
+                                            <HBox width="100%" justifyContent="SpaceBetween">
+                                                <Button text="Simulate Auto Report-In" press="onSimulateAutoReportIn" icon="sap-icon://iphone"></Button>
+                                                <HBox>
+                                                    <Button text="clear" press="onClearStage" icon="sap-icon://synchronize"/>
+                                                    <Button text="Checkmiles" icon="sap-icon://search"/>
+                                                </HBox>
+                                            </HBox>
+                                        </VBox>
+                                    </WizardStep>
+
+                                    <WizardStep id="Customer" title="Stage 3: Customer" validated="{reportIn>stages/2/status}" activate="onStepActivate">
+                                        <VBox class="sapUiSmallMargin">
+
+                                            <f:SimpleForm editable="true" layout="ColumnLayout" columnsL="2" columnsM="2">
+                                                <f:content>
+                                                    <core:Title text="Location &amp; Distance" />
+                                                    <Label text="ต้นทาง (Origin)" required="true" />
+                                                    <Input liveChange="true" value="{reportIn>stages/2/origin}" placeholder="Origin location" />
+
+                                                    <Label text="ปลายทาง (Destination)" required="true" />
+                                                    <Input liveChange="true" value="{reportIn>stages/2/dest}" placeholder="Destination" />
+
+                                                    <Label text="ระยะทางมาตร (Std. Distance)" />
+                                                    <Input liveChange="true" value="{reportIn>stages/2/stdDist}" editable="false" description="km" />
+
+                                                    <core:Title text="Timing &amp; Odometer" />
+                                                    <Label text="วัน-เวลาต้นทาง (Departure)" required="true" />
+                                                    <DateTimePicker value="{reportIn>stages/2/depTime}" />
+
+                                                    <Label text="วัน-เวลาปลายทาง (Arrival)" required="true" />
+                                                    <DateTimePicker value="{reportIn>stages/2/arrTime}" />
+
+                                                    <Label text="เลขไมล์ต้นทาง" required="true" />
+                                                    <Input liveChange="true" value="{reportIn>stages/2/milesStart}" type="Number" change="onMilesValidation" description="km" />
+
+                                                    <Label text="เลขไมล์ปลายทาง" required="true" />
+                                                    <Input liveChange="true" value="{reportIn>stages/2/milesEnd}" type="Number" change="onMilesValidation" description="km" />
+
+                                                    <Label text="ระยะทาง GPS" />
+                                                    <Input liveChange="true" value="{reportIn>stages/2/gpsDistance}" type="Number" description="km" />
+
+                                                    <Label text="ระยะทางจริง (ไมล์ปลาย-ต้นทาง)" />
+                                                    <Input liveChange="true" value="{reportIn>stages/2/actDistance}" editable="false" description="km" class="sapUiSemantics-Information" />
+                                                </f:content>
+                                            </f:SimpleForm>
+                                            <VBox class="formBox sapUiMediumMarginTop">
+                                                <f:SimpleForm backgroundDesign="Transparent" editable="true" layout="ColumnLayout" columnsXL="3" columnsL="3" columnsM="3">
+                                                    <f:content>
+                                                        <Label text="เลขที่เอกสารตั๋ว" required="true" />
+                                                        <Input value="{stageModel>details/ticketNo}" />
+
+                                                        <Label text="วันที่เอกสารตั๋ว" required="true" />
+                                                        <DatePicker value="{stageModel>details/ticketDate}" valueFormat="yyyy-MM-dd" displayFormat="dd/MM/yyyy" />
+
+                                                        <Label text="เลขที่ใบสั่งซื้อ (PO No.)" />
+                                                        <Input value="{stageModel>details/poNo}" />
+
+                                                        <Label text="ปริมาณหน้าตั๋ว" required="true" />
+                                                        <Input value="{stageModel>details/planQty}" description="kg" type="Number" />
+
+                                                        <Label text="ปริมาณส่งจริง" required="true" />
+                                                        <Input value="{stageModel>details/actualQty}" description="kg" type="Number" />
+
+                                                        <Label text="นน. รถก่อนลง" required="true" />
+                                                        <Input value="{stageModel>details/weightBefore}" description="kg" type="Number" />
+
+                                                        <Label text="นน. รถหลังลง" required="true" />
+                                                        <Input value="{stageModel>details/weightAfter}" description="kg" type="Number" />
+
+                                                        <Label text="Plan วันเวลาถึง" />
+                                                        <DateTimePicker value="{stageModel>details/plannedArrival}" />
+
+                                                        <Label text="วันเวลาตามแผนลูกค้า" />
+                                                        <TimePicker value="{stageModel>details/waitingStartTime}" />
+
+                                                        <Label text="เวลาเริ่มรอ(กา)" />
+                                                        <TimePicker value="{stageModel>details/unloadingStartTime}" />
+
+                                                        <Label text="เวลาเริ่มลง/ลื่" />
+                                                        <TimePicker value="{stageModel>details/unloadingStartTime}" />
+
+                                                        <Label text="หมายเหตุ (Remarks)" />
+                                                        <TextArea value="{stageModel>details/remarks}" rows="3" />
+
+                                                    </f:content>
+                                                </f:SimpleForm>
+
+                                                <CheckBox text="รอลงค่าช"></CheckBox>
+                                                <CheckBox text="ลงก๊าซไม่ได้"></CheckBox>
+                                            </VBox>
+                                            <HBox width="100%" justifyContent="SpaceBetween">
+                                                <Button text="Simulate Auto Report-In" press="onSimulateAutoReportIn" icon="sap-icon://iphone"></Button>
+                                                <HBox>
+                                                    <Button text="clear" press="onClearStage" icon="sap-icon://synchronize"/>
+                                                    <Button text="Checkmiles" icon="sap-icon://search"/>
+                                                </HBox>
+                                            </HBox>
+                                        </VBox>
+                                    </WizardStep>
+
+                                    <WizardStep id="Last" title="Stage 4: Last" validated="{reportIn>stages/3/status}">
+                                        <VBox class="sapUiSmallMargin">
+
+                                            <f:SimpleForm editable="true" layout="ColumnLayout" columnsL="2" columnsM="2">
+                                                <f:content>
+                                                    <core:Title text="Location &amp; Distance" />
+                                                    <Label text="ต้นทาง (Origin)" required="true" />
+                                                    <Input liveChange="true" value="{reportIn>stages/3/origin}" placeholder="Origin location" />
+
+                                                    <Label text="ปลายทาง (Destination)" required="true" />
+                                                    <Input liveChange="true" value="{reportIn>stages/3/dest}" placeholder="Destination" />
+
+                                                    <Label text="ระยะทางมาตร (Std. Distance)" />
+                                                    <Input liveChange="true" value="{reportIn>stages/3/stdDist}" editable="false" description="km" />
+
+                                                    <core:Title text="Timing &amp; Odometer" />
+                                                    <Label text="วัน-เวลาต้นทาง (Departure)" required="true" />
+                                                    <DateTimePicker value="{reportIn>stages/3/depTime}" />
+
+                                                    <Label text="วัน-เวลาปลายทาง (Arrival)" required="true" />
+                                                    <DateTimePicker value="{reportIn>stages/3/arrTime}" />
+
+                                                    <Label text="เลขไมล์ต้นทาง" required="true" />
+                                                    <Input liveChange="true" value="{reportIn>stages/3/milesStart}" type="Number" change="onMilesValidation" description="km" />
+
+                                                    <Label text="เลขไมล์ปลายทาง" required="true" />
+                                                    <Input liveChange="true" value="{reportIn>stages/3/milesEnd}" type="Number" change="onMilesValidation" description="km" />
+
+                                                    <Label text="ระยะทาง GPS" />
+                                                    <Input liveChange="true" value="{reportIn>stages/3/gpsDistance}" type="Number" description="km" />
+
+                                                    <Label text="ระยะทางจริง (ไมล์ปลาย-ต้นทาง)" />
+                                                    <Input liveChange="true" value="{reportIn>stages/3/actDistance}" editable="false" description="km" class="sapUiSemantics-Information" />
+                                                </f:content>
+                                            </f:SimpleForm>
+                                            <HBox width="100%" justifyContent="SpaceBetween">
+                                                <Button text="Simulate Auto Report-In" press="onSimulateAutoReportIn" icon="sap-icon://iphone"></Button>
+                                                <HBox>
+                                                    <Button text="clear" press="onClearStage" icon="sap-icon://synchronize"/>
+                                                    <Button text="Checkmiles" icon="sap-icon://search"/>
+                                                </HBox>
+                                            </HBox>
+                                        </VBox>
+                                    </WizardStep>
+                                </Wizard>
+                            </VBox>
                         </IconTabFilter>
                         <IconTabFilter text="Expenses" key="Expenses">
-                            <Text text="Notes go here ..." />
+                            <MessageStrip text="บันทึกค่าใช้จ่าย (Record Expenses) — Toll, meals, overnight, miscellaneous."></MessageStrip>
+                            <List mode="Delete" items="{reportIn>expenses}" delete="onDeleteExpense">
+                                <headerToolbar>
+                                    <Toolbar>
+                                        <Title text="Trip Expenses" />
+                                        <ToolbarSpacer />
+                                        <Button text="Add Expenses" press="onAddExpense" type="Ghost" icon="sap-icon://add" />
+                                    </Toolbar>
+                                </headerToolbar>
+                                <CustomListItem>
+                                    <HBox alignItems="Center" width="100%" class="sapUiTinyMargin">
+                                        <ComboBox selectedKey="{reportIn>cat}" width="150px" placeholder="Category">
+                                            <items>
+                                                <core:Item key="Toll" text="🛣️ Toll" />
+                                                <core:Item key="Meal" text="🍽️ Meal" />
+                                                <core:Item key="Other" text="📋 Other" />
+                                            </items>
+                                        </ComboBox>
+
+                                        <Input value="{reportIn>desc}" placeholder="Description" class="sapUiTinyMarginBegin">
+                                            <layoutData>
+                                                <FlexItemData growFactor="1" />
+                                            </layoutData>
+                                        </Input>
+
+                                        <Input type="Number" change="onAmountChange" value="{reportIn>amt}" width="120px" textAlign="End" placeholder="0.00" description="฿" class="sapUiTinyMarginBegin" />
+                                    </HBox>
+                                </CustomListItem>
+                            </List>
+                            <HBox>
+                                <Title text="Total Amount:" titleStyle="H6" />
+                                <ObjectNumber number="{
+                    path: 'reportIn>/totalTripExpenses',
+                    type: 'sap.ui.model.type.Float',
+                    formatOptions: { minFractionDigits: 2, maxFractionDigits: 2 }
+                }" unit="฿" state="Error" />
+                            </HBox>
                         </IconTabFilter>
                         <IconTabFilter text="Fuel" key="Fuel">
-                            <Text text="People content goes here ..." />
+                            <MessageStrip text=" บันทึกการเติมเชื้อเพลิง — Record fuel fills."></MessageStrip>
+                            <Table mode="Delete" items="{reportIn>fuelEntries}" delete="onDeleteFuel">
+                                <headerToolbar>
+                                    <Toolbar>
+                                        <Title text="⛽ Fuel Records" />
+                                        <ToolbarSpacer />
+                                        <Button text="Add Fuel" press="onAddFuel" type="Ghost" icon="sap-icon://add" />
+                                    </Toolbar>
+                                </headerToolbar>
+                                <columns>
+                                    <Column minScreenWidth="Tablet" demandPopin="true">
+                                        <Text text="Station" />
+                                    </Column>
+                                    <Column minScreenWidth="Tablet" demandPopin="true">
+                                        <Text text="Fuel Type" />
+                                    </Column>
+                                    <Column hAlign="End">
+                                        <Text text="Liters" />
+                                    </Column>
+                                    <Column hAlign="End">
+                                        <Text text="Amount (฿)" />
+                                    </Column>
+                                    <Column minScreenWidth="Desktop" demandPopin="true">
+                                        <Text text="Shared?" />
+                                    </Column>
+                                </columns>
+                                <items>
+                                    <ColumnListItem>
+                                        <cells>
+                                            <Input value="{reportIn>station}" placeholder="e.g., PTT Bang Pakong" />
+                                            <Select selectedKey="{reportIn>type}">
+                                                <items>
+                                                    <core:Item key="Diesel B7" text="Diesel B7" />
+                                                    <core:Item key="NGV" text="NGV" />
+                                                </items>
+                                            </Select>
+                                            <Input value="{reportIn>liters}" type="Number" textAlign="End" change="onFuelCalculation" />
+                                            <ObjectNumber number="{
+                        path: 'reportIn>amt',
+                        type: 'sap.ui.model.type.Float',
+                        formatOptions: { minFractionDigits: 2 }
+                    }" unit="฿" state="Warning" />
+                                            <Select selectedKey="{reportIn>shared}">
+                                                <items>
+                                                    <core:Item key="No" text="No" />
+                                                    <core:Item key="Yes" text="Yes" />
+                                                </items>
+                                            </Select>
+                                        </cells>
+                                    </ColumnListItem>
+                                </items>
+                            </Table>
+
                         </IconTabFilter>
                         <IconTabFilter text="Parking" key="Parking">
-                            <Text text="People content goes here ..." />
+                            <MessageStrip text="บันทึกค่าจอดรถ (Record Parking)"></MessageStrip>
+                            <Table mode="Delete" items="{reportIn>parkingEntries}" delete="onDeleteParking">
+                                <headerToolbar>
+                                    <Toolbar>
+                                        <Title text="🅿️ Parking Records" />
+                                        <ToolbarSpacer />
+                                        <Button text="Add Parking" press="onAddParking" type="Ghost" icon="sap-icon://add" />
+                                    </Toolbar>
+                                </headerToolbar>
+                                <columns>
+                                    <Column>
+                                        <Text text="Location" />
+                                    </Column>
+                                    <Column minScreenWidth="Tablet" demandPopin="true">
+                                        <Text text="Date" />
+                                    </Column>
+                                    <Column hAlign="End">
+                                        <Text text="Hours" />
+                                    </Column>
+                                    <Column hAlign="End">
+                                        <Text text="Amount (฿)" />
+                                    </Column>
+                                </columns>
+                                <items>
+                                    <ColumnListItem>
+                                        <cells>
+                                            <Input value="{reportIn>loc}" placeholder="e.g., Rest Area 1" />
+                                            <DatePicker value="{reportIn>date}" valueFormat="yyyy-MM-dd" displayFormat="dd.MM.yyyy" />
+                                            <Input value="{reportIn>hrs}" type="Number" textAlign="End" placeholder="0" />
+                                            <Input value="{reportIn>amt}" type="Number" textAlign="End" change="onParkingAmountChange" placeholder="0.00" />
+                                        </cells>
+                                    </ColumnListItem>
+                                </items>
+                            </Table>
+                            <HBox>
+                                <Title text="Subtotal Parking:" titleStyle="H6" />
+                                <ObjectNumber number="{
+                    path: 'reportIn>/totalParking',
+                    type: 'sap.ui.model.type.Float',
+                    formatOptions: { minFractionDigits: 2 },
+                    formatter: '.formatter.formatTotal'
+                }" unit="฿" state="Success" />
+                            </HBox>
                         </IconTabFilter>
                         <IconTabFilter text="Review &amp; Close" key="Review">
-                            <Text text="People content goes here ..." />
+                            <VBox class="sapUiSmallMargin">
+                                <Title text="📊 Trip Summary" titleStyle="H3" class="sapUiSmallMarginBottom" />
+
+                                <f:SimpleForm editable="false" layout="ResponsiveGridLayout" labelSpanL="4" labelSpanM="4">
+                                    <f:content>
+                                        <core:Title text="Stage Progress" />
+                                        <Label text="Stages" />
+                                        <Text text="{reportIn>completedStages} / {reportIn>totalStages}" />
+
+                                        <Label text="Total Std Distance" />
+                                        <ObjectNumber number="{reportIn>totalStdDistance}" unit="km" />
+
+                                        <core:Title text="Cost Breakdown" />
+                                        <Label text="Expenses" />
+                                        <ObjectNumber number="{reportIn>totalExpenses}" unit="฿" />
+
+                                        <Label text="Fuel" />
+                                        <ObjectNumber number="{reportIn>totalFuel}" unit="฿" state="Warning" />
+
+                                        <Label text="Parking" />
+                                        <ObjectNumber number="{reportIn>totalParking}" unit="฿" />
+
+                                        <Label text="TOTAL" />
+                                        <ObjectNumber number="{
+                    path: 'reportIn>grandTotal',
+                    type: 'sap.ui.model.type.Float',
+                    formatOptions: { minFractionDigits: 2 }
+                }" unit="฿" state="Error" emphasized="true" />
+                                    </f:content>
+                                </f:SimpleForm>
+                            </VBox>
                         </IconTabFilter>
                     </items>
                 </IconTabBar>
