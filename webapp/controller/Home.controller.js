@@ -19,6 +19,7 @@ sap.ui.define([
 
 
 
+            this.selectedTiletype;
             // Initialize tracking data model
             var oTrackingData = {
                 events: [],
@@ -134,9 +135,6 @@ sap.ui.define([
                         statusState: "Warning",
                         value: "฿ 125,000"
                     },
-
-                    /* -------- NEW DATA FROM SCREENSHOT -------- */
-
                     {
                         orderId: "FO-2026-0003",
                         coId: "CO-2026-0007",
@@ -1288,6 +1286,9 @@ sap.ui.define([
             this._oManualOrderDialog1.then(function (oDialog) {
                 oDialog.open();
             });
+            this.byId("companyCB").setSelectedKey("");
+            this.byId("productCB").setSelectedKey("");
+            this.onSelectionChange();
 
         },
         onCloseChannelDialog: function () {
@@ -1387,7 +1388,9 @@ sap.ui.define([
             }
             this.byId("channelFlex").setVisible(bShowFlex);
         },
-        onPdfUploadPress: function () {
+        onPdfUploadPress: function (oEvent) {
+            this.selectedTiletype = oEvent.getSource().getProperty("header");
+
             this._openDialog("PdfUploadDialog", "intellicarrier.view.PdfUpload");
         },
         onCompartmentChange: function () {
@@ -1423,14 +1426,22 @@ sap.ui.define([
             this[sDialogId].then(function (oDialog) {
                 oDialog.open();
             });
+            this.byId("extractBtn").setVisible(true);
+
         },
 
         onCloseDialog1: function (oEvent) {
-            oEvent.getSource().getParent().close();
+            const oDialog = oEvent.getSource().getParent();
+
+            oDialog.close();
+            this.byId("CustomContentBox").setVisible(false)
+            this.byId("uploadFrightVBox").setVisible(true)
+            this.byId("uploadFlowHBox").setVisible(true)
+            this.byId("uploadFlowHBoxReview").setVisible(false)
         },
         onFileSelected: function (oEvent) {
             const aFiles = oEvent.getParameter("files");
-
+            this.getView().byId("extractBtn").setVisible(false);
             if (aFiles && aFiles.length) {
                 // File selected successfully
                 this.getView().byId("extractBtn").setVisible(true);
@@ -1468,14 +1479,151 @@ sap.ui.define([
             this.PdfUploadDialog.then(function (oDialog) {
                 oDialog.close();
             });
+            // this.PdfUploadDialog.then(function (oDialog) {
+            //     oDialog.close();
+            // });
         },
         onUploadPress: function () {
             this.byId("CustomContentBox").setVisible(true)
             this.byId("uploadFrightVBox").setVisible(false)
             this.byId("uploadFlowHBox").setVisible(false)
             this.byId("uploadFlowHBoxReview").setVisible(true)
+            this.byId("extractBtn").setVisible(false)
 
 
+        },
+        onSelectAll: function (oEvent) {
+            const bSelected = oEvent.getParameter("selected");
+            const oList = this.byId("freightList");
+
+            oList.getItems().forEach(function (oItem) {
+                oList.setSelectedItem(oItem, bSelected);
+            });
+        },
+        onConfirmSelection: function () {
+            const oList = this.byId("freightList");
+            const aSelectedItems = oList.getSelectedItems();
+
+            if (!aSelectedItems.length) {
+                sap.m.MessageToast.show("Please select at least one draft");
+                return;
+            }
+
+            const iCount = aSelectedItems.length;
+            let sourcetext;
+            if (this.selectedTiletype.includes("PDF")) {
+                sourcetext = "PDF Upload";
+            }
+            else if (this.selectedTiletype.includes("Email")) {
+                sourcetext = "Email Upload";
+
+            }
+            else if (this.selectedTiletype.includes("Excel")) {
+                sourcetext = "Excel Upload";
+
+            }
+            else {
+                sourcetext = this.selectedTiletype;
+
+            }
+            sap.m.MessageBox.confirm(
+                "Confirm " + iCount + " draft(s)?\n\nStatus will change: Draft → Open",
+                {
+                    title: "Confirm Drafts",
+                    actions: [sap.m.MessageBox.Action.OK, sap.m.MessageBox.Action.CANCEL],
+                    emphasizedAction: sap.m.MessageBox.Action.OK,
+
+                    onClose: function (sAction) {
+                        if (sAction !== sap.m.MessageBox.Action.OK) {
+                            return;
+                        }
+
+                        // 🔹 Orders model
+                        const oOrdersModel = this.getView().getModel("orders");
+                        const aOrders = oOrdersModel.getProperty("/ordersList") || [];
+
+                        // 🔹 Loop selected list items
+                        aSelectedItems.forEach(function (oItem) {
+
+                            // ---- Extract data from static CustomListItem ----
+                            const oRootHBox = oItem.getContent()[0];      // Main HBox
+                            const oLeftVBox = oRootHBox.getItems()[0];   // Left VBox
+
+                            // Header row
+                            const oHeaderHBox = oLeftVBox.getItems()[0];
+                            const sOrderId = oHeaderHBox.getItems()[0].getText(); // FO-DRAFT-xxxx
+
+                            // Meta rows
+                            const oMetaRow1 = oLeftVBox.getItems()[1];
+                            const sCustomerName = oMetaRow1.getItems()[1].getText();
+
+                            const oMetaRow2 = oLeftVBox.getItems()[2];
+                            const sProductText = oMetaRow2.getItems()[1].getText(); // D:12K + G95:7K
+                            const sDeliveryDate = oMetaRow2.getItems()[3].getText();
+
+                            // ---- Create new order object ----
+                            const oNewOrder = {
+                                orderId: sOrderId.replace("DRAFT", "OPEN"),
+
+                                sourceIcon: "sap-icon://document-text",
+                                sourceText: sourcetext,
+
+                                customerName: sCustomerName,
+                                customerEmail: "",
+
+                                deliveryAddress: "456 Chang Klan Road, Mueang, Chiang Mai 50100",
+
+                                productsCount: sProductText,
+                                weight: "19,000 kg",
+                                deliveryDate: sDeliveryDate,
+
+                                // ✅ NON-ZERO VALUE
+                                value: "฿125,000",
+
+                                statusText: "Open",
+                                statusState: "Success",
+                                statusIcon: "sap-icon://accept",
+
+                                actionButtonText: "View",
+                                actionButtonType: "Default",
+
+                                ocrConfidence: "94.4%",
+
+                                fullData: {
+                                    orderId: sOrderId,
+                                    customerName: sCustomerName,
+                                    deliveryAddress: "456 Chang Klan Road, Mueang, Chiang Mai 50100",
+                                    products: sProductText,
+                                    deliveryDate: sDeliveryDate,
+                                    value: "฿125,000"
+                                }
+                            };
+
+                            // Add to top of list
+                            aOrders.unshift(oNewOrder);
+                        });
+
+                        // Update model
+                        oOrdersModel.setProperty("/ordersList", aOrders);
+
+                        // UI cleanup
+                        oList.removeSelections(true);
+                        this.byId("CustomContentBox").setVisible(false);
+                        this.byId("uploadFrightVBox").setVisible(true);
+                        this.byId("uploadFlowHBox").setVisible(true);
+                        this.byId("uploadFlowHBoxReview").setVisible(false);
+
+                        sap.m.MessageBox.success(
+                            "All drafts confirmed!\nStatus: OPEN",
+                            { title: "Success" }
+                        );
+
+                    }.bind(this)
+                }
+            );
+            this.PdfUploadDialog.then(function (oDialog) {
+                oDialog.close();
+            });
         },
         onAddProduct: function () {
             var oModel = this.getView().getModel("manualOrder");
@@ -1529,7 +1677,7 @@ sap.ui.define([
                 statusText: "Pending Review",
                 statusState: "Warning",
                 statusIcon: "sap-icon://pending",
-                actionButtonText: "Review",
+                actionButtonText: "View",
                 actionButtonType: "Default",
                 ocrConfidence: "Manual",
                 // Store full data
@@ -1553,6 +1701,7 @@ sap.ui.define([
 
             // Close dialog
             this.onCancelManualOrder();
+
         },
 
         onCancelManualOrder: function () {
@@ -1560,6 +1709,62 @@ sap.ui.define([
                 oDialog.close();
 
             });
+            this._oManualOrderDialog1.then(function (oDialog) {
+                oDialog.close();
+            })
+        },
+        onCreateShipment: function () {
+            this.onCloseOrderDetails();
+            const oOrder = this.getView().getModel("orderDetails").getData();
+
+            // const sConfirmText =
+            //     "Create Shipment for " + oOrder.orderId + "?\n\n" +
+            //     "BU: " + oOrder.bu + "\n" +
+            //     "Type: " + oOrder.product + "\n" +
+            //     "Route: " + oOrder.route + "\n\n" +
+            //     "This will open the Create Shipment screen.";
+
+            const sConfirmText =
+                "Create Shipment for " + oOrder.orderId + "?\n\n" +
+                "BU: " + "SCC" + "\n" +
+                "Type: " + "Fule" + "\n" +
+                "Route: " + "130H-CUST" + "\n\n" +
+                "This will open the Create Shipment screen.";
+            sap.m.MessageBox.confirm(
+                sConfirmText,
+                {
+                    title: "Create Shipment",
+                    icon: sap.m.MessageBox.Icon.QUESTION,
+                    actions: [sap.m.MessageBox.Action.OK, sap.m.MessageBox.Action.CANCEL],
+                    emphasizedAction: sap.m.MessageBox.Action.OK,
+
+                    onClose: function (sAction) {
+                        if (sAction === sap.m.MessageBox.Action.OK) {
+
+                            // 🔹 Simulate backend shipment creation
+                            const sShipmentNo = "SH-2026-003420";
+
+                            sap.m.MessageBox.success(
+                                "Shipment " + sShipmentNo + " created!\n\n" +
+                                "→ In production, this opens CreateShipment_AllTypes.html\n" +
+                                "pre-filled with FO data for: " + oOrder.bu + " / " + oOrder.product + "\n\n" +
+                                "Next step: Assign driver/vehicle → Dispatch",
+                                {
+                                    title: "Shipment Created",
+                                    actions: [sap.m.MessageBox.Action.OK],
+
+                                    onClose: function () {
+                                        // 🔹 Real navigation would go here
+                                        // window.location.href = "CreateShipment_AllTypes.html?fo=" + oOrder.orderId;
+
+                                        sap.m.MessageToast.show("Proceed to shipment assignment");
+                                    }
+                                }
+                            );
+                        }
+                    }.bind(this)
+                }
+            );
         },
 
         _formatDate: function (sDate) {
@@ -1872,7 +2077,7 @@ sap.ui.define([
                 statusText: "Pending Review",
                 statusState: "Warning",
                 statusIcon: "sap-icon://pending",
-                actionButtonText: "Review",
+                actionButtonText: "View",
                 actionButtonType: "Default",
                 ocrConfidence: "Manual",
                 // Store full data
@@ -3246,6 +3451,86 @@ sap.ui.define([
 
             oBinding.filter(aFilters);
         },
+        onCreateOrder: function () {
+            debugger
+            if (!this._oFleetDialog) {
+                this._oFleetDialog = this.loadFragment("intellicarrier.view.FleetCockpitAnalysis");
+            }
+            var oModel = this.getView().getModel("OrdersD");
+            console.log(oModel)
+            oModel.setProperty("/editData", {
+
+            });
+            oModel.setProperty("/isEdit", false);
+
+            // var oOrderModel = new sap.ui.model.json.JSONModel(oOrder);
+            // this.getView().setModel(oOrderModel, "selectedOrder");
+
+            this._oFleetDialog.then(function (oDialog) {
+                oDialog.open();
+            });
+        },
+        onFleetSuggest: function () {
+            debugger
+            if (!this._oFleetSDialog) {
+                this._oFleetSDialog = this.loadFragment("intellicarrier.view.fleetSuggestDialog");
+            }
+
+            // var oOrderModel = new sap.ui.model.json.JSONModel(oOrder);
+            // this.getView().setModel(oOrderModel, "selectedOrder");
+
+            this._oFleetSDialog.then(function (oDialog) {
+                oDialog.open();
+            });
+        },
+        onCloseFleetModal: function () {
+
+            this._oFleetSDialog.then(function (oDialog) {
+                oDialog.close();
+            });
+        },
+        onConfirmFleetSelection: function () {
+
+            this._oFleetSDialog.then(function (oDialog) {
+                oDialog.close();
+            });
+        },
+        onAddStage: function () {
+            sap.m.MessageToast.show("Open Stage Selection Dialog");
+
+        },
+        onSwapStage: function () {
+
+            // Create and open the Swap Confirmation Dialog
+            if (!this._oSwapDialog) {
+                this._oSwapDialog = new sap.m.Dialog({
+                    title: "Stage Order Changed",
+                    type: "Message",
+                    state: "Warning",
+                    content: new sap.m.Text({
+                        text: "Stage order has been changed. System will auto-search for matching route. If no match is found, a dummy route will be created."
+                    }),
+                    beginButton: new sap.m.Button({
+                        type: "Emphasized",
+                        text: "Confirm & Search Route",
+                        press: function () {
+                            // Implement logic to reorder items in your model and update total distance
+                            this._oSwapDialog.close();
+                            sap.m.MessageToast.show("Route matched! Distance updated.");
+                        }.bind(this)
+                    }),
+                    endButton: new sap.m.Button({
+                        text: "Cancel",
+                        press: function () {
+                            this._oSwapDialog.close();
+                        }.bind(this)
+                    })
+                });
+            }
+
+            this._oSwapDialog.open();
+        },
+
         onAnalyzeOrder: function (oEvent) {
             debugger
             var oOrder = oEvent.getSource().getBindingContext().getObject();
@@ -3253,8 +3538,64 @@ sap.ui.define([
                 this._oFleetDialog = this.loadFragment("intellicarrier.view.FleetCockpitAnalysis");
             }
 
-            var oOrderModel = new sap.ui.model.json.JSONModel(oOrder);
-            this.getView().setModel(oOrderModel, "selectedOrder");
+            // var oOrderModel = new sap.ui.model.json.JSONModel(oOrder);
+            // this.getView().setModel(oOrderModel, "selectedOrder");
+            var oModel = this.getView().getModel("OrdersD");
+            console.log(oModel)
+            oModel.setProperty("/editData", {
+                "bu": "SCC — SC Carrier",
+                "productType": "LPG",
+                "site": "060C — ATLAS-LPG-BPK",
+                "shipmentNo": "SHP-2026-0208-01",
+                "shipmentType": "0602 — SCC-LPG",
+                "shippingType": "01 — Truck",
+                "buSiteDisplay": "SCC / 060C",
+                "routeID": "010005 — BTC → ไทยเบฟ → BTC",
+                "wbs": "08S.26CF.BPK.001",
+                "contractDate": "2026-02-04",
+                "plannedDateTime": "2026-02-08T14:30:00",
+                "truckPlate": "83-0569",
+                "trailerPlate": "83-1069",
+                "vehicleNo": "VH-830569",
+                "truckTypeDisplay": "LPG Tanker 18T",
+                "driver1Id": "EMP001",
+                "driver1Name": "สมชาย ใจดี",
+                "driver1Phone": "081-123-4567",
+                "driver1Intern": false,
+                "totalDistance": "311",
+                "transportFee": "เก็บ",
+                "tripPay": "จ่าย",
+                "brokenMiles": false,
+                "stages": [
+                    {
+                        "stageIdx": "0",
+                        "statusState": "Information",
+                        "typeName": "First",
+                        "depName": "—",
+                        "depCode": "—",
+                        "destName": "ท่าเรือบางปะกง",
+                        "destCode": "010007",
+                        "distance": "—",
+                        "arrivalDT": "2026-02-08T14:30:00",
+                        "departureDT": "2026-02-08T15:00:00"
+                    },
+                    {
+                        "stageIdx": "1",
+                        "statusState": "Warning",
+                        "typeName": "Transport",
+                        "depName": "ท่าเรือบางปะกง",
+                        "depCode": "010007",
+                        "destName": "ไทยเบฟ (บางบาล)",
+                        "destCode": "010025",
+                        "distance": "151 km",
+                        "arrivalDT": "2026-02-08T17:30:00",
+                        "departureDT": "2026-02-08T18:30:00"
+                    }
+                ]
+            });
+            oModel.setProperty("/isEdit", true);
+
+
 
             this._oFleetDialog.then(function (oDialog) {
                 oDialog.open();
@@ -3449,7 +3790,40 @@ sap.ui.define([
         },
         onConformpres: function () {
             this.onCloseFleetCockpit();
-            this.onBookShipment();
+            var oModel = this.getView().getModel();
+            var dModel = this.getView().getModel("OrdersD");
+            var f = dModel.getProperty("/isEdit");
+            if (!f) {
+
+                if (oModel) {
+                    var aOrders = oModel.getProperty("/orders");
+                    if (!aOrders) {
+                        aOrders = [];
+                    }
+                    var l = aOrders.length;
+                    var oNewRecord = {
+                        orderId: `FO-2026-000${l}`,
+                        coId: "CO-2026-0004",
+                        customer: "Innovation Corp",
+                        from: "Bangkok (Ratchada)",
+                        to: "Hat Yai, Songkhla",
+                        distance: "945 km",
+                        cargoType: "Medical Equipment",
+                        cargoInfo: "1000 kg | 5 m³",
+                        deliveryDate: "2026-01-20",
+                        priority: "URGENT",
+                        priorityState: "Error",
+                        status: "Pending Assignment",
+                        statusState: "Warning",
+                        value: "฿ 125,000"
+                    };
+                    aOrders.push(oNewRecord);
+                    oModel.setProperty("/orders", aOrders);
+                    console.log("Record added successfully!");
+                } else {
+                    console.error("Model not found. Please check your model name in manifest.json");
+                }
+            }
         },
         onTrackOrder: function () {
             var oFakeEvent = {
