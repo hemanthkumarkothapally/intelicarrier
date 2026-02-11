@@ -63,6 +63,11 @@
                                 <tnt:NavigationListItem text="Shipment Execution" icon="sap-icon://map" key="tracking"/>
                                 <tnt:NavigationListItem text="Cash Advance &amp; Reimbursement" icon="sap-icon://wallet" key="CashAdvanceandReimbursement"/>
                                 <tnt:NavigationListItem text="Create Sales Order" icon="sap-icon://sales-order" key="priceCalculation"/>
+                                 <tnt:NavigationListItem text="Expense, Fuel &amp; Parking Management" icon="sap-icon://expense-report" key="expenseFuelParkingManagement"/>
+                                  <!-- <tnt:NavigationListItem text="Reconciliation &amp; Settlement" icon="sap-icon://expense-report" key="settlementReconciliation"/> -->
+
+
+
                                 <!-- <tnt:NavigationListItem text="Vehicle Checklist" icon="sap-icon://bus-public-transport" key="vehicleChecklist"/> -->
 
 
@@ -1191,7 +1196,7 @@
                                 <!-- Active Shipments Table -->
                                 <Panel headerText="All Shipments" class="intellicarrier-full-width-panel" width="100%">
                                     <content>
-                                        <Table id="allShipmentsTable" mode="SingleSelect" selectionChange=".onShipmentSelect" width="100%" class="shipmentsTable">
+                                        <Table id="allShipmentsTable" selectionChange=".onShipmentSelect" width="100%" class="shipmentsTable">
                                             <headerToolbar>
                                                 <Toolbar>
                                                     <content>
@@ -2965,6 +2970,24 @@
 
 
 
+                        </VBox>
+
+                        <VBox id="expenseFuelParkingManagement" visible="false"  class="intellicarrier-content-padding sapUiMediumMarginBottom">
+                        
+                        <core:Fragment fragmentName="intellicarrier.view.ExpenseFuelParkingManagement" type="XML"/>
+                        
+                        </VBox>
+
+                         <VBox id="settlementReconciliation" visible="false"  class="intellicarrier-content-padding sapUiMediumMarginBottom">
+                        
+                        <core:Fragment fragmentName="intellicarrier.view.Settlement" type="XML"/>
+                        
+                        </VBox>
+
+                          <VBox id="addNewexpenseFuelParkingManagement" visible="false"  class="intellicarrier-content-padding sapUiMediumMarginBottom">
+                        
+                        <core:Fragment fragmentName="intellicarrier.view.AddNewExpenceFuelParking" type="XML"/>
+                        
                         </VBox>
                         
                     </ScrollContainer>

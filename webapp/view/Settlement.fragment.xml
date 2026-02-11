@@ -1,0 +1,430 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:u="sap.ui.unified"
+      xmlns:f="sap.ui.layout.form"
+       xmlns:upload="sap.ui.unified.FileUploader"
+>
+
+ <VBox id="rsRoot">
+
+        <!-- Header -->
+        <VBox >
+            <HBox alignItems="Start">
+                <Button
+                    id="btnBack"
+                    icon="sap-icon://nav-back"
+                    type="Transparent"
+                    press="_showView('expenseFuelParkingManagement')" />
+                <Title
+                    text="Reconciliation &amp; Settlement"
+                    level="H1"
+                    class="sapUiSmallMarginBegin" />
+
+                     </HBox>
+
+                     <HBox >
+                        <Text text="FI Module — Cash Advance vs Actual Expenses • Reconcile • Excess Recovery / Additional Reimbursement / Final Settlement • Post to SAP"></Text>
+          
+                     </HBox>
+
+           
+        </VBox>
+
+        <!-- Card -->
+        <Panel
+            id="cashAdvancePanel"
+            headerText="Cash Advances Pending Settlement"
+            expandable="false"
+            class="sapUiMediumMarginTop">
+                   
+            <MessageStrip
+                text="ถ้ายังไม่เคลียร์ภายใน X วัน → แจ้งเตือนทางอีเมลทุกวัน"
+                type="Warning"
+                showIcon="true" />
+
+           <Table
+    id="settlementCashAdvanceTable"
+    items="{path: 'expenceDataModel>/cashAdvances'}"
+    growing="true"
+    growingScrollToLoad="true">
+
+    <columns>
+        <Column><Text text="CA No." /></Column>
+        <Column><Text text="Employee" /></Column>
+        <Column><Text text="Type" /></Column>
+        <Column><Text text="BU" /></Column>
+        <Column><Text text="CA Amount" /></Column>
+        <Column><Text text="Disbursed" /></Column>
+        <Column><Text text="Expensed" /></Column>
+        <Column><Text text="Balance" /></Column>
+        <Column><Text text="Status" /></Column>
+        <Column><Text text="Days Open" /></Column>
+        <Column><Text text="Action" /></Column>
+    </columns>
+
+    <items>
+        <ColumnListItem>
+            <cells>
+
+                <!-- CA No -->
+                <Text text="{expenceDataModel>caNo}" />
+
+                <!-- Employee -->
+                <VBox>
+                    <Text text="{expenceDataModel>employeeName}" />
+                    <Text
+                        text="ID: {expenceDataModel>employeeId}"
+                        class="sapUiTinyMarginTop"
+                        wrapping="false" />
+                </VBox>
+
+                <!-- Type -->
+                <ObjectStatus
+                    text="{expenceDataModel>type}"
+                    state="{expenceDataModel>typeState}" />
+
+                <!-- BU -->
+                <Text text="{expenceDataModel>bu}" />
+
+                <!-- Amounts -->
+                <Text text="฿{expenceDataModel>caAmount}" />
+                <Text text="฿{expenceDataModel>disbursed}" />
+                <Text text="฿{expenceDataModel>expensed}" />
+
+                <!-- Balance -->
+                <Text
+                    text="฿{expenceDataModel>balance}"
+                    class="sapUiBold" />
+
+                <!-- Status -->
+                <GenericTag
+                    text="{expenceDataModel>status}"
+                    status="Warning" />
+
+                <!-- Days Open -->
+                <HBox alignItems="Center">
+                    <Text
+                        text="{expenceDataModel>daysOpen}d"
+                        class="{= ${expenceDataModel>warning} ? 'sapUiTextNegative' : ''}" />
+                </HBox>
+
+                <!-- Action -->
+                <Button
+                    text="Settle"
+                    type="Emphasized"
+                    press="onSettlePress" />
+
+            </cells>
+        </ColumnListItem>
+    </items>
+</Table>
+
+
+        </Panel>
+
+
+        <Panel   id="SettlementDetailID"
+            headerText="Settlement Detail — CA-2026-0045"
+            expandable="false"
+            class="sapUiMediumMarginTop">
+
+              <MessageStrip
+                text="นายศักดิ์ทวดส จินตาพืช • Driver Advance"
+                type="Warning"
+                showIcon="true" />
+
+                <GenericTile
+                header="Cash Advance"
+                wrappingType="Normal"
+                subheader="Disbursed: 2026-01-27"
+                frameType="TwoByHalf"
+                class="sapUiTinyMarginEnd sapUiSmallMarginBottom"
+                width="10vw"
+            >
+                <tileContent>
+                    <TileContent>
+                        <content>
+                            <NumericContent
+                                value="฿5k"
+                                valueColor="Neutral"
+                                icon="sap-icon://pending"
+                            />
+                        </content>
+                    </TileContent>
+                </tileContent>
+            </GenericTile>
+
+            <!-- Internal Fleet -->
+            <GenericTile
+                header="Total Actual Expenses"
+                subheader="Approved records only"
+                frameType="TwoByHalf"
+                class="sapUiTinyMarginEnd sapUiSmallMarginBottom"
+                width="10vw"
+            >
+                <tileContent>
+                    <TileContent>
+                        <content>
+                            <NumericContent
+                                value="฿15k"
+                                valueColor="Good"
+                                icon="sap-icon://shipping-status"
+                            />
+                        </content>
+                    </TileContent>
+                </tileContent>
+            </GenericTile>
+
+            <!-- External Carrier -->
+            <GenericTile
+                header=" Balance (Excess)"
+                subheader=" Excess Recovery Required"
+                frameType="TwoByHalf"
+                class="sapUiTinyMarginEnd sapUiSmallMarginBottom"
+                width="10vw"
+            >
+                <tileContent>
+                    <TileContent>
+                        <content>
+                            <NumericContent
+                                value="฿3,500"
+                                valueColor="Good"
+                                icon="sap-icon://truck"
+                            />
+                        </content>
+                    </TileContent>
+                </tileContent>
+            </GenericTile>
+
+             <VBox
+        id="settlementDecisionBox"
+        width="100%"
+        class="sapUiMediumMarginTop">
+
+        <!-- Header -->
+        <HBox alignItems="Center" class="sapUiSmallMarginBottom">
+           
+            <Title
+                text="Settlement Decision"
+                level="H4" />
+        </HBox>
+
+        <!-- Simple Form -->
+        <f:SimpleForm
+            id="settlementDecisionForm"
+            editable="true"
+            layout="ColumnLayout"
+            labelSpanL="4"
+            labelSpanM="4"
+            labelSpanS="12"
+            columnsL="2"
+            columnsM="2"
+           
+            adjustLabelSpan="false">
+
+            <!-- Settlement Type -->
+            <Label text="Settlement Type" required="true" />
+            <Select
+                id="settlementTypeSelect"
+                selectedKey="{expenceDataModel>/settlement/settlementType}">
+                <items>
+                    <core:Item key="EXCESS" text="Excess Recovery (โอนเงินคืน)" />
+                    <core:Item key="ADDITIONAL" text="Additional Reimbursement (เบิกเพิ่ม)" />
+                    <core:Item key="ZERO" text="Zero Settlement" />
+                </items>
+            </Select>
+
+            <!-- Recovery Amount -->
+            <Label text="Recovery Amount" />
+            <Input
+                value="350000"
+                type="Number" />
+
+            <!-- Transfer Slip / Invoice Ref -->
+            <Label text="Transfer Slip / Invoice Ref" />
+            <Input
+                value="{expenceDataModel>/settlement/referenceNo}"
+                placeholder="ส่งสลิปแนบ invoice เอกสาร" />
+
+            <!-- Settlement Remarks -->
+            <Label text="Settlement Remarks" />
+            <TextArea
+                rows="3"
+                value="{expenceDataModel>/settlement/remarks}"
+                placeholder="Notes for settlement record..." />
+
+            <!-- Attach Documents -->
+            <Label text="Attach Slip / Documents" />
+           <u:FileUploader
+                    id="settlementFileUploader"
+                    width="100%"
+                    placeholder="Upload transfer slip / invoice"
+                    fileType="pdf,jpg,png"
+                    multiple="true"
+                    uploadOnChange="false" />
+
+
+        </f:SimpleForm>
+
+    </VBox>
+
+     <HBox
+            justifyContent="SpaceBetween"
+            alignItems="Center"
+            class="sapUiSmallMarginBottom sapUiMediumPadding"
+            backgroundDesign="Translucent">
+
+            <HBox alignItems="Center">
+               
+                <Text
+                    text="Account Review Required — บัญชีสามารถเลือกได้ว่าจะ post รายการไหม · ถ้า reject กลับ 1 step · เลือกแก้เอง หรือให้ owner แก้ · มี log"
+                    wrapping="true" />
+            </HBox>
+
+            <HBox>
+                <Button
+                    text="Reject"
+                    type="Reject"
+                    icon="sap-icon://decline"
+                    class="sapUiTinyMarginEnd"
+                    press="onRejectSettlement" />
+
+                <Button
+                    text="Approve"
+                    type="Accept"
+                    icon="sap-icon://accept"
+                    press="onApproveSettlement" />
+            </HBox>
+        </HBox>
+
+
+     <Panel
+            headerText="Post to SAP (S/4HANA)"
+            class="sapUiMediumMarginTop"
+            backgroundDesign="Transparent">
+
+            <f:SimpleForm
+                id="postToSapForm"
+                editable="true"
+                layout="ColumnLayout"
+                columnsL="4"
+                columnsM="2"
+              
+                labelSpanL="4"
+                labelSpanM="4"
+                labelSpanS="12">
+
+                <!-- Document Type -->
+                <Label text="Document Type" />
+                <Input
+                    value="{expenceDataModel>/sapPosting/documentType}"
+                    editable="false" />
+
+                <!-- Company Code -->
+                <Label text="Company Code" />
+                <Input
+                    value="{expenceDataModel>/sapPosting/companyCode}"
+                    editable="false" />
+
+                <!-- Posting Date -->
+                <Label text="Posting Date" />
+                <DatePicker
+                    value="{expenceDataModel>/sapPosting/postingDate}"
+                    displayFormat="dd/MM/yyyy"
+                    valueFormat="yyyy-MM-dd" />
+
+                <!-- Clear Advance Doc -->
+                <Label text="Clear Advance Doc" />
+                <Input
+                    value="{expenceDataModel>/sapPosting/clearAdvanceDoc}"
+                    editable="false"
+                    placeholder="Auto from CA posting" />
+
+            </f:SimpleForm>
+
+            <!-- Helper Text -->
+            <Text
+                text="Clear advance → ส่งบัญชี"
+                class="sapUiTinyMarginBegin sapUiTinyMarginTop" />
+
+            <!-- Action Button -->
+            <HBox justifyContent="End" class="sapUiMediumMarginTop">
+                <Button
+                    text="Post Settlement to SAP"
+                    type="Emphasized"
+                    icon="sap-icon://upload"
+                    press="onPostToSAP" />
+            </HBox>
+
+        </Panel>
+
+        
+        
+        </Panel>
+
+        <Panel
+        id="reportsBIPanel"
+        headerText="Reports (BI)"
+      
+        expandable="false">
+
+        <VBox >
+
+            <!-- Info Message -->
+            <MessageStrip
+                type="Success"
+                showIcon="true"
+                text="รายงานอัตราการใช้น้ำมัน — รายเดือน / ตามหน่วยงาน / เป็นรายรถ (ทะเบียน) / รายหน่วยงาน — ใช้ดูทุกเดือน"
+                class="sapUiMediumMarginBottom" />
+
+            <!-- Buttons -->
+            <FlexBox
+                wrap="Wrap"
+                justifyContent="Start"
+                alignItems="Center"
+                gap="0.5rem">
+
+                <Button
+                    text="Fuel Consumption by Vehicle"
+                    icon="sap-icon://business-objects-experience"
+                    type="Ghost"
+                    press="onFuelByVehicle" />
+
+                <Button
+                    text="Expense Summary by BU"
+                    icon="sap-icon://business-objects-experience"
+                    type="Ghost"
+                    press="onExpenseByBU" />
+
+                <Button
+                    text="Driver Expense Report"
+                    icon="sap-icon://business-objects-experience"
+                    type="Ghost"
+                    press="onDriverExpense" />
+
+                <Button
+                    text="Monthly Fuel Report"
+                    icon="sap-icon://business-objects-experience"
+                    type="Ghost"
+                    press="onMonthlyFuel" />
+
+                <Button
+                    text="Cash Advance Aging"
+                    icon="sap-icon://business-objects-experience"
+                    type="Ghost"
+                    press="onCashAdvanceAging" />
+
+                <Button
+                    text="Consumption Rate Summary"
+                    icon="sap-icon://business-objects-experience"
+                    type="Ghost"
+                    press="onConsumptionRate" />
+
+            </FlexBox>
+
+        </VBox>
+    </Panel>
+    </VBox>
+
+</core:FragmentDefinition>

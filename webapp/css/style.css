@@ -2827,6 +2827,11 @@ color: #0066cc !important;
     color: #0a6ed1;
     font-size: 1.1rem;
 }
+.Footercss {
+   position:sticky !important; 
+   bottom:0 !important; 
+   z-index:100 !important;
+    background:white !important; 
 .freightItem {
     border: 1px solid #91c8f6;
     border-radius: 12px;

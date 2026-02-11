@@ -90,6 +90,10 @@
         "type": "sap.ui.model.json.JSONModel",
         "uri": "model/vehicleData.json"
       },
+       "expenceDataModel": {
+        "type": "sap.ui.model.json.JSONModel",
+        "uri": "model/ExpenseRecords.json"
+      },
       "orders": {
         "type": "sap.ui.model.json.JSONModel",
         "uri": "model/orders.json",
