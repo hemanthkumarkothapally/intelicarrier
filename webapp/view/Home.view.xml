@@ -63,6 +63,8 @@
                                 <tnt:NavigationListItem text="Shipment Execution" icon="sap-icon://map" key="tracking"/>
                                 <tnt:NavigationListItem text="Cash Advance &amp; Reimbursement" icon="sap-icon://wallet" key="CashAdvanceandReimbursement"/>
                                 <tnt:NavigationListItem text="Create Sales Order" icon="sap-icon://sales-order" key="priceCalculation"/>
+                                <tnt:NavigationListItem text="Report-In" icon="sap-icon://document" key="ReportIn"/>
+
                                  <tnt:NavigationListItem text="Expense, Fuel &amp; Parking Management" icon="sap-icon://expense-report" key="expenseFuelParkingManagement"/>
                                   <!-- <tnt:NavigationListItem text="Reconciliation &amp; Settlement" icon="sap-icon://expense-report" key="settlementReconciliation"/> -->
 
@@ -211,8 +213,8 @@
                             </SegmentedButton> -->
                             <VBox id="shipmentExecutionViewsub" visible="true" width="100%" class="intellicarrier-content-padding sapUiMediumMarginBottom">
                                 <HBox justifyContent="SpaceBetween">
-                                <Title text="Fleet Planning and Assignment" level="H2" class="sapUiMediumMarginBottom"/>
-                                <Button text="+ Create Shipment" press = "onCreateOrder"></Button>
+                                    <Title text="Fleet Planning and Assignment" level="H2" class="sapUiMediumMarginBottom"/>
+                                    <Button text="+ Create Shipment" press = "onCreateOrder"></Button>
                                 </HBox>
                                 <FlexBox wrap="NoWrap" alignItems="Start" class="sapUiMediumMarginBottom">
 
@@ -1347,101 +1349,54 @@
                                             <Title text="Tracking History" level="H3" class="sapUiMediumMarginTop sapUiSmallMarginBottom"/>
                                             <Button text="Update" type="Emphasized" icon="sap-icon://add" press="onOpenUpdateForm"/>
                                             <!-- Wizard for Tracking Timeline -->
- <!-- Wizard for Tracking Timeline -->
-            <Panel headerText="Tracking Progress" expandable="false" expanded="true" width="100%">
-                <content>
-                    <Wizard 
-                        id="trackingDisplayWizard" 
-                        enableBranching="false"
-                        showNextButton="false"
-                        finishButtonText="Complete"
-                        backgroundDesign="Solid"
-                        width="100%"
-                        height="auto">
-                        
-                        <!-- Step 1: Package Picked Up -->
-                        <WizardStep 
-                            id="step1"
-                            title="Package Picked Up"
-                            validated="false"
-                            icon="sap-icon://inventory">
-                            <VBox class="sapUiSmallMargin">
-                                <core:Icon src="sap-icon://inventory" size="3rem" color="#CCCCCC"/>
-                                <MessageStrip
-                                    text="Waiting for package pickup information..."
-                                    type="Warning"
-                                    showIcon="true"
-                                    class="sapUiSmallMarginTop"/>
-                            </VBox>
-                        </WizardStep>
-                        
-                        <!-- Step 2: Departed Facility -->
-                        <WizardStep 
-                            id="step2"
-                            title="Departed Facility"
-                            validated="false"
-                            icon="sap-icon://shipping-status">
-                            <VBox class="sapUiSmallMargin">
-                                <core:Icon src="sap-icon://shipping-status" size="3rem" color="#CCCCCC"/>
-                                <MessageStrip
-                                    text="Package has not departed yet..."
-                                    type="Warning"
-                                    showIcon="true"
-                                    class="sapUiSmallMarginTop"/>
-                            </VBox>
-                        </WizardStep>
-                        
-                        <!-- Step 3: Hub Processing -->
-                        <WizardStep 
-                            id="step3"
-                            title="Hub Processing"
-                            validated="false"
-                            icon="sap-icon://process">
-                            <VBox class="sapUiSmallMargin">
-                                <core:Icon src="sap-icon://process" size="3rem" color="#CCCCCC"/>
-                                <MessageStrip
-                                    text="Package not yet at sorting facility..."
-                                    type="Warning"
-                                    showIcon="true"
-                                    class="sapUiSmallMarginTop"/>
-                            </VBox>
-                        </WizardStep>
-                        
-                        <!-- Step 4: Out for Delivery -->
-                        <WizardStep 
-                            id="step4"
-                            title="Out for Delivery"
-                            validated="false"
-                            icon="sap-icon://employee">
-                            <VBox class="sapUiSmallMargin">
-                                <core:Icon src="sap-icon://employee" size="3rem" color="#CCCCCC"/>
-                                <MessageStrip
-                                    text="Package not yet out for delivery..."
-                                    type="Warning"
-                                    showIcon="true"
-                                    class="sapUiSmallMarginTop"/>
-                            </VBox>
-                        </WizardStep>
-                        
-                        <!-- Step 5: Delivered -->
-                        <WizardStep 
-                            id="step5"
-                            title="Delivered"
-                            validated="false"
-                            icon="sap-icon://complete">
-                            <VBox class="sapUiSmallMargin">
-                                <core:Icon src="sap-icon://complete" size="3rem" color="#CCCCCC"/>
-                                <MessageStrip
-                                    text="Package not yet delivered..."
-                                    type="Warning"
-                                    showIcon="true"
-                                    class="sapUiSmallMarginTop"/>
-                            </VBox>
-                        </WizardStep>
-                        
-                    </Wizard>
-                </content>
-            </Panel>
+                                            <!-- Wizard for Tracking Timeline -->
+                                            <Panel headerText="Tracking Progress" expandable="false" expanded="true" width="100%">
+                                                <content>
+                                                    <Wizard id="trackingDisplayWizard" enableBranching="false" showNextButton="false" finishButtonText="Complete" backgroundDesign="Solid" width="100%" height="auto">
+
+                                                        <!-- Step 1: Package Picked Up -->
+                                                        <WizardStep id="step1" title="Package Picked Up" validated="false" icon="sap-icon://inventory">
+                                                            <VBox class="sapUiSmallMargin">
+                                                                <core:Icon src="sap-icon://inventory" size="3rem" color="#CCCCCC"/>
+                                                                <MessageStrip text="Waiting for package pickup information..." type="Warning" showIcon="true" class="sapUiSmallMarginTop"/>
+                                                            </VBox>
+                                                        </WizardStep>
+
+                                                        <!-- Step 2: Departed Facility -->
+                                                        <WizardStep id="step2" title="Departed Facility" validated="false" icon="sap-icon://shipping-status">
+                                                            <VBox class="sapUiSmallMargin">
+                                                                <core:Icon src="sap-icon://shipping-status" size="3rem" color="#CCCCCC"/>
+                                                                <MessageStrip text="Package has not departed yet..." type="Warning" showIcon="true" class="sapUiSmallMarginTop"/>
+                                                            </VBox>
+                                                        </WizardStep>
+
+                                                        <!-- Step 3: Hub Processing -->
+                                                        <WizardStep id="step3" title="Hub Processing" validated="false" icon="sap-icon://process">
+                                                            <VBox class="sapUiSmallMargin">
+                                                                <core:Icon src="sap-icon://process" size="3rem" color="#CCCCCC"/>
+                                                                <MessageStrip text="Package not yet at sorting facility..." type="Warning" showIcon="true" class="sapUiSmallMarginTop"/>
+                                                            </VBox>
+                                                        </WizardStep>
+
+                                                        <!-- Step 4: Out for Delivery -->
+                                                        <WizardStep id="step4" title="Out for Delivery" validated="false" icon="sap-icon://employee">
+                                                            <VBox class="sapUiSmallMargin">
+                                                                <core:Icon src="sap-icon://employee" size="3rem" color="#CCCCCC"/>
+                                                                <MessageStrip text="Package not yet out for delivery..." type="Warning" showIcon="true" class="sapUiSmallMarginTop"/>
+                                                            </VBox>
+                                                        </WizardStep>
+
+                                                        <!-- Step 5: Delivered -->
+                                                        <WizardStep id="step5" title="Delivered" validated="false" icon="sap-icon://complete">
+                                                            <VBox class="sapUiSmallMargin">
+                                                                <core:Icon src="sap-icon://complete" size="3rem" color="#CCCCCC"/>
+                                                                <MessageStrip text="Package not yet delivered..." type="Warning" showIcon="true" class="sapUiSmallMarginTop"/>
+                                                            </VBox>
+                                                        </WizardStep>
+
+                                                    </Wizard>
+                                                </content>
+                                            </Panel>
 
                                             <!-- Live Tracking Map -->
                                             <Title text="Live Tracking Map" level="H3" class="sapUiMediumMarginTop sapUiSmallMarginBottom"/>
@@ -1771,6 +1726,10 @@
 
                         <VBox id="priceCalculationView" visible="false" width="100%" class="intellicarrier-content-padding">
                             <core:Fragment fragmentName="intellicarrier.view.PriceSettlement" type="XML"/>
+
+                        </VBox>
+                        <VBox id="ReportInView" visible="false" width="100%" class="intellicarrier-content-padding">
+                            <core:Fragment fragmentName="intellicarrier.view.ReportIn" type="XML"/>
 
                         </VBox>
 
@@ -2967,9 +2926,6 @@
 
                                 </items>
                             </IconTabBar>
-
-
-
                         </VBox>
 
                         <VBox id="expenseFuelParkingManagement" visible="false"  class="intellicarrier-content-padding sapUiMediumMarginBottom">

@@ -19,6 +19,7 @@ sap.ui.define([
 
 
 
+
             this.selectedTiletype;
             // Initialize tracking data model
             var oTrackingData = {
@@ -1082,6 +1083,8 @@ sap.ui.define([
             this.byId("CashAdvanceandReimbursement").setVisible(false);
             this.byId("vehicleChecklist").setVisible(false);
             this.byId("gateLogs").setVisible(false);
+            this.byId("ReportInView").setVisible(false);
+
             this.byId("expenseFuelParkingManagement").setVisible(false);
             this.byId("settlementReconciliation").setVisible(false);
             this.byId("addNewexpenseFuelParkingManagement").setVisible(false);
@@ -1127,6 +1130,8 @@ sap.ui.define([
                 case "gateLogs":
                     this.byId("gateLogs").setVisible(true);
                     break
+                case "ReportIn":
+                    this.byId("ReportInView").setVisible(true);
                 case "expenseFuelParkingManagement":
                     this.byId("expenseFuelParkingManagement").setVisible(true);
                     break
@@ -2363,6 +2368,8 @@ sap.ui.define([
         onDestinationValueHelp: function () {
             MessageToast.show("Location search dialog would open here");
         },
+
+
 
         // NEW: Shipment Execution Handlers
         onShipmentTabSelect: function (oEvent) {
@@ -5376,6 +5383,181 @@ sap.ui.define([
         onCloseDriverHistoryDialog: function () {
             this._oDriverHistoryDialog.close();
         },
+
+
+        reportInTabSelect: function (oEvent) {
+            var sSelectedKey = oEvent.getParameter("key");
+            console.log(sSelectedKey)
+            var oTable = this.byId("reportInTable");
+            var oBinding = oTable.getBinding("items");
+
+            var aFilters = [];
+
+            switch (sSelectedKey) {
+
+                case "Awaiting":
+                    aFilters.push(
+                        new sap.ui.model.Filter("riStatus", sap.ui.model.FilterOperator.EQ, "Pending")
+                    );
+                    break;
+
+                case "Draft":
+                    aFilters.push(
+                        new sap.ui.model.Filter({
+                            filters: [
+                                new sap.ui.model.Filter("riStatus", sap.ui.model.FilterOperator.EQ, "Draft"),
+                            ],
+
+                        })
+                    );
+                    break;
+
+                case "Review":
+                    aFilters.push(
+                        new sap.ui.model.Filter("riStatus", sap.ui.model.FilterOperator.EQ, "Review")
+                    );
+                    break;
+
+                case "Rejected":
+                    aFilters.push(
+                        new sap.ui.model.Filter("riStatus", sap.ui.model.FilterOperator.EQ, "Rejected")
+                    );
+                    break;
+                case "Completed":
+                    aFilters.push(
+                        new sap.ui.model.Filter("riStatus", sap.ui.model.FilterOperator.EQ, "Completed")
+                    );
+                    break;
+
+                default:
+
+                    break;
+            }
+
+            oBinding.filter(aFilters);
+        },
+
+        // onOpenShipment() {
+        //     if (!this._oreportInDialog) {
+        //         this._oreportInDialog = this.loadFragment("intellicarrier.view.FleetCockpitAnalysis");
+        //     }
+        //     this.onFleetCockpitTabSelect({
+        //         getParameter: function () {
+        //             return "PendingAssignment";
+        //         }
+        //     });
+        // },
+
+        onOpenShipment: function (oEvent) {
+            var oContext = oEvent.getSource().getBindingContext("reportIn");
+
+            if (!oContext) {
+                console.error("Binding context not found!");
+                return;
+            }
+
+            if (!this._oreportInDialog) {
+                this._oreportInDialog = sap.ui.xmlfragment(
+                    this.getView().getId(),
+                    "intellicarrier.view.ReportInDialog",
+                    this
+                );
+                this.getView().addDependent(this._oreportInDialog);
+            }
+            this._oreportInDialog.setBindingContext(oContext, "reportIn");
+            this._oreportInDialog.open();
+        },
+
+        onCloseShipment: function () {
+            var oWizard = this.byId("StageWizard");
+            try {
+
+                var oFirstStep = oWizard.getSteps()[0];
+
+                // 1. Discard all progress and return to the first step
+                oWizard.discardProgress(oFirstStep);
+
+                // 2. Scroll the wizard back to the top/first step
+                oWizard.goToStep(oFirstStep);
+            }
+            catch (e) { }
+            // this.byId("StageWizard").discardProgress()
+            this._oreportInDialog.close();
+
+        },
+
+        onAddExpense: function (oEvent) {
+            var oModel = this.getView().getModel("reportIn");
+            var sPath = oEvent.getSource().getBindingContext("reportIn").getPath() + "/expenses";
+            var aExpenses = oModel.getProperty(sPath) || [];
+
+            aExpenses.push({
+                cat: "Toll",
+                desc: "",
+                amt: 0
+            });
+
+            oModel.setProperty(sPath, aExpenses);
+        },
+
+        onAmountChange: function () {
+            this._calculateTotalExpenses();
+        },
+
+        onDeleteExpense: function (oEvent) {
+            var oModel = this.getView().getModel("reportIn");
+            var oItem = oEvent.getParameter("listItem");
+            var sPath = oItem.getBindingContextPath();
+            var iIndex = parseInt(sPath.substring(sPath.lastIndexOf("/") + 1));
+            var sArrayPath = sPath.substring(0, sPath.lastIndexOf("/"));
+
+            var aExpenses = oModel.getProperty(sArrayPath);
+            aExpenses.splice(iIndex, 1);
+
+            oModel.setProperty(sArrayPath, aExpenses);
+            this._calculateTotalExpenses(); // Recalculate after delete
+        },
+
+        _calculateTotalExpenses: function () {
+            var oDialog = this._oreportInDialog;
+            if (!oDialog) {
+                return;
+            }
+            var oContext = oDialog.getBindingContext("reportIn");
+            var oModel = oDialog.getModel("reportIn");
+
+            if (!oContext) {
+                console.warn("No binding context found on the Dialog");
+                return;
+            }
+            var sPath = oContext.getPath() + "/expenses";
+            var aExpenses = oModel.getProperty(sPath) || [];
+
+            var fTotal = aExpenses.reduce(function (sum, item) {
+                var val = parseFloat(item.amt);
+                return sum + (isNaN(val) ? 0 : val);
+            }, 0);
+            oModel.setProperty(oContext.getPath() + "/te", fTotal);
+            console.log(oModel.getProperty(oContext.getPath() + "/te"))
+        },
+
+        onAddFuel: function (oEvent) {
+            var oModel = this.getView().getModel("reportIn");
+            var sPath = oEvent.getSource().getBindingContext("reportIn").getPath() + "/fuelEntries";
+            var aFuel = oModel.getProperty(sPath) || [];
+
+            aFuel.push({
+                station: "",
+                type: "Diesel B7",
+                liters: 0,
+                amt: 0,
+                shared: "No"
+            });
+
+            oModel.setProperty(sPath, aFuel);
+        },
+
+        onFuelCalculation: function (oEvent) {
         onSegmentChange: function (oEvent) {
             const sKey = oEvent.getSource().getProperty("selectedKey")
 
@@ -5513,6 +5695,292 @@ sap.ui.define([
 
         }
 
+            var oModel = this.getView().getModel("reportIn");
+            var sPath = oEvent.getSource().getBindingContext("reportIn").getPath();
+            var fLiters = parseFloat(oModel.getProperty(sPath + "/liters")) || 0;
+
+            // Constant price from project requirements: ฿30.94 per liter
+            var fPricePerLiter = 30.94;
+            var fTotalAmt = Math.round(fLiters * fPricePerLiter);
+
+            oModel.setProperty(sPath + "/amt", fTotalAmt);
+            this._updateFuelTotals();
+        },
+        _updateFuelTotals() {
+            var oDialog = this._oreportInDialog;
+            if (!oDialog) {
+                return;
+            }
+            var oContext = oDialog.getBindingContext("reportIn");
+            var oModel = oDialog.getModel("reportIn");
+
+            if (!oContext) {
+                console.warn("No binding context found on the Dialog");
+                return;
+            }
+            var sPath = oContext.getPath() + "/fuelEntries";
+            var aFuel = oModel.getProperty(sPath) || [];
+
+            var fTotal = aFuel.reduce(function (sum, item) {
+                var val = parseFloat(item.amt);
+                return sum + (isNaN(val) ? 0 : val);
+            }, 0);
+            oModel.setProperty(oContext.getPath() + "/tf", fTotal);
+            console.log(oModel.getProperty(oContext.getPath() + "/tf"))
+        },
+
+
+        onDeleteFuel: function (oEvent) {
+
+            var oItem = oEvent.getParameter("listItem");
+            var sPath = oItem.getBindingContextPath();
+            var iIndex = parseInt(sPath.substring(sPath.lastIndexOf("/") + 1));
+            var sArrayPath = sPath.substring(0, sPath.lastIndexOf("/"));
+
+            var oModel = this.getView().getModel("reportIn");
+            var aFuel = oModel.getProperty(sArrayPath);
+            aFuel.splice(iIndex, 1);
+
+            oModel.setProperty(sArrayPath, aFuel);
+            this._updateFuelTotals();
+        },
+
+        onAddParking: function (oEvent) {
+            var oModel = this.getView().getModel("reportIn");
+            var sPath = oEvent.getSource().getBindingContext("reportIn").getPath() + "/parkingEntries";
+            var aParking = oModel.getProperty(sPath) || [];
+
+            // Ensure this is a plain JSON object, NOT a UI5 Control
+            aParking.push({
+                loc: "",
+                date: new Date().toISOString().slice(0, 10),
+                hrs: 0,
+                amt: 0
+            });
+
+            oModel.setProperty(sPath, aParking);
+        },
+
+        onParkingAmountChange: function () {
+            this._calculateParkingTotal();
+        },
+
+        onDeleteParking: function (oEvent) {
+            var oItem = oEvent.getParameter("listItem");
+            var sPath = oItem.getBindingContextPath();
+            var iIndex = parseInt(sPath.substring(sPath.lastIndexOf("/") + 1));
+            var sArrayPath = sPath.substring(0, sPath.lastIndexOf("/"));
+
+            var oModel = this.getView().getModel("reportIn");
+            var aParking = oModel.getProperty(sArrayPath);
+            aParking.splice(iIndex, 1);
+
+            oModel.setProperty(sArrayPath, aParking);
+            this._calculateParkingTotal();
+        },
+
+
+        _calculateParkingTotal: function () {
+            var oDialog = this._oreportInDialog;
+            if (!oDialog) {
+                return;
+            }
+            var oContext = oDialog.getBindingContext("reportIn");
+            var oModel = oDialog.getModel("reportIn");
+
+            if (!oContext) {
+                console.warn("No binding context found on the Dialog");
+                return;
+            }
+            var sPath = oContext.getPath() + "/parkingEntries";
+            var oView = this.getView();
+            var oModel = oView.getModel("reportIn");
+            var aParking = oModel.getProperty(sPath) || [];
+
+            var fTotal = aParking.reduce(function (sum, item) {
+                var val = parseFloat(item.amt);
+                return sum + (isNaN(val) ? 0 : val);
+            }, 0);
+
+            oModel.setProperty(oContext.getPath() + "/tp", fTotal);
+        },
+
+        onStepActivate(oEvent) {
+            var step = oEvent.getSource().getId();
+            var oDialog = this._oreportInDialog;
+            if (!oDialog) {
+                return;
+            }
+            var oContext = oDialog.getBindingContext("reportIn");
+            var oModel = oDialog.getModel("reportIn");
+            console.log("step", oEvent.getSource().mProperties, oModel.getProperty(oContext.getPath() + "/stages"))
+            if (step == "container-intellicarrier---Home--Load") {
+                oModel.setProperty(oContext.getPath() + "/stageProgress", "1/4");
+                oModel.setProperty(oContext.getPath() + "/stages/1/status", true);
+                console.log(oModel.getProperty(oContext.getPath() + "/stages/1/status"))
+            }
+            if (step == "container-intellicarrier---Home--Customer") {
+                oModel.setProperty(oContext.getPath() + "/stageProgress", "2/4");
+                oModel.setProperty(oContext.getPath() + "/stages/2/status", true);
+                console.log(oModel.getProperty(oContext.getPath() + "/stages/2/status"))
+
+            }
+            if (step == "container-intellicarrier---Home--Last") {
+                oModel.setProperty(oContext.getPath() + "/stageProgress", "3/4");
+                oModel.setProperty(oContext.getPath() + "/stages/3/status", true);
+                console.log(oModel.getProperty(oContext.getPath() + "/stages/3/status"))
+            }
+
+        },
+        onCheckMiles() {
+            sap.m.MessageToast.show("✓ Miles checking passed - Data accepted");
+        },
+        onWizardCompleted() {
+            var oDialog = this._oreportInDialog;
+            if (!oDialog) {
+                return;
+            }
+            var oContext = oDialog.getBindingContext("reportIn");
+            var oModel = oDialog.getModel("reportIn");
+            oModel.setProperty(oContext.getPath() + "/stageProgress", "4/4");
+            sap.m.MessageToast.show("Stage Entries Saved");
+
+        },
+        _getClosestStep: function (oControl) {
+            while (oControl && oControl.getMetadata().getName() !== "sap.m.WizardStep") {
+                oControl = oControl.getParent();
+            }
+            return oControl;
+        },
+
+        onSimulateAutoReportIn(oEvent) {
+            var oDialog = this._oreportInDialog;
+            if (!oDialog) {
+                return;
+            }
+            var l = true
+            var oButton = oEvent.getSource();
+            var oStep = this._getClosestStep(oButton);
+            var sId = oStep.getId();
+            var r = null;
+            if (sId == "container-intellicarrier---Home--First") {
+                r = 0;
+            }
+            if (sId == "container-intellicarrier---Home--Load") {
+                r = 1;
+            }
+            if (sId == "container-intellicarrier---Home--Customer") {
+                r = 2
+
+            }
+            if (sId == "container-intellicarrier---Home--Last") {
+                r = 3
+            }
+            this._loadData(r, l)
+            sap.m.MessageToast.show("📱 Auto Report-In data received from mobile app");
+
+
+        },
+        _loadData(r, l) {
+            var oDialog = this._oreportInDialog;
+            if (!oDialog) {
+                return;
+            }
+            var p = {
+                "n": r,
+                "origin": "PTT Tank ชลบุรี",
+                "dest": "PTT EP ชลบุรี",
+                "stdDist": 30,
+                "status": l,
+                "depTime": "2026-01-15T11:30:00",
+                "arrTime": "2026-01-15T12:15:00",
+                "milesStart": 120085,
+                "milesEnd": 120115,
+                "gpsDistance": 30,
+                "actDistance": 30,
+                "weightBefore": 14200,
+                "weightAfter": 25800,
+                "uom": "kg",
+                "details": {
+                    "ticketNo": "TTK-20260115-0789",
+                    "ticketDate": "2026-01-15",
+                    "poNo": "PO-25690115-1423",
+                    "planQty": 18450,
+                    "actualQty": 18320,
+                    "weightBefore": 28560,
+                    "weightAfter": 10240,
+                    "plannedArrival": "2026-01-15T12:00:00",
+                    "waitingStartTime": "12:18:00",
+                    "unloadingStartTime": "12:25:00",
+                    "remarks": "ลงสินค้าเรียบร้อย, ลูกค้ารับของถูกต้องครบถ้วน, ไม่มีปัญหาการรอคิว",
+                    "c1": true,
+                    "c2": true
+                }
+
+            }
+            var c = {
+                "n": r,
+                "type": null,
+                "origin": null,
+                "dest": null,
+                "stdDist": null,
+                "status": l,
+                "depTime": null,
+                "arrTime": null,
+                "milesStart": null,
+                "milesEnd": null,
+                "gpsDistance": null,
+                "actDistance": null
+            }
+            var oContext = oDialog.getBindingContext("reportIn");
+            var oModel = oDialog.getModel("reportIn");
+            if (l) {
+                oModel.setProperty(oContext.getPath() + `/stages/` + r, p);
+            }
+            else {
+                oModel.setProperty(oContext.getPath() + `/stages/` + r, c);
+
+            }
+        },
+
+        onClearStage: function (oEvent) {
+            var oDialog = this._oreportInDialog;
+            if (!oDialog) {
+                return;
+            }
+            var l = false
+            var oButton = oEvent.getSource();
+            var oStep = this._getClosestStep(oButton);
+            var sId = oStep.getId();
+            var r = null;
+            if (sId == "container-intellicarrier---Home--First") {
+                r = 0;
+            }
+            if (sId == "container-intellicarrier---Home--Load") {
+                r = 1;
+            }
+            if (sId == "container-intellicarrier---Home--Customer") {
+                r = 2
+
+            }
+            if (sId == "container-intellicarrier---Home--Last") {
+                r = 3
+            }
+            this._loadData(r, l)
+
+
+            sap.m.MessageToast.show("🔄 Stage cleared.");
+        },
+        // Helper to find the WizardStep
+        _getWizardStep: function (oControl) {
+            while (oControl && oControl.getMetadata().getName() !== "sap.m.WizardStep") {
+                oControl = oControl.getParent();
+            }
+            return oControl;
+        },
+        formatTotal(d) {
+            console.log(d)
+        }
 
 
 
