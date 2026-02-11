@@ -486,6 +486,87 @@
     ],
     "totalDistance": 259,
     "totalFuel": 180.50,
-    "totalCost": 5584.67
+    "totalCost": 5584.67,
+     "parkingRecordsTable": [
+      {
+        "no": 1,
+        "stage": 1,
+        "place": "ลานจอด PTT ระยอง",
+        "type": "ปั๊มน้ำมัน",
+        "start": "2026-01-28 10:30",
+        "end": "2026-01-28 11:15",
+        "duration": "0h 45m",
+        "reason": "รอคิวถ่ายสินค้า",
+        "amount": 50.00,
+        "status": "Approved",
+        "statusState": "Success"
+      },
+      {
+        "no": 2,
+        "stage": 2,
+        "place": "ท่าเรือแหลมฉบัง Gate 3",
+        "type": "ท่าเรือ",
+        "start": "2026-01-28 14:00",
+        "end": "2026-01-28 16:30",
+        "duration": "2h 30m",
+        "reason": "รอขึ้นสินค้า",
+        "amount": 200.00,
+        "status": "Approved",
+        "statusState": "Success"
+      }
+    ],
+    "Totalamount": 250.00,
+     "consumptionRateMaster": [
+      {
+        "bu": "1400",
+        "vehicle": "609400",
+        "type": "10W",
+        "brand": "ISUZU",
+        "distanceRange": "1-400 km.",
+        "rate": 4.1,
+        "validFrom": "01.01.2020",
+        "validTo": "31.12.9999"
+      },
+      {
+        "bu": "1400",
+        "vehicle": "609401",
+        "type": "10W",
+        "brand": "ISUZU",
+        "distanceRange": "1-400 km.",
+        "rate": 3.3,
+        "validFrom": "01.01.2020",
+        "validTo": "31.12.9999"
+      },
+      {
+        "bu": "1400",
+        "vehicle": "609401",
+        "type": "10W",
+        "brand": "ISUZU",
+        "distanceRange": "401 km. ขึ้นไป",
+        "rate": 3.6,
+        "validFrom": "01.01.2020",
+        "validTo": "31.12.9999"
+      },
+      {
+        "bu": "1400",
+        "vehicle": "610053",
+        "type": "10W",
+        "brand": "ISUZU",
+        "distanceRange": "1-400 km.",
+        "rate": 3.3,
+        "validFrom": "01.01.2020",
+        "validTo": "31.12.9999"
+      },
+      {
+        "bu": "060X",
+        "vehicle": "653712",
+        "type": "10W",
+        "brand": "ISUZU",
+        "distanceRange": "1-9999",
+        "rate": 4.7,
+        "validFrom": "01.01.2020",
+        "validTo": "31.12.9999"
+      }
+    ]
 
 }

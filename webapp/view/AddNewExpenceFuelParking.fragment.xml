@@ -4,13 +4,14 @@
     xmlns:f="sap.ui.layout.form"
     xmlns:upload="sap.ui.unified.FileUploader">
 
-    <VBox id="addNewEFP">
+
+    <VBox id="addNewEFP" width="100%">
 
         <VBox >
 
             <HBox width="100%" justifyContent="SpaceBetween">
                 <HBox >
-                    <Button id="newBtnBack" icon="sap-icon://nav-back" type="Transparent" press="_showView('addNewexpenseFuelParkingManagement')" />
+                    <Button id="newbBtnBack" icon="sap-icon://nav-back" type="Transparent" press="_showView('expenseFuelParkingManagement')" />
                     <Title text="Expense Entry — Shipment 8062137294" level="H1" class="sapUiSmallMarginBegin" />
                 </HBox>
                 <ToolbarSpacer ></ToolbarSpacer>
@@ -43,10 +44,10 @@
         </HBox>
 
 
-        <Panel id="expenseEntryPanel" width="100%" class="sapUiMediumMargin" expandable="false">
+        <Panel id="expenseEntryPanel" width="100%" class="sapUiMediumMargin sapUiMediumPadding" expandable="false">
 
             <!-- ================= TAB BAR ================= -->
-            <IconTabBar expandable="false" class="sapUiResponsiveContentPadding">
+            <IconTabBar id="AddNewUserIconTab" expandable="true" class="sapUiResponsiveContentPadding">
 
                 <items>
 
@@ -193,7 +194,11 @@
                                 </Column>
                                 <Column>
                                     <Text text="Date" />
+                                    <footer>
+                                        <Text text="Total:"></Text>
+                                    </footer>
                                 </Column>
+
                                 <Column>
                                     <Text text="Ref Doc" />
                                 </Column>
@@ -211,6 +216,9 @@
                                 </Column>
                                 <Column hAlign="End">
                                     <Text text="Amount" />
+                                    <footer>
+                                        <Text text="฿1,300.00"></Text>
+                                    </footer>
                                 </Column>
                                 <Column hAlign="Center">
                                     <Text text="Receipt" />
@@ -221,6 +229,7 @@
                                 <Column hAlign="Center">
                                     <Text text="Action" />
                                 </Column>
+
                             </columns>
 
                             <items>
@@ -262,364 +271,693 @@
 
                         </Table>
 
-                        <!-- TOTAL -->
-                        <HBox justifyContent="End" class="sapUiSmallMarginTop sapUiMediumPadding">
+                    </IconTabFilter>
 
-                            <Text text="Total:" class="sapUiSmallMarginEnd sapUiBold" />
-                            <Text text="฿{expenceDataModel>/totalAmount}" class="sapUiBold sapUiTextLarge" />
+                    <!-- Other tabs placeholders -->
+                    <IconTabFilter key="FUEL" text="Fuel (2)">
+
+                        <MessageStrip type="Warning" showIcon="true" class="sapUiSmallMarginBottom" text=" เติม 1 ครั้ง = 1 record • บันทึกหลาย Shipment ได้ (Shared) → auto share ตามระยะทาง • พขร ถ่ายรูปใบเสร็จ → OCR auto-fill • ระบบ auto เพิ่มข้อมูลบัตร Fleet Card จากทะเบียนรถ" />
+
+                        <HBox class="sapUiSmallMarginBottom">
+                            <Button text="Fleet Card" type="Emphasized" icon="sap-icon://credit-card" />
+                            <Button text="Store Fuel" type="Transparent" class="sapUiTinyMarginBegin" />
+                            <Button text="Cash" type="Transparent" class="sapUiTinyMarginBegin" />
                         </HBox>
+
+                        <!-- Fleet Card Info -->
+                        <Panel backgroundDesign="Transparent" class="sapUiSmallMarginBottom">
+
+                            <HBox justifyContent="SpaceBetween" alignItems="Center">
+
+                                <HBox>
+                                    <VBox class="sapUiSmallMarginEnd">
+                                        <Text text="FLEET CARD" />
+                                        <Text text="4532-XXXX-XXXX-8801" class="sapUiTextLink" />
+                                    </VBox>
+
+                                    <VBox class="sapUiSmallMarginEnd">
+                                        <Text text="VEHICLE" />
+                                        <Text text="71-5432" />
+                                    </VBox>
+
+                                    <VBox class="sapUiSmallMarginEnd">
+                                        <Text text="STATUS" />
+                                        <ObjectStatus text="Active" state="Success" />
+                                    </VBox>
+
+                                    <VBox class="sapUiSmallMarginEnd">
+                                        <Text text="MONTHLY LIMIT" />
+                                        <Text text="฿50,000" />
+                                    </VBox>
+
+                                    <VBox>
+                                        <Text text="USED" />
+                                        <Text text="฿17,167" />
+                                    </VBox>
+                                </HBox>
+
+                                <Text text="Auto-fill from plate · ถ้าไม่ตรง → พขร แก้ไขเอง → Admin แก้ไข" class="sapUiTinyMarginEnd" />
+                            </HBox>
+                        </Panel>
+
+                        <!-- New Fuel Entry -->
+                        <Title text="New Fuel Entry" level="H4" class="sapUiSmallMarginBottom" />
+
+                        <f:SimpleForm xmlns:f="sap.ui.layout.form"
+                            xmlns:core="sap.ui.core" layout="ColumnLayout" editable="true">
+
+                            <!-- Date -->
+                            <Label text="วันเวลาเติม" required="true" />
+                            <DateTimePicker value="02/02/2026 06:30 AM" displayFormat="dd/MM/yyyy hh:mm a" />
+
+                            <!-- Fuel Type -->
+                            <Label text="ประเภทการเติม" required="true" />
+                            <Select selectedKey="FLEET">
+                                <items>
+                                    <core:Item key="FLEET" text="Fleet Card" />
+                                    <core:Item key="STORE" text="Store Fuel" />
+                                    <core:Item key="CASH" text="Cash" />
+                                </items>
+                            </Select>
+
+                            <!-- BU -->
+                            <Label text="หน่วยงาน" />
+                            <Input value="060C Atlas-LPG-BPK" editable="false" />
+
+                            <!-- Vehicle -->
+                            <Label text="ทะเบียนรถ" />
+                            <Input value="71-5432" editable="false" />
+
+                            <!-- Driver -->
+                            <Label text="ผู้เติม" required="true" />
+                            <Select selectedKey="39396">
+                                <items>
+                                    <core:Item key="39396" text="39396 — นายศักดิ์ทิวาดล จินดาพิชัย" />
+                                </items>
+                            </Select>
+
+                            <!-- Fleet No -->
+                            <Label text="สลิปเลข" />
+                            <Input value="FL-XXXXX" />
+
+                            <!-- Receipt No -->
+                            <Label text="เลขใบต่อเติม" />
+                            <Input />
+
+                            <!-- Station -->
+                            <Label text="ปั๊ม / Store" required="true" />
+                            <Select>
+
+                                <items>
+                                    <core:Item key="" text="— Select —" />
+                                    <core:Item key="PTT_BANGNA" text="PTT Station บางนา" />
+                                    <core:Item key="SHELL_SRIRACHA" text="Shell สระบุรี" />
+                                    <core:Item key="BPK" text="คลังน้ำมัน BPK" />
+                                    <core:Item key="NKC" text="คลังน้ำมัน NKC" />
+                                    <core:Item key="SRC" text="คลังน้ำมัน SRC" />
+                                    <core:Item key="PTT_DEPOT_BKK" text="PTT Depot BKK" />
+                                    <core:Item key="SHELL_DEPOT_EEC" text="Shell Depot EEC" />
+                                </items>
+
+                            </Select>
+
+                            <!-- Fuel Type -->
+                            <Label text="ประเภทน้ำมัน" required="true" />
+                            <Select selectedKey="DIESEL">
+                                <items>
+                                    <core:Item key="DIESEL_B7" text="Diesel B7" />
+                                    <core:Item key="DIESEL_B20" text="Diesel B20" />
+                                    <core:Item key="GASOHOL_E20" text="Gasohol E20" />
+                                    <core:Item key="NGV" text="NGV" />
+                                    <core:Item key="LPG" text="LPG" />
+                                    <core:Item key="DIESEL_HSD" text="Diesel HSD" />
+                                </items>
+                            </Select>
+
+                            <!-- Liter -->
+                            <Label text="จำนวนลิตร" required="true" />
+                            <Input type="Number" value="0.00" />
+
+                            <!-- Amount -->
+                            <Label text="จำนวนเงิน" required="true" />
+                            <Input type="Number" value="0.00" />
+
+                            <!-- Consumption Rate -->
+                            <Label text="Consumption Rate" />
+                            <Input value="4.10" editable="false" />
+                            <Text text="From ZLSDE01_T040" />
+
+                            <!-- Shared -->
+                            <Label text="Shared Across Shipments?" />
+                            <Select selectedKey="NO">
+                                <items>
+                                    <core:Item key="NO" text="No — This shipment only" />
+                                    <core:Item key="YES" text="Yes — Share across shipments" />
+                                </items>
+                            </Select>
+
+                            <!-- GPS -->
+                            <Label text="GPS Location" />
+                            <Input value="13.7563, 100.5018" editable="false" />
+                            <Text text="lat/long เก็บจากมือถือ" />
+
+                            <Label text="หลักฐานการใช้จ่าย (Receipt)" />
+                            <u:FileUploader id="uppsettlementFileUploader" width="100%" placeholder="Upload transfer slip / invoice" fileType="pdf,jpg,png" multiple="true" uploadOnChange="false" />
+
+
+
+                        </f:SimpleForm>
+
+                        <HBox justifyContent="End" class="sapUiMediumMarginTop">
+                            <Button text="Save Fuel Entry" icon="sap-icon://save" type="Emphasized" class="sapUiSmallMarginBottom" press="onSaveAndAddAnother" />
+                        </HBox>
+
+                        <Table id="fuelRecordsTable" items="{expenceDataModel>/fuelRecordss}" class="sapUiMediumMarginBottom">
+
+                            <headerToolbar>
+                                <Toolbar>
+                                    <Title text="Fuel Records" level="H4" />
+                                </Toolbar>
+                            </headerToolbar>
+
+                            <columns>
+                                <Column>
+                                    <Text text="#" />
+                                </Column>
+                                <Column>
+                                    <Text text="Date" />
+                                    <footer>
+                                        <Text text="Total:"></Text>
+                                    </footer>
+                                </Column>
+                                <Column>
+                                    <Text text="Fill Type" />
+                                </Column>
+                                <Column>
+                                    <Text text="Slip" />
+                                </Column>
+                                <Column>
+                                    <Text text="Station" />
+                                </Column>
+                                <Column>
+                                    <Text text="Fuel" />
+                                </Column>
+                                <Column hAlign="End">
+                                    <Text text="Liters" />
+                                    <footer>
+                                        <Text text="230.50 L"></Text>
+                                    </footer>
+                                </Column>
+                                <Column hAlign="End">
+                                    <Text text="Amount" />
+                                    <footer>
+                                        <Text text="฿7,131.67"></Text>
+                                    </footer>
+                                </Column>
+                                <Column>
+                                    <Text text="Rate" />
+                                </Column>
+                                <Column>
+                                    <Text text="Status" />
+                                </Column>
+                                <Column hAlign="Center">
+                                    <Text text="Action" />
+                                </Column>
+                            </columns>
+
+                            <items>
+                                <ColumnListItem>
+                                    <cells>
+                                        <Text text="{expenceDataModel>no}" />
+                                        <Text text="{expenceDataModel>date}" />
+
+                                        <ObjectStatus text="{expenceDataModel>fillType}" state="{expenceDataModel>fillState}" />
+
+                                        <Text text="{expenceDataModel>slip}" />
+                                        <Text text="{expenceDataModel>station}" />
+                                        <Text text="{expenceDataModel>fuel}" />
+                                        <Text text="{expenceDataModel>liters}" />
+                                        <Text text="฿{expenceDataModel>amount}" />
+                                        <Text text="{expenceDataModel>rate}" />
+
+                                        <ObjectStatus text="{expenceDataModel>status}" state="{expenceDataModel>statusState}" />
+
+                                        <Button icon="sap-icon://edit" type="Transparent" />
+                                    </cells>
+                                </ColumnListItem>
+                            </items>
+                        </Table>
+
+                        <!-- Totals -->
+
+
+                        <Title text="Fuel Allocation per Stage" level="H4" class="sapUiMediumMarginTop" />
+
+                        <MessageStrip type="Information" showIcon="true" text="แชร์น้ำมันตามระยะทางจริง · เก็บ reference เติมในแต่ละ stage · เก็บทศนิยม 4 ตำแหน่ง แสดง 2" class="sapUiSmallMarginBottom" />
+
+                        <Table id="fuelAllocationTable" items="{expenceDataModel>/fuelAllocation}">
+
+                            <columns>
+                                <Column>
+                                    <Text text="Stage" />
+                                </Column>
+                                <Column>
+                                    <Text text="From" />
+                                    <footer>
+                                        <Text text="Total:"></Text>
+                                    </footer>
+                                </Column>
+                                <Column>
+                                    <Text text="To" />
+                                </Column>
+                                <Column hAlign="End">
+                                    <Text text="Start Miles" />
+                                </Column>
+                                <Column hAlign="End">
+                                    <Text text="End Miles" />
+                                </Column>
+                                <Column hAlign="End">
+                                    <Text text="Distance" />
+                                    <footer>
+                                        <Text text="259"></Text>
+                                    </footer>
+                                </Column>
+                                <Column hAlign="End">
+                                    <Text text="Ratio" />
+                                    <footer>
+                                        <Text text="100%"></Text>
+                                    </footer>
+                                </Column>
+                                <Column hAlign="End">
+                                    <Text text="Fuel (L)" />
+                                    <footer>
+                                        <Text text="180.50L"></Text>
+                                    </footer>
+                                </Column>
+                                <Column hAlign="End">
+                                    <Text text="Cost (฿)" />
+                                    <footer>
+                                        <Text text="฿5,584.67"></Text>
+                                    </footer>
+                                </Column>
+                            </columns>
+
+                            <items>
+                                <ColumnListItem>
+                                    <cells>
+                                        <Text text="{expenceDataModel>stage}" />
+
+                                        <VBox>
+                                            <Text text="{expenceDataModel>from}" />
+                                            <Text text="{expenceDataModel>fromDesc}" class="sapUiTinyText" />
+                                        </VBox>
+
+                                        <VBox>
+                                            <Text text="{expenceDataModel>to}" />
+                                            <Text text="{expenceDataModel>toDesc}" class="sapUiTinyText" />
+                                        </VBox>
+
+                                        <Text text="{expenceDataModel>startMiles}" />
+                                        <Text text="{expenceDataModel>endMiles}" />
+                                        <Text text="{expenceDataModel>distance}" />
+                                        <Text text="{expenceDataModel>ratio}" />
+                                        <Text text="{expenceDataModel>fuel}" />
+                                        <Text text="฿{expenceDataModel>cost}" />
+                                    </cells>
+                                </ColumnListItem>
+                            </items>
+                        </Table>
 
 
 
                     </IconTabFilter>
 
-                    <!-- Other tabs placeholders -->
-                    <IconTabFilter text="Fuel (2)" >
-
-                          <MessageStrip type="Warning" showIcon="true" class="sapUiSmallMarginBottom" text=" เติม 1 ครั้ง = 1 record • บันทึกหลาย Shipment ได้ (Shared) → auto share ตามระยะทาง • พขร ถ่ายรูปใบเสร็จ → OCR auto-fill • ระบบ auto เพิ่มข้อมูลบัตร Fleet Card จากทะเบียนรถ" />
-
-                           <HBox class="sapUiSmallMarginBottom">
-        <Button text="Fleet Card" type="Emphasized" icon="sap-icon://credit-card" />
-        <Button text="Store Fuel" type="Transparent" class="sapUiTinyMarginBegin" />
-        <Button text="Cash" type="Transparent" class="sapUiTinyMarginBegin" />
-    </HBox>
-
-    <!-- Fleet Card Info -->
-    <Panel
-        backgroundDesign="Transparent"
-        class="sapUiSmallMarginBottom">
-
-        <HBox justifyContent="SpaceBetween" alignItems="Center">
-
-            <HBox>
-                <VBox class="sapUiSmallMarginEnd">
-                    <Text text="FLEET CARD"  />
-                    <Text text="4532-XXXX-XXXX-8801" class="sapUiTextLink" />
-                </VBox>
-
-                <VBox class="sapUiSmallMarginEnd">
-                    <Text text="VEHICLE" />
-                    <Text text="71-5432" />
-                </VBox>
-
-                <VBox class="sapUiSmallMarginEnd">
-                    <Text text="STATUS"  />
-                    <ObjectStatus text="Active" state="Success" />
-                </VBox>
-
-                <VBox class="sapUiSmallMarginEnd">
-                    <Text text="MONTHLY LIMIT"  />
-                    <Text text="฿50,000" />
-                </VBox>
-
-                <VBox>
-                    <Text text="USED"  />
-                    <Text text="฿17,167" />
-                </VBox>
-            </HBox>
-
-            <Text
-                text="Auto-fill from plate · ถ้าไม่ตรง → พขร แก้ไขเอง → Admin แก้ไข"
-                class="sapUiTinyMarginEnd" />
-        </HBox>
-    </Panel>
-
-    <!-- New Fuel Entry -->
-    <Title text="New Fuel Entry" level="H4" class="sapUiSmallMarginBottom" />
-
-    <f:SimpleForm
-        xmlns:f="sap.ui.layout.form"
-        xmlns:core="sap.ui.core"
-        layout="ColumnLayout"
-        editable="true">
-
-        <!-- Date -->
-        <Label text="วันเวลาเติม" required="true" />
-        <DateTimePicker
-            value="02/02/2026 06:30 AM"
-            displayFormat="dd/MM/yyyy hh:mm a" />
-
-        <!-- Fuel Type -->
-        <Label text="ประเภทการเติม" required="true" />
-        <Select selectedKey="FLEET">
-            <items>
-                <core:Item key="FLEET" text="Fleet Card" />
-                <core:Item key="STORE" text="Store Fuel" />
-                <core:Item key="CASH" text="Cash" />
-            </items>
-        </Select>
-
-        <!-- BU -->
-        <Label text="หน่วยงาน" />
-        <Input value="060C Atlas-LPG-BPK" editable="false" />
-
-        <!-- Vehicle -->
-        <Label text="ทะเบียนรถ" />
-        <Input value="71-5432" editable="false" />
-
-        <!-- Driver -->
-        <Label text="ผู้เติม" required="true" />
-        <Select selectedKey="39396">
-            <items>
-                <core:Item
-                    key="39396"
-                    text="39396 — นายศักดิ์ทิวาดล จินดาพิชัย" />
-            </items>
-        </Select>
-
-        <!-- Fleet No -->
-        <Label text="สลิปเลข" />
-        <Input value="FL-XXXXX" />
-
-        <!-- Receipt No -->
-        <Label text="เลขใบต่อเติม" />
-        <Input />
-
-        <!-- Station -->
-        <Label text="ปั๊ม / Store" required="true" />
-        <Select>
-            <items>
-                <core:Item key="" text="— Select —" />
-            </items>
-        </Select>
-
-        <!-- Fuel Type -->
-        <Label text="ประเภทน้ำมัน" required="true" />
-        <Select selectedKey="DIESEL">
-            <items>
-                <core:Item key="DIESEL" text="Diesel B7" />
-            </items>
-        </Select>
-
-        <!-- Liter -->
-        <Label text="จำนวนลิตร" required="true" />
-        <Input type="Number" value="0.00" />
-
-        <!-- Amount -->
-        <Label text="จำนวนเงิน" required="true" />
-        <Input type="Number" value="0.00" />
-
-        <!-- Consumption Rate -->
-        <Label text="Consumption Rate" />
-        <Input value="4.10" editable="false" />
-        <Text text="From ZLSDE01_T040" />
-
-        <!-- Shared -->
-        <Label text="Shared Across Shipments?" />
-        <Select selectedKey="NO">
-            <items>
-                <core:Item key="NO" text="No — This shipment only" />
-                <core:Item key="YES" text="Yes — Share across shipments" />
-            </items>
-        </Select>
-
-        <!-- GPS -->
-        <Label text="GPS Location" />
-        <Input value="13.7563, 100.5018" editable="false" />
-        <Text text="lat/long เก็บจากมือถือ" />
-
-         <Label text="หลักฐานการใช้จ่าย (Receipt)" />
-                            <u:FileUploader id="uppsettlementFileUploader" width="100%" placeholder="Upload transfer slip / invoice" fileType="pdf,jpg,png" multiple="true" uploadOnChange="false" />
-
-
-
-    </f:SimpleForm>
-
-      <HBox justifyContent="End" class="sapUiMediumMarginTop">
-                            <Button text="Save Fuel Entry" icon="sap-icon://save" type="Emphasized" class="sapUiSmallMarginBottom" press="onSaveAndAddAnother" />
-                        </HBox>
-
-                        <Table
-    id="fuelRecordsTable"
-    items="{expenceDataModel>/fuelRecordss}"
-    class="sapUiMediumMarginBottom">
-
-    <headerToolbar>
-        <Toolbar>
-            <Title text="Fuel Records" level="H4" />
-        </Toolbar>
-    </headerToolbar>
-
-    <columns>
-        <Column><Text text="#" /></Column>
-        <Column><Text text="Date" /></Column>
-        <Column><Text text="Fill Type" /></Column>
-        <Column><Text text="Slip" /></Column>
-        <Column><Text text="Station" /></Column>
-        <Column><Text text="Fuel" /></Column>
-        <Column hAlign="End"><Text text="Liters" /></Column>
-        <Column hAlign="End"><Text text="Amount" /></Column>
-        <Column><Text text="Rate" /></Column>
-        <Column><Text text="Status" /></Column>
-        <Column hAlign="Center"><Text text="Action" /></Column>
-    </columns>
-
-    <items>
-        <ColumnListItem>
-            <cells>
-                <Text text="{expenceDataModel>no}" />
-                <Text text="{expenceDataModel>date}" />
-
-                <ObjectStatus
-                    text="{expenceDataModel>fillType}"
-                    state="{expenceDataModel>fillState}" />
-
-                <Text text="{expenceDataModel>slip}" />
-                <Text text="{expenceDataModel>station}" />
-                <Text text="{expenceDataModel>fuel}" />
-                <Text text="{expenceDataModel>liters}" />
-                <Text text="฿{expenceDataModel>amount}" />
-                <Text text="{expenceDataModel>rate}" />
-
-                <ObjectStatus
-                    text="{expenceDataModel>status}"
-                    state="{expenceDataModel>statusState}" />
-
-                <Button
-                    icon="sap-icon://edit"
-                    type="Transparent" />
-            </cells>
-        </ColumnListItem>
-    </items>
-</Table>
-
-<!-- Totals -->
-<HBox justifyContent="End" class="sapUiMediumPadding" >
-    <Text text="Total:" class="sapUiSmallMarginEnd sapUiBold" />
-    <Text
-        text="{expenceDataModel>/totalLiters} L"
-        class="sapUiSmallMarginEnd sapUiBold" />
-    <Text
-        text="฿{expenceDataModel>/TotalAmount}"
-        class="sapUiBold sapUiTextLarge" />
-</HBox>
-
-<Title
-    text="Fuel Allocation per Stage"
-    level="H4"
-    class="sapUiMediumMarginTop" />
-
-<MessageStrip
-    type="Information"
-    showIcon="true"
-    text="แชร์น้ำมันตามระยะทางจริง · เก็บ reference เติมในแต่ละ stage · เก็บทศนิยม 4 ตำแหน่ง แสดง 2"
-    class="sapUiSmallMarginBottom" />
-
-<Table
-    id="fuelAllocationTable"
-    items="{expenceDataModel>/fuelAllocation}">
-
-    <columns>
-        <Column><Text text="Stage" /></Column>
-        <Column><Text text="From" /></Column>
-        <Column><Text text="To" /></Column>
-        <Column hAlign="End"><Text text="Start Miles" /></Column>
-        <Column hAlign="End"><Text text="End Miles" /></Column>
-        <Column hAlign="End"><Text text="Distance" /></Column>
-        <Column hAlign="End"><Text text="Ratio" /></Column>
-        <Column hAlign="End"><Text text="Fuel (L)" /></Column>
-        <Column hAlign="End"><Text text="Cost (฿)" /></Column>
-    </columns>
-
-    <items>
-        <ColumnListItem>
-            <cells>
-                <Text text="{expenceDataModel>stage}" />
-
-                <VBox>
-                    <Text text="{expenceDataModel>from}" />
-                    <Text
-                        text="{expenceDataModel>fromDesc}"
-                        class="sapUiTinyText" />
-                </VBox>
-
-                <VBox>
-                    <Text text="{expenceDataModel>to}" />
-                    <Text
-                        text="{expenceDataModel>toDesc}"
-                        class="sapUiTinyText" />
-                </VBox>
-
-                <Text text="{expenceDataModel>startMiles}" />
-                <Text text="{expenceDataModel>endMiles}" />
-                <Text text="{expenceDataModel>distance}" />
-                <Text text="{expenceDataModel>ratio}" />
-                <Text text="{expenceDataModel>fuel}" />
-                <Text text="฿{expenceDataModel>cost}" />
-            </cells>
-        </ColumnListItem>
-    </items>
-</Table>
-
-<!-- Allocation Totals -->
-<!-- Fuel Allocation Footer -->
-<HBox
-    width="100%"
-    class="sapUiMediumPadding"
-   >
-
-    <!-- Stage -->
-    <HBox width="6%" />
-
-    <!-- From (COUNT HERE) -->
-    <HBox width="18%">
-        <Text
-            text="Count: 3"
-            class="sapUiBold" />
-    </HBox>
-
-    <!-- To -->
-    <HBox width="18%" />
-
-    <!-- Start Miles -->
-    <HBox width="10%" />
-
-    <!-- End Miles -->
-    <HBox width="10%" />
-
-    <!-- Distance -->
-    <HBox width="10%" justifyContent="End">
-        <Text text="259" class="sapUiBold" />
-    </HBox>
-
-    <!-- Ratio -->
-    <HBox width="8%" justifyContent="End">
-        <Text text="100%" class="sapUiBold" />
-    </HBox>
-
-    <!-- Fuel -->
-    <HBox width="10%" justifyContent="Center">
-        <Text text="180.5" class="sapUiBold" />
-    </HBox>
-
-    <!-- Cost -->
-    <HBox width="10%" justifyContent="End">
-        <Text
-            text="฿5,584.67"
-            class="sapUiBold sapUiTextLarge" />
-    </HBox>
-</HBox>
-
-
-
-
-
-
-
-                     </IconTabFilter>
-                    <IconTabFilter text="Parking (2)" >
-
-                     </IconTabFilter>
-                    <IconTabFilter text="Summary">
-
-                     </IconTabFilter>
+                    <IconTabFilter key="PARKING" text="Parking (2)">
+                        <Panel >
+                            <MessageStrip type="Warning" showIcon="true" text="Stage-linked parking • Auto default current stage • Start/End time auto current datetime • Type is dropdown" class="sapUiSmallMarginBottom" />
+
+                            <Title text="New Parking Entry" level="H4" class="sapUiSmallMarginBottom" />
+
+                            <!-- SimpleForm -->
+                            <f:SimpleForm xmlns:f="sap.ui.layout.form"
+                                xmlns:core="sap.ui.core" layout="ColumnLayout" editable="true" columnsL="3" columnsM="2" labelSpanL="4" labelSpanM="4" labelSpanS="12" adjustLabelSpan="false" emptySpanL="0" emptySpanM="0" emptySpanS="0">
+
+                                <!-- Stage -->
+                                <Label text="Stage" required="true" />
+                                <Select selectedKey="1">
+                                    <items>
+                                        <core:Item key="1" text="1 — BPK → PTT Tank Terminal ระยอง" />
+                                        <core:Item key="2" text="2 — PTT Tank Terminal ระยอง → C0132" />
+                                    </items>
+                                </Select>
+
+                                <!-- Place -->
+                                <Label text="Place" required="true" />
+                                <Input placeholder="Free text" />
+
+                                <!-- Type -->
+                                <Label text="Type" required="true" />
+                                <Select>
+                                    <items>
+                                        <core:Item key="" text="— Select —" />
+                                        <core:Item key="PUBLIC_PARKING" text="ที่จอดสาธารณะ" />
+                                        <core:Item key="PRIVATE_PARKING" text="ลานจอดเอกชน" />
+                                        <core:Item key="PORT" text="ท่าเรือ" />
+                                        <core:Item key="WAREHOUSE" text="คลังสินค้า" />
+                                        <core:Item key="GAS_STATION" text="ปั๊มน้ำมัน" />
+                                        <core:Item key="OTHER" text="อื่นๆ" />
+                                    </items>
+                                </Select>
+
+                                <!-- Start Time -->
+                                <Label text="Start Time" required="true" />
+                                <DateTimePicker value="02/02/2026 10:00 AM" displayFormat="dd/MM/yyyy hh:mm a" valueFormat="yyyy-MM-dd'T'HH:mm:ss" />
+
+                                <!-- End Time -->
+                                <Label text="End Time" required="true" />
+                                <DateTimePicker value="02/02/2026 11:00 AM" displayFormat="dd/MM/yyyy hh:mm a" valueFormat="yyyy-MM-dd'T'HH:mm:ss" />
+
+                                <!-- Amount -->
+                                <Label text="Amount (฿)" />
+                                <Input type="Number" value="0.00" />
+
+                                <!-- Reason -->
+                                <Label text="Reason" />
+                                <Input placeholder="Free text" />
+
+                            </f:SimpleForm>
+
+                            <!-- Save Button -->
+                            <HBox justifyContent="End" class="sapUiMediumMarginTop">
+                                <Button text="Save Parking" type="Emphasized" icon="sap-icon://save" press="onSaveParking" />
+                            </HBox>
+
+                            <Table id="parkingRecordsTable" items="{expenceDataModel>/parkingRecordsTable}" class="sapUiMediumMarginTop">
+
+                                <headerToolbar>
+                                    <Toolbar>
+                                        <Title text="Parking Records" level="H4" />
+                                    </Toolbar>
+                                </headerToolbar>
+
+                                <columns>
+                                    <Column width="4%">
+                                        <Text text="#" />
+                                    </Column>
+                                    <Column width="6%">
+                                        <Text text="Stage" />
+                                        <footer>
+                                            <Text text="Total:"></Text>
+                                        </footer>
+                                    </Column>
+                                    <Column width="18%">
+                                        <Text text="Place" />
+                                    </Column>
+                                    <Column width="10%">
+                                        <Text text="Type" />
+                                    </Column>
+                                    <Column width="14%">
+                                        <Text text="Start" />
+                                    </Column>
+                                    <Column width="14%">
+                                        <Text text="End" />
+                                    </Column>
+                                    <Column width="8%">
+                                        <Text text="Duration" />
+                                    </Column>
+                                    <Column width="12%">
+                                        <Text text="Reason" />
+                                    </Column>
+                                    <Column width="8%" hAlign="End">
+                                        <Text text="Amount" />
+                                        <footer>
+                                            <Text text="฿250.00"></Text>
+                                        </footer>
+                                    </Column>
+                                    <Column width="10%">
+                                        <Text text="Status" />
+                                    </Column>
+                                    <Column width="8%" hAlign="Center">
+                                        <Text text="Action" />
+                                    </Column>
+                                </columns>
+
+                                <items>
+                                    <ColumnListItem>
+                                        <cells>
+
+                                            <Text text="{expenceDataModel>no}" />
+                                            <Text text="{expenceDataModel>stage}" />
+                                            <Text text="{expenceDataModel>place}" />
+                                            <Text text="{expenceDataModel>type}" />
+                                            <Text text="{expenceDataModel>start}" />
+                                            <Text text="{expenceDataModel>end}" />
+                                            <Text text="{expenceDataModel>duration}" />
+                                            <Text text="{expenceDataModel>reason}" />
+
+                                            <!-- Amount -->
+                                            <Text text="฿{expenceDataModel>amount}" class="sapUiBold" />
+
+                                            <!-- Status -->
+                                            <ObjectStatus text="{expenceDataModel>status}" state="{expenceDataModel>statusState}" />
+
+                                            <!-- Action -->
+                                            <HBox justifyContent="Center">
+                                                <Button icon="sap-icon://edit" type="Transparent" press="onEditParking" />
+                                                <Button icon="sap-icon://decline" type="Transparent" press="onDeleteParking" />
+                                            </HBox>
+
+                                        </cells>
+                                    </ColumnListItem>
+                                </items>
+
+                            </Table>
+
+
+
+
+                        </Panel>
+                    </IconTabFilter>
+                    <IconTabFilter key="SUMMARY" text="Summary">
+
+                        <Panel >
+
+                            <VBox class="sapUiMediumMarginEnd">
+
+
+                                <HBox justifyContent="SpaceBetween" wrap="Wrap">
+
+
+                                    <Panel headerText="Expenses" width="32%" class="sapUiSmallMarginEnd sapUiResponsiveMargin">
+
+                                        <VBox class="sapUiSmallMargin">
+
+                                            <HBox justifyContent="SpaceBetween">
+                                                <Text text="ค่าทางด่วน (Toll)" />
+                                                <Text text="฿250.00" />
+                                            </HBox>
+
+                                            <HBox justifyContent="SpaceBetween">
+                                                <Text text="ค่าอาหาร (Meal)" />
+                                                <Text text="฿150.00" />
+                                            </HBox>
+
+                                            <HBox justifyContent="SpaceBetween">
+                                                <Text text="ค่าน้ำหนัก (Weighbridge)" />
+                                                <Text text="฿100.00" />
+                                            </HBox>
+
+                                            <HBox justifyContent="SpaceBetween">
+                                                <Text text="ค่าค้างคืน (Overnight)" />
+                                                <Text text="฿800.00" />
+                                            </HBox>
+
+                                            <Toolbar class="sapUiSmallMarginTop" />
+
+                                            <HBox justifyContent="SpaceBetween">
+                                                <Text text="Subtotal" class="sapUiBold" />
+                                                <Text text="฿1,300.00" class="sapUiBold sapUiTextEmphasized" />
+                                            </HBox>
+
+                                        </VBox>
+                                    </Panel>
+
+
+
+                                    <Panel headerText="Fuel" width="32%" class="sapUiSmallMarginEnd sapUiResponsiveMargin">
+
+                                        <VBox class="sapUiSmallMargin">
+
+                                            <HBox justifyContent="SpaceBetween">
+                                                <Text text="PTT Station บางนา (180.50L)" />
+                                                <Text text="฿5,584.67" />
+                                            </HBox>
+
+                                            <HBox justifyContent="SpaceBetween">
+                                                <Text text="Shell สระบุรี (50.00L)" />
+                                                <Text text="฿1,547.00" />
+                                            </HBox>
+
+                                            <Toolbar class="sapUiSmallMarginTop" />
+
+                                            <HBox justifyContent="SpaceBetween">
+                                                <Text text="Subtotal" class="sapUiBold" />
+                                                <Text text="฿7,131.67" class="sapUiBold sapUiTextEmphasized" />
+                                            </HBox>
+
+                                        </VBox>
+                                    </Panel>
+
+
+
+                                    <Panel headerText="Parking" width="32%" class="sapUiResponsiveMargin">
+
+                                        <VBox class="sapUiSmallMargin">
+
+                                            <HBox justifyContent="SpaceBetween">
+                                                <Text text="ลานจอด PTT ระยอง" />
+                                                <Text text="฿50.00" />
+                                            </HBox>
+
+                                            <HBox justifyContent="SpaceBetween">
+                                                <Text text="ท่าเรือแหลมฉบัง Gate 3" />
+                                                <Text text="฿200.00" />
+                                            </HBox>
+
+                                            <Toolbar class="sapUiSmallMarginTop" />
+
+                                            <HBox justifyContent="SpaceBetween">
+                                                <Text text="Subtotal" class="sapUiBold" />
+                                                <Text text="฿250.00" class="sapUiBold sapUiTextEmphasized" />
+                                            </HBox>
+
+                                        </VBox>
+                                    </Panel>
+
+                                </HBox>
+
+
+
+                                <Panel headerText="Trip Summary" class="sapUiMediumMarginTop">
+
+                                    <VBox class="sapUiSmallMargin">
+
+                                        <HBox justifyContent="SpaceBetween">
+                                            <Text text="Total Expenses" />
+                                            <Text text="฿1,300.00" />
+                                        </HBox>
+
+                                        <HBox justifyContent="SpaceBetween">
+                                            <Text text="Total Fuel" />
+                                            <Text text="฿7,131.67" />
+                                        </HBox>
+
+                                        <HBox justifyContent="SpaceBetween">
+                                            <Text text="Total Parking" />
+                                            <Text text="฿250.00" />
+                                        </HBox>
+
+                                        <Toolbar class="sapUiSmallMarginTop" />
+
+                                        <HBox justifyContent="SpaceBetween">
+                                            <Text text="TOTAL TRIP COST" class="sapUiBold sapUiTextEmphasized" />
+                                            <Text text="฿8,681.67" class="sapUiBold sapUiTextEmphasized sapUiTextLarge" />
+                                        </HBox>
+
+                                    </VBox>
+                                </Panel>
+
+                            </VBox>
+
+                            <Table id="consumptionRateTable" items="{expenceDataModel>/consumptionRateMaster}" class="sapUiMediumMarginTop" growing="true" growingScrollToLoad="true">
+
+                                <headerToolbar>
+                                    <Toolbar>
+                                        <Title text="Consumption Rate Master (ZLSDE01_T040)" level="H4" />
+                                    </Toolbar>
+                                </headerToolbar>
+
+                                <columns>
+                                    <Column width="8%">
+                                        <Text text="BU" />
+                                    </Column>
+
+                                    <Column width="12%">
+                                        <Text text="Vehicle" />
+                                    </Column>
+
+                                    <Column width="8%">
+                                        <Text text="Type" />
+                                    </Column>
+
+                                    <Column width="10%">
+                                        <Text text="Brand" />
+                                    </Column>
+
+                                    <Column width="18%">
+                                        <Text text="Distance Range" />
+                                    </Column>
+
+                                    <Column width="10%" hAlign="End">
+                                        <Text text="Rate (กม./ลิตร)" />
+                                    </Column>
+
+                                    <Column width="14%">
+                                        <Text text="Valid From" />
+                                    </Column>
+
+                                    <Column width="14%">
+                                        <Text text="Valid To" />
+                                    </Column>
+                                </columns>
+
+                                <items>
+                                    <ColumnListItem>
+                                        <cells>
+
+                                            <Text text="{expenceDataModel>bu}" />
+
+                                            <Text text="{expenceDataModel>vehicle}" />
+
+                                            <Text text="{expenceDataModel>type}" />
+
+                                            <Text text="{expenceDataModel>brand}" />
+
+                                            <Text text="{expenceDataModel>distanceRange}" />
+
+                                            <!-- Rate Highlight -->
+                                            <Text text="{expenceDataModel>rate}" class="sapUiBold sapUiTextEmphasized" />
+
+                                            <Text text="{expenceDataModel>validFrom}" />
+
+                                            <Text text="{expenceDataModel>validTo}" />
+
+                                        </cells>
+                                    </ColumnListItem>
+                                </items>
+
+                            </Table>
+
+
+
+                        </Panel>
+
+                    </IconTabFilter>
 
                 </items>
             </IconTabBar>
 
         </Panel>
 
+        <OverflowToolbar design="Solid" class="sapUiTinyMarginTop sapUiMediumPadding Footercss" height="40px">
 
+            <ToolbarSpacer />
+
+            <Button text="Save All" type="Transparent" icon="sap-icon://save" press="onCancel" />
+
+            <Button text="Submit for Review" type="Emphasized" icon="sap-icon://accounting-document-verification" press="onSave" />
+
+        </OverflowToolbar>
 
 
     </VBox>

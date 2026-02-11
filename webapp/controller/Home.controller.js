@@ -17,7 +17,7 @@ sap.ui.define([
 
         onInit: function () {
 
-          
+
 
             // Initialize tracking data model
             var oTrackingData = {
@@ -1069,7 +1069,8 @@ sap.ui.define([
             oModel.setProperty("/selectedKey", sKey);
         },
 
-        _showView: function (sKey) {
+        _showView: function (sKey, tab) {
+            debugger;
             // Hide all views
             this.byId("dashboardView").setVisible(false);
             this.byId("rateShoppingView").setVisible(false);
@@ -1085,7 +1086,7 @@ sap.ui.define([
             this.byId("gateLogs").setVisible(false);
             this.byId("expenseFuelParkingManagement").setVisible(false);
             this.byId("settlementReconciliation").setVisible(false);
-             this.byId("addNewexpenseFuelParkingManagement").setVisible(false);
+            this.byId("addNewexpenseFuelParkingManagement").setVisible(false);
 
 
 
@@ -1134,8 +1135,26 @@ sap.ui.define([
                 case "settlementReconciliation":
                     this.byId("settlementReconciliation").setVisible(true);
                     break
-                      case "addNewexpenseFuelParkingManagement":
+                case "addNewexpenseFuelParkingManagement":
                     this.byId("addNewexpenseFuelParkingManagement").setVisible(true);
+                    if (tab === "EXPENSE") {
+
+                        this.byId("AddNewUserIconTab").setSelectedKey(tab)
+
+                    } else if (tab === "FUEL") {
+                        this.byId("AddNewUserIconTab").setSelectedKey(tab)
+
+
+                    } else if (tab === "PARKING") {
+
+                        this.byId("AddNewUserIconTab").setSelectedKey(tab)
+
+                    } else {
+
+
+
+                    }
+
                     break
             }
         },
@@ -4985,6 +5004,7 @@ sap.ui.define([
         },
         onSegmentChange: function (oEvent) {
             const sKey = oEvent.getSource().getProperty("selectedKey")
+
             debugger
             const oExpenseTable = this.byId("panel1");
             const oFuelTable = this.byId("panel2");
@@ -5000,6 +5020,7 @@ sap.ui.define([
                 oExpenseTable.setVisible(true);
                 oFuelTable.setVisible(true);
                 oParkingTable.setVisible(true);
+
             }
 
             if (sKey === "CASH") {
@@ -5013,6 +5034,25 @@ sap.ui.define([
                 oFuelTable.setVisible(true);
                 oParkingTable.setVisible(true);
             }
+
+            var sText = "";
+
+            switch (sKey) {
+
+                case "SHIPMENT":
+                    sText = "Driver-linked expenses from shipment trips";
+                    break;
+
+                case "CASH":
+                    sText = "Employee expenses against Cash Advance (Driver / Site / Specific)";
+                    break;
+
+                case "ALL":
+                    sText = "All records across the system";
+                    break;
+            }
+
+            this.byId("segmentDescription").setText(sText);
         },
         onFleetCockpitTabSelect1: function (oEvent) {
             debugger
@@ -5094,8 +5134,10 @@ sap.ui.define([
             }
         },
 
-        
 
+        onExpenceTablePress: function () {
+
+        }
 
 
 

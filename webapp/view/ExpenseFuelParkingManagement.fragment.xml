@@ -26,7 +26,7 @@
                 </items>
             </SegmentedButton>
 
-            <Text class="sapUiTinyMarginTop" text="Driver-linked expenses from shipment trips" />
+            <Text id="segmentDescription" class="sapUiTinyMarginTop" text="Driver-linked expenses from shipment trips" />
         </HBox>
 
         <FlexBox wrap="Wrap" alignItems="Start" class="sapUiMediumMarginBottom">
@@ -110,7 +110,7 @@
 
         <Panel id="panel1" width="90%">
             <ScrollContainer width="100%" vertical="true" horizontal="false" focusable="true">
-                <Table id="expenceTable" items="{expenceDataModel>/expenses}" growing="true" growingScrollToLoad="true" fixedLayout="false" visible="true" width="100%">
+                <Table id="expenceTable"  items="{expenceDataModel>/expenses}" growing="true" growingScrollToLoad="true" fixedLayout="false" visible="true" width="100%">
                     <headerToolbar>
                         <!-- Search + Actions -->
                         <Toolbar>
@@ -201,8 +201,8 @@
                         </Column>
                     </columns>
 
-                    <items>
-                        <ColumnListItem>
+                    <items >
+                        <ColumnListItem type="Navigation" press="._showView('addNewexpenseFuelParkingManagement','EXPENSE')">
                             <cells>
                                 <!-- Order ID -->
 
@@ -331,7 +331,7 @@
                     </columns>
 
                     <items>
-                        <ColumnListItem>
+                        <ColumnListItem type="Navigation"  press="._showView('addNewexpenseFuelParkingManagement','FUEL')">
                             <cells>
                                 <!-- ID -->
                                 <Title text="{expenceDataModel>id}" class="sapUiBoldText" wrapping="true" />
@@ -439,7 +439,7 @@
                     </columns>
 
                     <items>
-                        <ColumnListItem>
+                        <ColumnListItem type="Navigation" press="._showView('addNewexpenseFuelParkingManagement','PARKING')">
                             <cells>
                                 <!-- ID -->
                                 <Title text="{expenceDataModel>id}" class="sapUiBoldText" wrapping="true" />
