@@ -20,6 +20,7 @@ sap.ui.define([
 
 
 
+            this.selectedTiletype;
             // Initialize tracking data model
             var oTrackingData = {
                 events: [],
@@ -1067,7 +1068,8 @@ sap.ui.define([
             oModel.setProperty("/selectedKey", sKey);
         },
 
-        _showView: function (sKey) {
+        _showView: function (sKey, tab) {
+            debugger;
             // Hide all views
             this.byId("dashboardView").setVisible(false);
             this.byId("rateShoppingView").setVisible(false);
@@ -1083,6 +1085,9 @@ sap.ui.define([
             this.byId("gateLogs").setVisible(false);
             this.byId("ReportInView").setVisible(false);
 
+            this.byId("expenseFuelParkingManagement").setVisible(false);
+            this.byId("settlementReconciliation").setVisible(false);
+            this.byId("addNewexpenseFuelParkingManagement").setVisible(false);
 
 
 
@@ -1127,6 +1132,32 @@ sap.ui.define([
                     break
                 case "ReportIn":
                     this.byId("ReportInView").setVisible(true);
+                case "expenseFuelParkingManagement":
+                    this.byId("expenseFuelParkingManagement").setVisible(true);
+                    break
+                case "settlementReconciliation":
+                    this.byId("settlementReconciliation").setVisible(true);
+                    break
+                case "addNewexpenseFuelParkingManagement":
+                    this.byId("addNewexpenseFuelParkingManagement").setVisible(true);
+                    if (tab === "EXPENSE") {
+
+                        this.byId("AddNewUserIconTab").setSelectedKey(tab)
+
+                    } else if (tab === "FUEL") {
+                        this.byId("AddNewUserIconTab").setSelectedKey(tab)
+
+
+                    } else if (tab === "PARKING") {
+
+                        this.byId("AddNewUserIconTab").setSelectedKey(tab)
+
+                    } else {
+
+
+
+                    }
+
                     break
             }
         },
@@ -1260,6 +1291,9 @@ sap.ui.define([
             this._oManualOrderDialog1.then(function (oDialog) {
                 oDialog.open();
             });
+            this.byId("companyCB").setSelectedKey("");
+            this.byId("productCB").setSelectedKey("");
+            this.onSelectionChange();
 
         },
         onCloseChannelDialog: function () {
@@ -1359,7 +1393,9 @@ sap.ui.define([
             }
             this.byId("channelFlex").setVisible(bShowFlex);
         },
-        onPdfUploadPress: function () {
+        onPdfUploadPress: function (oEvent) {
+            this.selectedTiletype = oEvent.getSource().getProperty("header");
+
             this._openDialog("PdfUploadDialog", "intellicarrier.view.PdfUpload");
         },
         onCompartmentChange: function () {
@@ -1395,14 +1431,22 @@ sap.ui.define([
             this[sDialogId].then(function (oDialog) {
                 oDialog.open();
             });
+            this.byId("extractBtn").setVisible(true);
+
         },
 
         onCloseDialog1: function (oEvent) {
-            oEvent.getSource().getParent().close();
+            const oDialog = oEvent.getSource().getParent();
+
+            oDialog.close();
+            this.byId("CustomContentBox").setVisible(false)
+            this.byId("uploadFrightVBox").setVisible(true)
+            this.byId("uploadFlowHBox").setVisible(true)
+            this.byId("uploadFlowHBoxReview").setVisible(false)
         },
         onFileSelected: function (oEvent) {
             const aFiles = oEvent.getParameter("files");
-
+            this.getView().byId("extractBtn").setVisible(false);
             if (aFiles && aFiles.length) {
                 // File selected successfully
                 this.getView().byId("extractBtn").setVisible(true);
@@ -1440,14 +1484,151 @@ sap.ui.define([
             this.PdfUploadDialog.then(function (oDialog) {
                 oDialog.close();
             });
+            // this.PdfUploadDialog.then(function (oDialog) {
+            //     oDialog.close();
+            // });
         },
         onUploadPress: function () {
             this.byId("CustomContentBox").setVisible(true)
             this.byId("uploadFrightVBox").setVisible(false)
             this.byId("uploadFlowHBox").setVisible(false)
             this.byId("uploadFlowHBoxReview").setVisible(true)
+            this.byId("extractBtn").setVisible(false)
 
 
+        },
+        onSelectAll: function (oEvent) {
+            const bSelected = oEvent.getParameter("selected");
+            const oList = this.byId("freightList");
+
+            oList.getItems().forEach(function (oItem) {
+                oList.setSelectedItem(oItem, bSelected);
+            });
+        },
+        onConfirmSelection: function () {
+            const oList = this.byId("freightList");
+            const aSelectedItems = oList.getSelectedItems();
+
+            if (!aSelectedItems.length) {
+                sap.m.MessageToast.show("Please select at least one draft");
+                return;
+            }
+
+            const iCount = aSelectedItems.length;
+            let sourcetext;
+            if (this.selectedTiletype.includes("PDF")) {
+                sourcetext = "PDF Upload";
+            }
+            else if (this.selectedTiletype.includes("Email")) {
+                sourcetext = "Email Upload";
+
+            }
+            else if (this.selectedTiletype.includes("Excel")) {
+                sourcetext = "Excel Upload";
+
+            }
+            else {
+                sourcetext = this.selectedTiletype;
+
+            }
+            sap.m.MessageBox.confirm(
+                "Confirm " + iCount + " draft(s)?\n\nStatus will change: Draft → Open",
+                {
+                    title: "Confirm Drafts",
+                    actions: [sap.m.MessageBox.Action.OK, sap.m.MessageBox.Action.CANCEL],
+                    emphasizedAction: sap.m.MessageBox.Action.OK,
+
+                    onClose: function (sAction) {
+                        if (sAction !== sap.m.MessageBox.Action.OK) {
+                            return;
+                        }
+
+                        // 🔹 Orders model
+                        const oOrdersModel = this.getView().getModel("orders");
+                        const aOrders = oOrdersModel.getProperty("/ordersList") || [];
+
+                        // 🔹 Loop selected list items
+                        aSelectedItems.forEach(function (oItem) {
+
+                            // ---- Extract data from static CustomListItem ----
+                            const oRootHBox = oItem.getContent()[0];      // Main HBox
+                            const oLeftVBox = oRootHBox.getItems()[0];   // Left VBox
+
+                            // Header row
+                            const oHeaderHBox = oLeftVBox.getItems()[0];
+                            const sOrderId = oHeaderHBox.getItems()[0].getText(); // FO-DRAFT-xxxx
+
+                            // Meta rows
+                            const oMetaRow1 = oLeftVBox.getItems()[1];
+                            const sCustomerName = oMetaRow1.getItems()[1].getText();
+
+                            const oMetaRow2 = oLeftVBox.getItems()[2];
+                            const sProductText = oMetaRow2.getItems()[1].getText(); // D:12K + G95:7K
+                            const sDeliveryDate = oMetaRow2.getItems()[3].getText();
+
+                            // ---- Create new order object ----
+                            const oNewOrder = {
+                                orderId: sOrderId.replace("DRAFT", "OPEN"),
+
+                                sourceIcon: "sap-icon://document-text",
+                                sourceText: sourcetext,
+
+                                customerName: sCustomerName,
+                                customerEmail: "",
+
+                                deliveryAddress: "456 Chang Klan Road, Mueang, Chiang Mai 50100",
+
+                                productsCount: sProductText,
+                                weight: "19,000 kg",
+                                deliveryDate: sDeliveryDate,
+
+                                // ✅ NON-ZERO VALUE
+                                value: "฿125,000",
+
+                                statusText: "Open",
+                                statusState: "Success",
+                                statusIcon: "sap-icon://accept",
+
+                                actionButtonText: "View",
+                                actionButtonType: "Default",
+
+                                ocrConfidence: "94.4%",
+
+                                fullData: {
+                                    orderId: sOrderId,
+                                    customerName: sCustomerName,
+                                    deliveryAddress: "456 Chang Klan Road, Mueang, Chiang Mai 50100",
+                                    products: sProductText,
+                                    deliveryDate: sDeliveryDate,
+                                    value: "฿125,000"
+                                }
+                            };
+
+                            // Add to top of list
+                            aOrders.unshift(oNewOrder);
+                        });
+
+                        // Update model
+                        oOrdersModel.setProperty("/ordersList", aOrders);
+
+                        // UI cleanup
+                        oList.removeSelections(true);
+                        this.byId("CustomContentBox").setVisible(false);
+                        this.byId("uploadFrightVBox").setVisible(true);
+                        this.byId("uploadFlowHBox").setVisible(true);
+                        this.byId("uploadFlowHBoxReview").setVisible(false);
+
+                        sap.m.MessageBox.success(
+                            "All drafts confirmed!\nStatus: OPEN",
+                            { title: "Success" }
+                        );
+
+                    }.bind(this)
+                }
+            );
+            this.PdfUploadDialog.then(function (oDialog) {
+                oDialog.close();
+            });
         },
         onAddProduct: function () {
             var oModel = this.getView().getModel("manualOrder");
@@ -1501,7 +1682,7 @@ sap.ui.define([
                 statusText: "Pending Review",
                 statusState: "Warning",
                 statusIcon: "sap-icon://pending",
-                actionButtonText: "Review",
+                actionButtonText: "View",
                 actionButtonType: "Default",
                 ocrConfidence: "Manual",
                 // Store full data
@@ -1525,6 +1706,7 @@ sap.ui.define([
 
             // Close dialog
             this.onCancelManualOrder();
+
         },
 
         onCancelManualOrder: function () {
@@ -1532,6 +1714,62 @@ sap.ui.define([
                 oDialog.close();
 
             });
+            this._oManualOrderDialog1.then(function (oDialog) {
+                oDialog.close();
+            })
+        },
+        onCreateShipment: function () {
+            this.onCloseOrderDetails();
+            const oOrder = this.getView().getModel("orderDetails").getData();
+
+            // const sConfirmText =
+            //     "Create Shipment for " + oOrder.orderId + "?\n\n" +
+            //     "BU: " + oOrder.bu + "\n" +
+            //     "Type: " + oOrder.product + "\n" +
+            //     "Route: " + oOrder.route + "\n\n" +
+            //     "This will open the Create Shipment screen.";
+
+            const sConfirmText =
+                "Create Shipment for " + oOrder.orderId + "?\n\n" +
+                "BU: " + "SCC" + "\n" +
+                "Type: " + "Fule" + "\n" +
+                "Route: " + "130H-CUST" + "\n\n" +
+                "This will open the Create Shipment screen.";
+            sap.m.MessageBox.confirm(
+                sConfirmText,
+                {
+                    title: "Create Shipment",
+                    icon: sap.m.MessageBox.Icon.QUESTION,
+                    actions: [sap.m.MessageBox.Action.OK, sap.m.MessageBox.Action.CANCEL],
+                    emphasizedAction: sap.m.MessageBox.Action.OK,
+
+                    onClose: function (sAction) {
+                        if (sAction === sap.m.MessageBox.Action.OK) {
+
+                            // 🔹 Simulate backend shipment creation
+                            const sShipmentNo = "SH-2026-003420";
+
+                            sap.m.MessageBox.success(
+                                "Shipment " + sShipmentNo + " created!\n\n" +
+                                "→ In production, this opens CreateShipment_AllTypes.html\n" +
+                                "pre-filled with FO data for: " + oOrder.bu + " / " + oOrder.product + "\n\n" +
+                                "Next step: Assign driver/vehicle → Dispatch",
+                                {
+                                    title: "Shipment Created",
+                                    actions: [sap.m.MessageBox.Action.OK],
+
+                                    onClose: function () {
+                                        // 🔹 Real navigation would go here
+                                        // window.location.href = "CreateShipment_AllTypes.html?fo=" + oOrder.orderId;
+
+                                        sap.m.MessageToast.show("Proceed to shipment assignment");
+                                    }
+                                }
+                            );
+                        }
+                    }.bind(this)
+                }
+            );
         },
 
         _formatDate: function (sDate) {
@@ -1844,7 +2082,7 @@ sap.ui.define([
                 statusText: "Pending Review",
                 statusState: "Warning",
                 statusIcon: "sap-icon://pending",
-                actionButtonText: "Review",
+                actionButtonText: "View",
                 actionButtonType: "Default",
                 ocrConfidence: "Manual",
                 // Store full data
@@ -5320,6 +5558,142 @@ sap.ui.define([
         },
 
         onFuelCalculation: function (oEvent) {
+        onSegmentChange: function (oEvent) {
+            const sKey = oEvent.getSource().getProperty("selectedKey")
+
+            debugger
+            const oExpenseTable = this.byId("panel1");
+            const oFuelTable = this.byId("panel2");
+            const oParkingTable = this.byId("panel3");
+
+            // Hide all first
+            oExpenseTable.setVisible(false);
+            oFuelTable.setVisible(false);
+            oParkingTable.setVisible(false);
+
+            if (sKey === "SHIPMENT") {
+                // Show Fuel + Parking + Expense (3 tables)
+                oExpenseTable.setVisible(true);
+                oFuelTable.setVisible(true);
+                oParkingTable.setVisible(true);
+
+            }
+
+            if (sKey === "CASH") {
+                // Show ONLY Expense Records
+                oExpenseTable.setVisible(true);
+            }
+
+            if (sKey === "ALL") {
+                // Show all 3 tables
+                oExpenseTable.setVisible(true);
+                oFuelTable.setVisible(true);
+                oParkingTable.setVisible(true);
+            }
+
+            var sText = "";
+
+            switch (sKey) {
+
+                case "SHIPMENT":
+                    sText = "Driver-linked expenses from shipment trips";
+                    break;
+
+                case "CASH":
+                    sText = "Employee expenses against Cash Advance (Driver / Site / Specific)";
+                    break;
+
+                case "ALL":
+                    sText = "All records across the system";
+                    break;
+            }
+
+            this.byId("segmentDescription").setText(sText);
+        },
+        onFleetCockpitTabSelect1: function (oEvent) {
+            debugger
+            var sKey = oEvent.getParameter("key");
+
+            var oExpenseTable = this.byId("panel1");
+            var oFuelTable = this.byId("panel2");
+            var oParkingTable = this.byId("panel3");
+            var oModel = this.getView().getModel("expenceDataModel");
+            if (oModel) {
+                oModel.refresh(true);
+            }
+
+            // Reset everything first
+            oExpenseTable.setVisible(false);
+            oFuelTable.setVisible(false);
+            oParkingTable.setVisible(false);
+
+            // Remove existing filters from Expense table
+            var oBinding = oExpenseTable.getBinding("items");
+            if (oBinding) {
+                oBinding.filter([]);
+            }
+
+            this._clearExpenseFilters();
+
+            switch (sKey) {
+                case "All":
+                    oExpenseTable.setVisible(true);
+                    oFuelTable.setVisible(true);
+                    oParkingTable.setVisible(true);
+                    break;
+
+                case "Expenses":
+                    oExpenseTable.setVisible(true);
+                    break;
+
+                case "Fuel":
+                    oFuelTable.setVisible(true);
+                    break;
+
+                case "Parking":
+                    oParkingTable.setVisible(true);
+                    break;
+
+                case "Pending":
+                    oExpenseTable.setVisible(true);
+                    this._filterExpenseByStatus("Pending Review");
+                    break;
+
+                case "Rejected":
+                    oExpenseTable.setVisible(true);
+                    this._filterExpenseByStatus("Rejected");
+                    break;
+            }
+        },
+        _filterExpenseByStatus: function (sStatus) {
+            var oExpenseTable = this.byId("expenceTable");
+            var oBinding = oExpenseTable.getBinding("items");
+
+            if (!oBinding) {
+                return;
+            }
+
+            var oFilter = new sap.ui.model.Filter(
+                "status",               // <-- status field from expense model
+                sap.ui.model.FilterOperator.EQ,
+                sStatus
+            );
+
+            oBinding.filter([oFilter]);
+        },
+        _clearExpenseFilters: function () {
+            var oTable = this.byId("expenceTable");
+            var oBinding = oTable && oTable.getBinding("items");
+
+            if (oBinding) {
+                oBinding.filter([]); // ✅ clears all filters
+            }
+        },
+
+
+        onExpenceTablePress: function () {
+
+        }
 
             var oModel = this.getView().getModel("reportIn");
             var sPath = oEvent.getSource().getBindingContext("reportIn").getPath();
@@ -5607,6 +5981,8 @@ sap.ui.define([
         formatTotal(d) {
             console.log(d)
         }
+
+
 
 
     });

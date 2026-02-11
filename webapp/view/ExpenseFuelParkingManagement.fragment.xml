@@ -1,0 +1,486 @@
+<core:FragmentDefinition xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:u="sap.ui.unified">
+    <VBox width="100%">
+        <HBox justifyContent="SpaceBetween">
+            <VBox>
+                <Title text="Expense, Fuel &amp; Parking Management" level="H2" class="sapUiSmallMarginBottom" />
+                <Label text="FI Module — Review driver/employee expenses, fuel records &amp; parking • Reconcile against Cash Advance • Post to SAP" />
+            </VBox>
+            <ToolbarSpacer />
+            <VBox>
+                <HBox gap="10px">
+                    <Button class="sapUiMarginTinyEnd" text="Settlement &amp; Reconcile" icon="sap-icon://fallback" press="_showView('settlementReconciliation')" />
+                    <Button text="New Record" icon="sap-icon://add" press="_showView('addNewexpenseFuelParkingManagement')" />
+                </HBox>
+            </VBox>
+        </HBox>
+        <MessageStrip text="Data Sources: Driver entries from Report-In Mobile App auto-sync here • Employee entries from FI Mobile App • Editable until AP Posting (even after shipment close)" type="Information" showIcon="true" class="sapUiMediumMarginBottom sapUiSmallMarginTop" />
+
+        <HBox gap="10px">
+            <SegmentedButton selectedKey="SHIPMENT" selectionChange="onSegmentChange">
+                <items>
+                    <SegmentedButtonItem text="By Shipment" key="SHIPMENT" />
+                    <SegmentedButtonItem text="By Cash Advance" key="CASH" />
+                    <SegmentedButtonItem text="All Records" key="ALL" />
+                </items>
+            </SegmentedButton>
+
+            <Text id="segmentDescription" class="sapUiTinyMarginTop" text="Driver-linked expenses from shipment trips" />
+        </HBox>
+
+        <FlexBox wrap="Wrap" alignItems="Start" class="sapUiMediumMarginBottom">
+            <!-- Pending Assignment -->
+            <GenericTile header="Total Expenses" wrappingType="Normal" subheader="10 records" frameType="TwoByHalf" class="sapUiTinyMarginEnd sapUiSmallMarginBottom" width="10vw">
+                <tileContent>
+                    <TileContent>
+                        <content>
+                            <NumericContent value="10k" valueColor="Neutral" icon="sap-icon://pending" />
+                        </content>
+                    </TileContent>
+                </tileContent>
+            </GenericTile>
+
+            <!-- Internal Fleet -->
+            <GenericTile header="Total Fuel" subheader="5 fill-ups" frameType="TwoByHalf" class="sapUiTinyMarginEnd sapUiSmallMarginBottom" width="10vw">
+                <tileContent>
+                    <TileContent>
+                        <content>
+                            <NumericContent value="29k" valueColor="Good" icon="sap-icon://shipping-status" />
+                        </content>
+                    </TileContent>
+                </tileContent>
+            </GenericTile>
+
+            <!-- External Carrier -->
+            <GenericTile header="Total Parking" subheader="4 entries" frameType="TwoByHalf" class="sapUiTinyMarginEnd sapUiSmallMarginBottom" width="10vw">
+                <tileContent>
+                    <TileContent>
+                        <content>
+                            <NumericContent value="280" valueColor="Good" icon="sap-icon://truck" />
+                        </content>
+                    </TileContent>
+                </tileContent>
+            </GenericTile>
+
+            <!-- In Transit -->
+            <GenericTile header="Pending Review" subheader="Awaiting manager" frameType="TwoByHalf" class="sapUiTinyMarginEnd sapUiSmallMarginBottom" width="10vw">
+                <tileContent>
+                    <TileContent>
+                        <content>
+                            <NumericContent value="5" valueColor="Neutral" icon="sap-icon://journey-arrive" />
+                        </content>
+                    </TileContent>
+                </tileContent>
+            </GenericTile>
+
+            <!-- Fleet Available -->
+            <GenericTile header="Rejected" subheader="Need correction" frameType="TwoByHalf" class="sapUiTinyMarginEnd sapUiSmallMarginBottom" width="10vw">
+                <tileContent>
+                    <TileContent>
+                        <content>
+                            <NumericContent value="1" valueColor="Error" icon="sap-icon://fleet" />
+                        </content>
+                    </TileContent>
+                </tileContent>
+            </GenericTile>
+
+            <!-- Utilization -->
+            <GenericTile header="Posted to SAP" subheader="AP completed" frameType="TwoByHalf" class="sapUiTinyMarginEnd sapUiSmallMarginBottom" width="10vw">
+                <tileContent>
+                    <TileContent>
+                        <content>
+                            <NumericContent value="2" valueColor="Good" icon="sap-icon://bar-chart" />
+                        </content>
+                    </TileContent>
+                </tileContent>
+            </GenericTile>
+        </FlexBox>
+
+        <IconTabBar id="FuelTabBar1" expandable="false" headerMode="Inline" selectedKey="All" select=".onFleetCockpitTabSelect1">
+            <items>
+                <IconTabFilter key="All" text="All" class="shipment-tab-item" />
+                <IconTabFilter key="Expenses" text="Expenses" class="shipment-tab-item" />
+                <IconTabFilter key="Fuel" text="Fuel" class="shipment-tab-item" />
+                <IconTabFilter key="Parking" text="Parking" class="shipment-tab-item" />
+                <IconTabFilter key="Pending" text="Pending" class="shipment-tab-item" />
+                <IconTabFilter key="Rejected" text="Rejected" class="shipment-tab-item" />
+            </items>
+        </IconTabBar>
+
+        <Panel id="panel1" width="90%">
+            <ScrollContainer width="100%" vertical="true" horizontal="false" focusable="true">
+                <Table id="expenceTable"  items="{expenceDataModel>/expenses}" growing="true" growingScrollToLoad="true" fixedLayout="false" visible="true" width="100%">
+                    <headerToolbar>
+                        <!-- Search + Actions -->
+                        <Toolbar>
+                            <Title text="Expense Records ( 8 records ) • ฿10,000.00" />
+                            <ToolbarSpacer />
+
+                            <SearchField placeholder="Search ID, shipment, employee..." liveChange=".onSearchOrders" width="20rem" />
+                            <Select width="180px" selectedKey="ALL">
+                                <items>
+                                    <core:Item key="ALL" text="All BU" />
+                                    <core:Item key="060C" text="060C Atlas-LPG-BPK" />
+                                    <core:Item key="060E" text="060E Atlas-LPG-NKC" />
+                                    <core:Item key="060F" text="060F RY Chemical" />
+                                    <core:Item key="0609" text="0609 SC Carrier BRP" />
+                                    <core:Item key="060A" text="060A SC Carrier SRC" />
+                                </items>
+                            </Select>
+                            <Select width="180px" class="sapUiTinyMarginBegin" selectedKey="ALL">
+                                <items>
+                                    <core:Item key="ALL" text="All Types" />
+                                    <core:Item key="CASH" text="Toll" />
+                                    <core:Item key="BANK" text="Meal" />
+                                    <core:Item key="CARD" text="Overnight" />
+                                    <core:Item key="CARD" text="Weightbridge" />
+                                    <core:Item key="CARD" text="Port Free" />
+                                    <core:Item key="CARD" text="Emergency Repair" />
+                                    <core:Item key="CARD" text="Fine/Penalty" />
+                                    <core:Item key="CARD" text="Other" />
+                                </items>
+                            </Select>
+                            <Select width="180px" class="sapUiTinyMarginBegin" selectedKey="ALL">
+                                <items>
+                                    <core:Item key="ALL" text="All Payment" />
+                                    <core:Item key="Cash" text="Cash" />
+                                    <core:Item key="Credit" text="Credit" />
+                                </items>
+                            </Select>
+                        </Toolbar>
+                    </headerToolbar>
+
+                    <columns>
+                        <Column width="10rem">
+                            <Text text="ID" />
+                        </Column>
+
+                        <Column width="8rem">
+                            <Text text="Date" />
+                        </Column>
+
+                        <Column width="9rem">
+                            <Text text="Shipment" />
+                        </Column>
+
+                        <Column width="6rem">
+                            <Text text="BU" />
+                        </Column>
+
+                        <Column width="14rem">
+                            <Text text="Employee" />
+                        </Column>
+
+                        <Column width="14rem">
+                            <Text text="Type" />
+                        </Column>
+
+                        <Column width="8rem" hAlign="Center">
+                            <Text text="Payment" />
+                        </Column>
+
+                        <Column width="8rem">
+                            <Text text="Vendor" />
+                        </Column>
+
+                        <Column width="8rem" hAlign="End">
+                            <Text text="Amount (฿)" />
+                        </Column>
+
+                        <Column width="7rem" hAlign="Center">
+                            <Text text="Receipt" />
+                        </Column>
+
+                        <Column width="10rem">
+                            <Text text="CA Ref" />
+                        </Column>
+
+                        <Column width="9rem" hAlign="Center">
+                            <Text text="Status" />
+                        </Column>
+                    </columns>
+
+                    <items >
+                        <ColumnListItem type="Navigation" press="._showView('addNewexpenseFuelParkingManagement','EXPENSE')">
+                            <cells>
+                                <!-- Order ID -->
+
+                                <Title text="{expenceDataModel>id}" class="sapUiBoldText" wrapping="true" />
+
+                                <Text text="{expenceDataModel>date}" class="sphId" />
+
+                                <!-- Customer -->
+                                <Text text="{expenceDataModel>shipment}" />
+                                <Text text="{expenceDataModel>bu}" />
+
+                                <VBox>
+                                    <Text text="{expenceDataModel>employeeName}" />
+                                    <HBox>
+                                        <Text text="{expenceDataModel>employeeId} ● " class="sapUiTinyMarginTop" />
+                                        <Text text="{expenceDataModel>employeePhone}" class="sapUiTinyMarginTop" />
+                                    </HBox>
+                                </VBox>
+
+                                <!-- Delivery Date -->
+                                <Text text="{expenceDataModel>type}" />
+
+                                <!-- Priority -->
+                                <GenericTag text="{expenceDataModel>payment}" status="{priorityState}" />
+
+                                <Text text="{expenceDataModel>vendor}" />
+
+                                <!-- Value -->
+                                <Text text="{expenceDataModel>amount}" class="sapUiBoldText" />
+                                <Text text="{expenceDataModel>receipt}" />
+                                <Text text="{expenceDataModel>caRef}" />
+
+                                <GenericTag text="{expenceDataModel>status}" status="{expenceDataModel>statusState}" />
+                            </cells>
+                        </ColumnListItem>
+                    </items>
+                </Table>
+            </ScrollContainer>
+        </Panel>
+
+        <Panel id="panel2" width="90%">
+            <ScrollContainer width="100%" vertical="true" horizontal="false" focusable="true">
+                <Table id="FuelTable" items="{expenceDataModel>/fuelRecords}" growing="true" growingScrollToLoad="true" fixedLayout="false" visible="true" width="100%">
+                    <headerToolbar>
+                        <!-- Search + Actions -->
+                        <Toolbar>
+                            <Title text="Fuel Records ( 5 records )  • 945.50 L • ฿29,253.77" />
+                            <ToolbarSpacer />
+
+                            <SearchField placeholder="Search vehicle, slip, station..." liveChange=".onSearchOrders" width="20rem" />
+                            <Select width="180px" class="sapUiTinyMarginBegin" selectedKey="ALL_FUEL">
+                                <items>
+                                    <core:Item key="ALL_FUEL" text="All Fuel" />
+                                    <core:Item key="DIESEL_B7" text="Diesel B7" />
+                                    <core:Item key="DIESEL_B20" text="Diesel B20" />
+                                    <core:Item key="GASOHOL_E20" text="Gasohol E20" />
+                                    <core:Item key="NGV" text="NGV" />
+                                    <core:Item key="LPG" text="LPG" />
+                                    <core:Item key="DIESEL_HSD" text="Diesel HSD" />
+                                </items>
+                            </Select>
+
+                            <Select width="180px" class="sapUiTinyMarginBegin" selectedKey="ALL_FILL">
+                                <items>
+                                    <core:Item key="ALL_FILL" text="All Fill Types" />
+                                    <core:Item key="FLEET_CARD" text="Fleet Card" />
+                                    <core:Item key="STORE_FUEL" text="Store Fuel" />
+                                    <core:Item key="CASH" text="Cash" />
+                                </items>
+                            </Select>
+                        </Toolbar>
+                    </headerToolbar>
+
+                    <columns>
+                        <Column width="10rem">
+                            <Text text="ID" />
+                        </Column>
+
+                        <Column width="8rem">
+                            <Text text="Date" />
+                        </Column>
+
+                        <Column width="9rem">
+                            <Text text="Shipment" />
+                        </Column>
+
+                        <Column width="6rem">
+                            <Text text="BU" />
+                        </Column>
+
+                        <Column width="10rem">
+                            <Text text="Fill Type" />
+                        </Column>
+
+                        <Column width="8rem">
+                            <Text text="Vehicle" />
+                        </Column>
+
+                        <Column width="14rem">
+                            <Text text="Driver" />
+                        </Column>
+
+                        <Column width="16rem">
+                            <Text text="Station/Store" />
+                        </Column>
+
+                        <Column width="8rem">
+                            <Text text="Fuel" />
+                        </Column>
+
+                        <Column width="8rem" hAlign="End">
+                            <Text text="Liters" />
+                        </Column>
+
+                        <Column width="9rem" hAlign="End">
+                            <Text text="Amount (฿)" />
+                        </Column>
+
+                        <Column width="7rem" hAlign="Center">
+                            <Text text="Rate" />
+                        </Column>
+
+                        <Column width="9rem" hAlign="Center">
+                            <Text text="Status" />
+                        </Column>
+                    </columns>
+
+                    <items>
+                        <ColumnListItem type="Navigation"  press="._showView('addNewexpenseFuelParkingManagement','FUEL')">
+                            <cells>
+                                <!-- ID -->
+                                <Title text="{expenceDataModel>id}" class="sapUiBoldText" wrapping="true" />
+
+                                <!-- Date -->
+                                <Text text="{expenceDataModel>date}" />
+
+                                <!-- Shipment -->
+                                <Text text="{expenceDataModel>shipment}" />
+
+                                <!-- BU -->
+                                <Text text="{expenceDataModel>bu}" />
+
+                                <!-- Fill Type -->
+                                <GenericTag text="{expenceDataModel>fillType}" status="{expenceDataModel>typeState}" />
+
+                                <!-- Vehicle -->
+                                <Text text="{expenceDataModel>vehicle}" />
+                                <Text text="{expenceDataModel>driver}" />
+
+                                <Text text="{expenceDataModel>station}" />
+
+                                <!-- Fuel -->
+                                <Text text="{expenceDataModel>fuel}" />
+
+                                <!-- Liters -->
+                                <Text text="{expenceDataModel>liters}" />
+
+                                <!-- Amount -->
+                                <Text text="{expenceDataModel>amount}" class="sapUiBoldText" />
+
+                                <!-- Rate -->
+                                <Text text="{expenceDataModel>rate}" />
+
+                                <!-- Status -->
+                                <GenericTag text="{expenceDataModel>status}" status="{expenceDataModel>statusState}" />
+                            </cells>
+                        </ColumnListItem>
+                    </items>
+                </Table>
+            </ScrollContainer>
+        </Panel>
+
+        <Panel id="panel3" width="90%">
+            <ScrollContainer width="100%" vertical="true" horizontal="false" focusable="true">
+                <Table id="Parkingtable" items="{expenceDataModel>/parkingRecords}" growing="true" visible="true" growingScrollToLoad="true" fixedLayout="false" width="100%">
+
+                    <headerToolbar>
+                        <!-- Search + Actions -->
+                        <Toolbar>
+                            <Title text="Parking Records ( 4 records ) • ฿280.00" />
+                            <ToolbarSpacer />
+
+
+                        </Toolbar>
+                    </headerToolbar>
+                    <columns>
+                        <Column width="10rem">
+                            <Text text="ID" />
+                        </Column>
+
+                        <Column width="9rem">
+                            <Text text="Shipment" />
+                        </Column>
+
+                        <Column width="6rem">
+                            <Text text="BU" />
+                        </Column>
+
+                        <Column width="6rem">
+                            <Text text="Stage" />
+                        </Column>
+
+                        <Column width="16rem">
+                            <Text text="Place" />
+                        </Column>
+
+                        <Column width="10rem">
+                            <Text text="Type" />
+                        </Column>
+
+                        <Column width="11rem">
+                            <Text text="Start" />
+                        </Column>
+
+                        <Column width="11rem">
+                            <Text text="End" />
+                        </Column>
+
+                        <Column width="8rem">
+                            <Text text="Duration" />
+                        </Column>
+
+                        <Column width="14rem">
+                            <Text text="Reason" />
+                        </Column>
+
+                        <Column width="9rem" hAlign="End">
+                            <Text text="Amount (฿)" />
+                        </Column>
+
+                        <Column width="9rem" hAlign="Center">
+                            <Text text="Status" />
+                        </Column>
+                    </columns>
+
+                    <items>
+                        <ColumnListItem type="Navigation" press="._showView('addNewexpenseFuelParkingManagement','PARKING')">
+                            <cells>
+                                <!-- ID -->
+                                <Title text="{expenceDataModel>id}" class="sapUiBoldText" wrapping="true" />
+
+                                <!-- Shipment -->
+                                <Text text="{expenceDataModel>shipment}" />
+
+                                <!-- BU -->
+                                <Text text="{expenceDataModel>bu}" />
+
+                                <!-- Stage -->
+                                <Text text="{expenceDataModel>stage}" />
+
+                                <!-- Place -->
+                                <Text text="{expenceDataModel>place}" />
+
+                                <!-- Type -->
+                                <Text text="{expenceDataModel>type}" />
+
+                                <!-- Start -->
+                                <Text text="{expenceDataModel>start}" />
+
+                                <!-- End -->
+                                <Text text="{expenceDataModel>end}" />
+
+                                <!-- Duration -->
+                                <Text text="{expenceDataModel>duration}" />
+
+                                <!-- Reason -->
+                                <Text text="{expenceDataModel>reason}" />
+
+                                <!-- Amount -->
+                                <Text text="{expenceDataModel>amount}" class="sapUiBoldText" />
+
+                                <!-- Status -->
+                                <GenericTag text="{expenceDataModel>status}" status="{expenceDataModel>statusColor}" />
+                            </cells>
+                        </ColumnListItem>
+                    </items>
+                </Table>
+            </ScrollContainer>
+        </Panel>
+    </VBox>
+</core:FragmentDefinition>
