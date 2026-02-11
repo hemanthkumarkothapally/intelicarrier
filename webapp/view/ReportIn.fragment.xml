@@ -187,7 +187,7 @@
 
                         <!-- Action -->
                         <HBox justifyContent="Center">
-                            <Button text="Open" type="Emphasized" press=".onOpenShipment"/>
+                                                    <Button text="Open" type="Emphasized" press=".onOpenShipment"/>
                         </HBox>
                     </cells>
                 </ColumnListItem>

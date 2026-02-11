@@ -3,7 +3,16 @@
     xmlns:f="sap.ui.layout.form">
 
     <Dialog contentWidth="80%" contentHeight="70%" draggable="true" resizable="true" title="Report-In — {reportIn>shipmentNo}" class="sapUiResponsivePadding--content">
-
+        <customHeader>
+            <Bar>
+                <contentLeft>
+                    <Title text="Report-In — {reportIn>shipmentNo}" />
+                </contentLeft>
+                <contentRight>
+                    <Button icon="sap-icon://decline" type="Transparent" press="onCloseShipment" tooltip="Close" />
+                </contentRight>
+            </Bar>
+        </customHeader>
         <content>
             <VBox width="100%" class="sapUiSmallMargin">
                 <VBox class="formBox sapUiMediumMarginTop">
@@ -80,9 +89,18 @@
                         <IconTabFilter text="Stages(Report-In)" key="Stages">
                             <VBox width="100%" class="sapUiSmallMargin">
                                 <MessageStrip text="LPG— Case LPG &amp; Chem: Record ต้นทาง/ปลายทาง, ไมล์, and delivery data per stage."></MessageStrip>
-                                <Wizard id="StageWizard" finishButtonText="Submit" renderMode="Page" showNextButton="true" complete="onWizardCompleted" class="sapUiResponsivePadding--header sapUiResponsivePadding--content">
+                                <Wizard id="StageWizard" finishButtonText="Save" renderMode="Page" showNextButton="true" complete="onWizardCompleted" class="sapUiResponsivePadding--header sapUiResponsivePadding--content">
 
-                                    <WizardStep id="First" title="Stage 1: First Stage" validated="{reportIn>stages/0/status}" activate="onStepActivate">
+                                    <WizardStep id="First" title="Stage 1: First Stage" validated="{= 
+        (
+            !!${reportIn>stages/0/origin} &amp;&amp; 
+            !!${reportIn>stages/0/dest} &amp;&amp; 
+            !!${reportIn>stages/0/depTime} &amp;&amp; 
+            !!${reportIn>stages/0/arrTime} &amp;&amp; 
+            !!${reportIn>stages/0/milesStart} &amp;&amp; 
+            !!${reportIn>stages/0/milesEnd}
+        )
+    }" activate="onStepActivate">
                                         <VBox class="sapUiSmallMargin">
 
                                             <f:SimpleForm editable="true" layout="ColumnLayout" columnsL="2" columnsM="2">
@@ -121,13 +139,23 @@
                                                 <Button text="Simulate Auto Report-In" press="onSimulateAutoReportIn" icon="sap-icon://iphone"></Button>
                                                 <HBox>
                                                     <Button text="clear" press="onClearStage" icon="sap-icon://synchronize"/>
-                                                    <Button text="Checkmiles" icon="sap-icon://search"/>
+                                                    <Button text="Checkmiles" press="onCheckMiles" icon="sap-icon://search"/>
                                                 </HBox>
                                             </HBox>
                                         </VBox>
                                     </WizardStep>
 
-                                    <WizardStep id="Load" title="Stage 2: Load" validated="{reportIn>stages/1/status}" activate="onStepActivate">
+                                    <WizardStep id="Load" title="Stage 2: Load" validated="{= 
+     
+        (
+            !!${reportIn>stages/1/origin} &amp;&amp; 
+            !!${reportIn>stages/1/dest} &amp;&amp; 
+            !!${reportIn>stages/1/depTime} &amp;&amp; 
+            !!${reportIn>stages/1/arrTime} &amp;&amp; 
+            !!${reportIn>stages/1/milesStart} &amp;&amp; 
+            !!${reportIn>stages/1/milesEnd}
+        )
+    }" activate="onStepActivate">
                                         <VBox class="sapUiSmallMargin">
 
                                             <f:SimpleForm editable="true" layout="ColumnLayout" columnsL="2" columnsM="2">
@@ -177,13 +205,22 @@
                                                 <Button text="Simulate Auto Report-In" press="onSimulateAutoReportIn" icon="sap-icon://iphone"></Button>
                                                 <HBox>
                                                     <Button text="clear" press="onClearStage" icon="sap-icon://synchronize"/>
-                                                    <Button text="Checkmiles" icon="sap-icon://search"/>
+                                                    <Button text="Checkmiles" press="onCheckMiles" icon="sap-icon://search"/>
                                                 </HBox>
                                             </HBox>
                                         </VBox>
                                     </WizardStep>
 
-                                    <WizardStep id="Customer" title="Stage 3: Customer" validated="{reportIn>stages/2/status}" activate="onStepActivate">
+                                    <WizardStep id="Customer" title="Stage 3: Customer" validated="{= 
+        (
+            !!${reportIn>stages/2/origin} &amp;&amp; 
+            !!${reportIn>stages/2/dest} &amp;&amp; 
+            !!${reportIn>stages/2/depTime} &amp;&amp; 
+            !!${reportIn>stages/2/arrTime} &amp;&amp; 
+            !!${reportIn>stages/2/milesStart} &amp;&amp; 
+            !!${reportIn>stages/2/milesEnd}
+        )
+    }" activate="onStepActivate">
                                         <VBox class="sapUiSmallMargin">
 
                                             <f:SimpleForm editable="true" layout="ColumnLayout" columnsL="2" columnsM="2">
@@ -222,58 +259,67 @@
                                                 <f:SimpleForm backgroundDesign="Transparent" editable="true" layout="ColumnLayout" columnsXL="3" columnsL="3" columnsM="3">
                                                     <f:content>
                                                         <Label text="เลขที่เอกสารตั๋ว" required="true" />
-                                                        <Input value="{stageModel>details/ticketNo}" />
+                                                        <Input value="{reportIn>stages/2/details/ticketNo}" />
 
                                                         <Label text="วันที่เอกสารตั๋ว" required="true" />
-                                                        <DatePicker value="{stageModel>details/ticketDate}" valueFormat="yyyy-MM-dd" displayFormat="dd/MM/yyyy" />
+                                                        <DatePicker value="{reportIn>stages/2/details/ticketDate}" valueFormat="yyyy-MM-dd" displayFormat="dd/MM/yyyy" />
 
                                                         <Label text="เลขที่ใบสั่งซื้อ (PO No.)" />
-                                                        <Input value="{stageModel>details/poNo}" />
+                                                        <Input value="{reportIn>stages/2/details/poNo}" />
 
                                                         <Label text="ปริมาณหน้าตั๋ว" required="true" />
-                                                        <Input value="{stageModel>details/planQty}" description="kg" type="Number" />
+                                                        <Input value="{reportIn>stages/2/details/planQty}" description="kg" type="Number" />
 
                                                         <Label text="ปริมาณส่งจริง" required="true" />
-                                                        <Input value="{stageModel>details/actualQty}" description="kg" type="Number" />
+                                                        <Input value="{reportIn>stages/2/details/actualQty}" description="kg" type="Number" />
 
                                                         <Label text="นน. รถก่อนลง" required="true" />
-                                                        <Input value="{stageModel>details/weightBefore}" description="kg" type="Number" />
+                                                        <Input value="{reportIn>stages/2/details/weightBefore}" description="kg" type="Number" />
 
                                                         <Label text="นน. รถหลังลง" required="true" />
-                                                        <Input value="{stageModel>details/weightAfter}" description="kg" type="Number" />
+                                                        <Input value="{reportIn>stages/2/details/weightAfter}" description="kg" type="Number" />
 
                                                         <Label text="Plan วันเวลาถึง" />
-                                                        <DateTimePicker value="{stageModel>details/plannedArrival}" />
+                                                        <DateTimePicker value="{reportIn>stages/2/details/plannedArrival}" />
 
                                                         <Label text="วันเวลาตามแผนลูกค้า" />
-                                                        <TimePicker value="{stageModel>details/waitingStartTime}" />
+                                                        <TimePicker value="{reportIn>stages/2/details/waitingStartTime}" />
 
                                                         <Label text="เวลาเริ่มรอ(กา)" />
-                                                        <TimePicker value="{stageModel>details/unloadingStartTime}" />
+                                                        <TimePicker value="{reportIn>stages/2/details/unloadingStartTime}" />
 
                                                         <Label text="เวลาเริ่มลง/ลื่" />
-                                                        <TimePicker value="{stageModel>details/unloadingStartTime}" />
+                                                        <TimePicker value="{reportIn>stages/2/details/unloadingStartTime}" />
 
                                                         <Label text="หมายเหตุ (Remarks)" />
-                                                        <TextArea value="{stageModel>details/remarks}" rows="3" />
+                                                        <TextArea value="{reportIn>stages/2/details/remarks}" rows="3" />
 
                                                     </f:content>
                                                 </f:SimpleForm>
 
-                                                <CheckBox text="รอลงค่าช"></CheckBox>
-                                                <CheckBox text="ลงก๊าซไม่ได้"></CheckBox>
+                                                <CheckBox selected="{reportIn>stages/2/details/c1}" text="รอลงค่าช"></CheckBox>
+                                                <CheckBox selected="{reportIn>stages/2/details/c2}" text="ลงก๊าซไม่ได้"></CheckBox>
                                             </VBox>
                                             <HBox width="100%" justifyContent="SpaceBetween">
                                                 <Button text="Simulate Auto Report-In" press="onSimulateAutoReportIn" icon="sap-icon://iphone"></Button>
                                                 <HBox>
                                                     <Button text="clear" press="onClearStage" icon="sap-icon://synchronize"/>
-                                                    <Button text="Checkmiles" icon="sap-icon://search"/>
+                                                    <Button text="Checkmiles" press="onCheckMiles" icon="sap-icon://search"/>
                                                 </HBox>
                                             </HBox>
                                         </VBox>
                                     </WizardStep>
 
-                                    <WizardStep id="Last" title="Stage 4: Last" validated="{reportIn>stages/3/status}">
+                                    <WizardStep id="Last" title="Stage 4: Last" validated="{= 
+        (
+            !!${reportIn>stages/3/origin} &amp;&amp; 
+            !!${reportIn>stages/3/dest} &amp;&amp; 
+            !!${reportIn>stages/3/depTime} &amp;&amp; 
+            !!${reportIn>stages/3/arrTime} &amp;&amp; 
+            !!${reportIn>stages/3/milesStart} &amp;&amp; 
+            !!${reportIn>stages/3/milesEnd}
+        )
+    }" activate="onStepActivate">
                                         <VBox class="sapUiSmallMargin">
 
                                             <f:SimpleForm editable="true" layout="ColumnLayout" columnsL="2" columnsM="2">
@@ -312,7 +358,7 @@
                                                 <Button text="Simulate Auto Report-In" press="onSimulateAutoReportIn" icon="sap-icon://iphone"></Button>
                                                 <HBox>
                                                     <Button text="clear" press="onClearStage" icon="sap-icon://synchronize"/>
-                                                    <Button text="Checkmiles" icon="sap-icon://search"/>
+                                                    <Button text="Checkmiles" press="onCheckMiles" icon="sap-icon://search"/>
                                                 </HBox>
                                             </HBox>
                                         </VBox>
@@ -345,7 +391,6 @@
                                                 <FlexItemData growFactor="1" />
                                             </layoutData>
                                         </Input>
-
                                         <Input type="Number" change="onAmountChange" value="{reportIn>amt}" width="120px" textAlign="End" placeholder="0.00" description="฿" class="sapUiTinyMarginBegin" />
                                     </HBox>
                                 </CustomListItem>
@@ -353,7 +398,7 @@
                             <HBox>
                                 <Title text="Total Amount:" titleStyle="H6" />
                                 <ObjectNumber number="{
-                    path: 'reportIn>/totalTripExpenses',
+                    path: 'reportIn>te',
                     type: 'sap.ui.model.type.Float',
                     formatOptions: { minFractionDigits: 2, maxFractionDigits: 2 }
                 }" unit="฿" state="Error" />
@@ -412,6 +457,14 @@
                                     </ColumnListItem>
                                 </items>
                             </Table>
+                            <HBox>
+                                <Title text="Total Amount:" titleStyle="H6" />
+                                <ObjectNumber number="{
+                    path: 'reportIn>tf',
+                    type: 'sap.ui.model.type.Float',
+                    formatOptions: { minFractionDigits: 2, maxFractionDigits: 2 }
+                }" unit="฿" state="Warning" />
+                            </HBox>
 
                         </IconTabFilter>
                         <IconTabFilter text="Parking" key="Parking">
@@ -452,7 +505,7 @@
                             <HBox>
                                 <Title text="Subtotal Parking:" titleStyle="H6" />
                                 <ObjectNumber number="{
-                    path: 'reportIn>/totalParking',
+                    path: 'reportIn>tp',
                     type: 'sap.ui.model.type.Float',
                     formatOptions: { minFractionDigits: 2 },
                     formatter: '.formatter.formatTotal'
@@ -467,27 +520,23 @@
                                     <f:content>
                                         <core:Title text="Stage Progress" />
                                         <Label text="Stages" />
-                                        <Text text="{reportIn>completedStages} / {reportIn>totalStages}" />
+                                        <Text text="{reportIn>stageProgress}" />
 
                                         <Label text="Total Std Distance" />
-                                        <ObjectNumber number="{reportIn>totalStdDistance}" unit="km" />
+                                        <ObjectNumber number="{= ${reportIn>milesEnd}-${reportIn>milesStart}}" unit="km" />
 
                                         <core:Title text="Cost Breakdown" />
                                         <Label text="Expenses" />
-                                        <ObjectNumber number="{reportIn>totalExpenses}" unit="฿" />
+                                        <ObjectNumber number="{= ${reportIn>te}||0}" unit="฿" state="Error"/>
 
                                         <Label text="Fuel" />
-                                        <ObjectNumber number="{reportIn>totalFuel}" unit="฿" state="Warning" />
+                                        <ObjectNumber number="{= ${reportIn>tf}||0}" unit="฿" state="Warning" />
 
                                         <Label text="Parking" />
-                                        <ObjectNumber number="{reportIn>totalParking}" unit="฿" />
+                                        <ObjectNumber number="{= ${reportIn>tp}||0}" unit="฿" state="Success" />
 
                                         <Label text="TOTAL" />
-                                        <ObjectNumber number="{
-                    path: 'reportIn>grandTotal',
-                    type: 'sap.ui.model.type.Float',
-                    formatOptions: { minFractionDigits: 2 }
-                }" unit="฿" state="Error" emphasized="true" />
+                                        <ObjectNumber number="{= ( ${reportIn>tp} || 0 ) + ( ${reportIn>te} || 0 ) + ( ${reportIn>tf} || 0 ) }" unit="฿" state="Information" emphasized="true" />
                                     </f:content>
                                 </f:SimpleForm>
                             </VBox>
@@ -498,10 +547,10 @@
         </content>
 
         <beginButton>
-            <Button text="Cancel" press=".onCloseShipment"/>
+            <Button text="Save Draft" press=".onCloseShipment"/>
         </beginButton>
         <endButton>
-            <Button text="Confirm Assignment" type="Accept" press=".onCloseShipment"/>
+            <Button text="Submit For Review" type="Critical" icon="sap-icon://upload" press=".onCloseShipment"/>
         </endButton>
 
 

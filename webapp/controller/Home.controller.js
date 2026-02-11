@@ -17,7 +17,7 @@ sap.ui.define([
 
         onInit: function () {
 
-      
+
 
 
             // Initialize tracking data model
@@ -5192,23 +5192,23 @@ sap.ui.define([
                     break;
 
                 default:
-                    
+
                     break;
             }
 
             oBinding.filter(aFilters);
         },
 
-        onOpenShipment() {
-            if (!this._oreportInDialog) {
-                this._oreportInDialog = this.loadFragment("intellicarrier.view.FleetCockpitAnalysis");
-            }
-            this.onFleetCockpitTabSelect({
-                getParameter: function () {
-                    return "PendingAssignment";
-                }
-            });
-        },
+        // onOpenShipment() {
+        //     if (!this._oreportInDialog) {
+        //         this._oreportInDialog = this.loadFragment("intellicarrier.view.FleetCockpitAnalysis");
+        //     }
+        //     this.onFleetCockpitTabSelect({
+        //         getParameter: function () {
+        //             return "PendingAssignment";
+        //         }
+        //     });
+        // },
 
         onOpenShipment: function (oEvent) {
             var oContext = oEvent.getSource().getBindingContext("reportIn");
@@ -5232,14 +5232,17 @@ sap.ui.define([
 
         onCloseShipment: function () {
             var oWizard = this.byId("StageWizard");
-    var oFirstStep = oWizard.getSteps()[0];
+            try {
 
-    // 1. Discard all progress and return to the first step
-    oWizard.discardProgress(oFirstStep);
+                var oFirstStep = oWizard.getSteps()[0];
 
-    // 2. Scroll the wizard back to the top/first step
-    oWizard.goToStep(oFirstStep);
-            debugger
+                // 1. Discard all progress and return to the first step
+                oWizard.discardProgress(oFirstStep);
+
+                // 2. Scroll the wizard back to the top/first step
+                oWizard.goToStep(oFirstStep);
+            }
+            catch (e) { }
             // this.byId("StageWizard").discardProgress()
             this._oreportInDialog.close();
 
@@ -5278,23 +5281,26 @@ sap.ui.define([
         },
 
         _calculateTotalExpenses: function () {
-            var oModel = this.getView().getModel("reportIn");
-            // Retrieve the path to the current shipment's expenses
-            var sPath = this.getView().getBindingContext("reportIn").getPath() + "/expenses";
+            var oDialog = this._oreportInDialog;
+            if (!oDialog) {
+                return;
+            }
+            var oContext = oDialog.getBindingContext("reportIn");
+            var oModel = oDialog.getModel("reportIn");
+
+            if (!oContext) {
+                console.warn("No binding context found on the Dialog");
+                return;
+            }
+            var sPath = oContext.getPath() + "/expenses";
             var aExpenses = oModel.getProperty(sPath) || [];
 
-            // Sum the 'amt' field using parseFloat for numeric safety
             var fTotal = aExpenses.reduce(function (sum, item) {
                 var val = parseFloat(item.amt);
                 return sum + (isNaN(val) ? 0 : val);
             }, 0);
-
-            // Update a property for the footer display
-            oModel.setProperty("/totalTripExpenses", fTotal);
-        },
-
-        onAmountChange: function () {
-            this._calculateTotalExpenses();
+            oModel.setProperty(oContext.getPath() + "/te", fTotal);
+            console.log(oModel.getProperty(oContext.getPath() + "/te"))
         },
 
         onAddFuel: function (oEvent) {
@@ -5314,6 +5320,7 @@ sap.ui.define([
         },
 
         onFuelCalculation: function (oEvent) {
+
             var oModel = this.getView().getModel("reportIn");
             var sPath = oEvent.getSource().getBindingContext("reportIn").getPath();
             var fLiters = parseFloat(oModel.getProperty(sPath + "/liters")) || 0;
@@ -5323,10 +5330,34 @@ sap.ui.define([
             var fTotalAmt = Math.round(fLiters * fPricePerLiter);
 
             oModel.setProperty(sPath + "/amt", fTotalAmt);
-            this._updateGrandTotals();
+            this._updateFuelTotals();
+        },
+        _updateFuelTotals() {
+            var oDialog = this._oreportInDialog;
+            if (!oDialog) {
+                return;
+            }
+            var oContext = oDialog.getBindingContext("reportIn");
+            var oModel = oDialog.getModel("reportIn");
+
+            if (!oContext) {
+                console.warn("No binding context found on the Dialog");
+                return;
+            }
+            var sPath = oContext.getPath() + "/fuelEntries";
+            var aFuel = oModel.getProperty(sPath) || [];
+
+            var fTotal = aFuel.reduce(function (sum, item) {
+                var val = parseFloat(item.amt);
+                return sum + (isNaN(val) ? 0 : val);
+            }, 0);
+            oModel.setProperty(oContext.getPath() + "/tf", fTotal);
+            console.log(oModel.getProperty(oContext.getPath() + "/tf"))
         },
 
+
         onDeleteFuel: function (oEvent) {
+
             var oItem = oEvent.getParameter("listItem");
             var sPath = oItem.getBindingContextPath();
             var iIndex = parseInt(sPath.substring(sPath.lastIndexOf("/") + 1));
@@ -5337,7 +5368,7 @@ sap.ui.define([
             aFuel.splice(iIndex, 1);
 
             oModel.setProperty(sArrayPath, aFuel);
-            this._updateGrandTotals();
+            this._updateFuelTotals();
         },
 
         onAddParking: function (oEvent) {
@@ -5374,10 +5405,22 @@ sap.ui.define([
             this._calculateParkingTotal();
         },
 
+
         _calculateParkingTotal: function () {
+            var oDialog = this._oreportInDialog;
+            if (!oDialog) {
+                return;
+            }
+            var oContext = oDialog.getBindingContext("reportIn");
+            var oModel = oDialog.getModel("reportIn");
+
+            if (!oContext) {
+                console.warn("No binding context found on the Dialog");
+                return;
+            }
+            var sPath = oContext.getPath() + "/parkingEntries";
             var oView = this.getView();
             var oModel = oView.getModel("reportIn");
-            var sPath = oView.getBindingContext("reportIn").getPath() + "/parkingEntries";
             var aParking = oModel.getProperty(sPath) || [];
 
             var fTotal = aParking.reduce(function (sum, item) {
@@ -5385,165 +5428,172 @@ sap.ui.define([
                 return sum + (isNaN(val) ? 0 : val);
             }, 0);
 
-            oModel.setProperty("/totalParking", fTotal);
-            // Also trigger the grand total update
-            if (this._updateGrandTotals) {
-                this._updateGrandTotals();
-            }
+            oModel.setProperty(oContext.getPath() + "/tp", fTotal);
         },
 
-        _updateGrandTotals: function () {
-            var oView = this.getView();
-            var oModel = oView.getModel("reportIn");
-            var sPath = oView.getBindingContext("reportIn").getPath();
-            var oShipment = oModel.getProperty(sPath);
-
-            // 1. Calculate Stage Progress
-            var aStages = oShipment.stages || [];
-            var iCompleted = aStages.filter(s => s.status === "completed").length;
-            var iTotalStdDist = aStages.reduce((sum, s) => sum + (parseInt(s.stdDist) || 0), 0);
-
-            // 2. Sum up costs from your tables
-            var fExpenses = (oShipment.expenses || []).reduce((sum, e) => sum + (parseFloat(e.amt) || 0), 0);
-            var fFuel = (oShipment.fuelEntries || []).reduce((sum, f) => sum + (parseFloat(f.amt) || 0), 0);
-            var fParking = (oShipment.parkingEntries || []).reduce((sum, p) => sum + (parseFloat(p.amt) || 0), 0);
-
-            // 3. Update Model
-            oModel.setProperty(sPath + "/completedStages", iCompleted);
-            oModel.setProperty(sPath + "/totalStages", aStages.length);
-            oModel.setProperty(sPath + "/totalStdDistance", iTotalStdDist);
-            oModel.setProperty(sPath + "/totalExpenses", fExpenses);
-            oModel.setProperty(sPath + "/totalFuel", fFuel);
-            oModel.setProperty(sPath + "/totalParking", fParking);
-            oModel.setProperty(sPath + "/grandTotal", fExpenses + fFuel + fParking);
-        },
-
-
-
-        onMilesValidation: function (oEvent) {
-            var oInput = oEvent.getSource();
-            var oStep = oInput;
-
-
-            // 1. Safely find the parent WizardStep
-            while (oStep && oStep.getMetadata().getName() !== "sap.m.WizardStep") {
-                oStep = oStep.getParent();
-            }
-
-            if (!oStep) {
-                console.error("WizardStep not found. Check your control nesting.");
+        onStepActivate(oEvent) {
+            var step = oEvent.getSource().getId();
+            var oDialog = this._oreportInDialog;
+            if (!oDialog) {
                 return;
             }
+            var oContext = oDialog.getBindingContext("reportIn");
+            var oModel = oDialog.getModel("reportIn");
+            console.log("step", oEvent.getSource().mProperties, oModel.getProperty(oContext.getPath() + "/stages"))
+            if (step == "container-intellicarrier---Home--Load") {
+                oModel.setProperty(oContext.getPath() + "/stageProgress", "1/4");
+                oModel.setProperty(oContext.getPath() + "/stages/1/status", true);
+                console.log(oModel.getProperty(oContext.getPath() + "/stages/1/status"))
+            }
+            if (step == "container-intellicarrier---Home--Customer") {
+                oModel.setProperty(oContext.getPath() + "/stageProgress", "2/4");
+                oModel.setProperty(oContext.getPath() + "/stages/2/status", true);
+                console.log(oModel.getProperty(oContext.getPath() + "/stages/2/status"))
 
-            // 2. Get Data and Context
-            var oModel = oStep.getModel("reportIn");
-            var sPath = oStep.getBindingContext("reportIn").getPath();
-            var oData = oModel.getProperty(sPath);
-
-            // Use the 'n' property from your JSON to identify the stage
-            var iStageNum = oData.n;
-
-            var iStart = parseInt(oData.milesStart) || 0;
-            var iEnd = parseInt(oData.milesEnd) || 0;
-            var iStd = oData.stdDist || 0;
-
-            // Retrieve Last Truck Miles for Rule 001
-            var iLastTruck = oModel.getProperty("/lastTruckMiles") || 0;
-
-            var bValid = true;
-            var sError = "";
-
-            // 3. Rule 001: First Stage Check (Stage 0)
-            if (iStageNum === 0) {
-                var iDiff001 = Math.abs(iStart - iLastTruck);
-                if (iDiff001 > 50) {
-                    bValid = false;
-                    sError = "Error 001: Beginning miles vs Last Truck Miles > 50km (Diff: " + iDiff001 + "km)";
-                }
+            }
+            if (step == "container-intellicarrier---Home--Last") {
+                oModel.setProperty(oContext.getPath() + "/stageProgress", "3/4");
+                oModel.setProperty(oContext.getPath() + "/stages/3/status", true);
+                console.log(oModel.getProperty(oContext.getPath() + "/stages/3/status"))
             }
 
-            // 4. Rule 003: Distance Variance Check (15%)
-            var iAct = iEnd - iStart;
-            if (bValid && iStd > 0 && iEnd > 0) {
-                var fVariance = Math.abs(iAct - iStd) / iStd;
-                if (fVariance > 0.15) {
-                    bValid = false;
-                    sError = "Error 003: Distance variance > 15% (Actual: " + iAct + "km vs Std: " + iStd + "km)";
-                }
-            }
-
-            // 5. Update UI and Model
-            if (!bValid) {
-                sap.m.MessageToast.show(sError);
-            }
-
-            // Set validation on the WizardStep to enable/disable 'Next'
-            oStep.setValidated(bValid);
-
-            if (bValid && iEnd > iStart) {
-                oModel.setProperty(sPath + "/actDistance", iAct);
-            }
         },
-        onSimulateAutoReportIn: function (oEvent) {
-            var oModel = this.getView().getModel("reportIn");
+        onCheckMiles() {
+            sap.m.MessageToast.show("✓ Miles checking passed - Data accepted");
+        },
+        onWizardCompleted() {
+            var oDialog = this._oreportInDialog;
+            if (!oDialog) {
+                return;
+            }
+            var oContext = oDialog.getBindingContext("reportIn");
+            var oModel = oDialog.getModel("reportIn");
+            oModel.setProperty(oContext.getPath() + "/stageProgress", "4/4");
+            sap.m.MessageToast.show("Stage Entries Saved");
+
+        },
+        _getClosestStep: function (oControl) {
+            while (oControl && oControl.getMetadata().getName() !== "sap.m.WizardStep") {
+                oControl = oControl.getParent();
+            }
+            return oControl;
+        },
+
+        onSimulateAutoReportIn(oEvent) {
+            var oDialog = this._oreportInDialog;
+            if (!oDialog) {
+                return;
+            }
+            var l = true
             var oButton = oEvent.getSource();
+            var oStep = this._getClosestStep(oButton);
+            var sId = oStep.getId();
+            var r = null;
+            if (sId == "container-intellicarrier---Home--First") {
+                r = 0;
+            }
+            if (sId == "container-intellicarrier---Home--Load") {
+                r = 1;
+            }
+            if (sId == "container-intellicarrier---Home--Customer") {
+                r = 2
 
-            // 1. Get the specific binding path (e.g., /shippment/0/stages/2)
-            var oContext = oButton.getBindingContext("reportIn");
-            if (!oContext) {
-                sap.m.MessageToast.show("Error: Binding context not found.");
+            }
+            if (sId == "container-intellicarrier---Home--Last") {
+                r = 3
+            }
+            this._loadData(r, l)
+            sap.m.MessageToast.show("📱 Auto Report-In data received from mobile app");
+
+
+        },
+        _loadData(r, l) {
+            var oDialog = this._oreportInDialog;
+            if (!oDialog) {
                 return;
             }
-            var sPath = oContext.getPath();
-            var oStageData = oModel.getProperty(sPath);
-            console.log(oStageData)
+            var p = {
+                "n": r,
+                "origin": "PTT Tank ชลบุรี",
+                "dest": "PTT EP ชลบุรี",
+                "stdDist": 30,
+                "status": l,
+                "depTime": "2026-01-15T11:30:00",
+                "arrTime": "2026-01-15T12:15:00",
+                "milesStart": 120085,
+                "milesEnd": 120115,
+                "gpsDistance": 30,
+                "actDistance": 30,
+                "weightBefore": 14200,
+                "weightAfter": 25800,
+                "uom": "kg",
+                "details": {
+                    "ticketNo": "TTK-20260115-0789",
+                    "ticketDate": "2026-01-15",
+                    "poNo": "PO-25690115-1423",
+                    "planQty": 18450,
+                    "actualQty": 18320,
+                    "weightBefore": 28560,
+                    "weightAfter": 10240,
+                    "plannedArrival": "2026-01-15T12:00:00",
+                    "waitingStartTime": "12:18:00",
+                    "unloadingStartTime": "12:25:00",
+                    "remarks": "ลงสินค้าเรียบร้อย, ลูกค้ารับของถูกต้องครบถ้วน, ไม่มีปัญหาการรอคิว",
+                    "c1": true,
+                    "c2": true
+                }
 
-            // 2. Get Last Truck Miles for Rule 001/002 logic
-            var iLastTruckMiles = oModel.getProperty("/lastTruckMiles") || 120000;
+            }
+            var c = {
+                "n": r,
+                "type": null,
+                "origin": null,
+                "dest": null,
+                "stdDist": null,
+                "status": l,
+                "depTime": null,
+                "arrTime": null,
+                "milesStart": null,
+                "milesEnd": null,
+                "gpsDistance": null,
+                "actDistance": null
+            }
+            var oContext = oDialog.getBindingContext("reportIn");
+            var oModel = oDialog.getModel("reportIn");
+            if (l) {
+                oModel.setProperty(oContext.getPath() + `/stages/` + r, p);
+            }
+            else {
+                oModel.setProperty(oContext.getPath() + `/stages/` + r, c);
 
-            // 3. Prepare Simulated Data
-            var oSimData = {
-                depTime: new Date().toISOString().slice(0, 16),
-                arrTime: new Date(Date.now() + 7200000).toISOString().slice(0, 16), // +2 hours
-                milesStart: oStageData.n === 0 ? iLastTruckMiles : (oModel.getProperty(sPath.replace(/\d+$/, parseInt(oStageData.n) - 1) + "/milesEnd") || iLastTruckMiles),
-                gpsDistance: (oStageData.stdDist || 50) + Math.floor(Math.random() * 5)
-            };
-            oSimData.milesEnd = oSimData.milesStart + (oStageData.stdDist || 50);
-
-            // 4. Set properties back to the model
-            oModel.setProperty(sPath + "/depTime", oSimData.depTime);
-            oModel.setProperty(sPath + "/arrTime", oSimData.arrTime);
-            oModel.setProperty(sPath + "/milesStart", oSimData.milesStart);
-            oModel.setProperty(sPath + "/milesEnd", oSimData.milesEnd);
-            oModel.setProperty(sPath + "/gpsDistance", oSimData.gpsDistance);
-
-            // 5. Trigger your existing validation to enable the 'Next' button
-            this.onMilesValidation(oEvent);
-
-            sap.m.MessageToast.show("📱 Simulated data for Stage " + (oStageData.n + 1));
+            }
         },
 
         onClearStage: function (oEvent) {
-            var oModel = this.getView().getModel("reportIn");
-            var oContext = oEvent.getSource().getBindingContext("reportIn");
-            var sPath = oContext.getPath();
-
-            // Reset only the fields for THIS specific stage
-            oModel.setProperty(sPath + "/depTime", "");
-            oModel.setProperty(sPath + "/arrTime", "");
-            oModel.setProperty(sPath + "/milesStart", "");
-            oModel.setProperty(sPath + "/milesEnd", "");
-            oModel.setProperty(sPath + "/gpsDistance", 0);
-            oModel.setProperty(sPath + "/actDistance", 0);
-
-            // Disable the 'Next' button for this step
-            var oStep = oEvent.getSource();
-            while (oStep && oStep.getMetadata().getName() !== "sap.m.WizardStep") {
-                oStep = oStep.getParent();
+            var oDialog = this._oreportInDialog;
+            if (!oDialog) {
+                return;
             }
-            if (oStep) {
-                oStep.setValidated(false);
+            var l = false
+            var oButton = oEvent.getSource();
+            var oStep = this._getClosestStep(oButton);
+            var sId = oStep.getId();
+            var r = null;
+            if (sId == "container-intellicarrier---Home--First") {
+                r = 0;
             }
+            if (sId == "container-intellicarrier---Home--Load") {
+                r = 1;
+            }
+            if (sId == "container-intellicarrier---Home--Customer") {
+                r = 2
+
+            }
+            if (sId == "container-intellicarrier---Home--Last") {
+                r = 3
+            }
+            this._loadData(r, l)
+
 
             sap.m.MessageToast.show("🔄 Stage cleared.");
         },
@@ -5554,7 +5604,7 @@ sap.ui.define([
             }
             return oControl;
         },
-        formatTotal(d){
+        formatTotal(d) {
             console.log(d)
         }
 

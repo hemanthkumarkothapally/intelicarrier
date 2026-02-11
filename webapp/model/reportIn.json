@@ -25,10 +25,10 @@
         {
           "n": 0,
           "type": "first",
-          "origin": "—",
+          "origin": "1",
           "dest": "คลังก๊าซบางปะกง",
           "stdDist": 0,
-          "status": true,
+          "status": false,
           "depTime": "",
           "arrTime": "",
           "milesStart": 5430,
@@ -42,7 +42,7 @@
           "origin": "คลังก๊าซบางปะกง",
           "dest": "คลังPTT Tank Terminal ระยอง",
           "stdDist": 120,
-          "status": true,
+          "status": false,
           "depTime": "",
           "arrTime": "",
           "milesStart": 0,
@@ -84,6 +84,9 @@
       ],
       "expenses": [],
       "fuelEntries": [],
+      "te":null,
+      "tf":null,
+      "tp":null,
       "parkingEntries": []
     },
     {
@@ -111,7 +114,7 @@
         {
           "n": 0,
           "type": "first",
-          "origin": "—",
+          "origin": "2",
           "dest": "คลังสารเคมี ระยอง",
           "stdDist": 0,
           "status": false,
@@ -156,6 +159,9 @@
       ],
       "expenses": [],
       "fuelEntries": [],
+      "te":null,
+      "tf":null,
+      "tp":null,
       "parkingEntries": []
     },
     {
@@ -183,10 +189,10 @@
         {
           "n": 0,
           "type": "first",
-          "origin": "—",
+          "origin": "3",
           "dest": "คลังก๊าซบางปะกง",
           "stdDist": 0,
-          "status": true,
+          "status": false,
           "depTime": "2026-01-15T08:00:00",
           "arrTime": "2026-01-15T08:30:00",
           "milesStart": 120000,
@@ -200,7 +206,7 @@
           "origin": "คลังก๊าซบางปะกง",
           "dest": "PTT Tank ชลบุรี",
           "stdDist": 80,
-          "status": true,
+          "status": false,
           "depTime": "2026-01-15T09:00:00",
           "arrTime": "2026-01-15T10:45:00",
           "milesStart": 120005,
@@ -217,7 +223,7 @@
           "origin": "PTT Tank ชลบุรี",
           "dest": "PTT EP ชลบุรี",
           "stdDist": 30,
-          "status": true,
+          "status": false,
           "depTime": "2026-01-15T11:30:00",
           "arrTime": "2026-01-15T12:15:00",
           "milesStart": 120085,
@@ -231,7 +237,7 @@
           "origin": "PTT EP ชลบุรี",
           "dest": "คลังก๊าซบางปะกง",
           "stdDist": 80,
-          "status": true,
+          "status": false,
           "depTime": "2026-01-15T13:00:00",
           "arrTime": "2026-01-15T14:45:00",
           "milesStart": 120115,
@@ -255,6 +261,9 @@
           "amt": 1547
         }
       ],
+      "te":null,
+      "tf":null,
+      "tp":null,
       "parkingEntries": []
     }
   ]
