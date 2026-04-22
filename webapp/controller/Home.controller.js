@@ -5556,9 +5556,7 @@ sap.ui.define([
 
             oModel.setProperty(sPath, aFuel);
         },
-
-        onFuelCalculation: function (oEvent) {
-        onSegmentChange: function (oEvent) {
+onSegmentChange: function (oEvent) {
             const sKey = oEvent.getSource().getProperty("selectedKey")
 
             debugger
@@ -5693,7 +5691,9 @@ sap.ui.define([
 
         onExpenceTablePress: function () {
 
-        }
+        },
+        onFuelCalculation: function (oEvent) {
+        
 
             var oModel = this.getView().getModel("reportIn");
             var sPath = oEvent.getSource().getBindingContext("reportIn").getPath();
